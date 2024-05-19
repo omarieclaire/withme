@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // monobehaviour means that it will expose public variables and methods
-public class OSCMessages : MonoBehaviour
+public class oscMessages : MonoBehaviour
 {
     Vector3 osc;
     public Vector3 myposition;
