@@ -1,0 +1,1 @@
+// Fulldome camera notes: https://github.com/rsodre/FulldomeCameraForUnity?tab=readme-ov-file
