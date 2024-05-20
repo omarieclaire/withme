@@ -6,10 +6,10 @@ using OscJack;
 public class CustomOSCEventReceiverScript : MonoBehaviour
 {
     [SerializeField]
-    private GameObject playerSpherePrefab;
+    private GameObject playerSpherePrefab; // The prefab to instantiate for each player
 
     [SerializeField]
-    public float timeToWaitForMissingPlayers = 0.5f;
+    public float timeToWaitForMissingPlayers = 0.5f; // Time to wait before deactivating missing players
 
     private HashSet<int> activePlayerIds = new HashSet<int>();
     private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();
@@ -21,7 +21,7 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
     {
         Debug.Log("Initializing OSC Server...");
         server = OscMaster.GetSharedServer(12000);
-        server.MessageDispatcher.AddCallback(string.Empty, OscReceiver1);
+        server.MessageDispatcher.AddCallback(string.Empty, OscReceiver1); // Listen to all messages
         Debug.Log("OSC Server initialized and listening on port 12000.");
     }
 
@@ -86,6 +86,7 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
         }
         else
         {
+            // Instantiate a new sphere for the player
             playerData = new PlayerData(playerId, Instantiate(playerSpherePrefab));
             // Assign a unique color to each player's sphere
             playerData.Sphere.GetComponent<Renderer>().material.color = GetUniqueColor(playerId);
