@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 755660619}
   - component: {fileID: 755660618}
   - component: {fileID: 755660617}
-  - component: {fileID: 755660616}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -142,19 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &755660616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755660615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad6263733f1074fafa4f38f0e9d51464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myposition: {x: 0, y: 0, z: 0}
 --- !u!135 &755660617
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -312,7 +298,7 @@ MonoBehaviour:
   _vector3Event:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 755660616}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OSCMessages, Assembly-CSharp
         m_MethodName: ReceiveOSC
         m_Mode: 0
@@ -336,7 +322,7 @@ MonoBehaviour:
   _stringEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 755660616}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
         m_MethodName: BroadcastMessage
         m_Mode: 0
@@ -449,7 +435,7 @@ Transform:
   m_GameObject: {fileID: 1212776768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -499,11 +485,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87036102c82764c5b902369101adb0b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugSphereMaterial: {fileID: 0}
-  debugSphere: {fileID: 0}
+  port: 1203
+  controller: {fileID: 1890852102}
+  playerSpherePrefab: {fileID: 755660615}
   timeToWaitForMissingPlayers: 0.5
-  dummyPrefab: {fileID: 7771958207399019563, guid: cad636e8643b74fa18f90281f0423c5a, type: 3}
-  playerPrefab: {fileID: 7771958207399019563, guid: cad636e8643b74fa18f90281f0423c5a, type: 3}
 --- !u!1 &1516447546
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,6 +635,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1890852100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1890852101}
+  - component: {fileID: 1890852102}
+  m_Layer: 0
+  m_Name: Main Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1890852101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890852100}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1890852102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890852100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95eff87bfdd59c94a91fca152d701beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalValue: 10
+  sphereSize: 10
+  maxSize: {x: 14, y: 0, z: 10}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -660,3 +692,4 @@ SceneRoots:
   - {fileID: 841740791}
   - {fileID: 755660620}
   - {fileID: 1264170908}
+  - {fileID: 1890852101}
