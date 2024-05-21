@@ -5,6 +5,11 @@ using OscJack;
 
 public class CustomOSCEventReceiverScript : MonoBehaviour
 {
+
+    public int port;
+
+    public MainController controller;
+
     [SerializeField]
     private GameObject playerSpherePrefab; // The prefab to instantiate for each player
 
@@ -20,9 +25,9 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
     private void Start()
     {
         Debug.Log("Initializing OSC Server...");
-        server = OscMaster.GetSharedServer(12000);
+        server = OscMaster.GetSharedServer(port);
         server.MessageDispatcher.AddCallback(string.Empty, OscReceiver1); // Listen to all messages
-        Debug.Log("OSC Server initialized and listening on port 12000.");
+        Debug.Log("OSC Server initialized and listening on port " + port);
     }
 
     private void Update()
@@ -39,7 +44,7 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
             ReactivatePlayer(playerData, currentTime);
 
             playerData.LastOSCTimeStamp = currentTime;
-            playerData.Sphere.transform.position = position;
+            playerData.Sphere.transform.position = controller.getFinalPosition(position);
 
             Debug.Log($"Updated position for player {playerId} to {position}");
         }
