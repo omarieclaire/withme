@@ -35,7 +35,7 @@ public class MainController : MonoBehaviour
         float nZ = finalPosition.z / maxSize.z;
 
         Vector2 nXZ = new Vector2(nX, nZ);
-        float l = nXZ.magnitude;
+        float l = nXZ.magnitude;    
 
         float fVerticalValue = verticalValue * (1 - Mathf.Clamp(l, 0, 1));
 

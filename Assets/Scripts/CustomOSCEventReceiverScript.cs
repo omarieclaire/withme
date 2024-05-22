@@ -132,9 +132,9 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
             Address = address;
             PlayerId = GetPlayerNumber(address);
             Position = new Vector3(
-                MapToRange(data.GetElementAsFloat(0), 0, 1244, -14, 14), // Adjusted range for Unity's X
+                MapToRange(data.GetElementAsFloat(0), 0, 1200, -10, 10), 
                 0f, // Y is the ground plane
-                MapToRange(data.GetElementAsFloat(1), 0, 1154, -10, 10)  // Adjusted range for Unity's Z
+                MapToRange(data.GetElementAsFloat(1), 0, 1200, -10, 10)  
             );
 
             Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, Position={Position}");
