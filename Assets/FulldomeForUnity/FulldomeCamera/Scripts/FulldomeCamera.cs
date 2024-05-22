@@ -35,7 +35,7 @@ namespace Avante
 		NegativeZ = (1 << CubemapFace.NegativeZ),
 	}
 
-	[ExecuteAlways]
+	//[ExecuteAlways]
 	public class FulldomeCamera : MonoBehaviour
 	{
 		public Camera mainCamera;
