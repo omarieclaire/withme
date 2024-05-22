@@ -5,8 +5,12 @@ using UnityEngine;
 public class MainController : MonoBehaviour
 {
 
-    // Center object just Camera, for looking at / orienting players
-    public Transform center;
+
+
+    [Header("Camera Live Pose Feed Info")]
+    public int cameraResolution = 640;
+    public Vector2 RemapValues = new Vector2(10, -10);
+
 
 
     [Header("Positioning Info")]
@@ -14,9 +18,6 @@ public class MainController : MonoBehaviour
     public float sphereSize;
     public Vector3 maxSize;
 
-
-    public int cameraResolution = 640;
-    public Vector2 RemapValues = new Vector2(10, -10);
 
 
 
@@ -61,7 +62,8 @@ public class MainController : MonoBehaviour
 
     public AudioPlayer audioPlayer;
 
-
+    // Center object just Camera, for looking at / orienting players
+    public Transform center;
     public void OnEnable()
     {
 
@@ -165,6 +167,8 @@ public class MainController : MonoBehaviour
         {
             players[index].transform.position = Vector3.Lerp(players[index].transform.position, getFinalPosition(remappedPosition), playerLerpSpeed);
         }
+
+
     }
 
 
