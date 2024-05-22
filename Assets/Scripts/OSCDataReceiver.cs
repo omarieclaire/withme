@@ -7,11 +7,10 @@ public class OSCDataReceiver : MonoBehaviour
 {
 
     public int port;
-
     public MainController controller;
 
-    [SerializeField]
-    private GameObject playerSpherePrefab; // The prefab to instantiate for each player
+    //[SerializeField]
+    //private GameObject playerSpherePrefab; // The prefab to instantiate for each player
 
     [SerializeField]
     public float timeToWaitForMissingPlayers = 0.5f; // Time to wait before deactivating missing players
@@ -46,13 +45,14 @@ public class OSCDataReceiver : MonoBehaviour
         {
             int playerId = msg.PlayerId;
             Vector3 position = msg.Position;
+            Vector2 blobPosition = msg.BlobPosition;
 
             PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
             ReactivatePlayer(playerData, currentTime);
 
             playerData.LastOSCTimeStamp = currentTime;
 
-            controller.OnPlayerPositionUpdate(playerId, position);
+            controller.OnPlayerPositionUpdate(playerId, blobPosition);
 
             //Debug.Log($"Updated position for player {playerId} to {position}");
         }
@@ -143,16 +143,22 @@ public class OSCDataReceiver : MonoBehaviour
         public string Address { get; }
         public int PlayerId { get; }
         public Vector3 Position { get; }
+        public Vector2 BlobPosition { get; }
 
         public PlayerPositionMessage(string address, OscDataHandle data)
         {
+
+
             Address = address;
             PlayerId = GetPlayerNumber(address);
-            Position = new Vector3(
-                MapToRange(data.GetElementAsFloat(0), 0, 1200, -10, 10),
-                0f, // Y is the ground plane
-                MapToRange(data.GetElementAsFloat(1), 0, 1200, 10, -10)
-            );
+            BlobPosition = new Vector2(data.GetElementAsFloat(0), data.GetElementAsFloat(1));
+
+            /*
+                        Position = new Vector3(
+                            MapToRange(data.GetElementAsFloat(0), 0, (float)cameraResolution, -10, 10),
+                            0f, // Y is the ground plane
+                            MapToRange(data.GetElementAsFloat(1), 0, (float)cameraResolution, 10, -10)
+                        );*/
 
             //            Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, Position={Position}");
         }
