@@ -50,9 +50,9 @@ public class PlayerAvatar : MonoBehaviour
 
                 if (distance < 0)
                 {
-                    print("PLAYER COLLISION");
+                    //   print("PLAYER COLLISION");
 
-                    print("Other Player dots: " + controller.playerAvatars[i].numDotsCollected);
+                    //  print("Other Player dots: " + controller.playerAvatars[i].numDotsCollected);
 
                     // check to see if both me and other player have collected dots
 
