@@ -15,6 +15,9 @@ public class Dot : MonoBehaviour
     public Vector3 originalPosition;
     public Vector3 velocity;
 
+    public LineRenderer lr;
+
+    public Vector2 randomDirection;
 
 
 
@@ -33,7 +36,12 @@ public class Dot : MonoBehaviour
 
     public void SetData()
     {
-        GetComponent<Renderer>().material.color = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1);
+        randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        randomDirection = randomDirection.normalized;
+        Color c = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1);
+        GetComponent<Renderer>().material.color = c;
+        lr.startColor = c;
+        lr.endColor = c;
     }
 
     public Vector3 targetPosition;
@@ -43,10 +51,20 @@ public class Dot : MonoBehaviour
 
         if (collected)
         {
+
             targetPosition = collector.position;
+            targetPosition += collector.localScale.x * .6f * randomDirection.x * collector.right;
+            targetPosition += collector.localScale.y * .6f * randomDirection.y * collector.up;
+
+            print("targetPosition: " + targetPosition);
+            lr.positionCount = 2;
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, collector.position);
+
         }
         else
         {
+            lr.positionCount = 0;
             targetPosition = originalPosition;
         }
 
@@ -56,6 +74,10 @@ public class Dot : MonoBehaviour
 
         transform.position += velocity * Time.deltaTime;
         velocity *= controller.dotDampening;
+
+        transform.LookAt(controller.center);
+        transform.Rotate(0, 180, 0);
+
 
     }
 
