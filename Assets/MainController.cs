@@ -15,6 +15,11 @@ public class MainController : MonoBehaviour
     public Vector3 maxSize;
 
 
+    public int cameraResolution = 640;
+    public Vector2 RemapValues = new Vector2(10, -10);
+
+
+
     [Header("Player Info")]
 
     public List<GameObject> players;
@@ -37,6 +42,7 @@ public class MainController : MonoBehaviour
     public GameObject dotPrefab;
 
     public float dotSize;
+    public float dotFlatnessPower;
 
     public List<Transform> dots;
     public List<Dot> dotAvatars;
@@ -70,7 +76,9 @@ public class MainController : MonoBehaviour
         for (int i = 0; i < numDots; i++)
         {
             GameObject dot = Instantiate(dotPrefab, Vector3.zero, Quaternion.identity);
-            Vector3 pos = new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 1f), Random.Range(-1f, 1f));
+            Vector3 pos = new Vector3(Random.Range(-1f, 1f), Mathf.Pow(Random.Range(0f, 1f), dotFlatnessPower), Random.Range(-1f, 1f));
+
+
             pos = pos.normalized * sphereSize;
 
             Dot dotAvatar = dot.GetComponent<Dot>();
@@ -141,12 +149,21 @@ public class MainController : MonoBehaviour
         }
     }
 
-    public void OnPlayerPositionUpdate(int playerID, Vector3 position)
+    public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
     {
+
+        float v1 = blobPosition.x / cameraResolution;
+        float v2 = blobPosition.y / cameraResolution;
+
+        v1 = Mathf.Lerp(-RemapValues.x, RemapValues.x, v1);
+        v2 = Mathf.Lerp(-RemapValues.y, RemapValues.y, v2);
+
+
+        Vector3 remappedPosition = new Vector3(v1, 0, v2);
         int index = playerIDS.IndexOf(playerID);
         if (index != -1)
         {
-            players[index].transform.position = Vector3.Lerp(players[index].transform.position, getFinalPosition(position), playerLerpSpeed);
+            players[index].transform.position = Vector3.Lerp(players[index].transform.position, getFinalPosition(remappedPosition), playerLerpSpeed);
         }
     }
 
@@ -205,8 +222,8 @@ public class MainController : MonoBehaviour
                     return;
                 }
 
-                dots[index].GetComponent<Dot>().collected = true;
-                dots[index].GetComponent<Dot>().collector = player.transform;
+                dotAvatars[index].collected = true;
+                dotAvatars[index].collector = player.transform;
 
                 player.transform.localScale += Vector3.one * sizeIncrementOnCollect;
                 player.GetComponent<PlayerAvatar>().numDotsCollected++;
