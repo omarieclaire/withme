@@ -58,7 +58,6 @@ public class PlayerAvatar : MonoBehaviour
 
                     if (numDotsCollected > 0 || controller.playerAvatars[i].numDotsCollected > 0)
                     {
-                        print("COLLISION");
                         // if so, destroy both players
                         controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
                     }

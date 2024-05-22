@@ -22,11 +22,13 @@ Shader "Unlit/BasicColor"
             struct appdata
             {
                 float4 vertex : POSITION;
+                float4 color : COLOR;
             };
 
             struct v2f
             {
                 float4 vertex : SV_POSITION;
+                float3 color : TEXCOORD0;
             };
 
 
@@ -36,6 +38,7 @@ Shader "Unlit/BasicColor"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                o.color = v.color.rgb;
                 return o;
             }
 
@@ -43,6 +46,7 @@ Shader "Unlit/BasicColor"
             {
                 // sample the texture
                 fixed4 col = _Color;
+                col.xyz *= i.color;
                 return col;
             }
             ENDCG
