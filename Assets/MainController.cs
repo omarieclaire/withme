@@ -50,9 +50,10 @@ public class MainController : MonoBehaviour
     public float dotDampening;
 
 
-    public AudioClip onDotCollect;
-    public ParticleSystem onDotCollectParticles;
+    public AudioClip onDotCollectClip;
+    public AudioClip onExplodeClip;
 
+    public AudioPlayer audioPlayer;
 
 
     public void OnEnable()
@@ -181,6 +182,8 @@ public class MainController : MonoBehaviour
         p2.numDotsCollected = 0;
         p1.transform.localScale = Vector3.one * startSize;
         p2.transform.localScale = Vector3.one * startSize;
+
+        audioPlayer.Play(onExplodeClip);
     }
 
     public void OnPlayerTrigger(GameObject player, GameObject collider)
@@ -208,6 +211,7 @@ public class MainController : MonoBehaviour
                 player.transform.localScale += Vector3.one * sizeIncrementOnCollect;
                 player.GetComponent<PlayerAvatar>().numDotsCollected++;
 
+                audioPlayer.Play(onDotCollectClip);
                 // dots[index].gameObject.SetActive(false);
                 // dots[index].position = dotOriginalPositions[index];
                 // dots[index].gameObject.SetActive(true);
