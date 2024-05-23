@@ -8,17 +8,27 @@ public class MainController : MonoBehaviour
 
 
     [Header("Camera Live Pose Feed Info")]
+
+        // dimensions of the livepose camera
+
     public int cameraResolution = 640;
+    // maps 0 to the negative remap value, and maps 640 to the positive remap value
+    // note, Y becomes Z because the osc only has two values and we need 3
+
     public Vector2 RemapValues = new Vector2(10, -10);
 
 
-
+ // how far up the wall of the dome we might go - a low vertical value means you snap from the base of the dome to the base of the dome
+    // a high value means you'll spend more time at the top of the dome as you cross over the center
     [Header("Positioning Info")]
     public float verticalValue;
+     // we could call this playsphere size. it's the radius of the sphere where the dots and players exist
+    // it's a way to visually scale the game
     public float sphereSize;
     public Vector3 maxSize;
 
 
+    // the players that have been generated (osc data receiver generates)
 
 
     [Header("Player Info")]
@@ -33,6 +43,7 @@ public class MainController : MonoBehaviour
     public GameObject playerPrefab;
     public float startSize;
     public float sizeIncrementOnCollect;
+    // a transform to be the parent of the spawned prefabs
 
     public Transform playerHolder;
 
@@ -41,18 +52,29 @@ public class MainController : MonoBehaviour
     public int numDots;
 
     public GameObject dotPrefab;
+    // actual size of the dot
 
     public float dotSize;
+        // lower value spawns near the top fo the dome, a lower balue toward the ring of the dome
+
     public float dotFlatnessPower;
 
     public List<Transform> dots;
     public List<Dot> dotAvatars;
 
     public Transform dotHolder;
+        // how slowly it moves to the new postion, 1 means it wil move exactly, 0 means it will never move
+
 
     [Header("Movement Info")]
 
+
+    // when a player hits a dot, that dot is considered collected by the player and moves towards the player
+    // 0 would be the dot force doesn't move. 
     public float playerLerpSpeed;
+
+      // if dameping is 1 the velocity is not being reduced at all, like ping pong. Keep it beteen .9 and .99. 
+    //The closer the damping is to 1 the lower the force needs to be
     public float dotForceTowardsPosition;
     public float dotDampening;
 
@@ -62,7 +84,12 @@ public class MainController : MonoBehaviour
 
     [Header("Audio Info")]
 
+    // the sound when the dot is collected
+
     public AudioClip onDotCollectClip;
+
+        // the sound when player collide
+
     public AudioClip onExplodeClip;
 
     public AudioPlayer audioPlayer;
@@ -70,6 +97,9 @@ public class MainController : MonoBehaviour
 
     public ParticleSystem explosionParticles;
     // Center object just Camera, for looking at / orienting players
+
+        // Center object just Camera, for looking at / orienting players
+
     public Transform center;
     public void OnEnable()
     {
