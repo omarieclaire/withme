@@ -60,6 +60,7 @@ Shader "Debug/Connection" {
             //A simple input struct for our pixel shader step containing a position.
             struct varyings {
                 float4 pos      : SV_POSITION;
+                float2 uv      : TEXCOORD0;
             };
 
             //Our vertex function simply fetches a point from the buffer corresponding to the vertex index
@@ -91,7 +92,7 @@ Shader "Debug/Connection" {
                 if( length(dir) > _ConnectionDistance ){ return o; }
 
                 float3 fwd =  float3(0,1,0);
-                fwd = UNITY_MATRIX_V[2].xyz;
+                // fwd = UNITY_MATRIX_V[2].xyz;
                 float3 up = normalize(cross( fwd, dir ));
                 float3 right = normalize(cross( up, dir ));
 
@@ -119,6 +120,7 @@ Shader "Debug/Connection" {
                 
 
                 o.pos = mul (UNITY_MATRIX_VP, float4(extra,1.0f));
+                o.uv = uv;
 
                 
 
@@ -131,6 +133,10 @@ Shader "Debug/Connection" {
 
             //Pixel function returns a solid color for each point.
             float4 frag (varyings v) : COLOR {
+
+                if( sin( v.uv.x * 1000) < .9){
+                    discard;
+                }
                 return float4(_Color,1 );
             }
 

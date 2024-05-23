@@ -15,23 +15,53 @@ public class PlayerAvatar : MonoBehaviour
 
     public int numDotsCollected;
 
+    public Renderer regularRing;
+    public Renderer chargedRing;
+    public Renderer maxRing;
 
 
+    public Color color;
 
     public void SetData(string name)
     {
+
+
         text.text = name;
-        GetComponent<Renderer>().material.color = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1);
-        text.color = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1);
+        color = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1);
+
+        regularRing.material.color = color;
+        chargedRing.material.color = color;
+        maxRing.material.color = color;
+        text.color = color;
+
 
     }
 
 
+    public void OnDotCollect()
+    {
+        if (numDotsCollected >= controller.minNumDotsForCollision)
+        {
+            chargedRing.enabled = true;
+        }
+        else if (numDotsCollected >= controller.maxDotsPerPlayer)
+        {
+            maxRing.enabled = true;
+        }
 
+        numDotsCollected++;
+    }
+    public void Reset()
+    {
+        numDotsCollected = 0;
+        maxRing.enabled = false;
+        chargedRing.enabled = false;
+        regularRing.enabled = true;
+    }
 
     public void OnTriggerEnter(Collider collider)
     {
-        controller.OnPlayerTrigger(this.gameObject, collider.gameObject);
+        controller.OnPlayerTrigger(this, collider.gameObject);
     }
 
     public void Update()
