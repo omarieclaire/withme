@@ -56,11 +56,11 @@ public class PlayerAvatar : MonoBehaviour
 
                     // check to see if both me and other player have collected dots
 
-                    if (numDotsCollected > 0 || controller.playerAvatars[i].numDotsCollected > 0)
-                    {
-                        // if so, destroy both players
-                        controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
-                    }
+                    //if (numDotsCollected > controller.minNumDotsForCollision || controller.playerAvatars[i].numDotsCollected > 0)
+                    //{
+                    // if so, destroy both players
+                    controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
+                    //}
 
 
                 }

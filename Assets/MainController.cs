@@ -57,11 +57,18 @@ public class MainController : MonoBehaviour
     public float dotDampening;
 
 
+    [Header("Game Info")]
+    public int minNumDotsForCollision;
+
+    [Header("Audio Info")]
+
     public AudioClip onDotCollectClip;
     public AudioClip onExplodeClip;
 
     public AudioPlayer audioPlayer;
 
+
+    public ParticleSystem explosionParticles;
     // Center object just Camera, for looking at / orienting players
     public Transform center;
     public void OnEnable()
@@ -190,6 +197,14 @@ public class MainController : MonoBehaviour
 
     public void OnPlayersWithDotsCollided(PlayerAvatar p1, PlayerAvatar p2)
     {
+
+        // Dont do it if they dont have enought
+        if (p1.numDotsCollected < minNumDotsForCollision || p2.numDotsCollected < minNumDotsForCollision)
+        {
+            return;
+        }
+
+
         for (int i = 0; i < dots.Count; i++)
         {
             if (dotAvatars[i].collector == p1.transform || dotAvatars[i].collector == p2.transform)
@@ -205,6 +220,8 @@ public class MainController : MonoBehaviour
         p2.transform.localScale = Vector3.one * startSize;
 
         audioPlayer.Play(onExplodeClip);
+        explosionParticles.transform.position = (p1.transform.position + p2.transform.position) / 2;
+        explosionParticles.Play();
     }
 
     public void OnPlayerTrigger(GameObject player, GameObject collider)

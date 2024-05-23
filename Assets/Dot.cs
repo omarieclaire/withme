@@ -56,7 +56,6 @@ public class Dot : MonoBehaviour
             targetPosition += collector.localScale.x * .6f * randomDirection.x * collector.right;
             targetPosition += collector.localScale.y * .6f * randomDirection.y * collector.up;
 
-            print("targetPosition: " + targetPosition);
             lr.positionCount = 2;
             lr.SetPosition(0, transform.position);
             lr.SetPosition(1, collector.position);
