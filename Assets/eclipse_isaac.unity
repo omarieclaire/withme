@@ -157,6 +157,7 @@ MonoBehaviour:
   oNumPlayers: 0
   numPlayers: 0
   playerPositions: []
+  playerData: []
 --- !u!4 &665598540
 Transform:
   m_ObjectHideFlags: 0
@@ -1226,7 +1227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb90697852ea3b4bad15b88c6a8505c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 1203
+  port: 12000
   controller: {fileID: 1890852102}
   timeToWaitForMissingPlayers: 0.5
 --- !u!1 &1516447546
@@ -1451,6 +1452,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1113222681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1544691155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1544691156}
+  m_Layer: 0
+  m_Name: Door Rotator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1544691156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544691155}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.02774741, z: 0, w: -0.999615}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1891193336}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -356.82, z: 0}
 --- !u!1 &1587828837
 GameObject:
   m_ObjectHideFlags: 0
@@ -6416,6 +6449,9 @@ MonoBehaviour:
   players: []
   playerAvatars: []
   playerIDS: 
+  playerLastSeenTimestamp: []
+  playerSeenScaler: []
+  playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
   startSize: 0.3
   sizeIncrementOnCollect: 0.1
@@ -6431,6 +6467,9 @@ MonoBehaviour:
   dotForceTowardsPosition: 111
   dotDampening: 0.95
   minNumDotsForCollision: 3
+  maxDotsPerPlayer: 20
+  playerFadeInSpeed: 0.1
+  playerFadeOutSpeed: 0.03
   onDotCollectClip: {fileID: 8300000, guid: 7f08e91c45d14224eb032382060ea9f2, type: 3}
   onExplodeClip: {fileID: 8300000, guid: c50faa9d45d83644f85a78af75cc4205, type: 3}
   audioPlayer: {fileID: 1113222680}
@@ -6496,7 +6535,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a84bfd38c8ef38b49bc33741bab1584a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6534,12 +6573,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891193332}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 0.36, y: 0.37, z: 0.02}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 2}
+  m_LocalScale: {x: 0.2, y: 0.37, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1544691156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -6553,7 +6592,7 @@ SceneRoots:
   - {fileID: 780603508}
   - {fileID: 1264170908}
   - {fileID: 1890852101}
-  - {fileID: 1891193336}
+  - {fileID: 1544691156}
   - {fileID: 1113222681}
   - {fileID: 1057392086}
   - {fileID: 1771212091}

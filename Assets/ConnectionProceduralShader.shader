@@ -31,12 +31,14 @@ Shader "Debug/Connection" {
             #if defined( SHADER_API_D3D11 )
             struct Vert{
                 float3 pos;
+                float size;
             };
             #endif
 
             #if defined( SHADER_API_METAL )       
             struct Vert{
                 float3 pos;
+                float size;
             };
             #endif
 
@@ -79,7 +81,11 @@ Shader "Debug/Connection" {
                 float3 p1 = _VertBuffer[id1].pos;
                 float3 p2 = _VertBuffer[id2].pos;
 
+                float s1 = _VertBuffer[id1].size;
+                float s2 = _VertBuffer[id2].size;
+
                 float3 dir = p2 - p1;
+
 
                 if( length(dir) < .0001){ return o; }
                 if( length(dir) > _ConnectionDistance ){ return o; }
@@ -89,10 +95,10 @@ Shader "Debug/Connection" {
                 float3 up = normalize(cross( fwd, dir ));
                 float3 right = normalize(cross( up, dir ));
 
-                float3 fP1 = p1 - up*_Size;
-                float3 fP2 = p2 - up*_Size;
-                float3 fP3 = p1 + up*_Size;
-                float3 fP4 = p2 + up*_Size;
+                float3 fP1 = p1 - up*_Size* s1;
+                float3 fP2 = p2 - up*_Size*s2;
+                float3 fP3 = p1 + up*_Size* s1;
+                float3 fP4 = p2 + up*_Size* s2;
 
 
 
