@@ -80,6 +80,7 @@ public class MainController : MonoBehaviour
 
 
     public ParticleSystem explosionParticles;
+    public ParticleSystem playerCollectDotParticleSystem;
     // Center object just Camera, for looking at / orienting players
     public Transform center;
     public void OnEnable()
@@ -153,6 +154,7 @@ public class MainController : MonoBehaviour
         playerLastSeenTimestamp.Add(Time.time);
         playerSeenScaler.Add(.001f);
         playerTargetPositions.Add(player.transform.position);
+        playerAvatar.Reset();
 
     }
 
@@ -245,17 +247,21 @@ public class MainController : MonoBehaviour
             }
         }
 
-        p1.numDotsCollected = 0;
+        /*p1.numDotsCollected = 0;
         p2.numDotsCollected = 0;
         p1.transform.localScale = Vector3.one * startSize;
-        p2.transform.localScale = Vector3.one * startSize;
+        p2.transform.localScale = Vector3.one * startSize;*/
+
+
+        p1.Reset();
+        p2.Reset();
 
         audioPlayer.Play(onExplodeClip);
         explosionParticles.transform.position = (p1.transform.position + p2.transform.position) / 2;
         explosionParticles.Play();
     }
 
-    public void OnPlayerTrigger(GameObject player, GameObject collider)
+    public void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
     {
         //Debug.Log("Player Trigger");
         // Check if the collider is a dot
@@ -265,8 +271,11 @@ public class MainController : MonoBehaviour
             if (index != -1)
             {
 
-                //   print("WE GOT A DOT");
-
+                // Dont collect if we have reached the max
+                if (player.numDotsCollected > maxDotsPerPlayer)
+                {
+                    return;
+                }
 
                 // Dont Recollect
                 if (dots[index].GetComponent<Dot>().collected)
@@ -277,8 +286,10 @@ public class MainController : MonoBehaviour
                 dotAvatars[index].collected = true;
                 dotAvatars[index].collector = player.transform;
 
-                player.GetComponent<PlayerAvatar>().numDotsCollected++;
+                player.OnDotCollect();
                 audioPlayer.Play(onDotCollectClip);
+                playerCollectDotParticleSystem.transform.position = collider.transform.position;
+                playerCollectDotParticleSystem.Play();
                 // dots[index].gameObject.SetActive(false);
                 // dots[index].position = dotOriginalPositions[index];
                 // dots[index].gameObject.SetActive(true);
