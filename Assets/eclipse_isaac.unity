@@ -6263,7 +6263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1212776770}
   cubemapFaces: 55
-  domemasterResolution: 2048
+  domemasterResolution: 4096
   orientation: 1
   horizon: 210
   domeTilt: 0
@@ -6348,12 +6348,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95eff87bfdd59c94a91fca152d701beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 1587828839}
+  cameraResolution: 640
+  RemapValues: {x: 10, y: -10}
   verticalValue: 10
   sphereSize: 4
   maxSize: {x: 10, y: 0, z: 10}
-  cameraResolution: 640
-  RemapValues: {x: 10, y: -10}
   players: []
   playerAvatars: []
   playerIDS: 
@@ -6374,6 +6373,7 @@ MonoBehaviour:
   onDotCollectClip: {fileID: 8300000, guid: 7f08e91c45d14224eb032382060ea9f2, type: 3}
   onExplodeClip: {fileID: 8300000, guid: c50faa9d45d83644f85a78af75cc4205, type: 3}
   audioPlayer: {fileID: 1113222680}
+  center: {fileID: 1587828839}
 --- !u!1 &1891193332
 GameObject:
   m_ObjectHideFlags: 0
