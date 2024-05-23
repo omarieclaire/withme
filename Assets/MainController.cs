@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainController : MonoBehaviour
@@ -26,6 +27,11 @@ public class MainController : MonoBehaviour
     public List<GameObject> players;
     public List<PlayerAvatar> playerAvatars;
     public List<int> playerIDS;
+
+    public List<float> playerLastSeenTimestamp;
+    public List<float> playerSeenScaler;
+
+    public List<Vector3> playerTargetPositions;
 
     // Speed at which players lerp towards their target position,
     // smaller value means slower speed
@@ -59,6 +65,11 @@ public class MainController : MonoBehaviour
 
     [Header("Game Info")]
     public int minNumDotsForCollision;
+    public int maxDotsPerPlayer;
+
+    public float playerFadeInSpeed;
+    public float playerFadeOutSpeed;
+
 
     [Header("Audio Info")]
 
@@ -77,6 +88,9 @@ public class MainController : MonoBehaviour
         players = new List<GameObject>();
         playerAvatars = new List<PlayerAvatar>();
         playerIDS = new List<int>();
+        playerLastSeenTimestamp = new List<float>();
+        playerSeenScaler = new List<float>();
+        playerTargetPositions = new List<Vector3>();
 
 
 
@@ -136,6 +150,9 @@ public class MainController : MonoBehaviour
         players.Add(player);
         playerAvatars.Add(playerAvatar);
         playerIDS.Add(playerID);
+        playerLastSeenTimestamp.Add(Time.time);
+        playerSeenScaler.Add(.001f);
+        playerTargetPositions.Add(player.transform.position);
 
     }
 
@@ -169,11 +186,25 @@ public class MainController : MonoBehaviour
 
 
         Vector3 remappedPosition = new Vector3(v1, 0, v2);
-        int index = playerIDS.IndexOf(playerID);
-        if (index != -1)
+        Vector3 fPos = getFinalPosition(remappedPosition);
+
+        int id = playerIDS.IndexOf(playerID);
+
+        if (id != -1)
         {
-            players[index].transform.position = Vector3.Lerp(players[index].transform.position, getFinalPosition(remappedPosition), playerLerpSpeed);
+            // only change position if we have moved
+            if (playerTargetPositions[id] != fPos)
+            {
+                playerTargetPositions[id] = fPos;
+                playerLastSeenTimestamp[id] = Time.time;
+            }
+
+
+            players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
         }
+
+
+
 
 
     }
@@ -246,9 +277,7 @@ public class MainController : MonoBehaviour
                 dotAvatars[index].collected = true;
                 dotAvatars[index].collector = player.transform;
 
-                player.transform.localScale += Vector3.one * sizeIncrementOnCollect;
                 player.GetComponent<PlayerAvatar>().numDotsCollected++;
-
                 audioPlayer.Play(onDotCollectClip);
                 // dots[index].gameObject.SetActive(false);
                 // dots[index].position = dotOriginalPositions[index];
@@ -273,6 +302,42 @@ public class MainController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        for (int i = 0; i < players.Count; i++)
+        {
+
+            // start fading only if the player hasn't been seen a few frames
+            if (Time.time - playerLastSeenTimestamp[i] > .1f)
+            {
+                playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 0, playerFadeOutSpeed);
+            }
+            else
+            {
+                playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 1, playerFadeInSpeed);
+            }
+
+            float fScale = (startSize + (float)playerAvatars[i].numDotsCollected * sizeIncrementOnCollect) * playerSeenScaler[i];
+
+
+            players[i].transform.localScale = Vector3.one * fScale;
+
+            if (playerSeenScaler[i] < .03f)
+            {
+                if (players[i].activeSelf)
+                {
+                    players[i].SetActive(false);
+
+                }
+            }
+            else
+            {
+                // only turn on if we aren't already on
+                if (!players[i].activeSelf)
+                {
+                    players[i].SetActive(true);
+                }
+            }
+        }
+
 
     }
 

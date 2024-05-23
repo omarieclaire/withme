@@ -46,10 +46,15 @@ public class PlayerConnectionRenderer : MonoBehaviour
 
         for (int i = 0; i < numPlayers; i++)
         {
-            playerPositions[i] = controller.players[i].transform.position;
+            playerData[i] = new Vector4(
+                controller.players[i].transform.position.x,
+                controller.players[i].transform.position.y,
+                controller.players[i].transform.position.z,
+                controller.playerSeenScaler[i]
+            );
         }
 
-        playerBuffer.SetData(playerPositions);
+        playerBuffer.SetData(playerData);
 
 
         if (controller.players.Count > 1 && playerBuffer != null)
@@ -74,6 +79,7 @@ public class PlayerConnectionRenderer : MonoBehaviour
     }
 
     public Vector3[] playerPositions;
+    public Vector4[] playerData;
     public ComputeBuffer playerBuffer;
     public void ResetPlayerBuffer()
     {
@@ -89,8 +95,9 @@ public class PlayerConnectionRenderer : MonoBehaviour
             return;
         }
 
-        playerBuffer = new ComputeBuffer(numPlayers, sizeof(float) * 3);
+        playerBuffer = new ComputeBuffer(numPlayers, sizeof(float) * 4);
         playerPositions = new Vector3[numPlayers];
+        playerData = new Vector4[numPlayers];
 
     }
 
