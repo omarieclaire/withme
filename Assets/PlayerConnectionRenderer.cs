@@ -11,7 +11,7 @@ public class PlayerConnectionRenderer : MonoBehaviour
     public float distanceForConnection;
 
 
-    public MainController controller;
+    public DotGameController controller;
 
     public int oNumPlayers;
     public int numPlayers;
