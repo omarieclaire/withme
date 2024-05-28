@@ -35,6 +35,9 @@ public class DotGameController : Controller
     public int maxDotsPerPlayer;
 
 
+    public float sizeIncrementOnCollect;
+
+
     [Header("Audio Info")]
 
     // the sound when the dot is collected

@@ -47,7 +47,6 @@ public class Controller : MonoBehaviour
 
     public GameObject playerPrefab;
     public float startSize;
-    public float sizeIncrementOnCollect;
     // a transform to be the parent of the spawned prefabs
 
     public Transform playerHolder;
