@@ -61,6 +61,9 @@ public class Controller : MonoBehaviour
     public float playerFadeOutSpeed;
 
 
+    public Vector3 averagePosition;
+    public int numActivePlayers;
+
 
 
     public virtual void _SetUp()
@@ -209,6 +212,10 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        numActivePlayers = 0;
+        averagePosition = Vector3.zero;
+
         for (int i = 0; i < players.Count; i++)
         {
 
@@ -242,6 +249,22 @@ public class Controller : MonoBehaviour
                     players[i].SetActive(true);
                 }
             }
+
+            if (players[i].activeSelf)
+            {
+                numActivePlayers++;
+                averagePosition += players[i].transform.position;
+            }
+
+        }
+
+        if (numActivePlayers > 0)
+        {
+            averagePosition /= numActivePlayers;
+        }
+        else
+        {
+            averagePosition = Vector3.zero;
         }
 
 
