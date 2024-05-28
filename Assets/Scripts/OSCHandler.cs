@@ -7,6 +7,9 @@ using System;
 
 public class OSCHandler : MonoBehaviour
 {
+
+    public bool debug;
+
     public OSCReceiver Receiver;
 
     [Header("Receiver UI Settings")]
@@ -16,7 +19,7 @@ public class OSCHandler : MonoBehaviour
 
     private const string _blobAddress = "/livepose/blobs/0/*/center*";
 
-    public MainController controller;
+    public Controller controller;
 
     private HashSet<int> activePlayerIds = new HashSet<int>();
     private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();
@@ -28,7 +31,10 @@ public class OSCHandler : MonoBehaviour
     {
         if (Receiver != null)
         {
-            Debug.Log($"OSC Receiver initialized and bound to {_blobAddress}");
+            if (debug)
+            {
+                Debug.Log($"OSC Receiver initialized and bound to {_blobAddress}");
+            }
             Receiver.Bind(_blobAddress, ReceiveBlob);
         }
         else
@@ -43,7 +49,10 @@ public class OSCHandler : MonoBehaviour
 
         while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
         {
-            Debug.Log($"Processing message for player {msg.PlayerId} at position {msg.BlobPosition}");
+            if (debug)
+            {
+                Debug.Log($"Processing message for player {msg.PlayerId} at position {msg.BlobPosition}");
+            }
 
             int playerId = msg.PlayerId;
             Vector2 blobPosition = msg.BlobPosition;
@@ -68,7 +77,10 @@ public class OSCHandler : MonoBehaviour
                 playerData.IsActive = false;
                 controller.DeactivatePlayer(playerId);
                 activePlayerIds.Remove(playerId);
-                Debug.Log($"Deactivated player {playerId} due to inactivity.");
+                if (debug)
+                {
+                    Debug.Log($"Deactivated player {playerId} due to inactivity.");
+                }
             }
         }
     }
@@ -96,15 +108,20 @@ public class OSCHandler : MonoBehaviour
             playerData = new PlayerData(playerId);
             players.Add(playerId, playerData);
             controller.OnPlayerCreate(playerId);
-            Debug.Log($"Created new player {playerId}");
+            if (debug)
+            {
+                Debug.Log($"Created new player {playerId}");
+            }
             return playerData;
         }
     }
 
     public void ReceiveBlob(OSCMessage message)
     {
-        Debug.Log($"Received OSC message at address: {message.Address} with {message.Values.Count} values");
-
+        if (debug)
+        {
+            Debug.Log($"Received OSC message at address: {message.Address} with {message.Values.Count} values");
+        }
         // Check if the address matches the specific structure for center1 or center2
         if (message.Address.EndsWith("center1") || message.Address.EndsWith("center2"))
         {
@@ -139,6 +156,8 @@ public class OSCHandler : MonoBehaviour
         }
         else
         {
+
+
             Debug.LogWarning($"Received message at {message.Address} does not match the expected address structure.");
         }
     }
@@ -154,7 +173,9 @@ public class OSCHandler : MonoBehaviour
             Address = address;
             PlayerId = playerId;
             BlobPosition = blobPosition;
-            Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, BlobPosition={BlobPosition}");
+
+            //            Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, BlobPosition={BlobPosition}");
+
         }
     }
 

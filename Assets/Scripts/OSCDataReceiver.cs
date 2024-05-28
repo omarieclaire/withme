@@ -7,7 +7,7 @@ public class OSCDataReceiver : MonoBehaviour
 {
 
     public int port;
-    public MainController controller;
+    public Controller controller;
 
     //[SerializeField]
     //private GameObject playerSpherePrefab; // The prefab to instantiate for each player

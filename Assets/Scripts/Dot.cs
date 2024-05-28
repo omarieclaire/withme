@@ -5,7 +5,7 @@ using UnityEngine;
 public class Dot : MonoBehaviour
 {
 
-    public MainController controller;
+    public DotGameController controller;
 
     public int id;
 

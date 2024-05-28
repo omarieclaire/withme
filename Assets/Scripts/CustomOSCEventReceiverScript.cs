@@ -8,7 +8,7 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
 
     public int port;
 
-    public MainController controller;
+    public Controller controller;
 
     [SerializeField]
     private GameObject playerSpherePrefab; // The prefab to instantiate for each player
@@ -132,9 +132,9 @@ public class CustomOSCEventReceiverScript : MonoBehaviour
             Address = address;
             PlayerId = GetPlayerNumber(address);
             Position = new Vector3(
-                MapToRange(data.GetElementAsFloat(0), 0, 1200, -10, 10), 
+                MapToRange(data.GetElementAsFloat(0), 0, 1200, -10, 10),
                 0f, // Y is the ground plane
-                MapToRange(data.GetElementAsFloat(1), 0, 1200, -10, 10)  
+                MapToRange(data.GetElementAsFloat(1), 0, 1200, -10, 10)
             );
 
             Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, Position={Position}");

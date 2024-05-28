@@ -8,7 +8,7 @@ using TMPro;
 public class PlayerAvatar : MonoBehaviour
 {
 
-    public MainController controller;
+    public Controller controller;
 
     public TextMeshPro text;
     public int id;
@@ -38,16 +38,18 @@ public class PlayerAvatar : MonoBehaviour
     }
 
 
-    public void OnDotCollect()
+    public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
     {
-        if (numDotsCollected >= controller.minNumDotsForCollision)
+        if (chargeRingOn)
         {
             chargedRing.enabled = true;
         }
-        else if (numDotsCollected >= controller.maxDotsPerPlayer)
+
+        if (maxRingOn)
         {
             maxRing.enabled = true;
         }
+
 
         numDotsCollected++;
     }
