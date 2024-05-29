@@ -64,6 +64,8 @@ public class Controller : MonoBehaviour
     public Vector3 averagePosition;
     public int numActivePlayers;
 
+    public List<GameObject> activePlayers;
+
 
 
     public virtual void _SetUp()
@@ -215,6 +217,7 @@ public class Controller : MonoBehaviour
 
         numActivePlayers = 0;
         averagePosition = Vector3.zero;
+        activePlayers.Clear();
 
         for (int i = 0; i < players.Count; i++)
         {
@@ -253,6 +256,7 @@ public class Controller : MonoBehaviour
             if (players[i].activeSelf)
             {
                 numActivePlayers++;
+                activePlayers.Add(players[i]);
                 averagePosition += players[i].transform.position;
             }
 
