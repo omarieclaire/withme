@@ -90,7 +90,7 @@ public class Dot : MonoBehaviour
 
         Vector3 force = targetPosition - transform.position;
 
-        velocity += force * Time.deltaTime * controller.dotForceTowardsPosition;
+        velocity += force * Time.deltaTime * fForce;
 
         transform.position += velocity * Time.deltaTime;
         velocity *= controller.dotDampening;
