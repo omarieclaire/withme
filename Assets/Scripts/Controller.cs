@@ -68,7 +68,7 @@ public class Controller : MonoBehaviour
     public Vector3 averagePosition;
     public int numActivePlayers;
 
-    public List<GameObject> activePlayers;
+    public List<PlayerAvatar> activePlayers;
 
 
 
@@ -260,7 +260,7 @@ public class Controller : MonoBehaviour
             if (players[i].activeSelf)
             {
                 numActivePlayers++;
-                activePlayers.Add(players[i]);
+                activePlayers.Add(playerAvatars[i]);
                 averagePosition += players[i].transform.position;
             }
 
