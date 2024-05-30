@@ -35,7 +35,7 @@ public class DotGameController : Controller
 
     [Tooltip("Transform that holds all the dot objects.")]
     public Transform dotHolder;
-    [Tooltip("How slowly the dot moves to the new position; 1 means it will move exactly, 0 means it will never move.")]
+    [Tooltip("How slowly the dot moves to the new position, after being in the tree or at the beginning of its life.")]
     public float dotForceTowardsPosition;
 
     [Tooltip("Dampening factor for the dot's movement.")]
@@ -68,13 +68,16 @@ public class DotGameController : Controller
     public ParticleSystem playerCollectDotParticleSystem;
 
 
-
+    [Tooltip("Number of dots that have been brought to the tree.")]
     public int totalDotsCollected;
+
+    [Tooltip("Number of dots that need to reach the tree before we turn on the flowers / game over! Win!")]
     public int totalDotsCollectedForCompletion;
 
 
-
+    [Tooltip("Force from the dots towards the player who collected them")]
     public float dotForceTowardsCollector;
+     [Tooltip("Force from the dots towards the tree")]
     public float dotForceTowardsTree;
 
     public ControlTreeMaterialValues controlTreeMaterialValues;
