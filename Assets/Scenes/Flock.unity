@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1890852102}
-  numFish: 100
+  numFish: 1000
   fishSize: 0.1
   fishPrefab: {fileID: 1874753122}
   fishes: []
