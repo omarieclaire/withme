@@ -90,36 +90,35 @@ public class DotGameController : Controller
 
         dots = new List<Transform>();
 
-        for (int i = 0; i < numDots; i++)
+         for (int i = 0; i < numDots; i++)
         {
+            // Instantiate dot at a random position within the dome
             GameObject dot = Instantiate(dotPrefab, Vector3.zero, Quaternion.identity);
-            Vector3 pos = new Vector3(Random.Range(-1f, 1f), Mathf.Pow(Random.Range(0f, 1f), dotFlatnessPower), Random.Range(-1f, 1f));
 
+            Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
+            randomPos = getFinalPosition(randomPos);
+       
 
-            pos = pos.normalized * sphereSize;
+            Dot dotAvatar = dot.GetComponent<Dot>(); // Get Dot component
 
-            Dot dotAvatar = dot.GetComponent<Dot>();
-
+            // Initialize dot properties
             dotAvatar.controller = this;
             dotAvatar.id = i;
-            dotAvatar.originalPosition = pos;
+            dotAvatar.originalPosition = randomPos;
             dotAvatar.velocity = Vector3.zero;
-            dotAvatar.targetPosition = pos;
+            dotAvatar.targetPosition = randomPos;
             dotAvatar.collected = false;
             dotAvatar.SetData();
 
-
-            dot.transform.position = pos;
+            // Set dot transform properties
+            dot.transform.position = randomPos;
             dot.transform.SetParent(dotHolder);
             dot.transform.localScale = Vector3.one * dotSize;
 
+            dot.SetActive(dot); // Activate dot
 
-            dot.SetActive(dot);
-
-            dots.Add(dot.transform);
-            dotAvatars.Add(dotAvatar);
-
-
+            dots.Add(dot.transform); // Add to dots list
+            dotAvatars.Add(dotAvatar); // Add to dotAvatars list
         }
     }
 

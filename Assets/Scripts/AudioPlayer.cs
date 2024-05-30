@@ -4,39 +4,69 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioPlayer : MonoBehaviour
-{
-
+{[Tooltip("The current index of the audio source that will play the next sound.")]
     public int playID;
+
+    [Tooltip("The previous index of the audio source that played a sound.")]
     public int oPlayID;
+
+    [Tooltip("The total number of audio sources available for playing sounds.")]
     public int numSources;
+
+    [Tooltip("The total number of audio sources dedicated to looping sounds.")]
     public int numLoopSources;
+
+    [Tooltip("The total number of global audio sources dedicated to looping sounds.")]
     public int numGlobalLoopSources;
 
+    [Tooltip("The master audio mixer controlling overall sound output.")]
     public AudioMixer master;
 
+    [Tooltip("The primary audio source used for playing main audio clips.")]
     public AudioSource mainAudio;
 
+    [Tooltip("Singleton instance of the AudioPlayer class.")]
     public static AudioPlayer Instance { get; private set; }
 
-    private static AudioPlayer _instance;
-
+    [Tooltip("Array of game objects that hold the audio sources.")]
     public GameObject[] objects;
+
+    [Tooltip("Array of game objects dedicated to looping audio sources.")]
     public GameObject[] loopObjects;
+
+    [Tooltip("Array of game objects dedicated to global looping audio sources.")]
     public GameObject[] globalLoopObjects;
+
+    [Tooltip("Array of audio sources used for playing sounds.")]
     public AudioSource[] sources;
+
+ [Tooltip("Array of audio sources dedicated to looping sounds.")]
     public AudioSource[] loopSources;
+
+    [Tooltip("Array of global audio sources dedicated to looping sounds.")]
     public AudioSource[] globalLoopSources;
 
+    [Tooltip("Beats per minute for the looping audio.")]
     public float loopBPM;
+
+    [Tooltip("Number of bars in the looping audio.")]
     public int loopBars;
+
+    [Tooltip("Number of beats per bar in the looping audio.")]
     public int loopBPB;
 
+    [Tooltip("Transform for positioning regular audio sources.")]
     public Transform sourceTransform;
+
+    [Tooltip("Transform for positioning looping audio sources.")]
     public Transform loopTransform;
+
+    [Tooltip("Transform for positioning global looping audio sources.")]
     public Transform globalLoopTransform;
 
-
+    [Tooltip("Prefab for creating new audio source game objects.")]
     public GameObject sourcePrefab;
+
 
     public void OnEnable()
     {
