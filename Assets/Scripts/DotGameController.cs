@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FantasyTree;
 using UnityEngine;
 
 public class DotGameController : Controller
@@ -76,12 +77,15 @@ public class DotGameController : Controller
     public float dotForceTowardsCollector;
     public float dotForceTowardsTree;
 
-
+    public ControlTreeMaterialValues controlTreeMaterialValues;
 
 
     public override void SetUp()
     {
         _SetUp();
+
+        controlTreeMaterialValues.barkShown = 0;
+        controlTreeMaterialValues.flowersShown = 0;
 
 
         dots = new List<Transform>();
@@ -201,14 +205,18 @@ public class DotGameController : Controller
     public void OnTreeCollect()
     {
         totalDotsCollected++;
+        controlTreeMaterialValues.barkShown = (float)totalDotsCollected / (float)totalDotsCollectedForCompletion;
+
         if (totalDotsCollected >= totalDotsCollectedForCompletion)
         {
             OnLevelComplete();
         }
+
     }
     public void OnLevelComplete()
     {
         print("LEVEL COMPLETE");
+        controlTreeMaterialValues.flowersShown = 1;
     }
 
 
