@@ -94,7 +94,7 @@ public class MimicShape : MonoBehaviour
             {
 
 
-                GameObject player = controller.activePlayers[i];
+                GameObject player = controller.activePlayers[i].gameObject;
 
                 float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
 
