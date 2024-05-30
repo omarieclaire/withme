@@ -5685,6 +5685,7 @@ MonoBehaviour:
   lr: {fileID: 780603510}
   randomDirection: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  towardsTree: 0
 --- !u!120 &780603510
 LineRenderer:
   serializedVersion: 2
@@ -11554,7 +11555,7 @@ MonoBehaviour:
   cameraResolution: 640
   RemapValues: {x: 10, y: -10}
   verticalValue: 10
-  sphereSize: 4
+  sphereSize: 3
   maxSize: {x: 10, y: 0, z: 10}
   maxDegrees: 210
   pushTowardsBottom: 0.5
@@ -11592,7 +11593,8 @@ MonoBehaviour:
   audioPlayer: {fileID: 1113222680}
   explosionParticles: {fileID: 1771212090}
   playerCollectDotParticleSystem: {fileID: 631686739}
-  totalDotsCollectedForCompletion: 0
+  totalDotsCollected: 0
+  totalDotsCollectedForCompletion: 1000
 --- !u!1 &1891193332
 GameObject:
   m_ObjectHideFlags: 0
