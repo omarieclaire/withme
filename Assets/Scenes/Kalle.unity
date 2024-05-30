@@ -606,7 +606,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 755660615}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -899,6 +899,7 @@ MonoBehaviour:
   lr: {fileID: 780603510}
   randomDirection: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  towardsTree: 0
 --- !u!120 &780603510
 LineRenderer:
   serializedVersion: 2
@@ -1573,7 +1574,7 @@ Transform:
   - {fileID: 1098022819}
   - {fileID: 862126821}
   - {fileID: 2110906366}
-  m_Father: {fileID: 1774728086}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &1177282430
 TrailRenderer:
@@ -2223,8 +2224,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1177282429}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1774728087
@@ -2239,7 +2239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28843297903bec4ab52d1e4bd3e518d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfIterations: 1
+  numberOfIterations: 10
   nodePrefab: {fileID: 1177282428}
   controller: {fileID: 1890852102}
   nodes: []
@@ -2378,7 +2378,7 @@ MonoBehaviour:
   sphereSize: 10
   maxSize: {x: 1, y: 0, z: 1}
   maxDegrees: 210
-  pushTowardsBottom: 0.001
+  pushTowardsBottom: 1
   players: []
   playerAvatars: []
   playerIDS: 
@@ -2386,7 +2386,7 @@ MonoBehaviour:
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
-  startSize: 0.1
+  startSize: 1
   playerHolder: {fileID: 1231796505}
   playerLerpSpeed: 1
   playerFadeInSpeed: 0.1
@@ -2507,4 +2507,5 @@ SceneRoots:
   - {fileID: 1113222681}
   - {fileID: 1057392086}
   - {fileID: 768782083}
+  - {fileID: 1177282429}
   - {fileID: 1774728086}
