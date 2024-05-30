@@ -8,14 +8,13 @@ public class PullTowardsPerson : MonoBehaviour
     public Controller controller;
     public float pullForce = 1.0f;
 
-    public float pullDampening = 0.1f;
-    public float nonPullDampening = 0.1f;
-
-    public float pullPower = 1.0f;
-
     public Rigidbody rb;
 
     public Transform target;
+
+    public int playerID;
+
+    public LineRenderer lr;
 
 
 
@@ -25,10 +24,12 @@ public class PullTowardsPerson : MonoBehaviour
     {
 
 
-        if (controller.numActivePlayers > 0)
+        if (controller.numActivePlayers > playerID)
         {
 
-            rb.AddForce((target.position - transform.position) * pullForce);
+            rb.AddForce((controller.players[playerID].transform.position - transform.position) * pullForce);
+            lr.SetPosition(0, transform.position);
+            lr.SetPosition(1, controller.players[playerID].transform.position);
 
         }
 
