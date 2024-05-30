@@ -2377,8 +2377,8 @@ MonoBehaviour:
   verticalValue: 1
   sphereSize: 10
   maxSize: {x: 1, y: 0, z: 1}
-  maxDegrees: 3.665188
-  pushTowardsBottom: 1
+  maxDegrees: 210
+  pushTowardsBottom: 0.001
   players: []
   playerAvatars: []
   playerIDS: 
