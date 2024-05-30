@@ -32,8 +32,15 @@ public class Dot : MonoBehaviour
     {
 
         print("dot triggered");
+        print(collider.gameObject.name);
         //print("dot triggered");
         //controller.OnDotCollision(this.gameObject, collider.gameObject);
+
+        if (collider.gameObject.name == "Tree")
+        {
+            controller.OnTreeCollect();
+            OnTreeFed();
+        }
     }
 
     public void SetData()
@@ -50,13 +57,25 @@ public class Dot : MonoBehaviour
     public void Update()
     {
 
+        float fForce = controller.dotForceTowardsPosition;
 
         if (collected)
         {
 
+            fForce = controller.dotForceTowardsCollector;
+
+
+            float outMultiplier = .6f;
+            if (towardsTree)
+            {
+
+                fForce = controller.dotForceTowardsTree;
+                outMultiplier = 0;
+            }
+
             targetPosition = collector.position;
-            targetPosition += collector.localScale.x * .6f * randomDirection.x * collector.right;
-            targetPosition += collector.localScale.y * .6f * randomDirection.y * collector.up;
+            targetPosition += collector.localScale.x * outMultiplier * randomDirection.x * collector.right;
+            targetPosition += collector.localScale.y * outMultiplier * randomDirection.y * collector.up;
 
             lr.positionCount = 2;
             lr.SetPosition(0, transform.position);

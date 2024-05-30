@@ -68,9 +68,13 @@ public class DotGameController : Controller
 
 
 
+    public int totalDotsCollected;
     public int totalDotsCollectedForCompletion;
 
 
+
+    public float dotForceTowardsCollector;
+    public float dotForceTowardsTree;
 
 
 
@@ -194,6 +198,14 @@ public class DotGameController : Controller
         }
     }
 
+    public void OnTreeCollect()
+    {
+        totalDotsCollected++;
+        if (totalDotsCollected >= totalDotsCollectedForCompletion)
+        {
+            OnLevelComplete();
+        }
+    }
     public void OnLevelComplete()
     {
         print("LEVEL COMPLETE");
