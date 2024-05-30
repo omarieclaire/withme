@@ -1,3 +1,5 @@
+// Flock: Players herd little spheres to and through a portal. The little spheres then come out ofthe top of the dome, transformed. (Maybe after 100 spheres go through the portal something happens?)
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,31 +7,55 @@ using UnityEngine;
 public class Flock : MonoBehaviour
 {
     public Controller controller;
+    [Tooltip("Number of fish in the flock.")]
     public int numFish;
+
+    [Tooltip("Size of each fish in the flock.")]
     public float fishSize = .1f;
+
+    [Tooltip("Prefab used to create fish.")]
     public GameObject fishPrefab;
 
+    [Tooltip("List of all fish in the flock.")]
     public List<Fish> fishes;
 
+    [Tooltip("List of velocities for each fish.")]
     public List<Vector3> velocities;
 
+    [Tooltip("LineRenderers to visualize attraction forces.")]
     public List<LineRenderer> attractLR;
+
+    [Tooltip("LineRenderers to visualize repulsion forces.")]
     public List<LineRenderer> repelLR;
 
+    [Tooltip("If the fish are within this radium you are pushing them away from you")]
     public float playerRepelRadius;
+
+    [Tooltip("How hard/fast you push the fish away.")]
     public float playerRepelForce;
 
+    [Tooltip("Radius within which players attract the fish. If the fish are outside the repel radius and inside the attract radius, they move towards me")]
     public float playerAttractRadius;
+
+    [Tooltip("Force with which players attract the fish. How hard they move towards you!")]
     public float playerAttractForce;
 
+    [Tooltip("Random noise force applied to the fish to separate the fish from each other. But the dream would be flocking")]
     public float noiseForce;
+
+    [Tooltip("Force pulling the fish towards the dome, basically trapping them in the dome wall instead of outerspace or innerspace")]
     public float forceTowardsDome;
 
+    [Tooltip("Force pushing the fish above the horizon.")]
     public float forceToAboveHorizon;
 
+    [Tooltip("How fast the fish move.")]
     public float fishSpeed;
 
+    [Tooltip("Speed of the noise affecting the fish. How fast the noise changes!")]
     public float noiseSpeed = 0;
+
+    [Tooltip("Size of the noise affecting the fish. How big the noise is!")]
     public float noiseSize = 1;
 
     public void OnEnable()

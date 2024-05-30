@@ -1,19 +1,43 @@
+// Hug (knus): People “flip” spheres by touching them and try to match them (+ possibly some goals)
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Hug : MonoBehaviour
 {
-
+[Tooltip("Number of face pairs in the game.")]
     public int numFacePairs;
+
+    [Tooltip("Prefab used to instantiate faces.")]
     public GameObject facePrefab;
+
+    [Tooltip("Size of each face.")]
     public float faceSize;
+
+    [Tooltip("Vertical alignment factor for the faces.")]
     public float faceVerticality;
+
+    [Tooltip("List of all HugFace objects in the game.")]
     public List<HugFace> faces;
 
+    [Tooltip("The game controller managing the game state.")]
     public Controller controller;
 
+    [Tooltip("Radius within which faces get activated.")]
     public float activationRadius;
+
+    [Tooltip("Prefab used to create connection lines between faces.")]
+    public GameObject connectionPrefab;
+
+    [Tooltip("List of LineRenderers to visualize connections between faces.")]
+    public List<LineRenderer> connections;
+
+    [Tooltip("List of discovered smile IDs.")]
+    public List<int> smilesDiscovered;
+
+    [Tooltip("List of HugFace objects that have completed the hug.")]
+    public List<HugFace> completedFaces;
 
     public void OnEnable()
     {
