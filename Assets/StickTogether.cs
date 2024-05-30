@@ -1,3 +1,5 @@
+// Stick together: Players need to huddle together inside a moving sphere
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,21 +8,30 @@ public class StickTogether : MonoBehaviour
 {
 
     public Controller controller;
+
+     [Tooltip("The radius within which players need to stay.")]
     public float radiusForCollection = 1;
 
+    [Tooltip("The representation of the collection area?")]
     public GameObject collectionRepresentation;
+
+    [Tooltip("List of LineRenderers used to visualize connections between players.")]
     public List<LineRenderer> connections;
+
+    [Tooltip("Prefab used to create new connection lines.")]
     public GameObject connectionPrefab;
 
+    [Tooltip("Total number of players inside the collection circle.")]
     public int totalInsideCircle = 0;
 
-
+    [Tooltip("Speed at which the collection area moves.")]
     public Vector3 movementSpeed;
+
+    [Tooltip("Size of the movement area for the collection.")]
     public Vector3 movementSize;
 
+    [Tooltip("Offset for the movement of the collection area.")]
     public Vector3 movementOffset;
-
-
 
 
     // Start is called before the first frame update
@@ -34,7 +45,6 @@ public class StickTogether : MonoBehaviour
     {
 
         transform.localScale = new Vector3(radiusForCollection * 2, radiusForCollection * 2, radiusForCollection * 2);
-
 
         Vector3 position = new Vector3(
             Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
