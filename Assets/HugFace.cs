@@ -7,15 +7,14 @@ public class HugFace : MonoBehaviour
 
     public Hug hug;
 
-    public GameObject partner;
+    public HugFace partner;
 
     public int smileID;
     public int state;
 
     public GameObject preDiscovered;
     public GameObject discovered;
-    public GameObject completed;
-    public MeshRenderer highlighted;
+    public GameObject finished;
 
 
 
@@ -24,51 +23,46 @@ public class HugFace : MonoBehaviour
         state = 0;
         preDiscovered.SetActive(true);
         discovered.SetActive(false);
-        completed.SetActive(false);
     }
 
     public void OnDisable()
     {
         preDiscovered.SetActive(false);
         discovered.SetActive(false);
-        completed.SetActive(false);
     }
 
-    public void OnDiscover()
-    {
-        state = 1;
-        preDiscovered.SetActive(false);
-        discovered.SetActive(true);
-        completed.SetActive(false);
-    }
-
-    public void OnComplete()
-    {
-        state = 2;
-        preDiscovered.SetActive(false);
-        discovered.SetActive(false);
-        completed.SetActive(true);
-    }
+    public bool inside;
 
     public void WhileInside()
     {
-        highlighted.enabled = true;
+        discovered.SetActive(true);
+        preDiscovered.SetActive(false);
+        finished.SetActive(false);
+        inside = true;
 
-        if (state == 0)
+        if (partner.inside == true)
         {
-            OnDiscover();
+            hug.PairDiscover(this.gameObject, partner.gameObject, smileID);
         }
 
-        if (state == 1)
-        {
-            OnComplete();
-        }
+
     }
 
-    public void Update()
+    public void WhileOutside()
     {
-        highlighted.enabled = false;
+        discovered.SetActive(false);
+        preDiscovered.SetActive(true);
+        finished.SetActive(false);
+        inside = false;
     }
+
+    public void WhileFinished()
+    {
+        discovered.SetActive(false);
+        preDiscovered.SetActive(false);
+        finished.SetActive(true);
+    }
+
 
 
 }
