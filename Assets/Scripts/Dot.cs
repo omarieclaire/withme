@@ -30,6 +30,8 @@ public class Dot : MonoBehaviour
 
     public void OnTriggerEnter(Collider collider)
     {
+
+        print("dot triggered");
         //print("dot triggered");
         //controller.OnDotCollision(this.gameObject, collider.gameObject);
     }
@@ -77,6 +79,25 @@ public class Dot : MonoBehaviour
         transform.LookAt(controller.center);
         transform.Rotate(0, 180, 0);
 
+
+    }
+
+
+
+    public bool towardsTree;
+
+    public void OnPlayersHoldingMeCollided()
+    {
+        collected = true;
+        collector = controller.tree;
+        towardsTree = true;
+    }
+
+    public void OnTreeFed()
+    {
+        collected = false;
+        collector = null;
+        towardsTree = false;
 
     }
 

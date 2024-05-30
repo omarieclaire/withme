@@ -11,6 +11,8 @@ public class DotGameController : Controller
 {
 
 
+    public Transform tree;
+
     [Header("Collectable Info")]
     [Tooltip("Number of dots in the game.")]
     public int numDots;
@@ -63,6 +65,13 @@ public class DotGameController : Controller
 
     public ParticleSystem explosionParticles;
     public ParticleSystem playerCollectDotParticleSystem;
+
+
+
+    public int totalDotsCollectedForCompletion;
+
+
+
 
 
 
@@ -130,6 +139,7 @@ public class DotGameController : Controller
             {
                 dotAvatars[i].collected = false;
                 dotAvatars[i].collector = null;
+                dotAvatars[i].OnPlayersHoldingMeCollided();
             }
         }
 
@@ -182,6 +192,11 @@ public class DotGameController : Controller
             print("NOT A DOT");
             print("COLLIDER TAG: " + collider.tag);
         }
+    }
+
+    public void OnLevelComplete()
+    {
+        print("LEVEL COMPLETE");
     }
 
 
