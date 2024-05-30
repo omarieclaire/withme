@@ -28,6 +28,10 @@ public class Controller : MonoBehaviour
     public Vector3 maxSize = new Vector3(1, 0, 1);
 
 
+    public float maxDegrees = 210;
+    public float pushTowardsBottom = .5f;
+
+
     // the players that have been generated (osc data receiver generates)
 
 
@@ -274,6 +278,48 @@ public class Controller : MonoBehaviour
 
     }
 
+    /*
+
+
+    Old Method
+
+
+        public Vector3 getFinalPosition(Vector3 position)
+        {
+            Vector3 finalPosition = position;
+
+            float nX = finalPosition.x / maxSize.x;
+            float nZ = finalPosition.z / maxSize.z;
+
+            Vector2 nXZ = new Vector2(nX, nZ);
+            float l = nXZ.magnitude;
+
+            float fVerticalValue = verticalValue * (1 - Mathf.Clamp(l, 0, 1));
+
+            finalPosition.y = fVerticalValue; ;
+            finalPosition = finalPosition.normalized * sphereSize;
+
+            finalPosition = transform.TransformPoint(finalPosition);
+
+            return finalPosition;
+
+        }
+
+    */
+
+    public Vector3 SphericalToCartesian(float radius, float polar, float elevation)
+    {
+        float a = radius * Mathf.Cos(elevation);
+
+        Vector3 outCart = new Vector3();
+        outCart.x = a * Mathf.Cos(polar);
+        outCart.y = radius * Mathf.Sin(elevation);
+        outCart.z = a * Mathf.Sin(polar);
+
+        return outCart;
+    }
+
+
     public Vector3 getFinalPosition(Vector3 position)
     {
         Vector3 finalPosition = position;
@@ -284,14 +330,33 @@ public class Controller : MonoBehaviour
         Vector2 nXZ = new Vector2(nX, nZ);
         float l = nXZ.magnitude;
 
+
+        l = Mathf.Pow(l, pushTowardsBottom);
+
+        float angleAround = Mathf.Atan2(nZ, nX);
+        float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
+
+
+        Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
+        fPosition = transform.TransformPoint(fPosition);
+
+
+
+        /*
+
+        PolarToCartesian(angleDown, angleAround, out float x, out float z);
+
+
         float fVerticalValue = verticalValue * (1 - Mathf.Clamp(l, 0, 1));
 
         finalPosition.y = fVerticalValue; ;
         finalPosition = finalPosition.normalized * sphereSize;
 
-        finalPosition = transform.TransformPoint(finalPosition);
+        finalPosition = transform.TransformPoint(finalPosition);*/
 
-        return finalPosition;
+
+
+        return fPosition;
 
     }
 
