@@ -41,9 +41,14 @@ public class FlorpManager : MonoBehaviour
             florp.transform.SetParent(transform);
             florp.name = $"Florp_{i}";
 
+
+
+
             florp.GetComponent<PullTowardsPerson>().playerID = i;
             florp.GetComponent<PullTowardsPerson>().controller = controller;
             florp.transform.position = controller.activePlayers[i].transform.position;
+
+            florp.SetActive(true);
 
             florps.Add(florp);
 

@@ -13,6 +13,8 @@ public class PlayOnCollision : MonoBehaviour
 
     public bool die;
 
+    public bool changeColor;
+
     void OnCollisionEnter(Collision collision)
     {
 
