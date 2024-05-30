@@ -4,73 +4,83 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-
-
-
     [Header("Camera Live Pose Feed Info")]
-
-    // dimensions of the livepose camera
-
+    [Tooltip("Resolution of the live pose camera.")]
     public int cameraResolution = 640;
+
     // maps 0 to the negative remap value, and maps 640 to the positive remap value
     // note, Y becomes Z because the osc only has two values and we need 3
-
+    [Tooltip("Remap values for camera input: maps 0 to negative and 640 to positive.")]
     public Vector2 RemapValues = new Vector2(1, -1);
 
-
-    // how far up the wall of the dome we might go - a low vertical value means you snap from the base of the dome to the base of the dome
-    // a high value means you'll spend more time at the top of the dome as you cross over the center
     [Header("Positioning Info")]
+    [Tooltip("Vertical positioning value; higher values keep objects closer to the top of the dome.")]
     public float verticalValue = 1;
-    // we could call this playsphere size. it's the radius of the sphere where the dots and players exist
-    // it's a way to visually scale the game
+
+
+    [Tooltip("Radius of the 'playsphere' where dots and players exist, used to visually scale the game.")]
     public float sphereSize = 10;
+
+    [Tooltip("Maximum size for position scaling along each axis.")]
     public Vector3 maxSize = new Vector3(1, 0, 1);
 
-
+    [Tooltip("Maximum degrees for positioning calculations.")]
     public float maxDegrees = 210;
+
+    [Tooltip("Factor for pushing positions towards the bottom of the dome.")]
     public float pushTowardsBottom = .5f;
 
-
-    // the players that have been generated (osc data receiver generates)
-
-
     [Header("Player Info")]
-
+    [Tooltip("List of player GameObjects.")]
     public List<GameObject> players;
+
+    [Tooltip("List of player avatars.")]
     public List<PlayerAvatar> playerAvatars;
+
+    [Tooltip("List of player IDs.")]
     public List<int> playerIDS;
 
+    [Tooltip("List of last seen timestamps for players.")]
     public List<float> playerLastSeenTimestamp;
+
+    [Tooltip("List of scaling factors for player visibility.")]
     public List<float> playerSeenScaler;
 
-    public List<Vector3> playerTargetPositions;
-
-    // Speed at which players lerp towards their target position,
+      // Speed at which players lerp towards their target position,
     // smaller value means slower speed
 
-    public GameObject playerPrefab;
-    public float startSize;
-    // a transform to be the parent of the spawned prefabs
+    [Tooltip("List of target positions for players.")]
+    public List<Vector3> playerTargetPositions;
 
+    [Tooltip("Prefab for player instances.")]
+    public GameObject playerPrefab;
+
+    [Tooltip("Initial size for players.")]
+    public float startSize;
+
+    [Tooltip("Parent transform for player instances.")]
     public Transform playerHolder;
 
     [Header("Movement Info")]
-    // when a player hits a dot, that dot is considered collected by the player and moves towards the player
-    // 0 would be the dot force doesn't move. 
+    [Tooltip("Speed for player movement lerping. 0 would be it doesn't move.")]
     public float playerLerpSpeed;
 
-
+    [Tooltip("Speed for player fade-in.")]
     public float playerFadeInSpeed;
+
+    [Tooltip("Speed for player fade-out.")]
     public float playerFadeOutSpeed;
 
-
+    [Tooltip("Average position of active players.")]
     public Vector3 averagePosition;
+
+    [Tooltip("Number of active players.")]
     public int numActivePlayers;
 
+    [Tooltip("List of active player GameObjects.")]
     public List<PlayerAvatar> activePlayers;
 
-
+    
 
     public virtual void _SetUp()
     {
@@ -201,32 +211,23 @@ public class Controller : MonoBehaviour
 
     public virtual void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
     {
-
     }
-
-
 
     // Gets the scale of the player, different games will scale different ways
     public virtual Vector3 GetScale(int i)
     {
-
         return Vector3.one * startSize;
-
     }
 
-
-    // Update is called once per frame
     void Update()
     {
-
         numActivePlayers = 0;
         averagePosition = Vector3.zero;
         activePlayers.Clear();
 
         for (int i = 0; i < players.Count; i++)
         {
-
-            // start fading only if the player hasn't been seen a few frames
+            // Start fading only if the player hasn't been seen for a few frames
             if (Time.time - playerLastSeenTimestamp[i] > .1f)
             {
                 playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 0, playerFadeOutSpeed);
@@ -236,8 +237,7 @@ public class Controller : MonoBehaviour
                 playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 1, playerFadeInSpeed);
             }
 
-
-
+            // Update player scale
             players[i].transform.localScale = GetScale(i);
 
             if (playerSeenScaler[i] < .03f)
@@ -245,12 +245,11 @@ public class Controller : MonoBehaviour
                 if (players[i].activeSelf)
                 {
                     players[i].SetActive(false);
-
                 }
             }
             else
             {
-                // only turn on if we aren't already on
+                // Only turn on if not already active
                 if (!players[i].activeSelf)
                 {
                     players[i].SetActive(true);
@@ -263,7 +262,6 @@ public class Controller : MonoBehaviour
                 activePlayers.Add(playerAvatars[i]);
                 averagePosition += players[i].transform.position;
             }
-
         }
 
         if (numActivePlayers > 0)
@@ -274,8 +272,6 @@ public class Controller : MonoBehaviour
         {
             averagePosition = Vector3.zero;
         }
-
-
     }
 
     /*
@@ -307,6 +303,7 @@ public class Controller : MonoBehaviour
 
     */
 
+    // Converts spherical coordinates to Cartesian coordinates
     public Vector3 SphericalToCartesian(float radius, float polar, float elevation)
     {
         float a = radius * Mathf.Cos(elevation);
@@ -320,6 +317,7 @@ public class Controller : MonoBehaviour
     }
 
 
+    // Calculates the final position of an object in the dome
     public Vector3 getFinalPosition(Vector3 position)
     {
         Vector3 finalPosition = position;
@@ -330,35 +328,25 @@ public class Controller : MonoBehaviour
         Vector2 nXZ = new Vector2(nX, nZ);
         float l = nXZ.magnitude;
 
-
         l = Mathf.Pow(l, pushTowardsBottom);
 
         float angleAround = Mathf.Atan2(nZ, nX);
         float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
 
-
         Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
         fPosition = transform.TransformPoint(fPosition);
 
-
-
         /*
-
         PolarToCartesian(angleDown, angleAround, out float x, out float z);
-
 
         float fVerticalValue = verticalValue * (1 - Mathf.Clamp(l, 0, 1));
 
-        finalPosition.y = fVerticalValue; ;
+        finalPosition.y = fVerticalValue;
         finalPosition = finalPosition.normalized * sphereSize;
 
-        finalPosition = transform.TransformPoint(finalPosition);*/
-
-
+        finalPosition = transform.TransformPoint(finalPosition);
+        */
 
         return fPosition;
-
     }
-
-
 }
