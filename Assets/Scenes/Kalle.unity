@@ -1621,7 +1621,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1739,7 +1739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67778436c83d1fa41934cc8d45c011b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
+  controller: {fileID: 1890852102}
   text: {fileID: 905377802}
   id: 0
   numDotsCollected: 0
@@ -2239,7 +2239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28843297903bec4ab52d1e4bd3e518d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfIterations: 10
+  numberOfIterations: 1
   nodePrefab: {fileID: 1177282428}
   controller: {fileID: 1890852102}
   nodes: []
@@ -2377,6 +2377,8 @@ MonoBehaviour:
   verticalValue: 1
   sphereSize: 10
   maxSize: {x: 1, y: 0, z: 1}
+  maxDegrees: 3.665188
+  pushTowardsBottom: 1
   players: []
   playerAvatars: []
   playerIDS: 
@@ -2391,6 +2393,7 @@ MonoBehaviour:
   playerFadeOutSpeed: 0.03
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
+  activePlayers: []
   center: {fileID: 1890852101}
 --- !u!1 &2110906365
 GameObject:

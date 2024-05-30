@@ -84,7 +84,6 @@ public class AudioPlayer : MonoBehaviour
                 sources[i].dopplerLevel = 0;
                 sources[i].playOnAwake = false;
 
-
             }
 
             loopSources = new AudioSource[numLoopSources];
@@ -255,6 +254,25 @@ public class AudioPlayer : MonoBehaviour
         }
     }
 
+
+
+
+    public void Next()
+    {
+        oPlayID = playID;
+        playID++;
+        playID %= numSources;
+    }
+
+
+
+
+    /*
+
+           Play Methods
+
+       */
+
     public void Play(AudioClip clip)
     {
 
@@ -268,12 +286,8 @@ public class AudioPlayer : MonoBehaviour
 
 
 
-    public void Next()
-    {
-        oPlayID = playID;
-        playID++;
-        playID %= numSources;
-    }
+
+
 
 
 
