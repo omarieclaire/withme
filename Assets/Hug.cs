@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Hug : MonoBehaviour
 {
-[Tooltip("Number of face pairs in the game.")]
+    [Tooltip("Number of face pairs in the game.")]
     public int numFacePairs;
 
     [Tooltip("Prefab used to instantiate faces.")]
@@ -131,11 +131,11 @@ public class Hug : MonoBehaviour
 
     }
 
-    public GameObject connectionPrefab;
+    /*public GameObject connectionPrefab;
     public List<LineRenderer> connections;
     public List<int> smilesDiscovered;
 
-    public List<HugFace> completedFaces;
+    public List<HugFace> completedFaces;*/
 
     public void PairDiscover(GameObject f1, GameObject f2, int smileID)
     {
