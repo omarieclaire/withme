@@ -5156,6 +5156,134 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!1 &520260787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 520260789}
+  - component: {fileID: 520260788}
+  m_Layer: 0
+  m_Name: AudioSourceObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &520260788
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520260787}
+  m_Enabled: 0
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e688a895a0c844ee38a838c8c0a352db, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &520260789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520260787}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &649743741
 GameObject:
   m_ObjectHideFlags: 0
@@ -5506,6 +5634,7 @@ MonoBehaviour:
   chargedRing: {fileID: 649743743}
   maxRing: {fileID: 385121747}
   color: {r: 0, g: 0, b: 0, a: 0}
+  showPlayerName: 0
 --- !u!54 &755660622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5834,6 +5963,7 @@ MonoBehaviour:
   lr: {fileID: 780603510}
   randomDirection: {x: 0, y: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  towardsTree: 0
 --- !u!120 &780603510
 LineRenderer:
   serializedVersion: 2
@@ -6844,7 +6974,7 @@ MonoBehaviour:
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
-  startSize: 0.1
+  startSize: 2
   playerHolder: {fileID: 1231796505}
   playerLerpSpeed: 1
   playerFadeInSpeed: 0.1
@@ -6893,7 +7023,7 @@ MonoBehaviour:
   lastTimeChange: 0
   activationRadius: 5
   audio: {fileID: 1113222680}
-  onShapeCompleteClip: {fileID: 8300000, guid: c50faa9d45d83644f85a78af75cc4205, type: 3}
+  onShapeCompleteClip: {fileID: 8300000, guid: ae5226bf54c3c45428938c336e3d2168, type: 3}
   onShapeCompleteParticles: {fileID: 482066885}
 --- !u!4 &2030656007
 Transform:
@@ -6927,3 +7057,4 @@ SceneRoots:
   - {fileID: 2030656007}
   - {fileID: 485896224}
   - {fileID: 482066886}
+  - {fileID: 520260789}

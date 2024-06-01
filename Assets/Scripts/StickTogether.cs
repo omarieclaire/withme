@@ -34,10 +34,10 @@ public class StickTogether : MonoBehaviour
 
     [Header("Audio Info")]
     [Tooltip("Sound played when a player gets inside the circle.")]
-    public AudioClip onPlayerGetsInside;
+    public AudioClip happySound;
 
     [Tooltip("Sound played when the majority of players fall outside the circle.")]
-    public AudioClip onMajorityOutside;
+    public AudioClip sadSound;
 
     public AudioPlayer audioPlayer;
 
@@ -125,7 +125,7 @@ public class StickTogether : MonoBehaviour
                 if (!playersInside.Contains(controller.activePlayers[i].gameObject))
                 {
                     playersInside.Add(controller.activePlayers[i].gameObject);
-                    audioPlayer.Play(onPlayerGetsInside);
+                    audioPlayer.Play(happySound);
                 }
 
                 // Count this player as inside
@@ -163,7 +163,7 @@ public class StickTogether : MonoBehaviour
                 majorityInside = false;
                 timer = 0f;
                 collectionRepresentation.GetComponent<Renderer>().material.color = Color.red; // Change color to red
-                audioPlayer.Play(onMajorityOutside); // Play sad sound
+                audioPlayer.Play(sadSound); // Play sad sound
             }
         }
 
