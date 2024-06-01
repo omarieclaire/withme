@@ -1,5 +1,3 @@
-// Hug (knus): People “flip” spheres by touching them and try to match them (+ possibly some goals)
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,12 +39,14 @@ public class Hug : MonoBehaviour
 
     public void OnEnable()
     {
-
+        Debug.Log("Hug - OnEnable: Initializing and resetting faces.");
+        
         while (faces.Count > 0)
         {
             HugFace face = faces[0];
             faces.RemoveAt(0);
-            Destroy(faces[0].gameObject);
+            Destroy(face.gameObject);
+            Debug.Log($"Hug - OnEnable: Destroyed face {face.name}.");
         }
 
         faces.Clear();
@@ -56,12 +56,13 @@ public class Hug : MonoBehaviour
             face1.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
             face1.transform.localScale = Vector3.one * faceSize * 2;
             face1.transform.parent = transform;
-
+            Debug.Log($"Hug - OnEnable: Instantiated face1 with position {face1.transform.position} and scale {face1.transform.localScale}.");
 
             HugFace face2 = Instantiate(facePrefab).GetComponent<HugFace>();
             face2.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
             face2.transform.localScale = Vector3.one * faceSize * 2;
             face2.transform.parent = transform;
+            Debug.Log($"Hug - OnEnable: Instantiated face2 with position {face2.transform.position} and scale {face2.transform.localScale}.");
 
             face1.hug = this;
             face2.hug = this;
@@ -77,48 +78,36 @@ public class Hug : MonoBehaviour
 
             faces.Add(face1);
             faces.Add(face2);
-
-
+            Debug.Log($"Hug - OnEnable: Face pair {i} added with smileID {i}.");
         }
-
     }
-
 
     public void Update()
     {
         for (int j = 0; j < faces.Count; j++)
         {
-
             faces[j].WhileOutside();
         }
 
         for (int i = 0; i < controller.activePlayers.Count; i++)
         {
-
             int closestFaceID = -1;
             float closestFaceDistance = 1000000;
             for (int j = 0; j < faces.Count; j++)
             {
-
                 float distance = Vector3.Distance(controller.activePlayers[i].transform.position, faces[j].transform.position);
                 if (distance < closestFaceDistance)
                 {
                     closestFaceDistance = distance;
                     closestFaceID = j;
                 }
-
-
             }
-
 
             if (closestFaceDistance < activationRadius)
             {
-
                 faces[closestFaceID].WhileInside();
-
+                Debug.Log($"Hug - Update: Player {i} activated face {faces[closestFaceID].name} at distance {closestFaceDistance}.");
             }
-
-
         }
 
         if (completedFaces != null)
@@ -126,20 +115,13 @@ public class Hug : MonoBehaviour
             for (int i = 0; i < completedFaces.Count; i++)
             {
                 completedFaces[i].WhileFinished();
+                Debug.Log($"Hug - Update: Face {completedFaces[i].name} in completedFaces set to finished.");
             }
         }
-
     }
-
-    /*public GameObject connectionPrefab;
-    public List<LineRenderer> connections;
-    public List<int> smilesDiscovered;
-
-    public List<HugFace> completedFaces;*/
 
     public void PairDiscover(GameObject f1, GameObject f2, int smileID)
     {
-
         if (smilesDiscovered == null)
         {
             smilesDiscovered = new List<int>();
@@ -160,24 +142,28 @@ public class Hug : MonoBehaviour
             completedFaces = new List<HugFace>();
         }
 
-        completedFaces.Add(f1.GetComponent<HugFace>());
-        completedFaces.Add(f2.GetComponent<HugFace>());
+        HugFace face1 = f1.GetComponent<HugFace>();
+        HugFace face2 = f2.GetComponent<HugFace>();
 
+        if (face1.TrueTexture == face2.TrueTexture) // Use the public getter
+        {
+            face1.ApplyColor(Color.red);
+            face2.ApplyColor(Color.red);
+            Debug.Log($"Hug - PairDiscover: Matching faces {face1.name} and {face2.name} colored red.");
+        }
 
+        completedFaces.Add(face1);
+        completedFaces.Add(face2);
 
         smilesDiscovered.Add(smileID);
 
-        print("YAY");
-
+        Debug.Log($"Hug - PairDiscover: Discovered pair with smileID {smileID}. Total discovered: {smilesDiscovered.Count}");
 
         LineRenderer connection = Instantiate(connectionPrefab).GetComponent<LineRenderer>();
-
         connection.gameObject.transform.parent = transform;
-
         connection.SetPosition(0, f1.transform.position);
         connection.SetPosition(1, f2.transform.position);
         connections.Add(connection);
-
+        Debug.Log($"Hug - PairDiscover: Connection created between {face1.name} and {face2.name}.");
     }
-
 }

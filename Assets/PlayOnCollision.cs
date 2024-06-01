@@ -18,18 +18,18 @@ public class PlayOnCollision : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
 
-        print("HMMM");
+
+
         print(collision.gameObject.tag);
         if (collision.gameObject.tag == "FLORP")
         {
 
-            print("HI");
             if (ps != null)
             {
-
-                print("PARITSL:");
                 ps.transform.position = collision.gameObject.transform.position;
                 ps.Play();
+                audioPlayer.Play(clip);
+
             }
 
 
