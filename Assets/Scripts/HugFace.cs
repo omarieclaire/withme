@@ -14,9 +14,7 @@ public class HugFace : MonoBehaviour
     public GameObject finished;
 
     public Texture neutralTexture;
-    public Texture trueTexture1;
-    public Texture trueTexture2;
-    public Texture trueTexture3;
+    public Texture[] trueTextures; // Array of textures
 
     private Texture trueTexture;
 
@@ -32,7 +30,6 @@ public class HugFace : MonoBehaviour
     void Start()
     {
         renderer = GetComponent<Renderer>();
-        trueTexture = GetRandomTrueTexture();
         ApplyTexture(neutralTexture);
         Debug.Log($"{name} - Start: Initial neutral texture applied.");
         OnEnable();
@@ -43,6 +40,7 @@ public class HugFace : MonoBehaviour
         state = 0;
         preDiscovered.SetActive(true);
         discovered.SetActive(false);
+        finished.SetActive(false);
         Debug.Log($"{name} - OnEnable: State set to {state}, preDiscovered active, discovered inactive.");
     }
 
@@ -50,7 +48,8 @@ public class HugFace : MonoBehaviour
     {
         preDiscovered.SetActive(false);
         discovered.SetActive(false);
-        Debug.Log($"{name} - OnDisable: preDiscovered and discovered set to inactive.");
+        finished.SetActive(false);
+        Debug.Log($"{name} - OnDisable: preDiscovered, discovered, and finished set to inactive.");
     }
 
     public void WhileInside()
@@ -111,11 +110,9 @@ public class HugFace : MonoBehaviour
         }
     }
 
-    private Texture GetRandomTrueTexture()
+    public void AssignTrueTexture(int index)
     {
-        Texture[] textures = { trueTexture1, trueTexture2, trueTexture3 };
-        Texture selectedTexture = textures[Random.Range(0, textures.Length)];
-        Debug.Log($"{name} - GetRandomTrueTexture: Random true texture {selectedTexture.name} selected.");
-        return selectedTexture;
+        trueTexture = trueTextures[index % trueTextures.Length];
+        Debug.Log($"{name} - AssignTrueTexture: True texture {trueTexture.name} assigned based on index {index}.");
     }
 }
