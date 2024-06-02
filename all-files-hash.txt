@@ -1,0 +1,2752 @@
+.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+.gitignore
+.gitignore
+.vscode/extensions.json
+.vscode/launch.json
+.vscode/settings.json
+Assets/BasicColor.shader
+Assets/ConnectionProceduralShader.shader
+Assets/ConnectionProceduralShader.shader
+Assets/ConnectionRenderer.mat
+Assets/Dot.cs
+Assets/Dot.cs
+Assets/Flock.cs
+Assets/FlorpManager.cs
+Assets/FulldomeForUnity.meta
+Assets/FulldomeForUnity/Assets.meta
+Assets/FulldomeForUnity/Assets/BoxGraph.mat
+Assets/FulldomeForUnity/Assets/BoxGraph.mat.meta
+Assets/FulldomeForUnity/Assets/BoxGraph.shadergraph
+Assets/FulldomeForUnity/Assets/BoxGraph.shadergraph.meta
+Assets/FulldomeForUnity/Assets/BoxStandard.mat
+Assets/FulldomeForUnity/Assets/BoxStandard.mat.meta
+Assets/FulldomeForUnity/Assets/CubeTesselated.fbx
+Assets/FulldomeForUnity/Assets/CubeTesselated.fbx.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-ao2.png
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-ao2.png.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-height4b.png
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-height4b.png.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-metalness.psd
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-metalness.psd.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-normal.png
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b-normal.png.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b.png
+Assets/FulldomeForUnity/Assets/FreePBR.com/redbricks2b.png.meta
+Assets/FulldomeForUnity/Assets/opengameart.org.meta
+Assets/FulldomeForUnity/Assets/opengameart.org/box.png
+Assets/FulldomeForUnity/Assets/opengameart.org/box.png.meta
+Assets/FulldomeForUnity/Examples.meta
+Assets/FulldomeForUnity/Examples/Assets.meta
+Assets/FulldomeForUnity/Examples/Assets/BoxMove.cs
+Assets/FulldomeForUnity/Examples/Assets/BoxMove.cs.meta
+Assets/FulldomeForUnity/Examples/Assets/Cubemap.renderTexture
+Assets/FulldomeForUnity/Examples/Assets/Cubemap.renderTexture.meta
+Assets/FulldomeForUnity/Examples/Assets/HDRPScene.asset
+Assets/FulldomeForUnity/Examples/Assets/HDRPScene.asset.meta
+Assets/FulldomeForUnity/Examples/Assets/HDRPSettings.asset
+Assets/FulldomeForUnity/Examples/Assets/HDRPSettings.asset.meta
+Assets/FulldomeForUnity/Examples/Assets/VFX.vfx
+Assets/FulldomeForUnity/Examples/Assets/VFX.vfx.meta
+Assets/FulldomeForUnity/Examples/FulldomeCameraHDRP.unity
+Assets/FulldomeForUnity/Examples/FulldomeCameraHDRP.unity.meta
+Assets/FulldomeForUnity/Examples/FulldomeCameraLegacy.unity
+Assets/FulldomeForUnity/Examples/FulldomeCameraLegacy.unity.meta
+Assets/FulldomeForUnity/Examples/FulldomeCameraStandard.unity
+Assets/FulldomeForUnity/Examples/FulldomeCameraStandard.unity.meta
+Assets/FulldomeForUnity/FulldomeCamera.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/Capture.cs
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/Capture.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera.prefab
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera.prefab.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera1080p.renderTexture
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera1080p.renderTexture.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera1k.renderTexture
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera1k.renderTexture.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera2k.renderTexture
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera2k.renderTexture
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCamera2k.renderTexture.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCameraLegacy.cs
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomeCameraLegacy.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomePreviewLegacy.cs
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/FulldomePreviewLegacy.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/ShFulldomePreview.shader
+Assets/FulldomeForUnity/FulldomeCamera/Legacy/ShFulldomePreview.shader.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/ConditionalHideAttribute.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/ConditionalHideAttribute.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/Editor.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/Editor/ConditionalHidePropertyDrawer.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/Editor/ConditionalHidePropertyDrawer.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/Editor/EnumFlagsDrawer.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/Editor/EnumFlagsDrawer.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/EnumFlagsAttribute.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Attributes/EnumFlagsAttribute.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Editor.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Editor/ScreenshotTaker.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Editor/ScreenshotTaker.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/FulldomeCamera.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/FulldomeCamera.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/FulldomeCamera.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/FulldomeGizmo.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/FulldomeGizmo.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Lib.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/Lib.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/PipelineChecker.cs
+Assets/FulldomeForUnity/FulldomeCamera/Scripts/PipelineChecker.cs.meta
+Assets/FulldomeForUnity/FulldomeCamera/Shaders.meta
+Assets/FulldomeForUnity/FulldomeCamera/Shaders/ShCubemapToDome.shader
+Assets/FulldomeForUnity/FulldomeCamera/Shaders/ShCubemapToDome.shader.meta
+Assets/FulldomeForUnity/FulldomeCamera/Shaders/ShCubemapToEquirect.shader
+Assets/FulldomeForUnity/FulldomeCamera/Shaders/ShCubemapToEquirect.shader.meta
+Assets/FulldomeForUnity/README.txt
+Assets/FulldomeForUnity/README.txt.meta
+Assets/GenerateTargets.cs
+Assets/GenerateTargets.cs
+Assets/GenerateTargets.cs.meta
+Assets/Hug.cs
+Assets/Hug.cs
+Assets/Hug.cs
+Assets/HugFace.cs
+Assets/Kaliedescope.cs
+Assets/Kaliedescope.cs
+Assets/Kaliedescope.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainController.cs
+Assets/MainMixer.mixer
+Assets/MainMixer.mixer.meta
+Assets/Materials.meta
+Assets/Materials/HappyMaterial.mat
+Assets/Materials/HappyMaterial.mat.meta
+Assets/Materials/KissMaterial.mat
+Assets/Materials/KissMaterial.mat.meta
+Assets/Materials/MischiefMateria.mat
+Assets/Materials/MischiefMateria.mat.meta
+Assets/Materials/NeutralMaterial.mat
+Assets/Materials/NeutralMaterial.mat.meta
+Assets/Materials/RandomMaterial.mat
+Assets/Materials/RandomMaterial.mat.meta
+Assets/Materials/SadMaterial.mat
+Assets/Materials/SadMaterial.mat.meta
+Assets/MimicShape.cs
+Assets/Models.meta
+Assets/Models/brokenBoat_9_17_2022.fbx
+Assets/Models/brokenBoat_9_17_2022.fbx.meta
+Assets/Models/brokenGalley_9_17_2022.fbx
+Assets/Models/brokenGalley_9_17_2022.fbx.meta
+Assets/Models/coralBranching_9_17_2022.fbx
+Assets/Models/coralBranching_9_17_2022.fbx.meta
+Assets/Models/coralMassive_9_17_2022.fbx
+Assets/Models/coralMassive_9_17_2022.fbx.meta
+Assets/Models/coralRocks_9_17_2022.fbx
+Assets/Models/coralRocks_9_17_2022.fbx.meta
+Assets/Models/loPolyVert01.fbx
+Assets/Models/loPolyVert01.fbx.meta
+Assets/Models/moreshapesformarie.fbx
+Assets/Models/moreshapesformarie.fbx.meta
+Assets/Models/propeller_9_17_2022.fbx
+Assets/Models/propeller_9_17_2022.fbx.meta
+Assets/Models/terrain.fbx
+Assets/Models/terrain.fbx.meta
+Assets/Models/vertebra01.fbx
+Assets/Models/vertebra01.fbx.meta
+Assets/Models/wahhhhhh.fbx
+Assets/Models/wahhhhhh.fbx.meta
+Assets/Models/whaleSkeleton_9_17_2022.fbx
+Assets/Models/whaleSkeleton_9_17_2022.fbx.meta
+Assets/Models/whaleskeleton-WIP01.fbx
+Assets/Models/whaleskeleton-WIP01.fbx.meta
+Assets/MoveSceneBasedOnPlayers.cs
+Assets/MoveSceneBasedOnPlayers.cs
+Assets/Osscilate.cs
+Assets/Osscilate.cs.meta
+Assets/PlayOnCollision.cs
+Assets/PlayOnCollision.cs
+Assets/PlayOnCollision.cs
+Assets/PlayOnCollision.cs
+Assets/PlayOnCollision.cs
+Assets/PlayOnCollision.cs.meta
+Assets/PlayerAvatar.cs
+Assets/PlayerAvatar.cs
+Assets/PlayerAvatar.cs
+Assets/PlayerAvatar.cs
+Assets/PlayerAvatar.cs
+Assets/PlayerAvatar.cs
+Assets/PlayerConnectionRenderer.cs
+Assets/PlayerConnectionRenderer.cs
+Assets/Plugins.meta
+Assets/Plugins/FantasyCrystal.meta
+Assets/Plugins/FantasyCrystal/Demo.unity
+Assets/Plugins/FantasyCrystal/Demo.unity.meta
+Assets/Plugins/FantasyCrystal/Editor.meta
+Assets/Plugins/FantasyCrystal/Editor/CrystalClusterEditor.cs
+Assets/Plugins/FantasyCrystal/Editor/CrystalClusterEditor.cs.meta
+Assets/Plugins/FantasyCrystal/Editor/CrystalCutterEditor.cs
+Assets/Plugins/FantasyCrystal/Editor/CrystalCutterEditor.cs.meta
+Assets/Plugins/FantasyCrystal/Materials.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/CoolColors.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/CoolColors.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/GalaticPurp.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/GalaticPurp.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/IQLava.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/IQLava.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/IQNeon.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/IQNeon.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/IQOcean.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/IQOcean.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/NaturalTexture.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/NaturalTexture.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/NoiseTextureSample.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/NoiseTextureSample.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/PurpleTexture.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/PurpleTexture.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/SparklyTexture.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/SparklyTexture.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/Trippy.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/Trippy.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/emerald.mat
+Assets/Plugins/FantasyCrystal/Materials/10StepMaterials/emerald.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Amber.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Amber.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Aurora.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Aurora.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraBlue.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraBlue.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraGold.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraGold.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraGreen.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraGreen.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraGreen.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraIndigo.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraIndigo.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraRed.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraRed.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraRed.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraViolet.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraViolet.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraYellow.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/AuroraYellow.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/PinkQuartz.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/PinkQuartz.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/MoreThan10Step.meta
+Assets/Plugins/FantasyCrystal/Materials/MoreThan10Step/Opal1.mat
+Assets/Plugins/FantasyCrystal/Materials/MoreThan10Step/Opal1.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/MoreThan10Step/Opal2.mat
+Assets/Plugins/FantasyCrystal/Materials/MoreThan10Step/Opal2.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/ShardShader.mat
+Assets/Plugins/FantasyCrystal/Materials/ShardShader.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/targetablePointBase.mat
+Assets/Plugins/FantasyCrystal/Materials/targetablePointBase.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/targetablePointTip.mat
+Assets/Plugins/FantasyCrystal/Materials/targetablePointTip.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/wrenCompassBAse.mat
+Assets/Plugins/FantasyCrystal/Materials/wrenCompassBAse.mat.meta
+Assets/Plugins/FantasyCrystal/Materials/wrenCompassTip.mat
+Assets/Plugins/FantasyCrystal/Materials/wrenCompassTip.mat.meta
+Assets/Plugins/FantasyCrystal/Prefabs.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Amber.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Amber.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Aurora.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Aurora.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Emerald.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Emerald.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/IQLava.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/IQLava.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/IQNeon.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/IQNeon.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/NaturalTexture.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/NaturalTexture.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Opal1.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Opal1.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Opal2.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Opal2.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/PurpleTexture.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/PurpleTexture.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/RainbowStars.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/RainbowStars.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/SparklyTexture.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/SparklyTexture.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Trippy.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Trippy.prefab.meta
+Assets/Plugins/FantasyCrystal/README.MD
+Assets/Plugins/FantasyCrystal/README.MD.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_10192924.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_10192924.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_10908635.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_10908635.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_1314609.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_1314609.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_1351665.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_1351665.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_2939589.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_2939589.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_3634981.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_3634981.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_4663738.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_4663738.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_5077281.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_5077281.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_5459041.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_5459041.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_5976338.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_5976338.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_606785.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_606785.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_7220209.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_7220209.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_7255153.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_7255153.asset.meta
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_7569187.asset
+Assets/Plugins/FantasyCrystal/SavedCrystals/CRYSTAL_7569187.asset.meta
+Assets/Plugins/FantasyCrystal/Scripts.meta
+Assets/Plugins/FantasyCrystal/Scripts/CrystalCluster.cs
+Assets/Plugins/FantasyCrystal/Scripts/CrystalCluster.cs.meta
+Assets/Plugins/FantasyCrystal/Scripts/CrystalCutter.cs
+Assets/Plugins/FantasyCrystal/Scripts/CrystalCutter.cs.meta
+Assets/Plugins/FantasyCrystal/Shaders.meta
+Assets/Plugins/FantasyCrystal/Shaders/CompassShader.shader
+Assets/Plugins/FantasyCrystal/Shaders/CompassShader.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/NoiseTextureBased.shader
+Assets/Plugins/FantasyCrystal/Shaders/NoiseTextureBased.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/PortalMaterial.shader
+Assets/Plugins/FantasyCrystal/Shaders/PortalMaterial.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/ShardShader.shader
+Assets/Plugins/FantasyCrystal/Shaders/ShardShader.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/SimpleTriNoiseVolumetric.shader
+Assets/Plugins/FantasyCrystal/Shaders/SimpleTriNoiseVolumetric.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/SinNoiseVolumetric.shader
+Assets/Plugins/FantasyCrystal/Shaders/SinNoiseVolumetric.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/TextureSampleBased.shader
+Assets/Plugins/FantasyCrystal/Shaders/TextureSampleBased.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/TrippyCrystal1.shader
+Assets/Plugins/FantasyCrystal/Shaders/TrippyCrystal1.shader.meta
+Assets/Plugins/FantasyCrystal/Shaders/TrippyCrystal2.shader
+Assets/Plugins/FantasyCrystal/Shaders/TrippyCrystal2.shader.meta
+Assets/Plugins/FantasyCrystal/Textures.meta
+Assets/Plugins/FantasyCrystal/Textures/Gravel020_1K_Displacement.png
+Assets/Plugins/FantasyCrystal/Textures/Gravel020_1K_Displacement.png.meta
+Assets/Plugins/FantasyCrystal/Textures/Metal019_1K_Roughness.png
+Assets/Plugins/FantasyCrystal/Textures/Metal019_1K_Roughness.png.meta
+Assets/Plugins/FantasyCrystal/Textures/Rock033_1K_Color.png
+Assets/Plugins/FantasyCrystal/Textures/Rock033_1K_Color.png.meta
+Assets/Plugins/FantasyCrystal/Textures/grid.png
+Assets/Plugins/FantasyCrystal/Textures/grid.png.meta
+Assets/Plugins/FantasyCrystal/Textures/stars1.png
+Assets/Plugins/FantasyCrystal/Textures/stars1.png.meta
+Assets/Plugins/FantasyTree.meta
+Assets/Plugins/FantasyTree/ExampleTrees.meta
+Assets/Plugins/FantasyTree/ExampleTrees.unity
+Assets/Plugins/FantasyTree/ExampleTrees.unity.meta
+Assets/Plugins/FantasyTree/ExampleTrees/LightingData.asset
+Assets/Plugins/FantasyTree/ExampleTrees/LightingData.asset.meta
+Assets/Plugins/FantasyTree/ExampleTrees/ReflectionProbe-0.exr
+Assets/Plugins/FantasyTree/ExampleTrees/ReflectionProbe-0.exr.meta
+Assets/Plugins/FantasyTree/Prefabs.meta
+Assets/Plugins/FantasyTree/Prefabs/FantasyTree1.prefab
+Assets/Plugins/FantasyTree/Prefabs/FantasyTree1.prefab.meta
+Assets/Plugins/FantasyTree/Prefabs/Shrub.prefab
+Assets/Plugins/FantasyTree/Prefabs/Shrub.prefab.meta
+Assets/Plugins/FantasyTree/Prefabs/TwistyTops.prefab
+Assets/Plugins/FantasyTree/Prefabs/TwistyTops.prefab.meta
+Assets/Plugins/FantasyTree/Prefabs/fantasyTree.prefab
+Assets/Plugins/FantasyTree/Prefabs/fantasyTree.prefab.meta
+Assets/Plugins/FantasyTree/Prefabs/topBush.prefab
+Assets/Plugins/FantasyTree/Prefabs/topBush.prefab.meta
+Assets/Plugins/FantasyTree/README.MD
+Assets/Plugins/FantasyTree/README.MD.meta
+Assets/Plugins/FantasyTree/Rendering.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/BarkParks.mat
+Assets/Plugins/FantasyTree/Rendering/BufferBased/BarkParks.mat.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/PointMaterial.mat
+Assets/Plugins/FantasyTree/Rendering/BufferBased/PointMaterial.mat.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/barkPointDebug.shader
+Assets/Plugins/FantasyTree/Rendering/BufferBased/barkPointDebug.shader.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/flowerTEst1.shader
+Assets/Plugins/FantasyTree/Rendering/BufferBased/flowerTEst1.shader.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/leafTest1.mat
+Assets/Plugins/FantasyTree/Rendering/BufferBased/leafTest1.mat.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/meshDebug.mat
+Assets/Plugins/FantasyTree/Rendering/BufferBased/meshDebug.mat.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/meshDebug.shader
+Assets/Plugins/FantasyTree/Rendering/BufferBased/meshDebug.shader.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/skeleltonPointDebug.shader
+Assets/Plugins/FantasyTree/Rendering/BufferBased/skeleltonPointDebug.shader.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/skeletonBAsis.mat
+Assets/Plugins/FantasyTree/Rendering/BufferBased/skeletonBAsis.mat.meta
+Assets/Plugins/FantasyTree/Rendering/BufferBased/skeletonBasis.shader
+Assets/Plugins/FantasyTree/Rendering/BufferBased/skeletonBasis.shader.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/BillboardedFragShader.mat
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/BillboardedFragShader.mat.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/BillboardedFragShader.shader
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/BillboardedFragShader.shader.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/ShadowCasterPos.cginc
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/ShadowCasterPos.cginc.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/billboardLeafSurface.shader
+Assets/Plugins/FantasyTree/Rendering/UnityBased/BillboardedLeaves/billboardLeafSurface.shader.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/Surface1.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/Surface1/TreeSurface.shader
+Assets/Plugins/FantasyTree/Rendering/UnityBased/Surface1/TreeSurface.shader.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/Surface1/treeSurface.mat
+Assets/Plugins/FantasyTree/Rendering/UnityBased/Surface1/treeSurface.mat.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/TextureUnlit.shader
+Assets/Plugins/FantasyTree/Rendering/UnityBased/TextureUnlit.shader.meta
+Assets/Plugins/FantasyTree/Rendering/UnityBased/unityTest2.shader
+Assets/Plugins/FantasyTree/Rendering/UnityBased/unityTest2.shader.meta
+Assets/Plugins/FantasyTree/Scripts.meta
+Assets/Plugins/FantasyTree/Scripts/Branch.cs
+Assets/Plugins/FantasyTree/Scripts/Branch.cs.meta
+Assets/Plugins/FantasyTree/Scripts/ControlTreeMaterialValues.cs
+Assets/Plugins/FantasyTree/Scripts/ControlTreeMaterialValues.cs.meta
+Assets/Plugins/FantasyTree/Scripts/Editor.meta
+Assets/Plugins/FantasyTree/Scripts/Editor/TreeEditor.cs
+Assets/Plugins/FantasyTree/Scripts/Editor/TreeEditor.cs.meta
+Assets/Plugins/FantasyTree/Scripts/Helpers.meta
+Assets/Plugins/FantasyTree/Scripts/Helpers/NoiseSample.cs
+Assets/Plugins/FantasyTree/Scripts/Helpers/NoiseSample.cs.meta
+Assets/Plugins/FantasyTree/Scripts/Helpers/Perlin.cs
+Assets/Plugins/FantasyTree/Scripts/Helpers/Perlin.cs.meta
+Assets/Plugins/FantasyTree/Scripts/Tree.cs
+Assets/Plugins/FantasyTree/Scripts/Tree.cs.meta
+Assets/Plugins/FantasyTree/Trees.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeParams
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/FantasyTree1.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/bakedTree3130252.asset
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/bakedTree3130252.asset.meta
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/bakedTree6992976.asset
+Assets/Plugins/FantasyTree/Trees/FantasyTree1/bakedTree6992976.asset.meta
+Assets/Plugins/FantasyTree/Trees/drsuess.meta
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeParams
+Assets/Plugins/FantasyTree/Trees/drsuess/drsuess.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/bakedTree3700853.asset
+Assets/Plugins/FantasyTree/Trees/fantasyThin/bakedTree3700853.asset.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/bakedTree6076579.asset
+Assets/Plugins/FantasyTree/Trees/fantasyThin/bakedTree6076579.asset.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeParams
+Assets/Plugins/FantasyTree/Trees/fantasyThin/fantasyThin.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree295606.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree295606.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3005454.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3005454.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3290064.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3290064.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3671346.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3671346.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3817542.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree3817542.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree4331512.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree4331512.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree50154.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree50154.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree7252669.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree7252669.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree7597269.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree7597269.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree8920281.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree8920281.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree9791856.asset
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/bakedTree9791856.asset.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeParams
+Assets/Plugins/FantasyTree/Trees/jacobsSpecial/jacobsSpecial.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/manyBranches.meta
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeParams
+Assets/Plugins/FantasyTree/Trees/manyBranches/manyBranches.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/shrub.meta
+Assets/Plugins/FantasyTree/Trees/shrub/bakedTree1494499.asset
+Assets/Plugins/FantasyTree/Trees/shrub/bakedTree1494499.asset.meta
+Assets/Plugins/FantasyTree/Trees/shrub/bakedTree8961893.asset
+Assets/Plugins/FantasyTree/Trees/shrub/bakedTree8961893.asset.meta
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeParams
+Assets/Plugins/FantasyTree/Trees/shrub/shrub.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/squareTree.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/bakedTree11556383.asset
+Assets/Plugins/FantasyTree/Trees/squareTree/bakedTree11556383.asset.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/bakedTree5561742.asset
+Assets/Plugins/FantasyTree/Trees/squareTree/bakedTree5561742.asset.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/bakedTree9317980.asset
+Assets/Plugins/FantasyTree/Trees/squareTree/bakedTree9317980.asset.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeParams
+Assets/Plugins/FantasyTree/Trees/squareTree/squareTree.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/topBush.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree10305044.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree10305044.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree11272489.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree11272489.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree1521222.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree1521222.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree6787615.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree6787615.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree8307083.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree8307083.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree8396721.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree8396721.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree8664578.asset
+Assets/Plugins/FantasyTree/Trees/topBush/bakedTree8664578.asset.meta
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeParams
+Assets/Plugins/FantasyTree/Trees/topBush/topBush.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/bakedTree6164663.asset
+Assets/Plugins/FantasyTree/Trees/twistyTops/bakedTree6164663.asset.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/bakedTree9840021.asset
+Assets/Plugins/FantasyTree/Trees/twistyTops/bakedTree9840021.asset.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeParams
+Assets/Plugins/FantasyTree/Trees/twistyTops/twistyTops.treeParams.meta
+Assets/Plugins/FantasyTree/textures.meta
+Assets/Plugins/FantasyTree/textures/Ground042_1K_AmbientOcclusion.png
+Assets/Plugins/FantasyTree/textures/Ground042_1K_AmbientOcclusion.png.meta
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Color.png
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Color.png.meta
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Displacement.png
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Displacement.png.meta
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Normal.png
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Normal.png.meta
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Roughness.png
+Assets/Plugins/FantasyTree/textures/Ground042_1K_Roughness.png.meta
+Assets/Plugins/FantasyTree/textures/IMG_0498.PNG
+Assets/Plugins/FantasyTree/textures/IMG_0498.PNG.meta
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_AmbientOcclusion.png
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_AmbientOcclusion.png.meta
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Color.png
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Color.png.meta
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Displacement.png
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Displacement.png.meta
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Normal.png
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Normal.png.meta
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Opacity.png
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Opacity.png.meta
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Roughness.png
+Assets/Plugins/FantasyTree/textures/LeafSet004_1K_Roughness.png.meta
+Assets/Plugins/FantasyTree/textures/leaf2.png
+Assets/Plugins/FantasyTree/textures/leaf2.png.meta
+Assets/Plugins/FantasyTree/textures/leafTest2.png
+Assets/Plugins/FantasyTree/textures/leafTest2.png.meta
+Assets/Plugins/FantasyTree/textures/painterly2.png
+Assets/Plugins/FantasyTree/textures/painterly2.png.meta
+Assets/Plugins/ToonSketchShaderPack.meta
+Assets/Plugins/ToonSketchShaderPack/Materials.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/Dragon.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/Dragon.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/Dragon.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/Lucy.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/Lucy.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/ShinyFad.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/ShinyFad.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/SphereMat.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/SphereMat.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/Teapot.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/Teapot.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/baseMaterial.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/baseMaterial.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/block.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/block.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Materials/blueman.mat
+Assets/Plugins/ToonSketchShaderPack/Materials/blueman.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Walking.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/metallic-lucy-statue-stanford-scan.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/metallic-lucy-statue-stanford-scan.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/stanford-bunny.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/stanford-bunny.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/stanford-dragon.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/stanford-dragon.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/suzanne.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/suzanne.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/teapot.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/teapot.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Scenes.meta
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene.meta
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene/LightingData.asset
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene/LightingData.asset.meta
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene/ReflectionProbe-0.exr
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene/ReflectionProbe-0.exr.meta
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene_Profiles.meta
+Assets/Plugins/ToonSketchShaderPack/Scripts.meta
+Assets/Plugins/ToonSketchShaderPack/Scripts/AddOriginalValuesToSkinnedMesh.cs
+Assets/Plugins/ToonSketchShaderPack/Scripts/AddOriginalValuesToSkinnedMesh.cs.meta
+Assets/Plugins/ToonSketchShaderPack/Scripts/AnimateOnTwo.cs
+Assets/Plugins/ToonSketchShaderPack/Scripts/AnimateOnTwo.cs.meta
+Assets/Plugins/ToonSketchShaderPack/Scripts/Rotate.cs
+Assets/Plugins/ToonSketchShaderPack/Scripts/Rotate.cs.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders/Chunks.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders/Chunks/noise.cginc
+Assets/Plugins/ToonSketchShaderPack/Shaders/Chunks/noise.cginc.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders/PainterlyBase.shader
+Assets/Plugins/ToonSketchShaderPack/Shaders/PainterlyBase.shader.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders/justOutline.mat
+Assets/Plugins/ToonSketchShaderPack/Shaders/justOutline.mat.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders/justOutline.shader
+Assets/Plugins/ToonSketchShaderPack/Shaders/justOutline.shader.meta
+Assets/Plugins/ToonSketchShaderPack/Textures.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/IMG_0557.PNG
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/IMG_0557.PNG.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/blueFade.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/blueFade.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/cmap3.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/cmap3.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/pinkFade.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/pinkFade.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/purpleFadeDown.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/purpleFadeDown.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/sunsetFade.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/sunsetFade.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/turqFade.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/turqFade.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/turqStepFade.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/turqStepFade.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/warmCool.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/warmCool.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/zucconiSpectrum2.png
+Assets/Plugins/ToonSketchShaderPack/Textures/ColorMaps/zucconiSpectrum2.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/Ground042_1K_Normal.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/PainterlyMaps.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/PainterlyMaps/painterly1.png
+Assets/Plugins/ToonSketchShaderPack/Textures/PainterlyMaps/painterly1.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/PainterlyMaps/painterly2.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/PainterlyMaps/splatterPaintMap.png
+Assets/Plugins/ToonSketchShaderPack/Textures/PainterlyMaps/splatterPaintMap.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/flatNormal.png
+Assets/Plugins/ToonSketchShaderPack/Textures/flatNormal.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/painterly2_normalSharp.png
+Assets/Plugins/ToonSketchShaderPack/Textures/painterly2_normalSharp.png.meta
+Assets/Plugins/ToonSketchShaderPack/Textures/spriteSheet_Normal.png
+Assets/Plugins/ToonSketchShaderPack/Textures/spriteSheet_Normal.png.meta
+Assets/Prefabs.meta
+Assets/Prefabs/PuffParticleSystem.prefab
+Assets/Prefabs/PuffParticleSystem.prefab.meta
+Assets/Prefabs/Sphere.prefab
+Assets/Prefabs/Sphere.prefab
+Assets/Prefabs/Sphere.prefab.meta
+Assets/Prefabs/brokenBoat_9_17_2022.prefab
+Assets/Prefabs/brokenBoat_9_17_2022.prefab.meta
+Assets/Prefabs/brokenGalley_9_17_2022.prefab
+Assets/Prefabs/brokenGalley_9_17_2022.prefab.meta
+Assets/Prefabs/coralBranching_9_17_2022.prefab
+Assets/Prefabs/coralBranching_9_17_2022.prefab.meta
+Assets/Prefabs/whaleSkeleton_9_17_2022.prefab
+Assets/Prefabs/whaleSkeleton_9_17_2022.prefab.meta
+Assets/PullTowardsPeople.cs
+Assets/PullTowardsPerson.cs
+Assets/PullTowardsPerson.cs
+Assets/Scenes.meta
+Assets/Scenes/Buddy-SelfFlorp.unity
+Assets/Scenes/Buddy-SelfFlorp.unity
+Assets/Scenes/Buddy-SelfFlorp.unity
+Assets/Scenes/DotCollector.unity
+Assets/Scenes/DotCollector.unity
+Assets/Scenes/DotCollector.unity
+Assets/Scenes/FLORP.unity
+Assets/Scenes/Flock.unity
+Assets/Scenes/Flock.unity
+Assets/Scenes/Flock.unity
+Assets/Scenes/Hug.unity
+Assets/Scenes/Hug.unity
+Assets/Scenes/Hug.unity
+Assets/Scenes/Kalle.unity
+Assets/Scenes/Kalle.unity
+Assets/Scenes/Kalle.unity
+Assets/Scenes/Kalle.unity
+Assets/Scenes/Kalle.unity
+Assets/Scenes/Kalli.unity
+Assets/Scenes/Kalli.unity
+Assets/Scenes/Pong.unity
+Assets/Scenes/Pong.unity.meta
+Assets/Scenes/SampleScene.unity
+Assets/Scenes/SampleScene.unity.meta
+Assets/Scenes/Share-Florp.unity
+Assets/Scenes/Share-Florp.unity
+Assets/Scenes/Share-Florp.unity
+Assets/Scenes/SpaceShipSteerer.unity
+Assets/Scenes/Steer-SpaceShipSteerer.unity
+Assets/Scenes/StickTogether.unity
+Assets/Scenes/WithMe-DotCollector.unity
+Assets/Scenes/may26.unity.meta
+Assets/Scenes/pAINT.unity
+Assets/Scripts.meta
+Assets/Scripts/2048.asset
+Assets/Scripts/2048.asset.meta
+Assets/Scripts/AudioPlayer.cs
+Assets/Scripts/AudioPlayer.cs
+Assets/Scripts/AudioPlayer.cs
+Assets/Scripts/AudioPlayer.cs.meta
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs
+Assets/Scripts/Controller.cs.meta
+Assets/Scripts/CustomOSCEventReceiverScript.cs
+Assets/Scripts/CustomOSCEventReceiverScript.cs
+Assets/Scripts/CustomOSCEventReceiverScript.cs
+Assets/Scripts/CustomOSCEventReceiverScript.cs
+Assets/Scripts/CustomOSCEventReceiverScript.cs
+Assets/Scripts/CustomOSCEventReceiverScript.cs.meta
+Assets/Scripts/Dot.cs
+Assets/Scripts/Dot.cs
+Assets/Scripts/Dot.cs
+Assets/Scripts/Dot.cs
+Assets/Scripts/Dot.cs
+Assets/Scripts/Dot.cs.meta
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs
+Assets/Scripts/DotGameController.cs.meta
+Assets/Scripts/Fish.cs
+Assets/Scripts/Fish.cs.meta
+Assets/Scripts/Flock.cs
+Assets/Scripts/Flock.cs.meta
+Assets/Scripts/FlorpManager.cs
+Assets/Scripts/FlorpManager.cs
+Assets/Scripts/FlorpManager.cs.meta
+Assets/Scripts/GridOfSpheres.cs
+Assets/Scripts/GridOfSpheres.cs.meta
+Assets/Scripts/Hug.cs
+Assets/Scripts/Hug.cs
+Assets/Scripts/Hug.cs
+Assets/Scripts/Hug.cs.meta
+Assets/Scripts/HugFace.cs
+Assets/Scripts/HugFace.cs
+Assets/Scripts/HugFace.cs
+Assets/Scripts/HugFace.cs.meta
+Assets/Scripts/Kaliedescope.cs
+Assets/Scripts/Kaliedescope.cs.meta
+Assets/Scripts/MainController.cs
+Assets/Scripts/MimicShape.cs
+Assets/Scripts/MimicShape.cs
+Assets/Scripts/MimicShape.cs
+Assets/Scripts/MimicShape.cs.meta
+Assets/Scripts/MimicShapeDED.cs
+Assets/Scripts/MimicShapeDED.cs.meta
+Assets/Scripts/MoveSceneBasedOnPlayers.cs
+Assets/Scripts/MoveSceneBasedOnPlayers.cs
+Assets/Scripts/MoveSceneBasedOnPlayers.cs.meta
+Assets/Scripts/Notes.cs
+Assets/Scripts/Notes.cs
+Assets/Scripts/Notes.cs.meta
+Assets/Scripts/OSCDataHandler.cs
+Assets/Scripts/OSCDataHandler.cs.meta
+Assets/Scripts/OSCDataReceiver.cs
+Assets/Scripts/OSCDataReceiver.cs
+Assets/Scripts/OSCDataReceiver.cs
+Assets/Scripts/OSCDataReceiver.cs
+Assets/Scripts/OSCDataReceiver.cs.meta
+Assets/Scripts/OSCHandler.cs
+Assets/Scripts/OSCHandler.cs
+Assets/Scripts/OSCHandler.cs.meta
+Assets/Scripts/OSCMessages.cs
+Assets/Scripts/OSCMessages.cs
+Assets/Scripts/OSCMessages.cs
+Assets/Scripts/OSCMessages.cs
+Assets/Scripts/OSCMessages.cs.meta
+Assets/Scripts/OscConnection.asset
+Assets/Scripts/OscConnection.asset.meta
+Assets/Scripts/OsscilateSCale.cs
+Assets/Scripts/OsscilateSCale.cs.meta
+Assets/Scripts/PlayerAvatar.cs
+Assets/Scripts/PlayerAvatar.cs.meta
+Assets/Scripts/PlayerConnectionRenderer.cs
+Assets/Scripts/PlayerConnectionRenderer.cs.meta
+Assets/Scripts/PullTowardsPeople.cs
+Assets/Scripts/PullTowardsPeople.cs
+Assets/Scripts/PullTowardsPeople.cs.meta
+Assets/Scripts/PullTowardsPerson.cs
+Assets/Scripts/PullTowardsPerson.cs
+Assets/Scripts/PullTowardsPerson.cs.meta
+Assets/Scripts/StickTogether.cs
+Assets/Scripts/StickTogether.cs
+Assets/Scripts/StickTogether.cs.meta
+Assets/Scripts/oscMessagesBackup.cs
+Assets/Scripts/oscMessagesBackup.cs.meta
+Assets/Shaders.meta
+Assets/Shaders/AddTerrainPass.shader
+Assets/Shaders/AddTerrainPass.shader.meta
+Assets/Shaders/Basic.mat
+Assets/Shaders/Basic.mat.meta
+Assets/Shaders/BasicBlue.mat
+Assets/Shaders/BasicBlue.mat.meta
+Assets/Shaders/BasicColor.mat
+Assets/Shaders/BasicColor.mat.meta
+Assets/Shaders/BasicColor.shader
+Assets/Shaders/BasicColor.shader.meta
+Assets/Shaders/BasicColorDiscardCenter.shader
+Assets/Shaders/BasicColorDiscardCenter.shader.meta
+Assets/Shaders/BasicGreen.mat
+Assets/Shaders/BasicGreen.mat.meta
+Assets/Shaders/BasicRed.mat
+Assets/Shaders/BasicRed.mat.meta
+Assets/Shaders/Chunks.meta
+Assets/Shaders/Chunks/AnchorStruct.cginc
+Assets/Shaders/Chunks/AnchorStruct.cginc.meta
+Assets/Shaders/Chunks/ComputeTerrainInfo.cginc
+Assets/Shaders/Chunks/ComputeTerrainInfo.cginc.meta
+Assets/Shaders/Chunks/CubicInclude.cginc
+Assets/Shaders/Chunks/CubicInclude.cginc.meta
+Assets/Shaders/Chunks/CubicValues.cginc
+Assets/Shaders/Chunks/CubicValues.cginc.meta
+Assets/Shaders/Chunks/DreamVertStruct.cginc
+Assets/Shaders/Chunks/DreamVertStruct.cginc.meta
+Assets/Shaders/Chunks/GetCamRayForce.cginc
+Assets/Shaders/Chunks/GetCamRayForce.cginc.meta
+Assets/Shaders/Chunks/GetRayForce.cginc
+Assets/Shaders/Chunks/GetRayForce.cginc.meta
+Assets/Shaders/Chunks/MapNormal.cginc
+Assets/Shaders/Chunks/MapNormal.cginc.meta
+Assets/Shaders/Chunks/Matrix.cginc
+Assets/Shaders/Chunks/Matrix.cginc.meta
+Assets/Shaders/Chunks/Outline16.cginc
+Assets/Shaders/Chunks/Outline16.cginc.meta
+Assets/Shaders/Chunks/PainterlyLight.cginc
+Assets/Shaders/Chunks/PainterlyLight.cginc.meta
+Assets/Shaders/Chunks/Reflection.cginc
+Assets/Shaders/Chunks/Reflection.cginc.meta
+Assets/Shaders/Chunks/SampleAudio.cginc
+Assets/Shaders/Chunks/SampleAudio.cginc.meta
+Assets/Shaders/Chunks/SetOutput.cginc
+Assets/Shaders/Chunks/SetOutput.cginc.meta
+Assets/Shaders/Chunks/Shadow16.cginc
+Assets/Shaders/Chunks/Shadow16.cginc.meta
+Assets/Shaders/Chunks/ShadowCasterPos.cginc.meta
+Assets/Shaders/Chunks/ShadowDiscardFunction.cginc
+Assets/Shaders/Chunks/ShadowDiscardFunction.cginc.meta
+Assets/Shaders/Chunks/ShadowVertPassthrough.cginc
+Assets/Shaders/Chunks/ShadowVertPassthrough.cginc.meta
+Assets/Shaders/Chunks/Struct12.cginc
+Assets/Shaders/Chunks/Struct12.cginc.meta
+Assets/Shaders/Chunks/Struct16.cginc
+Assets/Shaders/Chunks/Struct16.cginc.meta
+Assets/Shaders/Chunks/Struct20.cginc
+Assets/Shaders/Chunks/Struct20.cginc.meta
+Assets/Shaders/Chunks/Struct24.cginc
+Assets/Shaders/Chunks/Struct24.cginc.meta
+Assets/Shaders/Chunks/Struct36.cginc
+Assets/Shaders/Chunks/Struct36.cginc.meta
+Assets/Shaders/Chunks/Struct9.cginc
+Assets/Shaders/Chunks/Struct9.cginc.meta
+Assets/Shaders/Chunks/StructIfDefs.cginc
+Assets/Shaders/Chunks/StructIfDefs.cginc.meta
+Assets/Shaders/Chunks/VertInput.cginc
+Assets/Shaders/Chunks/VertInput.cginc.meta
+Assets/Shaders/Chunks/WingShaderFeatherValues.cginc
+Assets/Shaders/Chunks/WingShaderFeatherValues.cginc.meta
+Assets/Shaders/Chunks/baseColorVSChunk.cginc
+Assets/Shaders/Chunks/baseColorVSChunk.cginc.meta
+Assets/Shaders/Chunks/calcIntersection.cginc
+Assets/Shaders/Chunks/calcIntersection.cginc.meta
+Assets/Shaders/Chunks/calcNormal.cginc
+Assets/Shaders/Chunks/calcNormal.cginc.meta
+Assets/Shaders/Chunks/connectionStruct.cginc
+Assets/Shaders/Chunks/connectionStruct.cginc.meta
+Assets/Shaders/Chunks/cubicCurve.cginc
+Assets/Shaders/Chunks/cubicCurve.cginc.meta
+Assets/Shaders/Chunks/curlNoise.cginc
+Assets/Shaders/Chunks/curlNoise.cginc.meta
+Assets/Shaders/Chunks/debugVSChunk.cginc
+Assets/Shaders/Chunks/debugVSChunk.cginc.meta
+Assets/Shaders/Chunks/frameVSChunk.cginc
+Assets/Shaders/Chunks/frameVSChunk.cginc.meta
+Assets/Shaders/Chunks/handForce.cginc
+Assets/Shaders/Chunks/handForce.cginc.meta
+Assets/Shaders/Chunks/hash.cginc
+Assets/Shaders/Chunks/hash.cginc.meta
+Assets/Shaders/Chunks/hsv.cginc
+Assets/Shaders/Chunks/hsv.cginc.meta
+Assets/Shaders/Chunks/humanStruct.cginc
+Assets/Shaders/Chunks/humanStruct.cginc.meta
+Assets/Shaders/Chunks/interlockedAddFloat.cginc
+Assets/Shaders/Chunks/interlockedAddFloat.cginc.meta
+Assets/Shaders/Chunks/interlockedAddFloat4.cginc
+Assets/Shaders/Chunks/interlockedAddFloat4.cginc.meta
+Assets/Shaders/Chunks/interlockedAddFunctions.cginc
+Assets/Shaders/Chunks/interlockedAddFunctions.cginc.meta
+Assets/Shaders/Chunks/lineIndexDebug.cginc
+Assets/Shaders/Chunks/lineIndexDebug.cginc.meta
+Assets/Shaders/Chunks/marchingCubeTables.cginc
+Assets/Shaders/Chunks/marchingCubeTables.cginc.meta
+Assets/Shaders/Chunks/nanCheckFeather.cginc
+Assets/Shaders/Chunks/nanCheckFeather.cginc.meta
+Assets/Shaders/Chunks/nanCheckParticle.cginc
+Assets/Shaders/Chunks/nanCheckParticle.cginc.meta
+Assets/Shaders/Chunks/nanCheckVert.cginc
+Assets/Shaders/Chunks/nanCheckVert.cginc.meta
+Assets/Shaders/Chunks/noise.cginc.meta
+Assets/Shaders/Chunks/physicsHelperFunctions.cginc
+Assets/Shaders/Chunks/physicsHelperFunctions.cginc.meta
+Assets/Shaders/Chunks/radio1Map.cginc
+Assets/Shaders/Chunks/radio1Map.cginc.meta
+Assets/Shaders/Chunks/rotationMatrix.cginc
+Assets/Shaders/Chunks/rotationMatrix.cginc.meta
+Assets/Shaders/Chunks/safeID.cginc
+Assets/Shaders/Chunks/safeID.cginc.meta
+Assets/Shaders/Chunks/scaleMatrix.cginc
+Assets/Shaders/Chunks/scaleMatrix.cginc.meta
+Assets/Shaders/Chunks/sdCapsule.cginc
+Assets/Shaders/Chunks/sdCapsule.cginc.meta
+Assets/Shaders/Chunks/sdfFunctions.cginc
+Assets/Shaders/Chunks/sdfFunctions.cginc.meta
+Assets/Shaders/Chunks/sdfStruct.cginc
+Assets/Shaders/Chunks/sdfStruct.cginc.meta
+Assets/Shaders/Chunks/shadow.cginc
+Assets/Shaders/Chunks/shadow.cginc.meta
+Assets/Shaders/Chunks/shadowDiscard.cginc
+Assets/Shaders/Chunks/shadowDiscard.cginc.meta
+Assets/Shaders/Chunks/shadowDiscardCircle.cginc
+Assets/Shaders/Chunks/shadowDiscardCircle.cginc.meta
+Assets/Shaders/Chunks/snoise.cginc
+Assets/Shaders/Chunks/snoise.cginc.meta
+Assets/Shaders/Chunks/snoise3D.cginc
+Assets/Shaders/Chunks/snoise3D.cginc.meta
+Assets/Shaders/Chunks/springForce.cginc
+Assets/Shaders/Chunks/springForce.cginc.meta
+Assets/Shaders/Chunks/terrain.cginc
+Assets/Shaders/Chunks/terrain.cginc.meta
+Assets/Shaders/Chunks/terrainCompute.cginc
+Assets/Shaders/Chunks/terrainCompute.cginc.meta
+Assets/Shaders/Chunks/terrainData.cginc
+Assets/Shaders/Chunks/terrainData.cginc.meta
+Assets/Shaders/Chunks/tex3D.cginc
+Assets/Shaders/Chunks/tex3D.cginc.meta
+Assets/Shaders/Chunks/translationMatrix.cginc
+Assets/Shaders/Chunks/translationMatrix.cginc.meta
+Assets/Shaders/Chunks/triForce.cginc
+Assets/Shaders/Chunks/triForce.cginc.meta
+Assets/Shaders/Chunks/triNoise3D.cginc
+Assets/Shaders/Chunks/triNoise3D.cginc.meta
+Assets/Shaders/Chunks/triplanar.cginc
+Assets/Shaders/Chunks/triplanar.cginc.meta
+Assets/Shaders/Chunks/uvNormalMap.cginc
+Assets/Shaders/Chunks/uvNormalMap.cginc.meta
+Assets/Shaders/Compute.meta
+Assets/Shaders/Compute/BodyShader.compute
+Assets/Shaders/Compute/BodyShader.compute.meta
+Assets/Shaders/Compute/BodyShader2.compute
+Assets/Shaders/Compute/BodyShader2.compute.meta
+Assets/Shaders/Compute/ExplodeShader.compute
+Assets/Shaders/Compute/ExplodeShader.compute.meta
+Assets/Shaders/Compute/FeatherTrails.compute
+Assets/Shaders/Compute/FeatherTrails.compute.meta
+Assets/Shaders/Compute/Feathers.compute
+Assets/Shaders/Compute/Feathers.compute.meta
+Assets/Shaders/Compute/PaintTerrain.compute
+Assets/Shaders/Compute/PaintTerrain.compute.meta
+Assets/Shaders/Compute/PaintTerrainTool.compute
+Assets/Shaders/Compute/PaintTerrainTool.compute.meta
+Assets/Shaders/Compute/PlacePointsOnDepthMap.compute
+Assets/Shaders/Compute/PlacePointsOnDepthMap.compute.meta
+Assets/Shaders/Compute/PlacePointsOnDepthMapPhysics.compute
+Assets/Shaders/Compute/PlacePointsOnDepthMapPhysics.compute.meta
+Assets/Shaders/Compute/RaceParticles.compute
+Assets/Shaders/Compute/RaceParticles.compute.meta
+Assets/Shaders/Compute/WingShader.compute
+Assets/Shaders/Compute/WingShader.compute.meta
+Assets/Shaders/Compute/grass1.compute
+Assets/Shaders/Compute/grass1.compute.meta
+Assets/Shaders/Compute/grassRadius.compute
+Assets/Shaders/Compute/grassRadius.compute.meta
+Assets/Shaders/Compute/windGrid.compute
+Assets/Shaders/Compute/windGrid.compute.meta
+Assets/Shaders/Compute/windPoints.compute
+Assets/Shaders/Compute/windPoints.compute.meta
+Assets/Shaders/ConnectionProceduralShader.shader
+Assets/Shaders/ConnectionProceduralShader.shader.meta
+Assets/Shaders/ConnectionRenderer.mat
+Assets/Shaders/ConnectionRenderer.mat.meta
+Assets/Shaders/Debug.meta
+Assets/Shaders/Debug/bigBoyForceDebug.mat
+Assets/Shaders/Debug/bigBoyForceDebug.mat.meta
+Assets/Shaders/Debug/bigBoyForceDebug.shader
+Assets/Shaders/Debug/bigBoyForceDebug.shader.meta
+Assets/Shaders/Debug/connectionsDebug.mat
+Assets/Shaders/Debug/connectionsDebug.mat.meta
+Assets/Shaders/Debug/connectionsDebug.shader
+Assets/Shaders/Debug/connectionsDebug.shader.meta
+Assets/Shaders/Debug/forceDebug.mat
+Assets/Shaders/Debug/forceDebug.mat.meta
+Assets/Shaders/Debug/forceDebug.shader
+Assets/Shaders/Debug/forceDebug.shader.meta
+Assets/Shaders/Debug/forceDebugBadBoy.mat
+Assets/Shaders/Debug/forceDebugBadBoy.mat.meta
+Assets/Shaders/Debug/matrixDebug.mat
+Assets/Shaders/Debug/matrixDebug.mat.meta
+Assets/Shaders/Debug/matrixDebug.shader
+Assets/Shaders/Debug/matrixDebug.shader.meta
+Assets/Shaders/Debug/statsDebug.mat
+Assets/Shaders/Debug/statsDebug.mat.meta
+Assets/Shaders/Debug/statsDebug.shader
+Assets/Shaders/Debug/statsDebug.shader.meta
+Assets/Shaders/Ether.meta
+Assets/Shaders/Ether/CompassMaterial.mat
+Assets/Shaders/Ether/CompassMaterial.mat.meta
+Assets/Shaders/Ether/GateMaterial.mat
+Assets/Shaders/Ether/GateMaterial.mat.meta
+Assets/Shaders/Ether/PortalMaterial.mat
+Assets/Shaders/Ether/PortalMaterial.mat.meta
+Assets/Shaders/FadeToBlack.mat
+Assets/Shaders/FadeToBlack.mat.meta
+Assets/Shaders/FadeToBlack.shader
+Assets/Shaders/FadeToBlack.shader.meta
+Assets/Shaders/Glass.mat
+Assets/Shaders/Glass.mat.meta
+Assets/Shaders/IMMAT.meta
+Assets/Shaders/IMMAT/FlowerShaders.shader
+Assets/Shaders/IMMAT/FlowerShaders.shader.meta
+Assets/Shaders/IMMAT/FlowerSpawn.mat
+Assets/Shaders/IMMAT/FlowerSpawn.mat.meta
+Assets/Shaders/MagicThreads_Gold.mat
+Assets/Shaders/MagicThreads_Gold.mat.meta
+Assets/Shaders/MainPost.shader
+Assets/Shaders/MainPost.shader.meta
+Assets/Shaders/Materials.meta
+Assets/Shaders/Materials/gradientCircle1.mat
+Assets/Shaders/Materials/gradientCircle1.mat.meta
+Assets/Shaders/MilkyWayPanorama8K.jpg
+Assets/Shaders/MilkyWayPanorama8K.jpg.meta
+Assets/Shaders/QuillShader.mat
+Assets/Shaders/QuillShader.mat.meta
+Assets/Shaders/QuillShaders.meta
+Assets/Shaders/QuillShaders/FadeUV.mat
+Assets/Shaders/QuillShaders/FadeUV.mat.meta
+Assets/Shaders/QuillShaders/FadeUV_Pulse.mat
+Assets/Shaders/QuillShaders/FadeUV_Pulse.mat.meta
+Assets/Shaders/QuillShaders/QuillShader.shader
+Assets/Shaders/QuillShaders/QuillShader.shader.meta
+Assets/Shaders/QuillShaders/QuillTriplanarFade.shader
+Assets/Shaders/QuillShaders/QuillTriplanarFade.shader.meta
+Assets/Shaders/QuillShaders/QuillTriplanarLava.mat
+Assets/Shaders/QuillShaders/QuillTriplanarLava.mat.meta
+Assets/Shaders/QuillShaders/QuillTriplanarLava.shader
+Assets/Shaders/QuillShaders/QuillTriplanarLava.shader.meta
+Assets/Shaders/QuillShaders/QuillTriplanarTest.shader
+Assets/Shaders/QuillShaders/QuillTriplanarTest.shader.meta
+Assets/Shaders/QuillShaders/QuillTriplanarUVFade.shader
+Assets/Shaders/QuillShaders/QuillTriplanarUVFade.shader.meta
+Assets/Shaders/QuillShaders/QuillTriplanarUVFade_PULSE.shader
+Assets/Shaders/QuillShaders/QuillTriplanarUVFade_PULSE.shader.meta
+Assets/Shaders/QuillShaders/SkyboxMainIsland.mat
+Assets/Shaders/QuillShaders/SkyboxMainIsland.mat.meta
+Assets/Shaders/QuillShaders/baseTerrain.mat
+Assets/Shaders/QuillShaders/baseTerrain.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Blue.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Blue.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Green.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Green.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Indigo.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Indigo.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Orange.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Orange.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Red.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Red.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Violet.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Violet.mat.meta
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Yellow.mat
+Assets/Shaders/QuillShaders/mainQuillMaterials/quillTreeShader_Yellow.mat.meta
+Assets/Shaders/QuillShaders/quillMainIslandShader.mat
+Assets/Shaders/QuillShaders/quillMainIslandShader.mat.meta
+Assets/Shaders/QuillShaders/quillMainIslandShader.shader
+Assets/Shaders/QuillShaders/quillMainIslandShader.shader.meta
+Assets/Shaders/QuillShaders/quillMainIslandShader_test.shader
+Assets/Shaders/QuillShaders/quillMainIslandShader_test.shader.meta
+Assets/Shaders/QuillShaders/quillTerrain.mat
+Assets/Shaders/QuillShaders/quillTerrain.mat.meta
+Assets/Shaders/QuillShaders/quillTerrainTutorial.mat
+Assets/Shaders/QuillShaders/quillTerrainTutorial.mat.meta
+Assets/Shaders/QuillShaders/quillTreeShader.mat
+Assets/Shaders/QuillShaders/quillTreeShader.mat.meta
+Assets/Shaders/QuillShaders/quillTreeShader.shader
+Assets/Shaders/QuillShaders/quillTreeShader.shader.meta
+Assets/Shaders/QuillShaders/quillTriplanar.mat
+Assets/Shaders/QuillShaders/quillTriplanar.mat.meta
+Assets/Shaders/QuillShaders/quillTriplanarFade.mat
+Assets/Shaders/QuillShaders/quillTriplanarFade.mat.meta
+Assets/Shaders/QuillShaders/quillTrippyTest.mat
+Assets/Shaders/QuillShaders/quillTrippyTest.mat.meta
+Assets/Shaders/QuillShaders/quillTrippyTest.shader
+Assets/Shaders/QuillShaders/quillTrippyTest.shader.meta
+Assets/Shaders/QuillShaders/skyboxDay1.mat
+Assets/Shaders/QuillShaders/skyboxDay1.mat.meta
+Assets/Shaders/QuillShaders/skyboxDay1.shader
+Assets/Shaders/QuillShaders/skyboxDay1.shader.meta
+Assets/Shaders/QuillShaders/terrainQuill.shader
+Assets/Shaders/QuillShaders/terrainQuill.shader.meta
+Assets/Shaders/RainbowMats.meta
+Assets/Shaders/RainbowMats/Auburn.meta
+Assets/Shaders/RainbowMats/Auburn/AuburnTraceWater.mat
+Assets/Shaders/RainbowMats/Auburn/AuburnTraceWater.mat.meta
+Assets/Shaders/RainbowMats/Auburn/auburn.mat
+Assets/Shaders/RainbowMats/Auburn/auburn.mat.meta
+Assets/Shaders/RainbowMats/Gold.meta
+Assets/Shaders/RainbowMats/Gold/GoldThreads.mat
+Assets/Shaders/RainbowMats/Gold/GoldThreads.mat.meta
+Assets/Shaders/RainbowMats/Green.meta
+Assets/Shaders/RainbowMats/Green/GreenThreads.mat
+Assets/Shaders/RainbowMats/Green/GreenThreads.mat.meta
+Assets/Shaders/RainbowMats/Green/GreenTraceWater.mat
+Assets/Shaders/RainbowMats/Green/GreenTraceWater.mat.meta
+Assets/Shaders/RainbowMats/Magenta.meta
+Assets/Shaders/RainbowMats/Magenta/Magenta.mat
+Assets/Shaders/RainbowMats/Magenta/Magenta.mat.meta
+Assets/Shaders/RainbowMats/Magenta/MagentaWater.mat
+Assets/Shaders/RainbowMats/Magenta/MagentaWater.mat.meta
+Assets/Shaders/RainbowMats/Orange.meta
+Assets/Shaders/RainbowMats/Orange/OrangeThreads.mat
+Assets/Shaders/RainbowMats/Orange/OrangeThreads.mat.meta
+Assets/Shaders/RainbowMats/Orange/OrangeWater.mat
+Assets/Shaders/RainbowMats/Orange/OrangeWater.mat.meta
+Assets/Shaders/RainbowMats/Pink.meta
+Assets/Shaders/RainbowMats/Pink/PinkThreads.mat
+Assets/Shaders/RainbowMats/Pink/PinkThreads.mat.meta
+Assets/Shaders/RainbowMats/Pink/PinklWater.mat
+Assets/Shaders/RainbowMats/Pink/PinklWater.mat.meta
+Assets/Shaders/RainbowMats/Purple.meta
+Assets/Shaders/RainbowMats/Purple/PuplerThreads.mat
+Assets/Shaders/RainbowMats/Purple/PuplerThreads.mat.meta
+Assets/Shaders/RainbowMats/Purple/PurpleWater.mat
+Assets/Shaders/RainbowMats/Purple/PurpleWater.mat.meta
+Assets/Shaders/RainbowMats/Red.meta
+Assets/Shaders/RainbowMats/Red/RedThreads.mat
+Assets/Shaders/RainbowMats/Red/RedThreads.mat.meta
+Assets/Shaders/RainbowMats/Red/RedWater.mat
+Assets/Shaders/RainbowMats/Red/RedWater.mat.meta
+Assets/Shaders/RainbowMats/RoyalBlue.meta
+Assets/Shaders/RainbowMats/RoyalBlue/BlueTrunk.mat
+Assets/Shaders/RainbowMats/RoyalBlue/BlueTrunk.mat.meta
+Assets/Shaders/RainbowMats/RoyalBlue/NewBrush.brush
+Assets/Shaders/RainbowMats/RoyalBlue/NewBrush.brush.meta
+Assets/Shaders/RainbowMats/RoyalBlue/RoyalBlue.mat
+Assets/Shaders/RainbowMats/RoyalBlue/RoyalBlue.mat.meta
+Assets/Shaders/RainbowMats/RoyalBlue/RoyalBlueWater.mat
+Assets/Shaders/RainbowMats/RoyalBlue/RoyalBlueWater.mat.meta
+Assets/Shaders/RainbowMats/SkyBlue.meta
+Assets/Shaders/RainbowMats/SkyBlue/BlueTrunk.mat.meta
+Assets/Shaders/RainbowMats/SkyBlue/SkyBlue.mat
+Assets/Shaders/RainbowMats/SkyBlue/SkyBlue.mat.meta
+Assets/Shaders/RainbowMats/Turquoise.meta
+Assets/Shaders/RainbowMats/Turquoise/TurqCloud.mat
+Assets/Shaders/RainbowMats/Turquoise/TurqCloud.mat.meta
+Assets/Shaders/RainbowMats/Turquoise/TurqLeaves.mat
+Assets/Shaders/RainbowMats/Turquoise/TurqLeaves.mat.meta
+Assets/Shaders/RainbowMats/Turquoise/TurqLight.mat
+Assets/Shaders/RainbowMats/Turquoise/TurqLight.mat.meta
+Assets/Shaders/RainbowMats/Turquoise/TurqSpecks.mat
+Assets/Shaders/RainbowMats/Turquoise/TurqSpecks.mat.meta
+Assets/Shaders/RainbowMats/Turquoise/TurqTraceWater.mat
+Assets/Shaders/RainbowMats/Turquoise/TurqTraceWater.mat.meta
+Assets/Shaders/RainbowMats/Turquoise/TurqTrunk.mat
+Assets/Shaders/RainbowMats/Turquoise/TurqTrunk.mat.meta
+Assets/Shaders/RainbowMats/Turquoise/Turqouise.mat
+Assets/Shaders/RainbowMats/Turquoise/Turqouise.mat.meta
+Assets/Shaders/Skybox2.shader
+Assets/Shaders/Skybox2.shader.meta
+Assets/Shaders/Special.meta
+Assets/Shaders/Special/DebugFeatherLinePoints.shader
+Assets/Shaders/Special/DebugFeatherLinePoints.shader.meta
+Assets/Shaders/Special/DebugFeatherPoints.mat
+Assets/Shaders/Special/DebugFeatherPoints.mat.meta
+Assets/Shaders/Special/DebugFeatherPoints.shader
+Assets/Shaders/Special/DebugFeatherPoints.shader.meta
+Assets/Shaders/Special/DebugLinePoints.mat
+Assets/Shaders/Special/DebugLinePoints.mat.meta
+Assets/Shaders/Special/DebugPoint.mat
+Assets/Shaders/Special/DebugPoint.mat.meta
+Assets/Shaders/Special/DebugTrailFeathers.mat
+Assets/Shaders/Special/DebugTrailFeathers.mat.meta
+Assets/Shaders/Special/DebugTrailFeathers.shader
+Assets/Shaders/Special/DebugTrailFeathers.shader.meta
+Assets/Shaders/Special/FeatherTest1.shader
+Assets/Shaders/Special/FeatherTest1.shader.meta
+Assets/Shaders/Special/FeathersBody.mat
+Assets/Shaders/Special/FeathersBody.mat.meta
+Assets/Shaders/Special/FeathersWings.mat
+Assets/Shaders/Special/FeathersWings.mat.meta
+Assets/Shaders/Special/Grass1.shader
+Assets/Shaders/Special/Grass1.shader.meta
+Assets/Shaders/Special/GrassParticles.mat
+Assets/Shaders/Special/GrassParticles.mat.meta
+Assets/Shaders/Special/NestRing.shader
+Assets/Shaders/Special/NestRing.shader.meta
+Assets/Shaders/Special/RacePartciles.shader
+Assets/Shaders/Special/RacePartciles.shader.meta
+Assets/Shaders/Special/RingShader.shader
+Assets/Shaders/Special/RingShader.shader.meta
+Assets/Shaders/Special/Terrain.shader
+Assets/Shaders/Special/Terrain.shader.meta
+Assets/Shaders/Special/TerrainBase.mat
+Assets/Shaders/Special/TerrainBase.mat.meta
+Assets/Shaders/Special/WaterSurface.shader
+Assets/Shaders/Special/WaterSurface.shader.meta
+Assets/Shaders/Special/birdFeatherTry.shadergraph
+Assets/Shaders/Special/birdFeatherTry.shadergraph.meta
+Assets/Shaders/Special/collectableRing.mat
+Assets/Shaders/Special/collectableRing.mat.meta
+Assets/Shaders/Special/collectableRing.shader
+Assets/Shaders/Special/collectableRing.shader.meta
+Assets/Shaders/Special/debug16.mat
+Assets/Shaders/Special/debug16.mat.meta
+Assets/Shaders/Special/debug16.shader
+Assets/Shaders/Special/debug16.shader.meta
+Assets/Shaders/Special/debug24.shader
+Assets/Shaders/Special/debug24.shader.meta
+Assets/Shaders/Special/debugFeatherLinePoints.mat
+Assets/Shaders/Special/debugFeatherLinePoints.mat.meta
+Assets/Shaders/Special/debugGridParticles.mat
+Assets/Shaders/Special/debugGridParticles.mat.meta
+Assets/Shaders/Special/debugGridParticles.shader
+Assets/Shaders/Special/debugGridParticles.shader.meta
+Assets/Shaders/Special/debugLinePoints.shader
+Assets/Shaders/Special/debugLinePoints.shader.meta
+Assets/Shaders/Special/debugMatrix.mat
+Assets/Shaders/Special/debugMatrix.mat.meta
+Assets/Shaders/Special/debugMatrixPoints.shader
+Assets/Shaders/Special/debugMatrixPoints.shader.meta
+Assets/Shaders/Special/debugMeshPoint.shader
+Assets/Shaders/Special/debugMeshPoint.shader.meta
+Assets/Shaders/Special/debugMeshPoints.mat
+Assets/Shaders/Special/debugMeshPoints.mat.meta
+Assets/Shaders/Special/debugRaceParticles.mat
+Assets/Shaders/Special/debugRaceParticles.mat.meta
+Assets/Shaders/Special/displacedPoints.shader
+Assets/Shaders/Special/displacedPoints.shader.meta
+Assets/Shaders/Special/mandala.shader
+Assets/Shaders/Special/mandala.shader.meta
+Assets/Shaders/Special/mandala1.mat
+Assets/Shaders/Special/mandala1.mat.meta
+Assets/Shaders/Special/nestRing.mat
+Assets/Shaders/Special/nestRing.mat.meta
+Assets/Shaders/Special/projectOnTerrain.mat
+Assets/Shaders/Special/projectOnTerrain.mat.meta
+Assets/Shaders/Special/projectOnTerrain.shader
+Assets/Shaders/Special/projectOnTerrain.shader.meta
+Assets/Shaders/Special/shatterCrystal.mat
+Assets/Shaders/Special/shatterCrystal.mat.meta
+Assets/Shaders/Special/shatterCrystals.shader
+Assets/Shaders/Special/shatterCrystals.shader.meta
+Assets/Shaders/Special/simpleHue.shader
+Assets/Shaders/Special/simpleHue.shader.meta
+Assets/Shaders/Special/simpleHue1.mat
+Assets/Shaders/Special/simpleHue1.mat.meta
+Assets/Shaders/Special/simpleHueAdditive.mat
+Assets/Shaders/Special/simpleHueAdditive.mat.meta
+Assets/Shaders/Special/simpleHueAdditive.shader
+Assets/Shaders/Special/simpleHueAdditive.shader.meta
+Assets/Shaders/Special/terrain.mat
+Assets/Shaders/Special/terrain.mat.meta
+Assets/Shaders/Special/unfoggedUnlit.shader
+Assets/Shaders/Special/unfoggedUnlit.shader.meta
+Assets/Shaders/Special/water.shader
+Assets/Shaders/Special/water.shader.meta
+Assets/Shaders/Special/waterSurface.mat
+Assets/Shaders/Special/waterSurface.mat.meta
+Assets/Shaders/Special/windParticles.mat
+Assets/Shaders/Special/windParticles.mat.meta
+Assets/Shaders/Special/windParticles.shader
+Assets/Shaders/Special/windParticles.shader.meta
+Assets/Shaders/StarTest1.mat
+Assets/Shaders/StarTest1.mat
+Assets/Shaders/StarTest1.mat
+Assets/Shaders/StarTest1.mat.meta
+Assets/Shaders/StarTest1.shader
+Assets/Shaders/StarTest1.shader.meta
+Assets/Shaders/TerrainBase.mat
+Assets/Shaders/TerrainBase.mat.meta
+Assets/Shaders/UnityBased.meta
+Assets/Shaders/UnityBased/ComeToMe.mat
+Assets/Shaders/UnityBased/ComeToMe.mat.meta
+Assets/Shaders/UnityBased/Feather.shader
+Assets/Shaders/UnityBased/Feather.shader.meta
+Assets/Shaders/UnityBased/Font2.mat
+Assets/Shaders/UnityBased/Font2.mat.meta
+Assets/Shaders/UnityBased/MagicThreads.shader
+Assets/Shaders/UnityBased/MagicThreads.shader.meta
+Assets/Shaders/UnityBased/NewUnlitShader.shader
+Assets/Shaders/UnityBased/NewUnlitShader.shader.meta
+Assets/Shaders/UnityBased/RingMat.mat
+Assets/Shaders/UnityBased/RingMat.mat.meta
+Assets/Shaders/UnityBased/Skybox1.shader
+Assets/Shaders/UnityBased/Skybox1.shader
+Assets/Shaders/UnityBased/Skybox1.shader.meta
+Assets/Shaders/UnityBased/SoccerWall.mat
+Assets/Shaders/UnityBased/SoccerWall.mat.meta
+Assets/Shaders/UnityBased/SoccerWall.shader
+Assets/Shaders/UnityBased/SoccerWall.shader.meta
+Assets/Shaders/UnityBased/SoccerWallTight1.mat
+Assets/Shaders/UnityBased/SoccerWallTight1.mat.meta
+Assets/Shaders/UnityBased/Test1.mat
+Assets/Shaders/UnityBased/Test1.mat.meta
+Assets/Shaders/UnityBased/Test1_MaskMap.png
+Assets/Shaders/UnityBased/Test1_MaskMap.png.meta
+Assets/Shaders/UnityBased/Test3.mat
+Assets/Shaders/UnityBased/Test3.mat.meta
+Assets/Shaders/UnityBased/TrailMaterial.mat
+Assets/Shaders/UnityBased/TrailMaterial.mat.meta
+Assets/Shaders/UnityBased/Unlit.mat
+Assets/Shaders/UnityBased/Unlit.mat.meta
+Assets/Shaders/UnityBased/collectable.shader
+Assets/Shaders/UnityBased/collectable.shader.meta
+Assets/Shaders/UnityBased/collectablePlay.mat
+Assets/Shaders/UnityBased/collectablePlay.mat.meta
+Assets/Shaders/UnityBased/comeToMe.shader
+Assets/Shaders/UnityBased/comeToMe.shader.meta
+Assets/Shaders/UnityBased/comeToMe2.mat
+Assets/Shaders/UnityBased/comeToMe2.mat.meta
+Assets/Shaders/UnityBased/comeToMe2.shader
+Assets/Shaders/UnityBased/comeToMe2.shader.meta
+Assets/Shaders/UnityBased/comeToMe3.mat
+Assets/Shaders/UnityBased/comeToMe3.mat.meta
+Assets/Shaders/UnityBased/compasPointer.mat
+Assets/Shaders/UnityBased/compasPointer.mat.meta
+Assets/Shaders/UnityBased/compassPoint.shader
+Assets/Shaders/UnityBased/compassPoint.shader.meta
+Assets/Shaders/UnityBased/cuttofDiffuse.mat
+Assets/Shaders/UnityBased/cuttofDiffuse.mat.meta
+Assets/Shaders/UnityBased/cuttofDiffuse.shader
+Assets/Shaders/UnityBased/cuttofDiffuse.shader.meta
+Assets/Shaders/UnityBased/gradientCircle1.png
+Assets/Shaders/UnityBased/gradientCircle1.png.meta
+Assets/Shaders/UnityBased/gradientCircle2.png
+Assets/Shaders/UnityBased/gradientCircle2.png.meta
+Assets/Shaders/UnityBased/gradientCircle3.png
+Assets/Shaders/UnityBased/gradientCircle3.png.meta
+Assets/Shaders/UnityBased/gradientCircle4.png
+Assets/Shaders/UnityBased/gradientCircle4.png.meta
+Assets/Shaders/UnityBased/iconShader.shader
+Assets/Shaders/UnityBased/iconShader.shader.meta
+Assets/Shaders/UnityBased/leaf.mat
+Assets/Shaders/UnityBased/leaf.mat.meta
+Assets/Shaders/UnityBased/leaf.shader
+Assets/Shaders/UnityBased/leaf.shader.meta
+Assets/Shaders/UnityBased/lineColor.mat
+Assets/Shaders/UnityBased/lineColor.mat.meta
+Assets/Shaders/UnityBased/mapTerrain.mat
+Assets/Shaders/UnityBased/mapTerrain.mat.meta
+Assets/Shaders/UnityBased/mapTerrain.shader
+Assets/Shaders/UnityBased/mapTerrain.shader.meta
+Assets/Shaders/UnityBased/normal.mat
+Assets/Shaders/UnityBased/normal.mat.meta
+Assets/Shaders/UnityBased/normal.shader
+Assets/Shaders/UnityBased/normal.shader.meta
+Assets/Shaders/UnityBased/pulse.shader
+Assets/Shaders/UnityBased/pulse.shader.meta
+Assets/Shaders/UnityBased/pulseMaterial.mat
+Assets/Shaders/UnityBased/pulseMaterial.mat.meta
+Assets/Shaders/UnityBased/raceBand.mat
+Assets/Shaders/UnityBased/raceBand.mat.meta
+Assets/Shaders/UnityBased/raceBand.shader
+Assets/Shaders/UnityBased/raceBand.shader.meta
+Assets/Shaders/UnityBased/ring.mat
+Assets/Shaders/UnityBased/ring.mat.meta
+Assets/Shaders/UnityBased/selector.mat
+Assets/Shaders/UnityBased/selector.mat.meta
+Assets/Shaders/UnityBased/selectorShader.shader
+Assets/Shaders/UnityBased/selectorShader.shader.meta
+Assets/Shaders/UnityBased/sf1.shader
+Assets/Shaders/UnityBased/sf1.shader.meta
+Assets/Shaders/UnityBased/startRingMaterial.mat
+Assets/Shaders/UnityBased/startRingMaterial.mat.meta
+Assets/Shaders/UnityBased/startRingShader.shader
+Assets/Shaders/UnityBased/startRingShader.shader.meta
+Assets/Shaders/UnityBased/terain2.mat
+Assets/Shaders/UnityBased/terain2.mat.meta
+Assets/Shaders/UnityBased/tes2.mat
+Assets/Shaders/UnityBased/tes2.mat.meta
+Assets/Shaders/UnityBased/tes3.mat
+Assets/Shaders/UnityBased/tes3.mat.meta
+Assets/Shaders/UnityBased/test2.mat
+Assets/Shaders/UnityBased/test2.mat.meta
+Assets/Shaders/UnityBased/triNoise.mat
+Assets/Shaders/UnityBased/triNoise.mat.meta
+Assets/Shaders/UnityBased/triNoiseNormal1.shader
+Assets/Shaders/UnityBased/triNoiseNormal1.shader.meta
+Assets/Shaders/UnityBased/tutorialText.mat
+Assets/Shaders/UnityBased/tutorialText.mat.meta
+Assets/Shaders/UnityBased/tutorialText.shader
+Assets/Shaders/UnityBased/tutorialText.shader.meta
+Assets/Shaders/UnityBased/unlit3.mat
+Assets/Shaders/UnityBased/unlit3.mat.meta
+Assets/Shaders/UnityBased/uvDiscardBox.shader
+Assets/Shaders/UnityBased/uvDiscardBox.shader.meta
+Assets/Shaders/VertexColoredStandardShader.shader
+Assets/Shaders/VertexColoredStandardShader.shader.meta
+Assets/Shaders/Water1.mat
+Assets/Shaders/Water1.mat.meta
+Assets/Shaders/Water1.shader
+Assets/Shaders/Water1.shader.meta
+Assets/Shaders/WaterFakeFromCrystal.mat
+Assets/Shaders/WaterFakeFromCrystal.mat.meta
+Assets/Shaders/basicColorDiscardCenter.mat
+Assets/Shaders/basicColorDiscardCenter.mat.meta
+Assets/Shaders/firstTreeSurface.mat
+Assets/Shaders/firstTreeSurface.mat.meta
+Assets/Shaders/iconShaders.meta
+Assets/Shaders/iconShaders/MoveToLocation.mat
+Assets/Shaders/iconShaders/MoveToLocation.mat.meta
+Assets/Shaders/iconShaders/PlaceBeacon.mat
+Assets/Shaders/iconShaders/PlaceBeacon.mat.meta
+Assets/Shaders/iconShaders/PlayerIcon.mat
+Assets/Shaders/iconShaders/PlayerIcon.mat.meta
+Assets/Shaders/iconShaders/RemoveBeacon.mat
+Assets/Shaders/iconShaders/RemoveBeacon.mat.meta
+Assets/Shaders/iconShaders/iconShader.shader
+Assets/Shaders/iconShaders/iconShader.shader.meta
+Assets/Shaders/imageTexture.mat
+Assets/Shaders/imageTexture.mat.meta
+Assets/Shaders/later.mat
+Assets/Shaders/later.mat.meta
+Assets/Shaders/later.shader
+Assets/Shaders/later.shader.meta
+Assets/Shaders/leaf.mat
+Assets/Shaders/leaf.mat.meta
+Assets/Shaders/normal.shader
+Assets/Shaders/normal.shader.meta
+Assets/Shaders/raytraceShaders.meta
+Assets/Shaders/raytraceShaders/Cloud.shader
+Assets/Shaders/raytraceShaders/Cloud.shader.meta
+Assets/Shaders/raytraceShaders/Cloud2.shader
+Assets/Shaders/raytraceShaders/Cloud2.shader.meta
+Assets/Shaders/raytraceShaders/Convolve.shader
+Assets/Shaders/raytraceShaders/Convolve.shader.meta
+Assets/Shaders/raytraceShaders/GoldTraceWater.mat
+Assets/Shaders/raytraceShaders/GoldTraceWater.mat.meta
+Assets/Shaders/raytraceShaders/Monolirh1.mat
+Assets/Shaders/raytraceShaders/Monolirh1.mat.meta
+Assets/Shaders/raytraceShaders/Monolith.mat
+Assets/Shaders/raytraceShaders/Monolith.mat.meta
+Assets/Shaders/raytraceShaders/Monolith.shader
+Assets/Shaders/raytraceShaders/Monolith.shader.meta
+Assets/Shaders/raytraceShaders/Ocean.mat
+Assets/Shaders/raytraceShaders/Ocean.mat.meta
+Assets/Shaders/raytraceShaders/PlaneReflection.cs
+Assets/Shaders/raytraceShaders/PlaneReflection.cs.meta
+Assets/Shaders/raytraceShaders/StylizedWater.shader
+Assets/Shaders/raytraceShaders/StylizedWater.shader.meta
+Assets/Shaders/raytraceShaders/WaterShader.shader
+Assets/Shaders/raytraceShaders/WaterShader.shader.meta
+Assets/Shaders/raytraceShaders/adamReflections.shader
+Assets/Shaders/raytraceShaders/adamReflections.shader.meta
+Assets/Shaders/raytraceShaders/basicLighting.mat
+Assets/Shaders/raytraceShaders/basicLighting.mat.meta
+Assets/Shaders/raytraceShaders/basicLighting.shader
+Assets/Shaders/raytraceShaders/basicLighting.shader.meta
+Assets/Shaders/raytraceShaders/cloud.mat
+Assets/Shaders/raytraceShaders/cloud.mat.meta
+Assets/Shaders/raytraceShaders/cloud2.mat
+Assets/Shaders/raytraceShaders/cloud2.mat.meta
+Assets/Shaders/raytraceShaders/dispNoise.webp
+Assets/Shaders/raytraceShaders/dispNoise.webp.meta
+Assets/Shaders/raytraceShaders/foam.webp
+Assets/Shaders/raytraceShaders/foam.webp.meta
+Assets/Shaders/raytraceShaders/noiseFFT.shader
+Assets/Shaders/raytraceShaders/noiseFFT.shader.meta
+Assets/Shaders/raytraceShaders/noiseFFTMultiSlot.shader
+Assets/Shaders/raytraceShaders/noiseFFTMultiSlot.shader.meta
+Assets/Shaders/raytraceShaders/points1.compute
+Assets/Shaders/raytraceShaders/points1.compute.meta
+Assets/Shaders/raytraceShaders/stylizedWater.mat
+Assets/Shaders/raytraceShaders/stylizedWater.mat.meta
+Assets/Shaders/raytraceShaders/voronoiDepth.webp
+Assets/Shaders/raytraceShaders/voronoiDepth.webp.meta
+Assets/Shaders/raytraceShaders/waterShader.mat
+Assets/Shaders/raytraceShaders/waterShader.mat.meta
+Assets/Shaders/raytraceShaders/waterWithTrace.shader
+Assets/Shaders/raytraceShaders/waterWithTrace.shader.meta
+Assets/Shaders/startRingShader.shader
+Assets/Shaders/startRingShader.shader.meta
+Assets/Shaders/terrainHDRP.mat
+Assets/Shaders/terrainHDRP.mat.meta
+Assets/Shaders/terrainTest2.mat
+Assets/Shaders/terrainTest2.mat.meta
+Assets/Shaders/vertexLitShader.shader
+Assets/Shaders/vertexLitShader.shader.meta
+Assets/Shaders/vertexQuilllInstanced.mat
+Assets/Shaders/vertexQuilllInstanced.mat.meta
+Assets/Sounds.meta
+Assets/Sounds/SwellUp.meta
+Assets/Sounds/babTracks.meta
+Assets/Sounds/babTracks/Mountian.meta
+Assets/Sounds/babTracks/cave.meta
+Assets/Sounds/babTracks/city.meta
+Assets/Sounds/babTracks/desert.meta
+Assets/Sounds/babTracks/temple.meta
+Assets/Sounds/babTracks/tree.meta
+Assets/Sounds/babTracks/tutorial.meta
+Assets/Sounds/beat.wav
+Assets/Sounds/beat.wav.meta
+Assets/Sounds/click.wav
+Assets/Sounds/click.wav.meta
+Assets/Sounds/dullPop.mp3
+Assets/Sounds/dullPop.mp3.meta
+Assets/Sounds/loop.WAV
+Assets/Sounds/loop.WAV.meta
+Assets/Sounds/mirrorSound.mp3
+Assets/Sounds/mirrorSound.mp3.meta
+Assets/Sounds/oooom.WAV
+Assets/Sounds/oooom.WAV.meta
+Assets/Sounds/sharpPoint.mp3
+Assets/Sounds/sharpPoint.mp3.meta
+Assets/Sounds/softPoint.mp3
+Assets/Sounds/softPoint.mp3.meta
+Assets/StickTogether.cs
+Assets/StickTogether.cs
+Assets/StickTogether.cs
+Assets/StoryNode.cs
+Assets/StoryNode.cs.meta
+Assets/StoryTreeManager.cs
+Assets/StoryTreeManager.cs.meta
+Assets/Textures.meta
+Assets/Textures/smileys-1.png
+Assets/Textures/smileys-1.png.meta
+Assets/Textures/smileys-2.png
+Assets/Textures/smileys-2.png.meta
+Assets/Textures/smileys-3.png
+Assets/Textures/smileys-3.png.meta
+Assets/Textures/smileys-4.png
+Assets/Textures/smileys-4.png.meta
+Assets/Textures/smileys-5.png
+Assets/Textures/smileys-5.png.meta
+Assets/Textures/sprites.jpg
+Assets/Textures/sprites.jpg.meta
+Assets/Timer.cs
+Assets/Timer.cs.meta
+Assets/bsouncy.physicMaterial
+Assets/bsouncy.physicMaterial.meta
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity
+Assets/eclipse.unity.meta
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity
+Assets/eclipse_isaac.unity.meta
+Assets/eclipse_isaac.unity.orig.meta
+Assets/extOSC.meta
+Assets/extOSC/CHANGELOG.md
+Assets/extOSC/CHANGELOG.md.meta
+Assets/extOSC/Examples.meta
+Assets/extOSC/LICENSE
+Assets/extOSC/LICENSE.meta
+Assets/extOSC/README.md.meta
+Assets/extOSC/Resources.meta
+Assets/extOSC/Resources/extOSC.meta
+Assets/extOSC/Resources/extOSC/IW_logo_dark.png
+Assets/extOSC/Resources/extOSC/IW_logo_dark.png.meta
+Assets/extOSC/Resources/extOSC/IW_logo_light.png
+Assets/extOSC/Resources/extOSC/IW_logo_light.png.meta
+Assets/extOSC/Resources/extOSC/IW_small_logo_dark.png
+Assets/extOSC/Resources/extOSC/IW_small_logo_dark.png.meta
+Assets/extOSC/Resources/extOSC/IW_small_logo_light.png
+Assets/extOSC/Resources/extOSC/IW_small_logo_light.png.meta
+Assets/extOSC/Resources/extOSC/OSC_UI_panel_border.png
+Assets/extOSC/Resources/extOSC/OSC_UI_panel_border.png.meta
+Assets/extOSC/Resources/extOSC/OSC_UI_panel_filled.png
+Assets/extOSC/Resources/extOSC/OSC_UI_panel_filled.png.meta
+Assets/extOSC/Resources/extOSC/OSC_UI_rotary_border.png
+Assets/extOSC/Resources/extOSC/OSC_UI_rotary_border.png.meta
+Assets/extOSC/Resources/extOSC/OSC_UI_rotary_filled.png
+Assets/extOSC/Resources/extOSC/OSC_UI_rotary_filled.png.meta
+Assets/extOSC/Resources/extOSC/OSC_UI_rotary_filled_mask.png
+Assets/extOSC/Resources/extOSC/OSC_UI_rotary_filled_mask.png.meta
+Assets/extOSC/Resources/extOSC/OSC_bundle_dark.png
+Assets/extOSC/Resources/extOSC/OSC_bundle_dark.png.meta
+Assets/extOSC/Resources/extOSC/OSC_bundle_light.png
+Assets/extOSC/Resources/extOSC/OSC_bundle_light.png.meta
+Assets/extOSC/Resources/extOSC/OSC_message_dark.png
+Assets/extOSC/Resources/extOSC/OSC_message_dark.png.meta
+Assets/extOSC/Resources/extOSC/OSC_message_light.png
+Assets/extOSC/Resources/extOSC/OSC_message_light.png.meta
+Assets/extOSC/Resources/extOSC/OSC_receiver_dark.png
+Assets/extOSC/Resources/extOSC/OSC_receiver_dark.png.meta
+Assets/extOSC/Resources/extOSC/OSC_receiver_light.png
+Assets/extOSC/Resources/extOSC/OSC_receiver_light.png.meta
+Assets/extOSC/Resources/extOSC/OSC_transmitter_dark.png
+Assets/extOSC/Resources/extOSC/OSC_transmitter_dark.png.meta
+Assets/extOSC/Resources/extOSC/OSC_transmitter_light.png
+Assets/extOSC/Resources/extOSC/OSC_transmitter_light.png.meta
+Assets/extOSC/Resources/extOSC/iw-logo.png.meta
+Assets/extOSC/Scripts.meta
+Assets/extOSC/Scripts/Attributes.meta
+Assets/extOSC/Scripts/Attributes/OSCHostAttribute.cs
+Assets/extOSC/Scripts/Attributes/OSCHostAttribute.cs.meta
+Assets/extOSC/Scripts/Attributes/OSCSelectorAttribute.cs
+Assets/extOSC/Scripts/Attributes/OSCSelectorAttribute.cs.meta
+Assets/extOSC/Scripts/Components.meta
+Assets/extOSC/Scripts/Components/Events.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEvent.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEvent.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventArray.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventArray.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventBlob.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventBlob.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventBool.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventBool.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventChar.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventChar.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventColor.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventColor.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventDouble.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventDouble.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventFloat.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventFloat.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventImpulse.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventImpulse.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventInt.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventInt.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventLong.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventLong.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventMessage.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventMessage.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventMidi.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventMidi.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventNull.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventNull.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventQuaternion.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventQuaternion.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventRect.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventRect.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventString.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventString.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventTimeTag.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventTimeTag.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventVector2.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventVector2.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventVector3.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventVector3.cs.meta
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventVector4.cs
+Assets/extOSC/Scripts/Components/Events/OSCReceiverEventVector4.cs.meta
+Assets/extOSC/Scripts/Components/Informers.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformer.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformer.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerArray.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerArray.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerBlob.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerBlob.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerBool.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerBool.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerChar.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerChar.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerColor.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerColor.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerDouble.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerDouble.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerFloat.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerFloat.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerFloatToInt.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerFloatToInt.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerInt.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerInt.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerIntToFloat.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerIntToFloat.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerLong.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerLong.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerMidi.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerMidi.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerQuaternion.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerQuaternion.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerRect.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerRect.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerString.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerString.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerTimeTag.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerTimeTag.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerVector2.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerVector2.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerVector3.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerVector3.cs.meta
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerVector4.cs
+Assets/extOSC/Scripts/Components/Informers/OSCTransmitterInformerVector4.cs.meta
+Assets/extOSC/Scripts/Components/Misc.meta
+Assets/extOSC/Scripts/Components/Misc/OSCReceiverGyro.cs
+Assets/extOSC/Scripts/Components/Misc/OSCReceiverGyro.cs.meta
+Assets/extOSC/Scripts/Components/Misc/OSCReceiverSkinnedMesh.cs
+Assets/extOSC/Scripts/Components/Misc/OSCReceiverSkinnedMesh.cs.meta
+Assets/extOSC/Scripts/Components/Misc/OSCTransmitterPing.cs
+Assets/extOSC/Scripts/Components/Misc/OSCTransmitterPing.cs.meta
+Assets/extOSC/Scripts/Components/Misc/OSCTransmitterSeparateVector3.cs
+Assets/extOSC/Scripts/Components/Misc/OSCTransmitterSeparateVector3.cs.meta
+Assets/extOSC/Scripts/Components/OSCComponent.cs
+Assets/extOSC/Scripts/Components/OSCComponent.cs.meta
+Assets/extOSC/Scripts/Components/OSCReceiverComponent.cs
+Assets/extOSC/Scripts/Components/OSCReceiverComponent.cs.meta
+Assets/extOSC/Scripts/Components/OSCTransmitterComponent.cs
+Assets/extOSC/Scripts/Components/OSCTransmitterComponent.cs.meta
+Assets/extOSC/Scripts/Components/Ping.meta
+Assets/extOSC/Scripts/Components/Ping/OSCPingClient.cs
+Assets/extOSC/Scripts/Components/Ping/OSCPingClient.cs.meta
+Assets/extOSC/Scripts/Components/Ping/OSCPingServer.cs
+Assets/extOSC/Scripts/Components/Ping/OSCPingServer.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflection.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflection.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionArray.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionArray.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionBlob.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionBlob.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionBool.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionBool.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionChar.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionChar.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionColor.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionColor.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionDouble.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionDouble.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionFloat.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionFloat.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionInt.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionInt.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionLong.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionLong.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionMidi.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionMidi.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionQuaternion.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionQuaternion.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionRect.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionRect.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionString.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionString.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionTimeTag.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionTimeTag.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionVector2.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionVector2.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionVector3.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionVector3.cs.meta
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionVector4.cs
+Assets/extOSC/Scripts/Components/ReceiverReflection/OSCReceiverReflectionVector4.cs.meta
+Assets/extOSC/Scripts/Core.meta
+Assets/extOSC/Scripts/Core/Events.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventArray.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventArray.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventBlob.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventBlob.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventBool.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventBool.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventBundle.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventBundle.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventChar.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventChar.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventColor.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventColor.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventDateTime.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventDateTime.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventDouble.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventDouble.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventFloat.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventFloat.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventImpulse.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventImpulse.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventInt.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventInt.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventLong.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventLong.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventMessage.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventMessage.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventMidi.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventMidi.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventNull.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventNull.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventPacket.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventPacket.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventQuaternion.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventQuaternion.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventRect.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventRect.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventString.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventString.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventVector2.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventVector2.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventVector3.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventVector3.cs.meta
+Assets/extOSC/Scripts/Core/Events/OSCEventVector4.cs
+Assets/extOSC/Scripts/Core/Events/OSCEventVector4.cs.meta
+Assets/extOSC/Scripts/Core/IOSCBind.cs
+Assets/extOSC/Scripts/Core/IOSCBind.cs.meta
+Assets/extOSC/Scripts/Core/IOSCBindBundle.cs
+Assets/extOSC/Scripts/Core/IOSCBindBundle.cs.meta
+Assets/extOSC/Scripts/Core/IOSCPacket.cs
+Assets/extOSC/Scripts/Core/IOSCPacket.cs.meta
+Assets/extOSC/Scripts/Core/Network.meta
+Assets/extOSC/Scripts/Core/Network/OSCReceiverBackend.cs
+Assets/extOSC/Scripts/Core/Network/OSCReceiverBackend.cs.meta
+Assets/extOSC/Scripts/Core/Network/OSCReceiverStandaloneBackend.cs
+Assets/extOSC/Scripts/Core/Network/OSCReceiverStandaloneBackend.cs.meta
+Assets/extOSC/Scripts/Core/Network/OSCReceiverWindowsStoreBackend.cs
+Assets/extOSC/Scripts/Core/Network/OSCReceiverWindowsStoreBackend.cs.meta
+Assets/extOSC/Scripts/Core/Network/OSCStandaloneManager.cs
+Assets/extOSC/Scripts/Core/Network/OSCStandaloneManager.cs.meta
+Assets/extOSC/Scripts/Core/Network/OSCTransmitterBackend.cs
+Assets/extOSC/Scripts/Core/Network/OSCTransmitterBackend.cs.meta
+Assets/extOSC/Scripts/Core/Network/OSCTransmitterStandaloneBackend.cs
+Assets/extOSC/Scripts/Core/Network/OSCTransmitterStandaloneBackend.cs.meta
+Assets/extOSC/Scripts/Core/Network/OSCTransmitterWindowsStoreBackend.cs
+Assets/extOSC/Scripts/Core/Network/OSCTransmitterWindowsStoreBackend.cs.meta
+Assets/extOSC/Scripts/Core/OSCBase.cs
+Assets/extOSC/Scripts/Core/OSCBase.cs.meta
+Assets/extOSC/Scripts/Core/OSCConsole.cs
+Assets/extOSC/Scripts/Core/OSCConsole.cs.meta
+Assets/extOSC/Scripts/Core/OSCConsolePacket.cs
+Assets/extOSC/Scripts/Core/OSCConsolePacket.cs.meta
+Assets/extOSC/Scripts/Core/OSCConverter.cs
+Assets/extOSC/Scripts/Core/OSCConverter.cs.meta
+Assets/extOSC/Scripts/Core/Packers.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPacker.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPacker.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerBlob.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerBlob.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerChar.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerChar.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerColor.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerColor.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerDouble.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerDouble.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerFalse.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerFalse.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerFloat.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerFloat.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerImpulse.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerImpulse.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerInt.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerInt.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerLong.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerLong.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerMidi.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerMidi.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerNull.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerNull.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerString.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerString.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerTimeTag.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerTimeTag.cs.meta
+Assets/extOSC/Scripts/Core/Packers/OSCPackerTrue.cs
+Assets/extOSC/Scripts/Core/Packers/OSCPackerTrue.cs.meta
+Assets/extOSC/Scripts/Core/Reflection.meta
+Assets/extOSC/Scripts/Core/Reflection/OSCReflection.cs
+Assets/extOSC/Scripts/Core/Reflection/OSCReflection.cs.meta
+Assets/extOSC/Scripts/Core/Reflection/OSCReflectionMember.cs
+Assets/extOSC/Scripts/Core/Reflection/OSCReflectionMember.cs.meta
+Assets/extOSC/Scripts/Core/Reflection/OSCReflectionProperty.cs
+Assets/extOSC/Scripts/Core/Reflection/OSCReflectionProperty.cs.meta
+Assets/extOSC/Scripts/Editor.meta
+Assets/extOSC/Scripts/Editor/Drawers.meta
+Assets/extOSC/Scripts/Editor/Drawers/OSCFilterDrawer.cs
+Assets/extOSC/Scripts/Editor/Drawers/OSCFilterDrawer.cs.meta
+Assets/extOSC/Scripts/Editor/Drawers/OSCHostDrawer.cs
+Assets/extOSC/Scripts/Editor/Drawers/OSCHostDrawer.cs.meta
+Assets/extOSC/Scripts/Editor/Drawers/OSCPacketDrawer.cs
+Assets/extOSC/Scripts/Editor/Drawers/OSCPacketDrawer.cs.meta
+Assets/extOSC/Scripts/Editor/Drawers/OSCPacketEditableDrawer.cs
+Assets/extOSC/Scripts/Editor/Drawers/OSCPacketEditableDrawer.cs.meta
+Assets/extOSC/Scripts/Editor/Drawers/OSCReflectionMemberDrawer.cs
+Assets/extOSC/Scripts/Editor/Drawers/OSCReflectionMemberDrawer.cs.meta
+Assets/extOSC/Scripts/Editor/Drawers/OSCSelectorDrawer.cs
+Assets/extOSC/Scripts/Editor/Drawers/OSCSelectorDrawer.cs.meta
+Assets/extOSC/Scripts/Editor/Editors.meta
+Assets/extOSC/Scripts/Editor/Editors/Components.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCComponentEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCComponentEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCPingClientEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCPingClientEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCPingServerEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCPingServerEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverComponentEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverComponentEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverEventEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverEventEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverGyroEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverGyroEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverReflectionEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCReceiverReflectionEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterComponentEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterComponentEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterInformerEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterInformerEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterPingEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterPingEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterSeparateVector3Editor.cs
+Assets/extOSC/Scripts/Editor/Editors/Components/OSCTransmitterSeparateVector3Editor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/OSCMapBundleEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/OSCMapBundleEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/OSCReceiverEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/OSCReceiverEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/OSCTransmitterEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/OSCTransmitterEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/UI.meta
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCButtonEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCButtonEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCMultiplySlidersEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCMultiplySlidersEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCPadEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCPadEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCRotaryEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCRotaryEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCSliderEditor.cs
+Assets/extOSC/Scripts/Editor/Editors/UI/OSCSliderEditor.cs.meta
+Assets/extOSC/Scripts/Editor/OSCDefinesManager.cs
+Assets/extOSC/Scripts/Editor/OSCDefinesManager.cs.meta
+Assets/extOSC/Scripts/Editor/OSCEditorInterface.cs
+Assets/extOSC/Scripts/Editor/OSCEditorInterface.cs.meta
+Assets/extOSC/Scripts/Editor/OSCEditorSettings.cs
+Assets/extOSC/Scripts/Editor/OSCEditorSettings.cs.meta
+Assets/extOSC/Scripts/Editor/OSCEditorSprites.cs
+Assets/extOSC/Scripts/Editor/OSCEditorSprites.cs.meta
+Assets/extOSC/Scripts/Editor/OSCEditorStyles.cs
+Assets/extOSC/Scripts/Editor/OSCEditorStyles.cs.meta
+Assets/extOSC/Scripts/Editor/OSCEditorTextures.cs
+Assets/extOSC/Scripts/Editor/OSCEditorTextures.cs.meta
+Assets/extOSC/Scripts/Editor/OSCEditorUtils.cs
+Assets/extOSC/Scripts/Editor/OSCEditorUtils.cs.meta
+Assets/extOSC/Scripts/Editor/OSCHierarchyIcon.cs
+Assets/extOSC/Scripts/Editor/OSCHierarchyIcon.cs.meta
+Assets/extOSC/Scripts/Editor/OSCMenuOptions.cs
+Assets/extOSC/Scripts/Editor/OSCMenuOptions.cs.meta
+Assets/extOSC/Scripts/Editor/OSCSharpCode.cs
+Assets/extOSC/Scripts/Editor/OSCSharpCode.cs.meta
+Assets/extOSC/Scripts/Editor/OSCWindowsStoreHelper.cs
+Assets/extOSC/Scripts/Editor/OSCWindowsStoreHelper.cs.meta
+Assets/extOSC/Scripts/Editor/Panels.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanel.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanel.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelConsole.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelConsole.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelControlCreator.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelControlCreator.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelControllers.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelControllers.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelMapping.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelMapping.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelPacket.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelPacket.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelPacketEditor.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCPanelPacketEditor.cs.meta
+Assets/extOSC/Scripts/Editor/Panels/OSCSplitPanel.cs
+Assets/extOSC/Scripts/Editor/Panels/OSCSplitPanel.cs.meta
+Assets/extOSC/Scripts/Editor/Windows.meta
+Assets/extOSC/Scripts/Editor/Windows/OSCWindow.cs
+Assets/extOSC/Scripts/Editor/Windows/OSCWindow.cs.meta
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowConsole.cs
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowConsole.cs.meta
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowControlCreator.cs
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowControlCreator.cs.meta
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowDebug.cs
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowDebug.cs.meta
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowMapping.cs
+Assets/extOSC/Scripts/Editor/Windows/OSCWindowMapping.cs.meta
+Assets/extOSC/Scripts/Editor/extOSC.Editor.asmdef
+Assets/extOSC/Scripts/Editor/extOSC.Editor.asmdef.meta
+Assets/extOSC/Scripts/Mapping.meta
+Assets/extOSC/Scripts/Mapping/OSCMapBundle.cs
+Assets/extOSC/Scripts/Mapping/OSCMapBundle.cs.meta
+Assets/extOSC/Scripts/Mapping/OSCMapEnum.cs
+Assets/extOSC/Scripts/Mapping/OSCMapEnum.cs.meta
+Assets/extOSC/Scripts/Mapping/OSCMapMessage.cs
+Assets/extOSC/Scripts/Mapping/OSCMapMessage.cs.meta
+Assets/extOSC/Scripts/Mapping/OSCMapValue.cs
+Assets/extOSC/Scripts/Mapping/OSCMapValue.cs.meta
+Assets/extOSC/Scripts/OSCBind.cs
+Assets/extOSC/Scripts/OSCBind.cs.meta
+Assets/extOSC/Scripts/OSCBindBundle.cs
+Assets/extOSC/Scripts/OSCBindBundle.cs.meta
+Assets/extOSC/Scripts/OSCBundle.cs
+Assets/extOSC/Scripts/OSCBundle.cs.meta
+Assets/extOSC/Scripts/OSCEnums.cs
+Assets/extOSC/Scripts/OSCEnums.cs.meta
+Assets/extOSC/Scripts/OSCMatchPattern.cs
+Assets/extOSC/Scripts/OSCMatchPattern.cs.meta
+Assets/extOSC/Scripts/OSCMessage.cs
+Assets/extOSC/Scripts/OSCMessage.cs.meta
+Assets/extOSC/Scripts/OSCMidi.cs
+Assets/extOSC/Scripts/OSCMidi.cs.meta
+Assets/extOSC/Scripts/OSCReceiver.cs
+Assets/extOSC/Scripts/OSCReceiver.cs.meta
+Assets/extOSC/Scripts/OSCTransmitter.cs
+Assets/extOSC/Scripts/OSCTransmitter.cs.meta
+Assets/extOSC/Scripts/OSCUtilities.cs
+Assets/extOSC/Scripts/OSCUtilities.cs.meta
+Assets/extOSC/Scripts/OSCValue.cs
+Assets/extOSC/Scripts/OSCValue.cs.meta
+Assets/extOSC/Scripts/UI.meta
+Assets/extOSC/Scripts/UI/OSCButton.cs
+Assets/extOSC/Scripts/UI/OSCButton.cs.meta
+Assets/extOSC/Scripts/UI/OSCControls.cs
+Assets/extOSC/Scripts/UI/OSCControls.cs.meta
+Assets/extOSC/Scripts/UI/OSCMultiplySliders.cs
+Assets/extOSC/Scripts/UI/OSCMultiplySliders.cs.meta
+Assets/extOSC/Scripts/UI/OSCPad.cs
+Assets/extOSC/Scripts/UI/OSCPad.cs.meta
+Assets/extOSC/Scripts/UI/OSCRotary.cs
+Assets/extOSC/Scripts/UI/OSCRotary.cs.meta
+Assets/extOSC/Scripts/UI/OSCSlider.cs
+Assets/extOSC/Scripts/UI/OSCSlider.cs.meta
+Assets/extOSC/Scripts/extOSC.asmdef
+Assets/extOSC/Scripts/extOSC.asmdef.meta
+Assets/extOSC/package.json
+Assets/extOSC/package.json.meta
+Assets/extOSC/versions.txt
+Assets/extOSC/versions.txt.meta
+OSCRecordings/1player.0.mov
+OSCRecordings/1player.bclip
+OSCRecordings/2PlayersArePlayingAndAThirdSuddenlyAppears
+OSCRecordings/2PlayersArePlayingAndAThirdSuddenlyAppearsv2
+OSCRecordings/2PlayersEatNoDotsAndThenCollide
+OSCRecordings/2PlayersEatNoDotsAndThenCollideV2
+OSCRecordings/2PlayersEatThreeDotsAndThenCollide
+OSCRecordings/2PlayersEatThreeDotsAndThenCollidev
+OSCRecordings/2PlayersEatThreeDotsAndThenCollidev2
+OSCRecordings/2peoplemay20.score
+OSCRecordings/3PlayeresArePlayingAndThenTheyDisappearOneByOne
+OSCRecordings/PlayersPlaying
+OSCRecordings/csvtestrecordings.zip
+OSCRecordings/friendswander.csv
+OSCRecordings/last
+OSCRecordings/marching.csv
+OSCRecordings/may-22.score
+OSCRecordings/may18-24.score
+OSCRecordings/may18-24.score
+OSCRecordings/plaersrunning
+OSCRecordings/playersrunning.bclip
+OSCRecordings/recording-breaking.csv
+OSCRecordings/recording-breakinghalf.csv
+OSCRecordings/recording-higherveritcalvalue.csv
+OSCRecordings/recording-lines.csv
+OSCRecordings/recording-lines2.csv
+OSCRecordings/recording-livepose.csv
+OSCRecordings/recording-liveposeCross.csv
+OSCRecordings/recording-liveposePlayTest1.csv
+OSCRecordings/recording-liveposePlayTest2.csv
+OSCRecordings/recording-liveposeWalk.csv
+OSCRecordings/recording-run.csv
+OSCRecordings/test-csv-rec.score
+Packages/manifest.json
+Packages/manifest.json
+Packages/manifest.json
+Packages/packages-lock.json
+Packages/packages-lock.json
+Packages/packages-lock.json
+ProjectSettings/AudioManager.asset
+ProjectSettings/ClusterInputManager.asset
+ProjectSettings/DynamicsManager.asset
+ProjectSettings/EditorBuildSettings.asset
+ProjectSettings/EditorSettings.asset
+ProjectSettings/GraphicsSettings.asset
+ProjectSettings/InputManager.asset
+ProjectSettings/MemorySettings.asset
+ProjectSettings/NavMeshAreas.asset
+ProjectSettings/PackageManagerSettings.asset
+ProjectSettings/PackageManagerSettings.asset
+ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
+ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
+ProjectSettings/Physics2DSettings.asset
+ProjectSettings/PresetManager.asset
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersion.txt
+ProjectSettings/QualitySettings.asset
+ProjectSettings/SceneTemplateSettings.json
+ProjectSettings/TagManager.asset
+ProjectSettings/TagManager.asset
+ProjectSettings/TagManager.asset
+ProjectSettings/TimeManager.asset
+ProjectSettings/UnityConnectSettings.asset
+ProjectSettings/VFXManager.asset
+ProjectSettings/VersionControlSettings.asset
+ProjectSettings/XRSettings.asset
+extOSC/logs.xml
+extOSC/logs.xml
+touchDesignerOSCSender/Backup/oscsender.10.toe
+touchDesignerOSCSender/Backup/oscsender.11.toe
+touchDesignerOSCSender/Backup/oscsender.11.toe
+touchDesignerOSCSender/Backup/oscsender.12.toe
+touchDesignerOSCSender/Backup/oscsender.13.toe
+touchDesignerOSCSender/Backup/oscsender.14.toe
+touchDesignerOSCSender/Backup/oscsender.16.toe
+touchDesignerOSCSender/Backup/oscsender.9.toe
+touchDesignerOSCSender/oscsender.15.toe
+touchDesignerOSCSender/oscsender.15.toe
+touchDesignerOSCSender/oscsender.17.toe
+touchDesignerOSCSender/oscsender.17.toe
+touchDesignerOSCSender/oscsender.toe
+OSCRecordings/playersplaying.0 (1).mov
+Assets/Shaders/RainbowMats/SkyBlue/SkyBlueTraceWater - Copy.mat
+Assets/Shaders/UnityBased/SoccerWall - Copy.mat
+Assets/Shaders/groundSpecks - Copy.mat
+Assets/Shaders/RainbowMats/SkyBlue/SkyBlueTraceWater - Copy.mat.meta
+Assets/Shaders/UnityBased/SoccerWall - Copy.mat.meta
+Assets/Shaders/groundSpecks - Copy.mat.meta
+Assets/extOSC/extOSC - Documentation.pdf
+Assets/extOSC/extOSC - Documentation.pdf.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Dance 1 - Copy.controller
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Dance 1 - Copy.controller.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Dance 1.controller
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Dance 1.controller.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Walking 1.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Walking 1.fbx.meta
+Assets/Plugins/ToonSketchShaderPack/Shaders/justOutline 1.mat
+Assets/Shaders/RainbowMats/Auburn/auburn 1.mat
+Assets/Plugins/ToonSketchShaderPack/Shaders/justOutline 1.mat.meta
+Assets/Shaders/RainbowMats/Auburn/auburn 1.mat.meta
+Assets/Shaders/raytraceShaders/waterShader 1.shader
+Assets/Shaders/raytraceShaders/waterShader 1.shader.meta
+Assets/Shaders/Debug/forceDebug 2.shader
+Assets/Shaders/Debug/forceDebug 2.shader.meta
+Assets/Scenes/may 27.unity
+Assets/Scenes/may 27.unity.meta
+Assets/Sounds/babTracks/temple/temple 6-11-23 (2nd cycle).wav
+Assets/Sounds/babTracks/temple/temple 6-11-23 (2nd cycle).wav.meta
+Assets/Sounds/babTracks/temple/temple 6-11-23 (tail).wav
+Assets/Sounds/babTracks/temple/temple 6-11-23 (tail).wav.meta
+Assets/Sounds/babTracks/desert/desert 6-12-23 (2nd cycle).wav
+Assets/Sounds/babTracks/desert/desert 6-12-23 (2nd cycle).wav.meta
+Assets/Sounds/babTracks/desert/desert 6-12-23 (tail).wav
+Assets/Sounds/babTracks/desert/desert 6-12-23 (tail).wav.meta
+Assets/Sounds/babTracks/tree/tree 6-13-23 (2nd cycle).wav
+Assets/Sounds/babTracks/tree/tree 6-13-23 (2nd cycle).wav.meta
+Assets/Sounds/babTracks/tree/tree 6-13-23 (tail).wav
+Assets/Sounds/babTracks/tree/tree 6-13-23 (tail).wav.meta
+Assets/Sounds/babTracks/tutorial/tutorial 6-24-2023 (2nd cycle).wav
+Assets/Sounds/babTracks/tutorial/tutorial 6-24-2023 (2nd cycle).wav.meta
+Assets/Sounds/babTracks/tutorial/tutorial 6-24-2023 (tail).wav
+Assets/Sounds/babTracks/tutorial/tutorial 6-24-2023 (tail).wav.meta
+Assets/extOSC/Examples/09) Address Masks.meta
+Assets/extOSC/Examples/09) Address Masks/Address Masks.unity
+Assets/extOSC/Examples/09) Address Masks/Address Masks.unity.meta
+Assets/extOSC/Examples/09) Address Masks/Scripts.meta
+Assets/extOSC/Examples/09) Address Masks/Scripts/AddressMaskExample.cs
+Assets/extOSC/Examples/09) Address Masks/Scripts/AddressMaskExample.cs.meta
+Assets/extOSC/Examples/11) Array.meta
+Assets/extOSC/Examples/11) Array/Array.unity
+Assets/extOSC/Examples/11) Array/Array.unity.meta
+Assets/extOSC/Examples/11) Array/Scripts.meta
+Assets/extOSC/Examples/11) Array/Scripts/ArrayExample.cs
+Assets/extOSC/Examples/11) Array/Scripts/ArrayExample.cs.meta
+Assets/Sounds/22_01 Bird Flap Close 01.wav
+Assets/Sounds/22_01 Bird Flap Close 01.wav.meta
+Assets/Sounds/22_02 Bird Flap Close 02.wav
+Assets/Sounds/22_02 Bird Flap Close 02.wav.meta
+Assets/Sounds/22_03 Bird Flap Close 03.wav
+Assets/Sounds/22_03 Bird Flap Close 03.wav.meta
+Assets/Sounds/22_04 Bird Flap Close 04.wav
+Assets/Sounds/22_04 Bird Flap Close 04.wav.meta
+Assets/Sounds/22_05 Bird Flap Close 05.wav
+Assets/Sounds/22_05 Bird Flap Close 05.wav.meta
+Assets/Sounds/21_01 Bird Flap Open 01.wav
+Assets/Sounds/21_01 Bird Flap Open 01.wav.meta
+Assets/Sounds/21_02 Bird Flap Open 02.wav
+Assets/Sounds/21_02 Bird Flap Open 02.wav.meta
+Assets/Sounds/21_03 Bird Flap Open 03.wav
+Assets/Sounds/21_03 Bird Flap Open 03.wav.meta
+Assets/Sounds/21_04 Bird Flap Open 04.wav
+Assets/Sounds/21_04 Bird Flap Open 04.wav.meta
+Assets/Sounds/21_05 Bird Flap Open 05.wav
+Assets/Sounds/21_05 Bird Flap Open 05.wav.meta
+Assets/Sounds/21_06 Bird Flap Open 06.wav
+Assets/Sounds/21_06 Bird Flap Open 06.wav.meta
+Assets/Plugins/FantasyTree/Prefabs/Many Branches.prefab
+Assets/Plugins/FantasyTree/Prefabs/Many Branches.prefab.meta
+Assets/Scenes/8. Buddy-SelfFlorp.unity
+Assets/Scenes/8. Buddy-SelfFlorp.unity
+Assets/Scenes/8. Buddy-SelfFlorp.unity.meta
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene_Profiles/Main Camera Profile.asset
+Assets/Plugins/ToonSketchShaderPack/Scenes/SampleScene_Profiles/Main Camera Profile.asset.meta
+Assets/Shaders/RainbowMats/Auburn/Gold Clouds.mat
+Assets/Shaders/RainbowMats/RoyalBlue/Blue Clouds.mat
+Assets/Shaders/RainbowMats/Auburn/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Gold/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Green/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Magenta/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Orange/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Pink/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Purple/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/Red/Gold Clouds.mat.meta
+Assets/Shaders/RainbowMats/RoyalBlue/Blue Clouds.mat.meta
+Assets/Shaders/RainbowMats/SkyBlue/Blue Clouds.mat.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Cool Colors.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Cool Colors.prefab.meta
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Salsa Dancing.fbx
+Assets/Plugins/ToonSketchShaderPack/Meshes/Dancing/Salsa Dancing.fbx.meta
+Assets/extOSC/Examples/05) Events And Informers.meta
+Assets/extOSC/Examples/05) Events And Informers/Events And Informers.unity
+Assets/extOSC/Examples/05) Events And Informers/Events And Informers.unity.meta
+Assets/extOSC/Examples/03) Events.meta
+Assets/extOSC/Examples/03) Events/Events.unity
+Assets/extOSC/Examples/03) Events/Events.unity.meta
+Assets/extOSC/Examples/03) Events/Scripts.meta
+Assets/extOSC/Examples/03) Events/Scripts/EventsExample.cs
+Assets/extOSC/Examples/03) Events/Scripts/EventsExample.cs.meta
+Assets/Sounds/SFX Exports v01.meta
+Assets/Sounds/SFX Exports v01/01 Melodic Enter.wav
+Assets/Sounds/SFX Exports v01/01 Melodic Enter.wav.meta
+Assets/Sounds/SFX Exports v01/02 Melodic Exit.wav
+Assets/Sounds/SFX Exports v01/02 Melodic Exit.wav.meta
+Assets/Sounds/SFX Exports v01/03 Melodic Enter Higher.wav
+Assets/Sounds/SFX Exports v01/03 Melodic Enter Higher.wav.meta
+Assets/Sounds/SFX Exports v01/04 Melodic Exit Higher.wav
+Assets/Sounds/SFX Exports v01/04 Melodic Exit Higher.wav.meta
+Assets/Sounds/SFX Exports v01/05 Melodic Confirm.wav
+Assets/Sounds/SFX Exports v01/05 Melodic Confirm.wav.meta
+Assets/Sounds/SFX Exports v01/06 Melodic Confirm Higher.wav
+Assets/Sounds/SFX Exports v01/06 Melodic Confirm Higher.wav.meta
+Assets/Sounds/SFX Exports v01/07 Melodic Un-confirm.wav
+Assets/Sounds/SFX Exports v01/07 Melodic Un-confirm.wav.meta
+Assets/Sounds/SFX Exports v01/08 Melodic Un-confirm Higher.wav
+Assets/Sounds/SFX Exports v01/08 Melodic Un-confirm Higher.wav.meta
+Assets/Sounds/SFX Exports v01/09 Melodic Half Confirm.wav
+Assets/Sounds/SFX Exports v01/09 Melodic Half Confirm.wav.meta
+Assets/Sounds/SFX Exports v01/10 Melodic Half Confirm Higher.wav
+Assets/Sounds/SFX Exports v01/10 Melodic Half Confirm Higher.wav.meta
+Assets/Sounds/SFX Exports v01/11 Melodic Question Up.wav
+Assets/Sounds/SFX Exports v01/11 Melodic Question Up.wav.meta
+Assets/Sounds/SFX Exports v01/12 Melodic Question Down.wav
+Assets/Sounds/SFX Exports v01/12 Melodic Question Down.wav.meta
+Assets/Sounds/SFX Exports v01/13_01 Sandy Swipe 01.wav
+Assets/Sounds/SFX Exports v01/13_01 Sandy Swipe 01.wav.meta
+Assets/Sounds/SFX Exports v01/13_02 Sandy Swipe 02.wav
+Assets/Sounds/SFX Exports v01/13_02 Sandy Swipe 02.wav.meta
+Assets/Sounds/SFX Exports v01/13_03 Sandy Swipe 03.wav
+Assets/Sounds/SFX Exports v01/13_03 Sandy Swipe 03.wav.meta
+Assets/Sounds/SFX Exports v01/14_01 Sandy Swipes Windchimes 01.wav.meta
+Assets/Sounds/SFX Exports v01/14_02 Sandy Swipes Windchimes 02.wav
+Assets/Sounds/SFX Exports v01/14_02 Sandy Swipes Windchimes 02.wav.meta
+Assets/Sounds/SFX Exports v01/14_03 Sandy Swipes Windchimes 03.wav
+Assets/Sounds/SFX Exports v01/14_03 Sandy Swipes Windchimes 03.wav.meta
+Assets/Sounds/SFX Exports v01/15_01 Page Swipes 01.wav
+Assets/Sounds/SFX Exports v01/15_01 Page Swipes 01.wav.meta
+Assets/Sounds/SFX Exports v01/15_02 Page Swipes 02.wav
+Assets/Sounds/SFX Exports v01/15_02 Page Swipes 02.wav.meta
+Assets/Sounds/SFX Exports v01/15_03 Page Swipes 03.wav
+Assets/Sounds/SFX Exports v01/15_03 Page Swipes 03.wav.meta
+Assets/Sounds/SFX Exports v01/16_01 Boops 01.wav
+Assets/Sounds/SFX Exports v01/16_01 Boops 01.wav.meta
+Assets/Sounds/SFX Exports v01/16_02 Boops 02.wav
+Assets/Sounds/SFX Exports v01/16_02 Boops 02.wav.meta
+Assets/Sounds/SFX Exports v01/16_03 Boops 03.wav
+Assets/Sounds/SFX Exports v01/16_03 Boops 03.wav.meta
+Assets/Sounds/SFX Exports v01/16_04 Boops 04.wav
+Assets/Sounds/SFX Exports v01/16_04 Boops 04.wav.meta
+Assets/Sounds/SFX Exports v01/17_01 Double Boops 01.wav
+Assets/Sounds/SFX Exports v01/17_01 Double Boops 01.wav.meta
+Assets/Sounds/SFX Exports v01/17_02 Double Boops 02.wav
+Assets/Sounds/SFX Exports v01/17_02 Double Boops 02.wav.meta
+Assets/Sounds/SFX Exports v01/18_01 Tui Call 01.wav
+Assets/Sounds/SFX Exports v01/18_01 Tui Call 01.wav.meta
+Assets/Sounds/SFX Exports v01/18_02 Tui Call 02.wav
+Assets/Sounds/SFX Exports v01/18_02 Tui Call 02.wav.meta
+Assets/Sounds/SFX Exports v01/18_03 Tui Call 03.wav
+Assets/Sounds/SFX Exports v01/18_03 Tui Call 03.wav.meta
+Assets/Sounds/SFX Exports v01/18_04 Tui Call 04.wav
+Assets/Sounds/SFX Exports v01/18_04 Tui Call 04.wav.meta
+Assets/Sounds/SFX Exports v01/18_05 Tui Call 05.wav
+Assets/Sounds/SFX Exports v01/18_05 Tui Call 05.wav.meta
+Assets/Sounds/SFX Exports v01/18_06 Tui Call 06.wav
+Assets/Sounds/SFX Exports v01/18_06 Tui Call 06.wav.meta
+Assets/Sounds/SFX Exports v01/18_07 Tui Call 07.wav
+Assets/Sounds/SFX Exports v01/18_07 Tui Call 07.wav.meta
+Assets/Sounds/SFX Exports v01/18_08 Tui Call 08.wav
+Assets/Sounds/SFX Exports v01/18_08 Tui Call 08.wav.meta
+Assets/Sounds/SFX Exports v01/18_09 Tui Call 09.wav
+Assets/Sounds/SFX Exports v01/18_09 Tui Call 09.wav.meta
+Assets/Sounds/SFX Exports v01/18_10 Tui Call 10.wav
+Assets/Sounds/SFX Exports v01/18_10 Tui Call 10.wav.meta
+Assets/Sounds/SFX Exports v01/18_11 Tui Call 11.wav
+Assets/Sounds/SFX Exports v01/18_11 Tui Call 11.wav.meta
+Assets/Sounds/SFX Exports v01/18_12 Tui Call 12.wav
+Assets/Sounds/SFX Exports v01/18_12 Tui Call 12.wav.meta
+Assets/Sounds/SFX Exports v01/18_13 Tui Call 13.wav
+Assets/Sounds/SFX Exports v01/18_13 Tui Call 13.wav.meta
+Assets/Sounds/SFX Exports v01/18_14 Tui Call 14.wav
+Assets/Sounds/SFX Exports v01/18_14 Tui Call 14.wav.meta
+Assets/Sounds/SFX Exports v01/18_15 Tui Call 15.wav
+Assets/Sounds/SFX Exports v01/18_15 Tui Call 15.wav.meta
+Assets/Sounds/SFX Exports v01/18_16 Tui Call 16.wav
+Assets/Sounds/SFX Exports v01/18_16 Tui Call 16.wav.meta
+Assets/Sounds/SFX Exports v01/18_17 Tui Call 17.wav
+Assets/Sounds/SFX Exports v01/18_17 Tui Call 17.wav.meta
+Assets/Sounds/SFX Exports v01/18_18 Tui Call 18.wav
+Assets/Sounds/SFX Exports v01/18_18 Tui Call 18.wav.meta
+Assets/Sounds/SFX Exports v01/18_19 Tui Call 19.wav
+Assets/Sounds/SFX Exports v01/18_19 Tui Call 19.wav.meta
+Assets/Sounds/SFX Exports v01/19_01 Synth Bird Call 01.wav
+Assets/Sounds/SFX Exports v01/19_01 Synth Bird Call 01.wav.meta
+Assets/Sounds/SFX Exports v01/19_02 Synth Bird Call 02.wav
+Assets/Sounds/SFX Exports v01/19_02 Synth Bird Call 02.wav.meta
+Assets/Sounds/SFX Exports v01/19_03 Synth Bird Call 03.wav
+Assets/Sounds/SFX Exports v01/19_03 Synth Bird Call 03.wav.meta
+Assets/Sounds/SFX Exports v01/19_04 Synth Bird Call 04.wav
+Assets/Sounds/SFX Exports v01/19_04 Synth Bird Call 04.wav.meta
+Assets/Sounds/SFX Exports v01/19_05 Synth Bird Call 05.wav
+Assets/Sounds/SFX Exports v01/19_05 Synth Bird Call 05.wav.meta
+Assets/Sounds/SFX Exports v01/19_06 Synth Bird Call 06.wav
+Assets/Sounds/SFX Exports v01/19_06 Synth Bird Call 06.wav.meta
+Assets/Sounds/SFX Exports v01/20_01 Treated windchimes atmos 01.wav
+Assets/Sounds/SFX Exports v01/20_01 Treated windchimes atmos 01.wav.meta
+Assets/Sounds/SFX Exports v01/20_02 Treated windchimes atmos 02.wav
+Assets/Sounds/SFX Exports v01/20_02 Treated windchimes atmos 02.wav.meta
+Assets/Sounds/SFX Exports v01/21_01 Bird Flap Open 01.wav.meta
+Assets/Sounds/SFX Exports v01/21_02 Bird Flap Open 02.wav.meta
+Assets/Sounds/SFX Exports v01/21_03 Bird Flap Open 03.wav.meta
+Assets/Sounds/SFX Exports v01/21_04 Bird Flap Open 04.wav.meta
+Assets/Sounds/SFX Exports v01/21_05 Bird Flap Open 05.wav.meta
+Assets/Sounds/SFX Exports v01/21_06 Bird Flap Open 06.wav.meta
+Assets/Sounds/SFX Exports v01/22_01 Bird Flap Close 01.wav.meta
+Assets/Sounds/SFX Exports v01/22_02 Bird Flap Close 02.wav.meta
+Assets/Sounds/SFX Exports v01/22_03 Bird Flap Close 03.wav.meta
+Assets/Sounds/SFX Exports v01/22_04 Bird Flap Close 04.wav.meta
+Assets/Sounds/SFX Exports v01/22_05 Bird Flap Close 05.wav.meta
+Assets/Sounds/SFX Exports v01/23 Bird Wind Banking loop.wav
+Assets/Sounds/SFX Exports v01/23 Bird Wind Banking loop.wav.meta
+Assets/Sounds/SFX Exports v01/24 Bird Wind Diving.wav
+Assets/Sounds/SFX Exports v01/24 Bird Wind Diving.wav.meta
+Assets/Sounds/SFX Exports v01/25 Bird Wind Rising.wav
+Assets/Sounds/SFX Exports v01/25 Bird Wind Rising.wav.meta
+Assets/Sounds/SFX Exports v01/27 Bird Smash.wav
+Assets/Sounds/SFX Exports v01/27 Bird Smash.wav.meta
+Assets/Sounds/SFX Exports v01/28 Bird Unsmash.wav
+Assets/Sounds/SFX Exports v01/28 Bird Unsmash.wav.meta
+Assets/Sounds/SFX Exports v01/29 Bird Crystal Vortex Loop.wav
+Assets/Sounds/SFX Exports v01/29 Bird Crystal Vortex Loop.wav.meta
+Assets/Scenes/Self FLORP.unity
+Assets/Scenes/9. Flock.unity
+Assets/Scenes/9. Flock.unity.meta
+Assets/extOSC/Examples/01) Getting Started.meta
+Assets/extOSC/Examples/01) Getting Started/Getting Started.unity
+Assets/extOSC/Examples/01) Getting Started/Getting Started.unity.meta
+Assets/extOSC/Examples/01) Getting Started/Scripts.meta
+Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageReceiver.cs
+Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageReceiver.cs.meta
+Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageTransmitter.cs
+Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageTransmitter.cs.meta
+Assets/Scenes/3. Hug.unity
+Assets/Scenes/3. Hug.unity.meta
+Assets/extOSC/Examples/04) Informers.meta
+Assets/extOSC/Examples/04) Informers/Informers.unity
+Assets/extOSC/Examples/04) Informers/Informers.unity.meta
+Assets/extOSC/Examples/04) Informers/Scripts.meta
+Assets/extOSC/Examples/04) Informers/Scripts/InformersExample.cs
+Assets/extOSC/Examples/04) Informers/Scripts/InformersExample.cs.meta
+Assets/Scenes/4. Kalli.unity
+Assets/Scenes/4. Kalli.unity
+Assets/Scenes/4. Kalli.unity.meta
+Assets/Shaders/RainbowMats/Auburn/Gold LEaves.mat
+Assets/Shaders/RainbowMats/Auburn/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Gold/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Green/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Magenta/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Orange/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Pink/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Purple/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/Red/Gold LEaves.mat.meta
+Assets/Shaders/RainbowMats/RoyalBlue/Blue Leaves.mat
+Assets/Shaders/RainbowMats/SkyBlue/Blue Leaves.mat
+Assets/Shaders/RainbowMats/RoyalBlue/Blue Leaves.mat.meta
+Assets/Shaders/RainbowMats/SkyBlue/Blue Leaves.mat.meta
+Assets/extOSC/Examples/06) Mapping.meta
+Assets/extOSC/Examples/06) Mapping/Mapping Example.asset
+Assets/extOSC/Examples/06) Mapping/Mapping Example.asset.meta
+Assets/extOSC/Examples/06) Mapping/Mapping.unity
+Assets/extOSC/Examples/06) Mapping/Mapping.unity.meta
+Assets/extOSC/Examples/06) Mapping/Scripts.meta
+Assets/extOSC/Examples/06) Mapping/Scripts/MappingExample.cs
+Assets/extOSC/Examples/06) Mapping/Scripts/MappingExample.cs.meta
+Assets/extOSC/Examples/13) Marshalling.meta
+Assets/extOSC/Examples/13) Marshalling/Marshalling.unity
+Assets/extOSC/Examples/13) Marshalling/Marshalling.unity.meta
+Assets/extOSC/Examples/13) Marshalling/Scripts.meta
+Assets/extOSC/Examples/13) Marshalling/Scripts/MarshallingExample.cs
+Assets/extOSC/Examples/13) Marshalling/Scripts/MarshallingExample.cs.meta
+Assets/extOSC/Examples/12) Match Pattern.meta
+Assets/extOSC/Examples/12) Match Pattern/Match Pattern.unity
+Assets/extOSC/Examples/12) Match Pattern/Match Pattern.unity.meta
+Assets/extOSC/Examples/12) Match Pattern/Scripts.meta
+Assets/extOSC/Examples/12) Match Pattern/Scripts/MatchPatternExample.cs
+Assets/extOSC/Examples/12) Match Pattern/Scripts/MatchPatternExample.cs.meta
+Assets/Shaders/UnityBased/New Material 1.mat
+Assets/Shaders/UnityBased/New Material 1.mat.meta
+Assets/Shaders/UnityBased/New Material 2.mat
+Assets/Shaders/UnityBased/New Material 2.mat.meta
+Assets/Shaders/UnityBased/New Material 3.mat
+Assets/Shaders/UnityBased/New Material 3.mat.meta
+Assets/Shaders/UnityBased/New Material 4.mat
+Assets/Shaders/UnityBased/New Material 4.mat.meta
+Assets/Shaders/UnityBased/New Material.mat
+Assets/Shaders/raytraceShaders/New Material.mat
+Assets/Shaders/UnityBased/New Material.mat.meta
+Assets/Shaders/raytraceShaders/New Material.mat.meta
+Assets/Scenes/5. Mimic Shape.unity
+Assets/Scenes/5. Mimic Shape.unity.meta
+Assets/Plugins/FantasyCrystal/Prefabs/IQ Ocean.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/IQ Ocean.prefab.meta
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Aurora Orange.mat
+Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Aurora Orange.mat.meta
+Assets/Scenes/0. Oreintation.unity
+Assets/Scenes/0. Oreintation.unity.meta
+Assets/Prefabs/Collect Particle System.prefab
+Assets/Prefabs/Collect Particle System.prefab
+Assets/Prefabs/Collision Particle System.prefab
+Assets/Prefabs/Collect Particle System.prefab.meta
+Assets/Prefabs/Collision Particle System.prefab.meta
+Assets/Prefabs/Major ParticleSystem.prefab
+Assets/Prefabs/Major ParticleSystem.prefab.meta
+Assets/extOSC/Examples/10) Ping.meta
+Assets/extOSC/Examples/10) Ping/Ping.unity
+Assets/extOSC/Examples/10) Ping/Ping.unity.meta
+Assets/extOSC/Examples/10) Ping/Scripts.meta
+Assets/extOSC/Examples/10) Ping/Scripts/PingExample.cs
+Assets/extOSC/Examples/10) Ping/Scripts/PingExample.cs.meta
+Assets/TextMesh Pro.meta
+Assets/TextMesh Pro/Documentation.meta
+Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf
+Assets/TextMesh Pro/Documentation/TextMesh Pro User Guide 2016.pdf.meta
+Assets/TextMesh Pro/Fonts.meta
+Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
+Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt.meta
+Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta
+Assets/TextMesh Pro/Resources.meta
+Assets/TextMesh Pro/Resources/Fonts & Materials.meta
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat.meta
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset.meta
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat.meta
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset.meta
+Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt
+Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt.meta
+Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt
+Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt.meta
+Assets/TextMesh Pro/Resources/Sprite Assets.meta
+Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
+Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset.meta
+Assets/TextMesh Pro/Resources/Style Sheets.meta
+Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset
+Assets/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset.meta
+Assets/TextMesh Pro/Resources/TMP Settings.asset
+Assets/TextMesh Pro/Resources/TMP Settings.asset.meta
+Assets/TextMesh Pro/Shaders.meta
+Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader
+Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader
+Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader
+Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_SDF.shader
+Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta
+Assets/TextMesh Pro/Shaders/TMP_Sprite.shader
+Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta
+Assets/TextMesh Pro/Shaders/TMPro.cginc
+Assets/TextMesh Pro/Shaders/TMPro.cginc.meta
+Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc
+Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta
+Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc
+Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc.meta
+Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc
+Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc.meta
+Assets/TextMesh Pro/Sprites.meta
+Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt
+Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt.meta
+Assets/TextMesh Pro/Sprites/EmojiOne.json
+Assets/TextMesh Pro/Sprites/EmojiOne.json.meta
+Assets/TextMesh Pro/Sprites/EmojiOne.png
+Assets/TextMesh Pro/Sprites/EmojiOne.png.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Galatic Purp.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Galatic Purp.prefab.meta
+Assets/Plugins/FantasyCrystal/Prefabs/Rose Quartz.prefab
+Assets/Plugins/FantasyCrystal/Prefabs/Rose Quartz.prefab.meta
+Assets/Shaders/QuillShaders/new Quill Test.mat
+Assets/Shaders/QuillShaders/new Quill Test.mat.meta
+Assets/Sounds/14_01 Sandy Swipes Windchimes 01.wav
+Assets/Sounds/14_01 Sandy Swipes Windchimes 01.wav.meta
+Assets/extOSC/Examples/07) Scripting.meta
+Assets/extOSC/Examples/07) Scripting/Scripting.unity
+Assets/extOSC/Examples/07) Scripting/Scripting.unity.meta
+Assets/extOSC/Examples/07) Scripting/Scripts.meta
+Assets/extOSC/Examples/07) Scripting/Scripts/ScriptingExample.cs
+Assets/extOSC/Examples/07) Scripting/Scripts/ScriptingExample.cs.meta
+Assets/Scenes/Mimic Shape.unity
+Assets/Scenes/Mimic Shape.unity
+Assets/Scenes/6. Share-Florp.unity
+Assets/Scenes/6. Share-Florp.unity.meta
+Assets/Plugins/FantasyTree/Prefabs/Jacobs Special.prefab
+Assets/Plugins/FantasyTree/Prefabs/Jacobs Special.prefab.meta
+Assets/Real Stars Skybox.meta
+Assets/Real Stars Skybox/Demo Scene.meta
+Assets/Real Stars Skybox/Demo Scene/Documentation.txt
+Assets/Real Stars Skybox/Demo Scene/Documentation.txt.meta
+Assets/Real Stars Skybox/Demo Scene/RealStarsSkyboxFreeAsset.unity
+Assets/Real Stars Skybox/Demo Scene/RealStarsSkyboxFreeAsset.unity.meta
+Assets/Real Stars Skybox/Demo Scene/Skybox Camera.prefab
+Assets/Real Stars Skybox/Demo Scene/Skybox Camera.prefab.meta
+Assets/Real Stars Skybox/StarSkybox04.meta
+Assets/Real Stars Skybox/StarSkybox04/CubemapStars.cubemap.meta
+Assets/Real Stars Skybox/StarSkybox04/CubemapStars.cubemap.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox04.mat
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox04.mat.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox041.png
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox041.png.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox042.png
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox042.png.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox043.png
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox043.png.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox044.png
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox044.png.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox045.png
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox045.png.meta
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox046.png
+Assets/Real Stars Skybox/StarSkybox04/StarSkybox046.png.meta
+Assets/Real Stars Skybox/StarSkybox04Named.meta
+Assets/Real Stars Skybox/StarSkybox04Named/CubemapStarsNamed.cubemap.meta
+Assets/Real Stars Skybox/StarSkybox04Named/CubemapStarsNamed.cubemap.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named.mat
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named.mat.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named1.png
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named1.png.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named2.png
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named2.png.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named3.png
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named3.png.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named4.png
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named4.png.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named5.png
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named5.png.meta
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named6.png
+Assets/Real Stars Skybox/StarSkybox04Named/StarSkybox04Named6.png.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/CubemapStarsNamedConstellations.cubemap.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/CubemapStarsNamedConstellations.cubemap.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell.mat
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell.mat.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell1.png
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell1.png.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell2.png
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell2.png.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell3.png
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell3.png.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell4.png
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell4.png.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell5.png
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell5.png.meta
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell6.png
+Assets/Real Stars Skybox/StarSkybox04NamedConstell/StarSkybox04NamedConstell6.png.meta
+Assets/Scenes/2. Steer-SpaceShipSteerer.unity
+Assets/Scenes/2. Steer-SpaceShipSteerer.unity
+Assets/Scenes/2. Steer-SpaceShipSteerer.unity.meta
+Assets/Scenes/7. StickTogether.unity
+Assets/Scenes/7. StickTogether.unity.meta
+Assets/Shaders/New Terrain Material 1.mat
+Assets/Shaders/New Terrain Material 1.mat.meta
+Assets/Shaders/New Terrain Material.mat
+Assets/Shaders/New Terrain Material.mat.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree.meta
+Assets/Plugins/FantasyTree/Prefabs/Simple Tree.prefab
+Assets/Plugins/FantasyTree/Prefabs/Square Tree.prefab
+Assets/Plugins/FantasyTree/Prefabs/Simple Tree.prefab.meta
+Assets/Plugins/FantasyTree/Prefabs/Square Tree.prefab.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeBarkTri
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeBarkTri.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeBarkVert
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeBarkVert.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeFlowerTris
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeFlowerTris.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeFlowerVert
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeFlowerVert.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeParams
+Assets/Plugins/FantasyTree/Trees/Simple Tree/Simple Tree.treeParams.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree10724434.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree10724434.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree10751404.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree10751404.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree11655301.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree11655301.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree4194543.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree4194543.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree620634.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree620634.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree6407728.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree6407728.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree6957199.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree6957199.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree8205944.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree8205944.asset.meta
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree9645755.asset
+Assets/Plugins/FantasyTree/Trees/Simple Tree/bakedTree9645755.asset.meta
+Assets/Shaders/RainbowMats/Auburn/Gold Trunk.mat
+Assets/Shaders/RainbowMats/Auburn/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Gold/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Green/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Magenta/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Orange/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Pink/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Purple/Gold Trunk.mat.meta
+Assets/Shaders/RainbowMats/Red/Gold Trunk.mat.meta
+Assets/extOSC/Examples/08) UI.meta
+Assets/extOSC/Examples/08) UI/UI.unity
+Assets/extOSC/Examples/08) UI/UI.unity.meta
+Assets/extOSC/Examples/02) Value Types.meta
+Assets/extOSC/Examples/02) Value Types/Scripts.meta
+Assets/extOSC/Examples/02) Value Types/Scripts/ValueTypesExample.cs
+Assets/extOSC/Examples/02) Value Types/Scripts/ValueTypesExample.cs.meta
+Assets/extOSC/Examples/02) Value Types/Value Types.unity
+Assets/extOSC/Examples/02) Value Types/Value Types.unity.meta
+Assets/extOSC/Examples/02) Value Types/Value TypesSettings.lighting
+Assets/extOSC/Examples/02) Value Types/Value TypesSettings.lighting.meta
+Assets/Scenes/1. WithMe-DotCollector.unity
+Assets/Scenes/1. WithMe-DotCollector.unity.meta
+Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (2nd cycle).wav
+Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (2nd cycle).wav.meta
+Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (tail).wav
+Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (tail).wav.meta
+Assets/Shaders/particle3 debug.shader
+Assets/Shaders/particle3 debug.shader.meta
+Assets/Scenes/10. pAINT.unity
+Assets/Scenes/10. pAINT.unity.meta
+Assets/Sounds/babTracks/city/city ruins 6-12-23 (2nd cycle).wav
+Assets/Sounds/babTracks/city/city ruins 6-12-23 (2nd cycle).wav.meta
+Assets/Sounds/babTracks/city/city ruins 6-12-23 (tail).wav
+Assets/Sounds/babTracks/city/city ruins 6-12-23 (tail).wav.meta
+Assets/FulldomeForUnity/Assets/FreePBR.com/About these PBR files.txt
+Assets/FulldomeForUnity/Assets/FreePBR.com/About these PBR files.txt.meta
+Assets/Scenes/Stick together.unity
+Assets/Sounds/SwellUp/swell up drums.wav
+Assets/Sounds/SwellUp/swell up drums.wav.meta
+Assets/Sounds/SwellUp/swell up hihat.wav
+Assets/Sounds/SwellUp/swell up hihat.wav.meta
+Assets/Sounds/SwellUp/swell up synth 1.wav
+Assets/Sounds/SwellUp/swell up synth 1.wav.meta
+Assets/Sounds/SwellUp/swell up synth 2.wav
+Assets/Sounds/SwellUp/swell up synth 2.wav.meta
+Assets/Sounds/SwellUp/swell up synth 3.wav
+Assets/Sounds/SwellUp/swell up synth 3.wav.meta
+Assets/Sounds/SwellUp/swell up voice.wav
+Assets/Sounds/SwellUp/swell up voice.wav.meta
+Assets/Sounds/swell up voice.wav.meta

@@ -27,6 +27,12 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
 
     public Vector3 size;
 
+    public void Reset()
+    {
+        velocity = Vector3.zero;
+        transform.position = Vector3.zero;
+    }
+
 
 
 

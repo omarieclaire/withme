@@ -37,6 +37,15 @@ public class Hug : MonoBehaviour
     [Tooltip("List of HugFace objects that have completed the hug.")]
     public List<HugFace> completedFaces;
 
+    [Tooltip("Number of unique TrueTexture variations.")]
+    public int availableTrueTextures = 10; // Example number of unique TrueTexture variations
+
+    private void Start()
+    {
+        // Ensure numFacePairs does not exceed available TrueTexture variations
+        numFacePairs = Mathf.Min(numFacePairs, availableTrueTextures / 2);
+    }
+
     public void OnEnable()
     {
         Debug.Log("Hug - OnEnable: Initializing and resetting faces.");
@@ -56,12 +65,14 @@ public class Hug : MonoBehaviour
             face1.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
             face1.transform.localScale = Vector3.one * faceSize * 2;
             face1.transform.parent = transform;
+            face1.AssignTrueTexture(i); // Assign unique TrueTexture
             Debug.Log($"Hug - OnEnable: Instantiated face1 with position {face1.transform.position} and scale {face1.transform.localScale}.");
 
             HugFace face2 = Instantiate(facePrefab).GetComponent<HugFace>();
             face2.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
             face2.transform.localScale = Vector3.one * faceSize * 2;
             face2.transform.parent = transform;
+            face2.AssignTrueTexture(i); // Assign unique TrueTexture
             Debug.Log($"Hug - OnEnable: Instantiated face2 with position {face2.transform.position} and scale {face2.transform.localScale}.");
 
             face1.hug = this;

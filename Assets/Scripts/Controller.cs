@@ -8,27 +8,34 @@ public class Controller : MonoBehaviour
     [Tooltip("Resolution of the live pose camera.")]
     public int cameraResolution = 640;
 
-    // maps 0 to the negative remap value, and maps 640 to the positive remap value
-    // note, Y becomes Z because the osc only has two values and we need 3
-    [Tooltip("Remap values for camera input: maps 0 to negative and 640 to positive.")]
-    public Vector2 RemapValues = new Vector2(1, -1);
 
-    [Header("Positioning Info")]
-    [Tooltip("Vertical positioning value; higher values keep objects closer to the top of the dome.")]
-    public float verticalValue = 1;
-
-
+    [Header("BIG INFO")]
     [Tooltip("Radius of the 'playsphere' where dots and players exist, used to visually scale the game.")]
     public float sphereSize = 10;
-
-    [Tooltip("Maximum size for position scaling along each axis.")]
-    public Vector3 maxSize = new Vector3(1, 0, 1);
-
     [Tooltip("Maximum degrees for positioning calculations.")]
     public float maxDegrees = 210;
 
     [Tooltip("Factor for pushing positions towards the bottom of the dome.")]
     public float pushTowardsBottom = .5f;
+
+    [Tooltip("Initial size for players.")]
+    public float startSize;
+
+    [Header("Positioning Info")]
+    [Tooltip("Vertical positioning value; higher values keep objects closer to the top of the dome.")]
+    public float verticalValue = 1;
+
+    // maps 0 to the negative remap value, and maps 640 to the positive remap value
+    // note, Y becomes Z because the osc only has two values and we need 3
+    [Tooltip("Remap values for camera input: maps 0 to negative and 640 to positive.")]
+    public Vector2 RemapValues = new Vector2(1, -1);
+
+
+
+    [Tooltip("Maximum size for position scaling along each axis.")]
+    public Vector3 maxSize = new Vector3(1, 0, 1);
+
+
 
     [Header("Player Info")]
     [Tooltip("List of player GameObjects.")]
@@ -46,7 +53,7 @@ public class Controller : MonoBehaviour
     [Tooltip("List of scaling factors for player visibility.")]
     public List<float> playerSeenScaler;
 
-      // Speed at which players lerp towards their target position,
+    // Speed at which players lerp towards their target position,
     // smaller value means slower speed
 
     [Tooltip("List of target positions for players.")]
@@ -55,8 +62,7 @@ public class Controller : MonoBehaviour
     [Tooltip("Prefab for player instances.")]
     public GameObject playerPrefab;
 
-    [Tooltip("Initial size for players.")]
-    public float startSize;
+
 
     [Tooltip("Parent transform for player instances.")]
     public Transform playerHolder;
@@ -80,10 +86,53 @@ public class Controller : MonoBehaviour
     [Tooltip("List of active player GameObjects.")]
     public List<PlayerAvatar> activePlayers;
 
-    
+
+    [Header("Skybox Info")]
+    [Header("Re Enable in play mode to update")]
+
+    [Tooltip("Skybox stuff")]
+    public Material skyboxMaterial;
+
+
+    [Tooltip("Sun position for skybox. Y IS NEGATIVE SORRY")]
+    public Vector3 SunPosition = new Vector3(0, -1, 0);
+
+    public float SunHue = 0;
+    public float sunIntensity = 1;
+    public float sunHueSize = .1f;
+    public float auroraIntensity = 1;
+    public float auroraSpeed = 1;
+    public float auroraHueStart = 0;
+    public float auroraHueSize = 1;
+
+    public float auroraHorizonImportance = .1f;
+
+    public float auroraNoiseSize = 1;
+
+
+    public float auroraVibrantness = 1;
+
+
+
+
+
+
 
     public virtual void _SetUp()
     {
+
+        skyboxMaterial.SetVector("_LightDir", SunPosition.normalized);
+        skyboxMaterial.SetFloat("_SunIntensity", sunIntensity);
+        skyboxMaterial.SetFloat("_SunHue", SunHue);
+        skyboxMaterial.SetFloat("_SunHueSize", sunHueSize);
+        skyboxMaterial.SetFloat("_AuroraIntensity", auroraIntensity);
+        skyboxMaterial.SetFloat("_AuroraSpeed", auroraSpeed);
+        skyboxMaterial.SetFloat("_AuroraHueStart", auroraHueStart);
+        skyboxMaterial.SetFloat("_AuroraHueSize", auroraHueSize);
+        skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
+        skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
+        skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
+
 
         players = new List<GameObject>();
         playerAvatars = new List<PlayerAvatar>();

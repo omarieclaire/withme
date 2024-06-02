@@ -12,6 +12,9 @@ public class MimicShape : MonoBehaviour
     public List<bool> spheresActive; // List to track the active state of each sphere
     public float sphereSize;
 
+    public Timer timer;
+
+
     // Called when the script is enabled
     public void OnEnable()
     {
@@ -61,6 +64,8 @@ public class MimicShape : MonoBehaviour
 
             spheres[i].transform.position = randomPos;
         }
+
+        audio.Play(newShapeSetClip);
     }
 
     // Variables for time-based shape changes
@@ -76,9 +81,34 @@ public class MimicShape : MonoBehaviour
 
     public float activationRadius;
 
+    public AudioClip onTickClip;
+
+    float oTime;
+    float nTime;
+
+
+    public float tickRate = .1f;
+
     // Update is called once per frame
     void Update()
     {
+
+        oTime = nTime;
+
+        nTime = Time.time - lastTimeChange;
+        nTime /= timeBetweenChanges;
+
+
+        if (nTime % tickRate < oTime % tickRate)
+        {
+            audio.Play(onTickClip, .5f + nTime * .5f);
+        }
+
+
+        timer.SetHand(nTime);
+
+
+
         // Check if it's time to change the shape
         if (Time.time - lastTimeChange > timeBetweenChanges)
         {
@@ -101,22 +131,50 @@ public class MimicShape : MonoBehaviour
                 if (distance < activationRadius)
                 {
                     sphereActive = true;
+                    LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
+                    lr.positionCount = 2;
+                    lr.SetPosition(0, spheres[j].transform.position);
+                    lr.SetPosition(1, player.transform.position);
                 }
             }
 
             // Set the sphere's color and active state based on its activation status
             if (sphereActive)
             {
-                spheres[j].GetComponent<Renderer>().material.color = Color.green;
+
+
+                Color color = Color.green;
+
+                Renderer rend = spheres[j].GetComponent<Renderer>();
+                rend.material.SetColor("_Color", color);
+                rend.material.SetColor("_BaseColor", color * .1f);
+                rend.material.SetColor("_ReflectionColor", color);
+                rend.material.SetColor("_CenterOrbColor", color * .1f);
+                rend.material.SetColor("_NoiseColor", color * 2);
+
+
                 spheresActive[j] = true;
             }
             else
             {
-                spheres[j].GetComponent<Renderer>().material.color = Color.red;
+                LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
+                lr.positionCount = 0;
+
+                Color color = Color.red;
+
+                Renderer rend = spheres[j].GetComponent<Renderer>();
+                rend.material.SetColor("_Color", color);
+                rend.material.SetColor("_BaseColor", color * .1f);
+                rend.material.SetColor("_ReflectionColor", color);
+                rend.material.SetColor("_CenterOrbColor", color * .1f);
+                rend.material.SetColor("_NoiseColor", color * 2);
+
                 spheresActive[j] = false;
             }
         }
 
+
+        int oNumActivated = numShapesActivated;
         // Count the number of activated spheres
         numShapesActivated = 0;
         for (int i = 0; i < numSpheres; i++)
@@ -127,6 +185,19 @@ public class MimicShape : MonoBehaviour
             }
         }
 
+        if (oNumActivated != numShapesActivated)
+        {
+            if (oNumActivated < numShapesActivated)
+            {
+                audio.Play(onLeaveClip);
+            }
+            else
+            {
+                audio.Play(onEnterClip);
+            }
+        }
+
+
         // Trigger the shape complete event if all spheres are activated
         if (numShapesActivated == numSpheres)
         {
@@ -135,9 +206,12 @@ public class MimicShape : MonoBehaviour
     }
 
     // References for audio and particle effects
-    public AudioPlayer audio; 
-    public AudioClip onShapeCompleteClip; 
-    public ParticleSystem onShapeCompleteParticles; 
+    public AudioPlayer audio;
+    public AudioClip onShapeCompleteClip;
+    public ParticleSystem onShapeCompleteParticles;
+    public AudioClip newShapeSetClip;
+    public AudioClip onEnterClip;
+    public AudioClip onLeaveClip;
 
     // Called when the shape is complete
     void OnShapeComplete()

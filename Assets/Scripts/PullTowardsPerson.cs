@@ -25,6 +25,8 @@ public class PullTowardsPerson : MonoBehaviour
     public LineRenderer lr;
 
 
+    public float forceTowardsSphere = 1.0f;
+
     // Update is called once per frame
     void Update()
     {
@@ -32,6 +34,8 @@ public class PullTowardsPerson : MonoBehaviour
         {
 
             rb.AddForce((controller.players[playerID].transform.position - transform.position) * pullForce);
+
+            rb.position = Vector3.MoveTowards(rb.position, controller.getFinalPosition(rb.position), forceTowardsSphere * Time.deltaTime);
             lr.SetPosition(0, transform.position);
             lr.SetPosition(1, controller.players[playerID].transform.position);
 
