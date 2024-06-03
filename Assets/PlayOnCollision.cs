@@ -34,6 +34,12 @@ public class PlayOnCollision : MonoBehaviour
 
     public float currentHue;
 
+    public bool followOnCollider;
+    public Transform followTransform;
+    public float collideTime;
+    public LineRenderer followLine;
+    public float increaseCollider;
+
 
     void OnCollisionEnter(Collision collision)
     {
@@ -95,13 +101,53 @@ public class PlayOnCollision : MonoBehaviour
                 m.SetColor("_ReflectionColor", color);
                 m.SetColor("_CenterOrbColor", color * .1f);
                 m.SetColor("_NoiseColor", color * 2);
+
             }
 
+            if (followOnCollider)
+            {
+                followTransform = collision.gameObject.transform;
+                vel = Vector3.zero;
+                collideTime = Time.time;
+                collision.gameObject.transform.localScale += Vector3.one * increaseCollider;
+                GetComponent<SphereCollider>().enabled = false;
+            }
 
         }
 
 
 
+    }
+
+
+    public float followForce;
+    public float dampening;
+
+    public Vector3 vel;
+
+    public Vector3 randomDir(float collideTime)
+    {
+        return new Vector3(Mathf.Sin(collideTime), Mathf.Cos(collideTime), Mathf.Sin(collideTime * 2));
+
+    }
+    public void Update()
+    {
+        if (followTransform)
+        {
+
+            Vector3 force = Vector3.zero;
+
+            force += (followTransform.position - transform.position + randomDir(collideTime)) * followForce;
+
+            vel += force * Time.deltaTime;
+            transform.position += vel * Time.deltaTime;
+
+            vel *= dampening;
+
+            followLine.SetPosition(0, transform.position);
+            followLine.SetPosition(1, followTransform.position);
+
+        }
     }
 
     public void OnEnable()

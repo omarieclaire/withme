@@ -2686,6 +2686,8 @@ MonoBehaviour:
   nodePrefab: {fileID: 1177282428}
   controller: {fileID: 1890852102}
   nodes: []
+  sphereOsscilationSize: 5
+  sphereOsscilationSpeed: 1
 --- !u!1 &1793281183
 GameObject:
   m_ObjectHideFlags: 0

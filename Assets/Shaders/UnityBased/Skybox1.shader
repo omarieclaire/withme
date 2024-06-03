@@ -57,10 +57,6 @@ Shader "Terrain/Skybox1"
 
       float3 _LightDir;
 
-      float _SunHue;
-      float _SunHueSize;
-      float _SunIntensity;
-
       //A simple input struct for our pixel shader step containing a position.
       struct varyings {
         float4 pos      : SV_POSITION;
@@ -152,6 +148,13 @@ Shader "Terrain/Skybox1"
         oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
         0.0,                                0.0,                                0.0,                                1.0);
       }
+
+
+
+
+      float _SunHue;
+      float _SunHueSize;
+      float _SunIntensity;
 
       float _AuroraIntensity;
       float _AuroraSpeed;

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class HugFace : MonoBehaviour
 {
     public Hug hug;
-    public HugFace partner;
+    public List<HugFace> partners;
     public int smileID;
     public int state;
 
@@ -13,24 +14,21 @@ public class HugFace : MonoBehaviour
     public GameObject discovered;
     public GameObject finished;
 
-    public Texture neutralTexture;
-    public Texture[] trueTextures; // Array of textures
+    public bool fullComplete;
 
-    private Texture trueTexture;
+    public Color color;
 
-    public Texture TrueTexture // Public getter
-    {
-        get { return trueTexture; }
-    }
 
     private Renderer renderer;
 
     public bool inside;
 
+    public LineRenderer lineRenderer;
+
+
     void Start()
     {
         renderer = GetComponent<Renderer>();
-        ApplyTexture(neutralTexture);
         Debug.Log($"{name} - Start: Initial neutral texture applied.");
         OnEnable();
     }
@@ -41,6 +39,16 @@ public class HugFace : MonoBehaviour
         preDiscovered.SetActive(true);
         discovered.SetActive(false);
         finished.SetActive(false);
+
+        preDiscovered.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
+        discovered.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
+        finished.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
+
+
+        preDiscovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.neutralTexture);
+        discovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.trueTextures[smileID]);
+        finished.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.finalTexture);
+
         Debug.Log($"{name} - OnEnable: State set to {state}, preDiscovered active, discovered inactive.");
     }
 
@@ -52,35 +60,67 @@ public class HugFace : MonoBehaviour
         Debug.Log($"{name} - OnDisable: preDiscovered, discovered, and finished set to inactive.");
     }
 
-    public void WhileInside()
+    public void WhileInside(PlayerAvatar player)
     {
         discovered.SetActive(true);
         preDiscovered.SetActive(false);
         finished.SetActive(false);
         inside = true;
-        ApplyTexture(trueTexture);
-        Debug.Log($"{name} - WhileInside: Inside set to true, discovered active, true texture applied.");
 
-        if (partner.inside && partner.TrueTexture == this.TrueTexture) // Use public getter
+
+
+        bool allInside = true;
+
+        if (fullComplete == false)
         {
-            ApplyColor(Color.red);
-            partner.ApplyColor(Color.red);
-            Debug.Log($"{name} - WhileInside: Partner inside and matching texture, both colored red.");
+
+            LineRenderer lr = player.gameObject.GetComponent<LineRenderer>();
+            lr.SetPosition(0, player.transform.position);
+            lr.SetPosition(1, transform.position);
+            lr.enabled = true;
+
+
+            for (int i = 0; i < partners.Count; i++)
+            {
+                if (!partners[i].inside)
+                {
+                    allInside = false;
+                    break;
+                }
+            }
+
+
+            if (allInside)
+            {
+
+                hug.HUG(this, smileID);// 
+
+            }
         }
-        else
-        {
-            hug.PairDiscover(this.gameObject, partner.gameObject, smileID);
-            Debug.Log($"{name} - WhileInside: Partner not inside or textures do not match, pair discovery triggered.");
-        }
+
+
     }
 
+    public void Update()
+    {
+        transform.LookAt(Vector3.zero);
+        if (fullComplete)
+        {
+            WhileFinished();
+        }
+
+    }
+
+    public void OnFullComplete()
+    {
+        print("YAY");
+    }
     public void WhileOutside()
     {
         discovered.SetActive(false);
         preDiscovered.SetActive(true);
         finished.SetActive(false);
         inside = false;
-        ApplyTexture(neutralTexture);
         Debug.Log($"{name} - WhileOutside: Inside set to false, preDiscovered active, neutral texture applied.");
     }
 
@@ -89,6 +129,26 @@ public class HugFace : MonoBehaviour
         discovered.SetActive(false);
         preDiscovered.SetActive(false);
         finished.SetActive(true);
+
+
+        Vector3 averagePosition = Vector3.zero;
+        int totalCounted = 0;
+        for (int i = 0; i < partners.Count; i++)
+        {
+            if (partners[i].transform.position != transform.position)
+            {
+                totalCounted++;
+                averagePosition += partners[i].transform.position;
+            }
+        }
+
+        if (totalCounted > 0)
+        {
+            averagePosition /= totalCounted;
+            transform.position = Vector3.Lerp(transform.position, averagePosition, hug.hugSpeed);
+        }
+
+
         Debug.Log($"{name} - WhileFinished: Finished state active.");
     }
 
@@ -110,9 +170,5 @@ public class HugFace : MonoBehaviour
         }
     }
 
-    public void AssignTrueTexture(int index)
-    {
-        trueTexture = trueTextures[index % trueTextures.Length];
-        Debug.Log($"{name} - AssignTrueTexture: True texture {trueTexture.name} assigned based on index {index}.");
-    }
+
 }

@@ -48,6 +48,11 @@ public class MimicShape : MonoBehaviour
     // Variables to control shape activation
     public int numShapesActivated; // Number of activated shapes
 
+
+    public Transform lineRendererHolder;
+    public GameObject lineRendererPrefab;
+
+
     // Sets a new shape by randomizing sphere positions
     public void NewShapeSet()
     {
@@ -66,7 +71,39 @@ public class MimicShape : MonoBehaviour
         }
 
         audio.Play(newShapeSetClip);
+
+        while (lineRendererHolder.childCount > 0)
+        {
+            DestroyImmediate(lineRendererHolder.GetChild(0).gameObject);
+        }
+
+
+        for (int i = 0; i < numSpheres; i++)
+        {
+            int numRandomConnections = Random.Range(1, numSpheres - 2);
+
+            for (int j = 0; j < numRandomConnections; j++)
+            {
+
+                GameObject lr = Instantiate(lineRendererPrefab);
+                lr.transform.SetParent(lineRendererHolder);
+
+                int randomConnection = Random.Range(0, numSpheres);
+
+                if (randomConnection != i)
+                {
+                    lr.GetComponent<LineRenderer>().positionCount = 2;
+                    lr.GetComponent<LineRenderer>().SetPosition(0, spheres[i].transform.position);
+                    lr.GetComponent<LineRenderer>().SetPosition(1, spheres[randomConnection].transform.position);
+                }
+            }
+
+        }
+
+
     }
+
+
 
     // Variables for time-based shape changes
     [Tooltip("Time interval between shape changes")]
