@@ -2474,10 +2474,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 1267425107}
-  numTargets: 30
+  numTargets: 1
   controller: {fileID: 1890852102}
   targetSize: 1
   miniFlorps: []
+  xzSpread: 1
   Florp: {fileID: 1729653331}
   ps: {fileID: 1663627443}
   clip: {fileID: 8300000, guid: fbe07c972808f224aa1ef87af8dbe1ed, type: 3}
