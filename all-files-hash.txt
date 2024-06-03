@@ -163,6 +163,12 @@ Assets/Models/moreshapesformarie.fbx
 Assets/Models/moreshapesformarie.fbx.meta
 Assets/Models/propeller_9_17_2022.fbx
 Assets/Models/propeller_9_17_2022.fbx.meta
+Assets/Models/steer1.fbx
+Assets/Models/steer1.fbx.meta
+Assets/Models/steer2.fbx
+Assets/Models/steer2.fbx.meta
+Assets/Models/steer3.fbx
+Assets/Models/steer3.fbx.meta
 Assets/Models/terrain.fbx
 Assets/Models/terrain.fbx.meta
 Assets/Models/vertebra01.fbx
@@ -2165,6 +2171,7 @@ ProjectSettings/UnityConnectSettings.asset
 ProjectSettings/VFXManager.asset
 ProjectSettings/VersionControlSettings.asset
 ProjectSettings/XRSettings.asset
+all-files-hash.txt
 extOSC/logs.xml
 extOSC/logs.xml
 touchDesignerOSCSender/Backup/oscsender.10.toe
@@ -2209,10 +2216,6 @@ Assets/Sounds/babTracks/temple/temple 6-11-23 (2nd cycle).wav
 Assets/Sounds/babTracks/temple/temple 6-11-23 (2nd cycle).wav.meta
 Assets/Sounds/babTracks/temple/temple 6-11-23 (tail).wav
 Assets/Sounds/babTracks/temple/temple 6-11-23 (tail).wav.meta
-Assets/Sounds/babTracks/desert/desert 6-12-23 (2nd cycle).wav
-Assets/Sounds/babTracks/desert/desert 6-12-23 (2nd cycle).wav.meta
-Assets/Sounds/babTracks/desert/desert 6-12-23 (tail).wav
-Assets/Sounds/babTracks/desert/desert 6-12-23 (tail).wav.meta
 Assets/Sounds/babTracks/tree/tree 6-13-23 (2nd cycle).wav
 Assets/Sounds/babTracks/tree/tree 6-13-23 (2nd cycle).wav.meta
 Assets/Sounds/babTracks/tree/tree 6-13-23 (tail).wav
@@ -2420,6 +2423,7 @@ Assets/Sounds/SFX Exports v01/29 Bird Crystal Vortex Loop.wav
 Assets/Sounds/SFX Exports v01/29 Bird Crystal Vortex Loop.wav.meta
 Assets/Scenes/Self FLORP.unity
 Assets/Scenes/9. Flock.unity
+Assets/Scenes/9. Flock.unity
 Assets/Scenes/9. Flock.unity.meta
 Assets/extOSC/Examples/01) Getting Started.meta
 Assets/extOSC/Examples/01) Getting Started/Getting Started.unity
@@ -2430,6 +2434,7 @@ Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageReceiver.cs.meta
 Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageTransmitter.cs
 Assets/extOSC/Examples/01) Getting Started/Scripts/SimpleMessageTransmitter.cs.meta
 Assets/Scenes/3. Hug.unity
+Assets/Scenes/3. Hug.unity
 Assets/Scenes/3. Hug.unity.meta
 Assets/extOSC/Examples/04) Informers.meta
 Assets/extOSC/Examples/04) Informers/Informers.unity
@@ -2437,6 +2442,7 @@ Assets/extOSC/Examples/04) Informers/Informers.unity.meta
 Assets/extOSC/Examples/04) Informers/Scripts.meta
 Assets/extOSC/Examples/04) Informers/Scripts/InformersExample.cs
 Assets/extOSC/Examples/04) Informers/Scripts/InformersExample.cs.meta
+Assets/Scenes/4. Kalli.unity
 Assets/Scenes/4. Kalli.unity
 Assets/Scenes/4. Kalli.unity
 Assets/Scenes/4. Kalli.unity.meta
@@ -2486,11 +2492,13 @@ Assets/Shaders/raytraceShaders/New Material.mat
 Assets/Shaders/UnityBased/New Material.mat.meta
 Assets/Shaders/raytraceShaders/New Material.mat.meta
 Assets/Scenes/5. Mimic Shape.unity
+Assets/Scenes/5. Mimic Shape.unity
 Assets/Scenes/5. Mimic Shape.unity.meta
 Assets/Plugins/FantasyCrystal/Prefabs/IQ Ocean.prefab
 Assets/Plugins/FantasyCrystal/Prefabs/IQ Ocean.prefab.meta
 Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Aurora Orange.mat
 Assets/Plugins/FantasyCrystal/Materials/3StepMaterials/Aurora Orange.mat.meta
+Assets/Scenes/0. Oreintation.unity
 Assets/Scenes/0. Oreintation.unity
 Assets/Scenes/0. Oreintation.unity.meta
 Assets/Prefabs/Collect Particle System.prefab
@@ -2596,6 +2604,7 @@ Assets/extOSC/Examples/07) Scripting/Scripts/ScriptingExample.cs.meta
 Assets/Scenes/Mimic Shape.unity
 Assets/Scenes/Mimic Shape.unity
 Assets/Scenes/6. Share-Florp.unity
+Assets/Scenes/6. Share-Florp.unity
 Assets/Scenes/6. Share-Florp.unity.meta
 Assets/Plugins/FantasyTree/Prefabs/Jacobs Special.prefab
 Assets/Plugins/FantasyTree/Prefabs/Jacobs Special.prefab.meta
@@ -2662,6 +2671,7 @@ Assets/Scenes/2. Steer-SpaceShipSteerer.unity
 Assets/Scenes/2. Steer-SpaceShipSteerer.unity
 Assets/Scenes/2. Steer-SpaceShipSteerer.unity.meta
 Assets/Scenes/7. StickTogether.unity
+Assets/Scenes/7. StickTogether.unity
 Assets/Scenes/7. StickTogether.unity.meta
 Assets/Shaders/New Terrain Material 1.mat
 Assets/Shaders/New Terrain Material 1.mat.meta
@@ -2721,6 +2731,7 @@ Assets/extOSC/Examples/02) Value Types/Value Types.unity.meta
 Assets/extOSC/Examples/02) Value Types/Value TypesSettings.lighting
 Assets/extOSC/Examples/02) Value Types/Value TypesSettings.lighting.meta
 Assets/Scenes/1. WithMe-DotCollector.unity
+Assets/Scenes/1. WithMe-DotCollector.unity
 Assets/Scenes/1. WithMe-DotCollector.unity.meta
 Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (2nd cycle).wav
 Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (2nd cycle).wav.meta
@@ -2728,6 +2739,7 @@ Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (tail).wav
 Assets/Sounds/babTracks/cave/crystal cave 6-24-2023 (tail).wav.meta
 Assets/Shaders/particle3 debug.shader
 Assets/Shaders/particle3 debug.shader.meta
+Assets/Scenes/10. pAINT.unity
 Assets/Scenes/10. pAINT.unity
 Assets/Scenes/10. pAINT.unity.meta
 Assets/Sounds/babTracks/city/city ruins 6-12-23 (2nd cycle).wav

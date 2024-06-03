@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Hug : MonoBehaviour
 {
-    [Tooltip("Number of face pairs in the game.")]
-    public int numFacePairs;
 
     [Tooltip("Prefab used to instantiate faces.")]
     public GameObject facePrefab;
@@ -36,20 +34,20 @@ public class Hug : MonoBehaviour
 
     [Tooltip("List of HugFace objects that have completed the hug.")]
     public List<HugFace> completedFaces;
+    public int numFacesPerGroup;
 
-    [Tooltip("Number of unique TrueTexture variations.")]
-    public int availableTrueTextures = 10; // Example number of unique TrueTexture variations
+    public int numColors;
 
+
+    public float hugSpeed = .01f;
     private void Start()
     {
-        // Ensure numFacePairs does not exceed available TrueTexture variations
-        numFacePairs = Mathf.Min(numFacePairs, availableTrueTextures / 2);
     }
 
     public void OnEnable()
     {
         Debug.Log("Hug - OnEnable: Initializing and resetting faces.");
-        
+
         while (faces.Count > 0)
         {
             HugFace face = faces[0];
@@ -59,42 +57,51 @@ public class Hug : MonoBehaviour
         }
 
         faces.Clear();
-        for (int i = 0; i < numFacePairs; i++)
+
+
+        for (int i = 0; i < trueTextures.Count; i++)
         {
-            HugFace face1 = Instantiate(facePrefab).GetComponent<HugFace>();
-            face1.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
-            face1.transform.localScale = Vector3.one * faceSize * 2;
-            face1.transform.parent = transform;
-            face1.AssignTrueTexture(i); // Assign unique TrueTexture
-            Debug.Log($"Hug - OnEnable: Instantiated face1 with position {face1.transform.position} and scale {face1.transform.localScale}.");
 
-            HugFace face2 = Instantiate(facePrefab).GetComponent<HugFace>();
-            face2.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
-            face2.transform.localScale = Vector3.one * faceSize * 2;
-            face2.transform.parent = transform;
-            face2.AssignTrueTexture(i); // Assign unique TrueTexture
-            Debug.Log($"Hug - OnEnable: Instantiated face2 with position {face2.transform.position} and scale {face2.transform.localScale}.");
+            for (int k = 0; k < numColors; k++)
+            {
+                Color c = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
 
-            face1.hug = this;
-            face2.hug = this;
+                List<HugFace> partners = new List<HugFace>();
+                for (int j = 0; j < numFacesPerGroup; j++)
+                {
+                    HugFace face1 = Instantiate(facePrefab).GetComponent<HugFace>();
+                    face1.transform.position = controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
+                    face1.transform.localScale = Vector3.one * faceSize * 2;
+                    face1.transform.parent = transform;
+                    face1.color = c;
 
-            face1.smileID = i;
-            face2.smileID = i;
+                    face1.hug = this;
+                    face1.smileID = i;
+                    faces.Add(face1);
+                    partners.Add(face1);
 
-            face1.partner = face2;
-            face2.partner = face1;
+                }
 
-            face1.gameObject.SetActive(true);
-            face2.gameObject.SetActive(true);
+                for (int j = 0; j < partners.Count; j++)
+                {
+                    partners[j].partners = partners;
+                }
 
-            faces.Add(face1);
-            faces.Add(face2);
-            Debug.Log($"Hug - OnEnable: Face pair {i} added with smileID {i}.");
+            }
+
+
+        }
+
+        for (int i = 0; i < faces.Count; i++)
+        {
+            print("SACTIVATE");
+            faces[i].gameObject.SetActive(true);
         }
     }
 
     public void Update()
     {
+
         for (int j = 0; j < faces.Count; j++)
         {
             faces[j].WhileOutside();
@@ -102,6 +109,7 @@ public class Hug : MonoBehaviour
 
         for (int i = 0; i < controller.activePlayers.Count; i++)
         {
+            controller.activePlayers[i].GetComponent<LineRenderer>().enabled = false;
             int closestFaceID = -1;
             float closestFaceDistance = 1000000;
             for (int j = 0; j < faces.Count; j++)
@@ -116,8 +124,8 @@ public class Hug : MonoBehaviour
 
             if (closestFaceDistance < activationRadius)
             {
-                faces[closestFaceID].WhileInside();
-                Debug.Log($"Hug - Update: Player {i} activated face {faces[closestFaceID].name} at distance {closestFaceDistance}.");
+                faces[closestFaceID].WhileInside(controller.activePlayers[i]);
+                //                Debug.Log($"Hug - Update: Player {i} activated face {faces[closestFaceID].name} at distance {closestFaceDistance}.");
             }
         }
 
@@ -126,55 +134,47 @@ public class Hug : MonoBehaviour
             for (int i = 0; i < completedFaces.Count; i++)
             {
                 completedFaces[i].WhileFinished();
-                Debug.Log($"Hug - Update: Face {completedFaces[i].name} in completedFaces set to finished.");
+                // Debug.Log($"Hug - Update: Face {completedFaces[i].name} in completedFaces set to finished.");
             }
         }
     }
 
-    public void PairDiscover(GameObject f1, GameObject f2, int smileID)
+
+    public AudioClip onHugClip;
+    public ParticleSystem onHugParticleSystem;
+
+    public AudioPlayer player;
+
+    public void HUG(HugFace hugFace, int smileID)
     {
-        if (smilesDiscovered == null)
+
+        for (int i = 0; i < hugFace.partners.Count; i++)
         {
-            smilesDiscovered = new List<int>();
+            HugFace hf = hugFace.partners[i];
+
+            hf.fullComplete = true;
+            hf.OnFullComplete();
+
+
         }
 
-        if (connections == null)
-        {
-            connections = new List<LineRenderer>();
-        }
+        //onHugParticleSystem.transform.position = hugFace.transform.position;
+        //onHugParticleSystem.Play();
+        player.Play(onHugClip);
 
-        if (smilesDiscovered.Contains(smileID))
-        {
-            return;
-        }
 
-        if (completedFaces == null)
-        {
-            completedFaces = new List<HugFace>();
-        }
-
-        HugFace face1 = f1.GetComponent<HugFace>();
-        HugFace face2 = f2.GetComponent<HugFace>();
-
-        if (face1.TrueTexture == face2.TrueTexture) // Use the public getter
-        {
-            face1.ApplyColor(Color.red);
-            face2.ApplyColor(Color.red);
-            Debug.Log($"Hug - PairDiscover: Matching faces {face1.name} and {face2.name} colored red.");
-        }
-
-        completedFaces.Add(face1);
-        completedFaces.Add(face2);
-
-        smilesDiscovered.Add(smileID);
-
-        Debug.Log($"Hug - PairDiscover: Discovered pair with smileID {smileID}. Total discovered: {smilesDiscovered.Count}");
-
-        LineRenderer connection = Instantiate(connectionPrefab).GetComponent<LineRenderer>();
-        connection.gameObject.transform.parent = transform;
-        connection.SetPosition(0, f1.transform.position);
-        connection.SetPosition(1, f2.transform.position);
-        connections.Add(connection);
-        Debug.Log($"Hug - PairDiscover: Connection created between {face1.name} and {face2.name}.");
     }
+
+
+
+    [Tooltip("number textures, which also is total number of faces")]
+    public List<Texture> trueTextures;
+    public Texture neutralTexture;
+
+    public Texture finalTexture;
+
+
+
 }
+
+

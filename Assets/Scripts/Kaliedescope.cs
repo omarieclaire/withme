@@ -12,7 +12,7 @@ public class Kaliedescope : MonoBehaviour
 {
 
     public float sizeMultiplier = .3f;
-       [Tooltip("Number of iterations to create the kaleidoscope effect - how kalideocopey it is.")]
+    [Tooltip("Number of iterations to create the kaleidoscope effect - how kalideocopey it is.")]
     public int numberOfIterations = 10;
     [Tooltip("Prefab used to instantiate each node of the kaleidoscope.")]
 
@@ -22,6 +22,13 @@ public class Kaliedescope : MonoBehaviour
 
     public List<GameObject> nodes; // List to store instantiated nodes
 
+
+
+    [Tooltip("how much the redrawings of the players move in and out")]
+    public float sphereOsscilationSize;
+    [Tooltip("how fast the redrawings of the players move in and out")]
+    public float sphereOsscilationSpeed;
+
     void Start()
     {
         // Initialization if needed
@@ -29,6 +36,8 @@ public class Kaliedescope : MonoBehaviour
 
     void Update()
     {
+
+        float fRadius = controller.sphereSize + sphereOsscilationSize * Mathf.Sin(Time.time * sphereOsscilationSpeed);
         // Check if the number of nodes matches the required count
         if (nodes.Count != numberOfIterations * controller.activePlayers.Count)
         {
@@ -72,6 +81,8 @@ public class Kaliedescope : MonoBehaviour
 
                 // Set node position to the player's position
                 nodes[index].transform.position = controller.activePlayers[i].transform.position;
+                nodes[index].transform.position = nodes[index].transform.position.normalized * fRadius;
+
 
                 // Set node scale based on player's scale
                 nodes[index].transform.localScale = controller.GetScale(i) * sizeMultiplier;
