@@ -52,6 +52,8 @@ public class StickTogether : MonoBehaviour
     private float timer = 0f;
     private bool majorityInside = false;
 
+    public AudioSource loop;
+
     void Start()
     {
         // Initialize connections list if null
@@ -151,7 +153,7 @@ public class StickTogether : MonoBehaviour
             {
                 // Timer starts or continues incrementing
                 majorityInside = true;
-                collectionRepresentation.GetComponent<Renderer>().material.color = Color.green; // Change color to green
+                //  collectionRepresentation.GetComponent<Renderer>().material.color = Color.green; // Change color to green
             }
             timer += Time.deltaTime;
         }
@@ -162,10 +164,12 @@ public class StickTogether : MonoBehaviour
                 // Timer resets
                 majorityInside = false;
                 timer = 0f;
-                collectionRepresentation.GetComponent<Renderer>().material.color = Color.red; // Change color to red
+                // collectionRepresentation.GetComponent<Renderer>().material.color = Color.red; // Change color to red
                 audioPlayer.Play(sadSound); // Play sad sound
             }
         }
+
+        loop.volume = Mathf.Lerp(loop.volume, Mathf.Clamp(timer, 0, 1), .03f);
 
         // Update timer display
         if (timerTextMesh != null)

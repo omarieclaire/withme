@@ -552,12 +552,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649270821}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e688a895a0c844ee38a838c8c0a352db, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f53e24ee671b4e042923a09f96e58079, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -649,7 +649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649270821}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2244,7 +2244,7 @@ GameObject:
   - component: {fileID: 2133645772}
   - component: {fileID: 2133645771}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Stick together manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2269,13 +2269,14 @@ MonoBehaviour:
   connectionPrefab: {fileID: 558958222}
   totalInsideCircle: 0
   movementSpeed: {x: 0.2, y: 0.2, z: 0.95}
-  movementSize: {x: 0.5, y: 0, z: 0.5}
+  movementSize: {x: 0.1, y: 0, z: 0.1}
   movementOffset: {x: 0, y: 2, z: 0}
   happySound: {fileID: 8300000, guid: e09b4e14b1206412093224a1e475700e, type: 3}
   sadSound: {fileID: 8300000, guid: 3fec4c5e5f2014b3da1855a313071ebf, type: 3}
   audioPlayer: {fileID: 1113222680}
   timerTextMesh: {fileID: 172732673}
   requiredPercentage: 0.5
+  loop: {fileID: 649270822}
 --- !u!4 &2133645770
 Transform:
   m_ObjectHideFlags: 0

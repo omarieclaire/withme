@@ -17,6 +17,9 @@ public class GenerateTargets : MonoBehaviour
     public List<PlayOnCollision> miniFlorps;
 
 
+    public float xzSpread;
+
+
     void OnEnable()
     {
 
@@ -32,10 +35,14 @@ public class GenerateTargets : MonoBehaviour
         {
             GameObject target = Instantiate(targetPrefab, Vector3.zero, Quaternion.identity);
 
-            Vector3 randomPosition = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+            Vector3 randomPosition = new Vector3(Random.Range(-1f, 1f) * xzSpread, 0, Random.Range(-1f, 1f) * xzSpread);
+
+            randomPosition = Vector3.one * .001f;
+            print(randomPosition);
             target.transform.parent = transform;
             target.transform.localScale = new Vector3(targetSize, targetSize, targetSize);
             target.transform.position = controller.getFinalPosition(randomPosition);
+            print(target.transform.position);
 
             PlayOnCollision poc = target.GetComponent<PlayOnCollision>();
             miniFlorps.Add(poc);
