@@ -135,7 +135,7 @@ public class AudioPlayer : MonoBehaviour
 
             }
 
-            print("WHA : " + numGlobalLoopSources);
+            // print("WHA : " + numGlobalLoopSources);
             globalLoopSources = new AudioSource[numGlobalLoopSources];
             globalLoopObjects = new GameObject[numGlobalLoopSources];
             for (int i = 0; i < numGlobalLoopSources; i++)
