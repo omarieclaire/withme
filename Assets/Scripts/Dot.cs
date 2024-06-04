@@ -4,38 +4,29 @@ using UnityEngine;
 
 public class Dot : MonoBehaviour
 {
-
     public DotGameController controller;
-
     public int id;
-
     public bool collected;
     public Transform collector;
-
     public Vector3 originalPosition;
     public Vector3 velocity;
-
     public LineRenderer lr;
-
     public Vector2 randomDirection;
+    public Vector3 targetPosition;
+    private Transform _transform;
 
-
+    void Start()
+    {
+        _transform = transform;
+    }
 
     public void OnCollisionEnter(Collision collision)
     {
-        // print("dot collided");
-        // controller.OnDotCollision(this.gameObject, collision.collider.gameObject);
-
+        // Handle collision
     }
 
     public void OnTriggerEnter(Collider collider)
     {
-
-        print("dot triggered");
-        print(collider.gameObject.name);
-        //print("dot triggered");
-        //controller.OnDotCollision(this.gameObject, collider.gameObject);
-
         if (collider.gameObject.name == "Tree")
         {
             controller.OnTreeCollect();
@@ -45,63 +36,56 @@ public class Dot : MonoBehaviour
 
     public void SetData()
     {
-        randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        randomDirection = randomDirection.normalized;
+        randomDirection = Random.insideUnitCircle.normalized;
         Color c = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1);
         GetComponent<Renderer>().material.color = c;
         lr.startColor = c;
         lr.endColor = c;
     }
 
-    public Vector3 targetPosition;
     public void Update()
     {
-
-        float fForce = controller.dotForceTowardsPosition;
+        float fForce = collected ? controller.dotForceTowardsCollector : controller.dotForceTowardsPosition;
 
         if (collected)
         {
-
-            fForce = controller.dotForceTowardsCollector;
-
-
-            float outMultiplier = .6f;
+            float outMultiplier = towardsTree ? 0 : 0.6f;
             if (towardsTree)
             {
-
                 fForce = controller.dotForceTowardsTree;
-                outMultiplier = 0;
             }
 
-            targetPosition = collector.position;
-            targetPosition += collector.localScale.x * outMultiplier * randomDirection.x * collector.right;
-            targetPosition += collector.localScale.y * outMultiplier * randomDirection.y * collector.up;
+            Vector3 newTargetPosition = collector.position
+                                        + collector.localScale.x * outMultiplier * randomDirection.x * collector.right
+                                        + collector.localScale.y * outMultiplier * randomDirection.y * collector.up;
 
-            lr.positionCount = 2;
-            lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, collector.position);
-
+            if (targetPosition != newTargetPosition)
+            {
+                targetPosition = newTargetPosition;
+                lr.positionCount = 2;
+                lr.SetPosition(0, _transform.position);
+                lr.SetPosition(1, collector.position);
+            }
         }
         else
         {
-            lr.positionCount = 0;
-            targetPosition = originalPosition;
+            if (targetPosition != originalPosition)
+            {
+                targetPosition = originalPosition;
+                lr.positionCount = 0;
+            }
         }
 
-        Vector3 force = targetPosition - transform.position;
-
+        Vector3 force = targetPosition - _transform.position;
         velocity += force * Time.deltaTime * fForce;
 
-        transform.position += velocity * Time.deltaTime;
+        velocity = Vector3.ClampMagnitude(velocity, 10f);
+        _transform.position += velocity * Time.deltaTime;
         velocity *= controller.dotDampening;
 
-        transform.LookAt(controller.center);
-        transform.Rotate(0, 180, 0);
-
-
+        _transform.LookAt(controller.center);
+        _transform.Rotate(0, 180, 0);
     }
-
-
 
     public bool towardsTree;
 
@@ -117,7 +101,5 @@ public class Dot : MonoBehaviour
         collected = false;
         collector = null;
         towardsTree = false;
-
     }
-
 }

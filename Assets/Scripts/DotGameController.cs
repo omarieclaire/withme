@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FantasyTree;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class DotGameController : Controller
 {
@@ -54,13 +56,14 @@ public class DotGameController : Controller
 
     [Header("Audio Info")]
 
-    // the sound when the dot is collected
     [Tooltip("Sound played when a dot is collected.")]
     public AudioClip onDotCollectClip;
 
-    // the sound when player collide
     [Tooltip("Sound played when players collide.")]
     public AudioClip onExplodeClip;
+
+    [Tooltip("Sound played when the flowers bloom.")]
+    public AudioClip onLevelCompleteClip;
 
     public AudioPlayer audioPlayer;
 
@@ -82,6 +85,11 @@ public class DotGameController : Controller
 
     public ControlTreeMaterialValues controlTreeMaterialValues;
 
+
+    [Tooltip("Image used to fade the screen to black.")]
+    public RawImage fadeImage;
+
+    private bool isLevelComplete = false;
 
     public override void SetUp()
     {
@@ -199,8 +207,8 @@ public class DotGameController : Controller
         }
         else
         {
-            print("NOT A DOT");
-            print("COLLIDER TAG: " + collider.tag);
+            // print("NOT A DOT");
+            // print("COLLIDER TAG: " + collider.tag);
         }
     }
 
@@ -216,11 +224,39 @@ public class DotGameController : Controller
 
     }
     public void OnLevelComplete()
-    {
+{
+         if (isLevelComplete) return; // Ensure this runs only once
+        isLevelComplete = true;
+
         print("LEVEL COMPLETE");
+        audioPlayer.Play(onLevelCompleteClip); 
         controlTreeMaterialValues.flowersShown = 1;
+
+        // Start coroutine to fade to black after the sound finishes
+        StartCoroutine(FadeToBlack(onLevelCompleteClip.length));
     }
 
 
+
+    private IEnumerator FadeToBlack(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Wait for the sound to finish
+
+        float fadeDuration = 2f; // Duration for the fade effect
+        Color color = fadeImage.color;
+        float startAlpha = color.a;
+        float endAlpha = 1f;
+
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            float normalizedTime = t / fadeDuration;
+            color.a = Mathf.Lerp(startAlpha, endAlpha, normalizedTime);
+            fadeImage.color = color;
+            yield return null;
+        }
+
+        color.a = endAlpha;
+        fadeImage.color = color;
+    }
 
 }
