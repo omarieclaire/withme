@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: dcff07aed23bfaf4e87fe12f2ba98803, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 89e1a1b757170a54e9917242b65dd8ab, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -155,6 +155,12 @@ MonoBehaviour:
   numTargets: 30
   controller: {fileID: 1890852102}
   targetSize: 1
+  miniFlorps: []
+  xzSpread: 0
+  Florp: {fileID: 0}
+  ps: {fileID: 0}
+  clip: {fileID: 0}
+  audioPlayer: {fileID: 0}
 --- !u!4 &16905008
 Transform:
   m_ObjectHideFlags: 0
@@ -1352,6 +1358,14 @@ MonoBehaviour:
   hueShiftPerHit: 0.1
   startHue: 0
   currentHue: 0
+  followOnCollider: 0
+  followTransform: {fileID: 0}
+  collideTime: 0
+  followLine: {fileID: 0}
+  increaseCollider: 0
+  followForce: 0
+  dampening: 0
+  vel: {x: 0, y: 0, z: 0}
 --- !u!135 &1196994874
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2018,6 +2032,7 @@ MonoBehaviour:
   sphereSize: 10
   maxDegrees: 210
   pushTowardsBottom: 0.5
+  startSize: 2
   verticalValue: 1
   RemapValues: {x: 1, y: -1}
   maxSize: {x: 1, y: 0, z: 1}
@@ -2028,7 +2043,6 @@ MonoBehaviour:
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
-  startSize: 2
   playerHolder: {fileID: 1231796505}
   playerLerpSpeed: 1
   playerFadeInSpeed: 0.1
@@ -2036,18 +2050,6 @@ MonoBehaviour:
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
-  skyboxMaterial: {fileID: 2100000, guid: dcff07aed23bfaf4e87fe12f2ba98803, type: 2}
-  SunPosition: {x: 1, y: -1, z: 0}
-  SunHue: 0
-  sunIntensity: 1
-  sunHueSize: 0.1
-  auroraIntensity: 1
-  auroraSpeed: 1
-  auroraHueStart: 1
-  auroraHueSize: 0.5
-  auroraHorizonImportance: 1
-  auroraNoiseSize: 1
-  auroraVibrantness: 1
   center: {fileID: 1890852101}
 --- !u!1 &2049855977
 GameObject:

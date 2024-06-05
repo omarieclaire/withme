@@ -11,6 +11,18 @@ Shader "Terrain/Skybox1"
     _CubeMap("_CubeMap" ,Cube) = "white" {}
 
     _LightDir("_Sun Direction",Vector) = (0,1,0,0)
+    _SunIntensity("_SunIntensity",float) = 1
+    _SunHue("_SunHue",float) = 1
+    _SunHueSize("_SunHueSize",float) = 1
+    _SunRayMultiplier("_SunRayMultiplier",float) = 1
+    _AuroraIntensity("_AuroraIntensity",float) = 1
+    _AuroraSpeed("_AuroraSpeed",float) = 1
+    _AuroraHueStart("_AuroraHueStart",float) = 1
+    _AuroraHueSize("_AuroraHueSize",float) = 1
+    _AuroraHorizonImportance("_AuroraHorizonImportance",float) = 1
+    _AuroraNoiseSize("_AuroraNoiseSize",float) = 1
+    _AuroraVibrantness("_AuroraVibrantness",float) = 1
+
     
   }
 
@@ -165,6 +177,8 @@ Shader "Terrain/Skybox1"
 
       float _AuroraVibrantness;
 
+      float _SunRayMultiplier;
+
 
       //Pixel function returns a solid color for each point.
       float4 frag (varyings v) : COLOR {
@@ -298,7 +312,7 @@ Shader "Terrain/Skybox1"
           float ang= atan2(xy.y, xy.x);
 
 
-          col += .2 * _SunIntensity * hueCol*noise( ang * 10 + float3(0,_Time.y* (i-1.5) * .4,0)) *  pow( saturate(dot( -fLightDir,rd)) ,10)* 1;//length(xy) * .01;//length(xy) * .1;//1 / length( xy );// * .0001;
+          col +=  _SunRayMultiplier *.2 * _SunIntensity * hueCol*noise( ang * 10 + float3(0,_Time.y* (i-1.5) * .4,0)) *  pow( saturate(dot( -fLightDir,rd)) ,10)* 1;//length(xy) * .01;//length(xy) * .1;//1 / length( xy );// * .0001;
 
 
         }
