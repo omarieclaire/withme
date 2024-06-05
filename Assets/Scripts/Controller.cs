@@ -87,52 +87,53 @@ public class Controller : MonoBehaviour
     public List<PlayerAvatar> activePlayers;
 
 
+    /*
     [Header("Skybox Info")]
     [Header("Re Enable in play mode to update")]
-
-    [Tooltip("Skybox stuff")]
-    public Material skyboxMaterial;
-
-
-    [Tooltip("Sun position for skybox. Y IS NEGATIVE SORRY")]
-    public Vector3 SunPosition = new Vector3(0, -1, 0);
-
-    public float SunHue = 0;
-    public float sunIntensity = 1;
-    public float sunHueSize = .1f;
-    public float auroraIntensity = 1;
-    public float auroraSpeed = 1;
-    public float auroraHueStart = 0;
-    public float auroraHueSize = 1;
-
-    public float auroraHorizonImportance = .1f;
-
-    public float auroraNoiseSize = 1;
+        [Tooltip("Skybox stuff")]
+        public Material skyboxMaterial;
 
 
-    public float auroraVibrantness = 1;
+        [Tooltip("Sun position for skybox. Y IS NEGATIVE SORRY")]
+        public Vector3 SunPosition = new Vector3(0, -1, 0);
 
+        public float SunHue = 0;
+        public float sunIntensity = 1;
+        public float sunHueSize = .1f;
+        public float auroraIntensity = 1;
+        public float auroraSpeed = 1;
+        public float auroraHueStart = 0;
+        public float auroraHueSize = 1;
+
+        public float auroraHorizonImportance = .1f;
+
+        public float auroraNoiseSize = 1;
+
+
+        public float auroraVibrantness = 1;
 
 
 
+*/
 
 
 
     public virtual void _SetUp()
     {
 
-        skyboxMaterial.SetVector("_LightDir", SunPosition.normalized);
-        skyboxMaterial.SetFloat("_SunIntensity", sunIntensity);
-        skyboxMaterial.SetFloat("_SunHue", SunHue);
-        skyboxMaterial.SetFloat("_SunHueSize", sunHueSize);
-        skyboxMaterial.SetFloat("_AuroraIntensity", auroraIntensity);
-        skyboxMaterial.SetFloat("_AuroraSpeed", auroraSpeed);
-        skyboxMaterial.SetFloat("_AuroraHueStart", auroraHueStart);
-        skyboxMaterial.SetFloat("_AuroraHueSize", auroraHueSize);
-        skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
-        skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
-        skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
-
+        /*
+                skyboxMaterial.SetVector("_LightDir", SunPosition.normalized);
+                skyboxMaterial.SetFloat("_SunIntensity", sunIntensity);
+                skyboxMaterial.SetFloat("_SunHue", SunHue);
+                skyboxMaterial.SetFloat("_SunHueSize", sunHueSize);
+                skyboxMaterial.SetFloat("_AuroraIntensity", auroraIntensity);
+                skyboxMaterial.SetFloat("_AuroraSpeed", auroraSpeed);
+                skyboxMaterial.SetFloat("_AuroraHueStart", auroraHueStart);
+                skyboxMaterial.SetFloat("_AuroraHueSize", auroraHueSize);
+                skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
+                skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
+                skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
+        */
 
         players = new List<GameObject>();
         playerAvatars = new List<PlayerAvatar>();
@@ -380,9 +381,15 @@ public class Controller : MonoBehaviour
         l = Mathf.Pow(l, pushTowardsBottom);
 
         float angleAround = Mathf.Atan2(nZ, nX);
-        float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
 
-        Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
+        // 210 goes 15 degrees past horizon?
+        float extra = maxDegrees - 180;
+        extra /= 2;
+
+
+        float angleDown = Mathf.PI / 2 - l * ((90 + extra) / 180) * Mathf.PI;
+
+        Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, angleDown);
         fPosition = transform.TransformPoint(fPosition);
 
         /*

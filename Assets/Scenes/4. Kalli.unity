@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: dcff07aed23bfaf4e87fe12f2ba98803, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: e1b208be544f5544ba3a727d4eab2e5e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -2263,18 +2263,6 @@ MonoBehaviour:
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
-  skyboxMaterial: {fileID: 2100000, guid: dcff07aed23bfaf4e87fe12f2ba98803, type: 2}
-  SunPosition: {x: 0, y: -1, z: 0}
-  SunHue: 0
-  sunIntensity: 1
-  sunHueSize: 0.1
-  auroraIntensity: 1
-  auroraSpeed: 1
-  auroraHueStart: 0
-  auroraHueSize: 1
-  auroraHorizonImportance: 0.1
-  auroraNoiseSize: 1
-  auroraVibrantness: 1
   center: {fileID: 1890852101}
 --- !u!1001 &950501610808759965
 PrefabInstance:
