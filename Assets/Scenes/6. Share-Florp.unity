@@ -1317,7 +1317,7 @@ Camera:
   m_GameObject: {fileID: 1212776768}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1478,7 +1478,7 @@ MonoBehaviour:
   grower: 0
   maxSize: 0
   startSize: 0
-  growSizePerHit: 0
+  growSizePerHit: 0.01
   growSuccessParticles: {fileID: 0}
   growSuccessClip: {fileID: 0}
   changeColorOnHit: 0
@@ -2377,8 +2377,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 10, z: 0}
-  m_LocalScale: {x: 0.21511, y: 0.21511, z: 0.21511}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.19, y: 0.19, z: 0.19}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2474,7 +2474,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 1267425107}
-  numTargets: 1
+  numTargets: 30
   controller: {fileID: 1890852102}
   targetSize: 1
   miniFlorps: []
@@ -2606,7 +2606,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890852100}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.24446127, z: 0, w: 0.9696591}
+  m_LocalRotation: {x: 0, y: 0.953717, z: 0, w: 0.30070582}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2614,7 +2614,7 @@ Transform:
   - {fileID: 1262708822}
   - {fileID: 1231796505}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 28.3, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 145, z: 0}
 --- !u!114 &1890852102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2629,8 +2629,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraResolution: 640
   sphereSize: 10
-  maxDegrees: 210
-  pushTowardsBottom: 0.5
+  maxDegrees: 188.8
+  pushTowardsBottom: 0.22
   startSize: 1
   verticalValue: 1
   RemapValues: {x: 1, y: -1}
