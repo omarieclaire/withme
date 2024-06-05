@@ -37,7 +37,7 @@ public class GenerateTargets : MonoBehaviour
 
             Vector3 randomPosition = new Vector3(Random.Range(-1f, 1f) * xzSpread, 0, Random.Range(-1f, 1f) * xzSpread);
 
-            randomPosition = Vector3.one * .001f;
+            //randomPosition = Vector3.one * .001f;
             print(randomPosition);
             target.transform.parent = transform;
             target.transform.localScale = new Vector3(targetSize, targetSize, targetSize);
