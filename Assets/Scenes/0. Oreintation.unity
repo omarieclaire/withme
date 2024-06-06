@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 768782083}
   - component: {fileID: 768782082}
   - component: {fileID: 768782081}
+  - component: {fileID: 768782084}
   m_Layer: 0
   m_Name: OSCManager
   m_TagString: Untagged
@@ -667,6 +668,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &768782084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768782080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464088183d2a1484ab8fb64e356c9f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _autoConnect: 1
+  _closeOnPause: 0
+  _mapBundle: {fileID: 0}
+  _workInEditor: 0
+  _localHostMode: 0
+  _localPortMode: 3
+  _localReceiver: {fileID: 0}
+  _localHost: 10.0.1.48
+  _localPort: 800
+  _remoteHost: 192.168.1.61
+  _remotePort: 900
+  _useBundle: 0
 --- !u!1 &780603503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,7 +1513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1212776770}
   cubemapFaces: 55
-  domemasterResolution: 4096
+  domemasterResolution: 1024
   orientation: 1
   horizon: 210
   domeTilt: 0
@@ -1527,6 +1552,51 @@ MonoBehaviour:
   _sourceCamera: {fileID: 0}
   _sourceTexture: {fileID: 0}
   _resources: {fileID: 11400000, guid: 69304b86950074db7ba8caba75214004, type: 2}
+--- !u!1 &1771583070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1771583072}
+  - component: {fileID: 1771583073}
+  m_Layer: 0
+  m_Name: SoundEventSender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1771583072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771583070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0628343, y: 1.5726514, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1771583073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771583070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce04620e4cf474a8cb3cbc511e441ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Transmitter: {fileID: 768782084}
 --- !u!1 &1873154113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1738,8 @@ MonoBehaviour:
   playerAvatars: []
   playerIDS: 
   playerLastSeenTimestamp: []
+  soundTimeout: 2
+  playerSoundStates: 
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
@@ -1678,7 +1750,20 @@ MonoBehaviour:
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  skyboxMaterial: {fileID: 2100000, guid: 8fa36c3f2c2855545a1713a77c482dca, type: 2}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   center: {fileID: 1890852101}
+  soundEventSender: {fileID: 1771583073}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1692,3 +1777,4 @@ SceneRoots:
   - {fileID: 1113222681}
   - {fileID: 1057392086}
   - {fileID: 768782083}
+  - {fileID: 1771583072}

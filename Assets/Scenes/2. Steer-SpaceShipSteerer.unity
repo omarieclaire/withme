@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 40395353}
   - component: {fileID: 40395352}
   m_Layer: 0
-  m_Name: StoryNode (5)
+  m_Name: why are you here
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,7 +577,7 @@ MonoBehaviour:
   nextNodes: []
   connectionLine: {fileID: 40395353}
   lineOffset: 3
-  text: 
+  text: why are you here?
   textRenderering: {fileID: 238043215}
   archCount: 50
 --- !u!1001 &44852731
@@ -694,7 +694,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sample text
+  m_text: yes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 166598168}
   - component: {fileID: 166598167}
   m_Layer: 0
-  m_Name: StoryNode (6)
+  m_Name: the way it moves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   nextNodes: []
   connectionLine: {fileID: 166598168}
   lineOffset: 3
-  text: 
+  text: the way it moves is not something code would generate, it hesitates
   textRenderering: {fileID: 1749300550}
   archCount: 50
 --- !u!1 &196505796
@@ -3125,7 +3125,7 @@ GameObject:
   - component: {fileID: 653084447}
   - component: {fileID: 653084446}
   m_Layer: 0
-  m_Name: StoryNode (8)
+  m_Name: test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3395,7 +3395,7 @@ MonoBehaviour:
   nextNodes: []
   connectionLine: {fileID: 653084447}
   lineOffset: 3
-  text: 
+  text: test
   textRenderering: {fileID: 196505798}
   archCount: 50
 --- !u!1001 &688637633
@@ -4500,7 +4500,7 @@ GameObject:
   - component: {fileID: 1036689525}
   - component: {fileID: 1036689528}
   m_Layer: 0
-  m_Name: StoryNode (1)
+  m_Name: how do you find your way
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4671,7 +4671,7 @@ MonoBehaviour:
   - {fileID: 1642964783}
   connectionLine: {fileID: 1036689525}
   lineOffset: 3
-  text: 
+  text: how do you find your way?
   textRenderering: {fileID: 65164806}
   archCount: 50
 --- !u!82 &1036689528
@@ -6491,7 +6491,7 @@ MonoBehaviour:
   nextNodes: []
   connectionLine: {fileID: 1515537341}
   lineOffset: 3
-  text: 
+  text: a beloved soft thing
   textRenderering: {fileID: 20192284}
   archCount: 50
 --- !u!82 &1515537344
@@ -7039,7 +7039,7 @@ GameObject:
   - component: {fileID: 1642964781}
   - component: {fileID: 1642964780}
   m_Layer: 0
-  m_Name: StoryNode (7)
+  m_Name: promised connection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7309,7 +7309,7 @@ MonoBehaviour:
   nextNodes: []
   connectionLine: {fileID: 1642964781}
   lineOffset: 3
-  text: 
+  text: we were promised connection
   textRenderering: {fileID: 1903089389}
   archCount: 50
 --- !u!1 &1659286599
@@ -7680,7 +7680,7 @@ MonoBehaviour:
   - {fileID: 1659286604}
   connectionLine: {fileID: 1726076044}
   lineOffset: 3
-  text: 
+  text: don't go back to sleep
   textRenderering: {fileID: 315426935}
   archCount: 50
 --- !u!120 &1726076044
@@ -8485,6 +8485,8 @@ MonoBehaviour:
   playerAvatars: []
   playerIDS: 
   playerLastSeenTimestamp: []
+  soundTimeout: 600
+  playerSoundStates: 
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
@@ -8495,7 +8497,20 @@ MonoBehaviour:
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  skyboxMaterial: {fileID: 2100000, guid: d2f203d6e3103b2438b02002aab2f2a7, type: 2}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   center: {fileID: 1890852101}
+  soundEventSender: {fileID: 0}
 --- !u!1 &1903089387
 GameObject:
   m_ObjectHideFlags: 0
