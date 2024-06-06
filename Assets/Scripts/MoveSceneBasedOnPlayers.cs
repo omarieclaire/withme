@@ -27,6 +27,10 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
 
     public Vector3 size;
 
+    public LineRenderer steerRep;
+    public float steerRepVert = 2;
+
+
     public void Reset()
     {
         velocity = Vector3.zero;
@@ -74,6 +78,7 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
             averagePosition = Vector3.zero;
         }
 
+
         // Find target position based on average position and offset
         Vector3 targetPosition = new Vector3(averagePosition.x, averagePosition.y + verticalOffset, averagePosition.z);
 
@@ -84,6 +89,11 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
 
         // Calculate force and update velocity
         force = targetPosition * forceMultiplier;
+
+        steerRep.SetPosition(0, new Vector3(0, steerRepVert, 0));
+        steerRep.SetPosition(1, new Vector3(force.x * .2f, steerRepVert, force.z * .2f));
+        steerRep.SetPosition(2, new Vector3(force.x, steerRepVert, force.z));
+
         velocity += force * Time.deltaTime;
         velocity *= dampening;
 

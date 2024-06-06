@@ -23,7 +23,7 @@ public class GridOfSpheres : MonoBehaviour
                 {
                     GameObject sphere = Instantiate(spherePrefab);
 
-                    sphere.transform.position = new Vector3(i * size, j * size, k * size) - Vector3.one * size * num / 2;
+                    sphere.transform.position = new Vector3(i * size, j * size, k * size) - Vector3.one * size * num / 2 + Vector3.up * size * num / 3;
                     sphere.transform.localScale = Vector3.one * scale;
                     sphere.transform.parent = transform;
 
