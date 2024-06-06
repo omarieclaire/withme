@@ -26,7 +26,7 @@ public class GenerateTargets : MonoBehaviour
         while (transform.childCount > 0)
         {
             Transform c = transform.GetChild(0);
-            Destroy(c.gameObject);
+            DestroyImmediate(c.gameObject);
         }
 
         miniFlorps = new List<PlayOnCollision>();
@@ -61,6 +61,8 @@ public class GenerateTargets : MonoBehaviour
     public AudioClip clip;
     public AudioPlayer audioPlayer;
 
+    public bool finished = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -77,12 +79,13 @@ public class GenerateTargets : MonoBehaviour
 
         }
 
-        if (done == true)
+        if (done == true && !finished)
         {
 
             audioPlayer.Play(clip);
             ps.transform.position = Florp.transform.position;
             ps.Play();
+            finished = true;
 
         }
     }

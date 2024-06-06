@@ -2483,6 +2483,7 @@ MonoBehaviour:
   ps: {fileID: 1663627443}
   clip: {fileID: 8300000, guid: fbe07c972808f224aa1ef87af8dbe1ed, type: 3}
   audioPlayer: {fileID: 1113222680}
+  finished: 1
 --- !u!4 &1729653333
 Transform:
   m_ObjectHideFlags: 0
@@ -2639,6 +2640,8 @@ MonoBehaviour:
   playerAvatars: []
   playerIDS: 
   playerLastSeenTimestamp: []
+  soundTimeout: 600
+  playerSoundStates: 
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
@@ -2649,7 +2652,20 @@ MonoBehaviour:
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  skyboxMaterial: {fileID: 0}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   center: {fileID: 1890852101}
+  soundEventSender: {fileID: 0}
 --- !u!1001 &2415999519258464794
 PrefabInstance:
   m_ObjectHideFlags: 0
