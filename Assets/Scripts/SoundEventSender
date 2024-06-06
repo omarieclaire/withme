@@ -1,0 +1,44 @@
+﻿using UnityEngine;
+using extOSC;
+using UnityEngine.UI;
+
+public class SoundEventSender : MonoBehaviour
+{
+    public OSCTransmitter Transmitter;
+    public Text TextSoundID;
+    public Text TextPosition;
+
+    private const string _soundAddress = "/sound/play";
+    private Vector3 _position = Vector3.zero;
+
+    protected virtual void Start()
+    {
+        TextSoundID.text = "Sound ID: None";
+        TextPosition.text = $"{Vector3.zero}";
+    }
+
+    public void SendSoundEvent(string soundID, Vector3 position)
+    {
+        _position = position;
+        SendSound(_soundAddress, soundID, _position);
+        TextSoundID.text = $"Sound ID: {soundID}";
+        TextPosition.text = _position.ToString();
+    }
+
+    private void SendSound(string address, string soundID, Vector3 position)
+    {
+        if (Transmitter == null)
+        {
+            Debug.LogError("Transmitter is not assigned in the SoundEventSender script.");
+            return;
+        }
+
+        var message = new OSCMessage(address);
+        message.AddValue(OSCValue.String(soundID));
+        message.AddValue(OSCValue.Float(position.x));
+        message.AddValue(OSCValue.Float(position.y));
+        message.AddValue(OSCValue.Float(position.z));
+        
+        Transmitter.Send(message);
+    }
+}

@@ -53,6 +53,16 @@ public class DotGameController : Controller
     [Tooltip("Size increment of the player when a dot is collected.")]
     public float sizeIncrementOnCollect;
 
+    [Header("Dot Regeneration Settings")]
+    [Tooltip("Time in seconds between each dot regeneration cycle.")]
+    public float dotRegenerationInterval = 30f;
+
+    [Tooltip("Number of dots to regenerate in each cycle.")]
+    public int dotsToRegenerate = 5;
+
+    private float dotRegenerationTimer;
+
+
 
     [Header("Audio Info")]
 
@@ -80,7 +90,7 @@ public class DotGameController : Controller
 
     [Tooltip("Force from the dots towards the player who collected them")]
     public float dotForceTowardsCollector;
-     [Tooltip("Force from the dots towards the tree")]
+    [Tooltip("Force from the dots towards the tree")]
     public float dotForceTowardsTree;
 
     public ControlTreeMaterialValues controlTreeMaterialValues;
@@ -91,6 +101,38 @@ public class DotGameController : Controller
 
     private bool isLevelComplete = false;
 
+
+    private void CreateDot(int id)
+    {
+        // Instantiate dot at a random position within the dome
+        GameObject dot = Instantiate(dotPrefab, Vector3.zero, Quaternion.identity);
+
+        Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
+        randomPos = getFinalPosition(randomPos);
+
+        Dot dotAvatar = dot.GetComponent<Dot>(); // Get Dot component
+
+        // Initialize dot properties
+        dotAvatar.controller = this;
+        dotAvatar.id = id;
+        dotAvatar.originalPosition = randomPos;
+        dotAvatar.velocity = Vector3.zero;
+        dotAvatar.targetPosition = randomPos;
+        dotAvatar.collected = false;
+        dotAvatar.SetData();
+
+        // Set dot transform properties
+        dot.transform.position = randomPos;
+        dot.transform.SetParent(dotHolder);
+        dot.transform.localScale = Vector3.one * dotSize;
+
+        dot.SetActive(true); // Activate dot
+
+        dots.Add(dot.transform); // Add to dots list
+        dotAvatars.Add(dotAvatar); // Add to dotAvatars list
+    }
+
+
     public override void SetUp()
     {
         _SetUp();
@@ -98,40 +140,18 @@ public class DotGameController : Controller
         controlTreeMaterialValues.barkShown = 0;
         controlTreeMaterialValues.flowersShown = 0;
 
-
         dots = new List<Transform>();
+        dotAvatars = new List<Dot>();
 
-         for (int i = 0; i < numDots; i++)
+        for (int i = 0; i < numDots; i++)
         {
-            // Instantiate dot at a random position within the dome
-            GameObject dot = Instantiate(dotPrefab, Vector3.zero, Quaternion.identity);
-
-            Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
-            randomPos = getFinalPosition(randomPos);
-       
-
-            Dot dotAvatar = dot.GetComponent<Dot>(); // Get Dot component
-
-            // Initialize dot properties
-            dotAvatar.controller = this;
-            dotAvatar.id = i;
-            dotAvatar.originalPosition = randomPos;
-            dotAvatar.velocity = Vector3.zero;
-            dotAvatar.targetPosition = randomPos;
-            dotAvatar.collected = false;
-            dotAvatar.SetData();
-
-            // Set dot transform properties
-            dot.transform.position = randomPos;
-            dot.transform.SetParent(dotHolder);
-            dot.transform.localScale = Vector3.one * dotSize;
-
-            dot.SetActive(dot); // Activate dot
-
-            dots.Add(dot.transform); // Add to dots list
-            dotAvatars.Add(dotAvatar); // Add to dotAvatars list
+            CreateDot(i);
         }
+
+        dotRegenerationTimer = dotRegenerationInterval;
+        StartCoroutine(BlueMoonDotRegenerationRoutine());
     }
+
 
     public override Vector3 GetScale(int i)
     {
@@ -212,6 +232,31 @@ public class DotGameController : Controller
         }
     }
 
+    private IEnumerator BlueMoonDotRegenerationRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(dotRegenerationInterval);
+            MakeNewDotsOnceInABlueMoon();
+        }
+    }
+
+    private void MakeNewDotsOnceInABlueMoon()
+    {
+        Debug.Log("Creating new dots...");
+
+        int currentDotCount = dots.Count;
+        for (int i = 0; i < dotsToRegenerate; i++)
+        {
+            CreateDot(currentDotCount + i);
+        }
+
+        Debug.Log($"{dotsToRegenerate} new dots created.");
+    }
+
+
+
+
     public void OnTreeCollect()
     {
         totalDotsCollected++;
@@ -224,20 +269,21 @@ public class DotGameController : Controller
 
     }
     public void OnLevelComplete()
-{
-         if (isLevelComplete) return; // Ensure this runs only once
+    {
+        if (isLevelComplete) return; // Ensure this runs only once
         isLevelComplete = true;
 
         print("LEVEL COMPLETE");
-        audioPlayer.Play(onLevelCompleteClip); 
+        audioPlayer.Play(onLevelCompleteClip);
         controlTreeMaterialValues.flowersShown = 1;
 
-        // Start coroutine to fade to black after the sound finishes
+
+        // Start coroutine to fade to black after the sound finishes - I started setting this up but didn't finish!
         StartCoroutine(FadeToBlack(onLevelCompleteClip.length));
     }
 
 
-
+    //  I started setting this up but didn't finish!
     private IEnumerator FadeToBlack(float delay)
     {
         yield return new WaitForSeconds(delay); // Wait for the sound to finish
