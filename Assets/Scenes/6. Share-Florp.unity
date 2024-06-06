@@ -1478,7 +1478,7 @@ MonoBehaviour:
   grower: 0
   maxSize: 0
   startSize: 0
-  growSizePerHit: 0.01
+  growSizePerHit: 0.001
   growSuccessParticles: {fileID: 0}
   growSuccessClip: {fileID: 0}
   changeColorOnHit: 0
@@ -2630,8 +2630,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraResolution: 640
   sphereSize: 10
-  maxDegrees: 188.8
-  pushTowardsBottom: 0.22
+  maxDegrees: 195
+  pushTowardsBottom: 0.33
   startSize: 1
   verticalValue: 1
   RemapValues: {x: 1, y: -1}
