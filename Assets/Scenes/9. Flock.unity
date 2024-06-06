@@ -2555,8 +2555,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraResolution: 640
   sphereSize: 10
-  maxDegrees: 215.9
-  pushTowardsBottom: 0.5
+  maxDegrees: 195
+  pushTowardsBottom: 0.11
   startSize: 3
   verticalValue: 1
   RemapValues: {x: 1, y: -1}
@@ -2565,6 +2565,8 @@ MonoBehaviour:
   playerAvatars: []
   playerIDS: 
   playerLastSeenTimestamp: []
+  soundTimeout: 600
+  playerSoundStates: 
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
@@ -2575,7 +2577,20 @@ MonoBehaviour:
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  skyboxMaterial: {fileID: 0}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   center: {fileID: 1890852101}
+  soundEventSender: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
