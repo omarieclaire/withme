@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayOnCollision : MonoBehaviour
 {
-    public ParticleSystem ps;
     public AudioPlayer audioPlayer;
-    public AudioClip clip;
 
     public bool die;
     public bool changeColor;
@@ -21,8 +19,15 @@ public class PlayOnCollision : MonoBehaviour
     public float growSizePerHit;
     public float shrinkSizePerHit;
 
-    public ParticleSystem growSuccessParticles;
+        public ParticleSystem growParticles;
+
+    public ParticleSystem spikeParticles;  
+
+    public ParticleSystem winGameParticles;
     public AudioClip growSuccessClip;
+    public AudioClip spikeClip; 
+        public AudioClip growClip;
+
 
     public bool changeColorOnHit;
     public float hueShiftPerHit;
@@ -51,19 +56,12 @@ public class PlayOnCollision : MonoBehaviour
         // This object: FlorpTarget(Clone)
         // This object: FlorpSpike(Clone)
 
-
-
-        // If the other object is FLORP, we proceed with shrinking this object (FlorpTarget or FlorpSpike)
         if (otherObject.tag == "FLORP")
         {
-            Debug.Log("Collision detected between: " + thisObject.name + " and " + otherObject.name);
-
             // Shrink this object (FlorpTarget or FlorpSpike)
             ShrinkOtherObject(thisObject);
-
-            // Handle other effects like particles and audio
-            PlayParticleEffect(collision);
-            PlayAudioClip();
+            PlayParticleEffect(collision, thisObject);
+            PlayAudioClip(thisObject);
 
             if (die)
             {
@@ -87,7 +85,7 @@ public class PlayOnCollision : MonoBehaviour
 
     private void ShrinkOtherObject(GameObject obj)
     {
-        // Shrink the object by a factor of 0.5 (50% of its current size) until a minimum scale is reached
+        // Shrink the object by a factor of 0.1 (10% of its current size) until a minimum scale is reached
         Vector3 newScale = obj.transform.localScale * 0.1f;  // Change shrink factor as needed
         if (newScale.x < minSize) newScale = Vector3.one * minSize;  // Prevent the object from shrinking below a minimum size
         obj.transform.localScale = newScale;
@@ -96,38 +94,77 @@ public class PlayOnCollision : MonoBehaviour
     }
 
 
+private void PlayParticleEffect(Collision collision, GameObject thisObject)
+{
+    Debug.Log("PlayParticleEffect triggered for: " + thisObject.name);
 
-
-    private void PlayParticleEffect(Collision collision)
+    // Check the type of object and play corresponding particle effects
+    if (thisObject.name.Contains("FlorpTarget"))
     {
-        // Play the particle system at the collision position, if available
-        if (ps != null)
+        if (growParticles != null) 
         {
-            ps.transform.position = collision.gameObject.transform.position;
-            ps.Play();
+            Debug.Log("Playing grow particles for FlorpTarget");
+            growParticles.transform.position = collision.contacts[0].point;  // Use collision point for accuracy
+            growParticles.Play();
+        }
+        else
+        {
+            Debug.LogError("growParticles not assigned!");
         }
     }
-
-    private void PlayAudioClip()
+    else if (thisObject.name.Contains("FlorpSpike"))
     {
-        // Play the audio clip with randomized pitch, if audioPlayer and clip are available
-        if (audioPlayer != null && clip != null)
+        if (spikeParticles != null)  // Use the spike-specific particle system
+        {
+            Debug.Log("Playing spike particles for FlorpSpike");
+            spikeParticles.transform.position = collision.contacts[0].point;
+            spikeParticles.Play();
+        }
+        else
+        {
+            Debug.LogError("spikeParticles not assigned!");
+        }
+    }
+    else
+    {
+        Debug.LogWarning("Object is neither FlorpTarget nor FlorpSpike. Check object names.");
+    }
+}
+
+
+
+private void PlayAudioClip(GameObject thisObject)
+{
+    // Play different audio clips based on the object type
+    if (thisObject.name.Contains("FlorpTarget"))
+    {
+        if (audioPlayer != null && growSuccessClip != null) 
         {
             float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
-            audioPlayer.Play(clip, fPitch);
+            audioPlayer.Play(growSuccessClip, fPitch);  // Play success clip for FlorpTarget
         }
     }
+    else if (thisObject.name.Contains("FlorpSpike"))
+    {
+        if (audioPlayer != null && spikeClip != null) 
+        {
+            float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
+            audioPlayer.Play(spikeClip, fPitch);  // Play spike clip for FlorpSpike
+        }
+    }
+}
 
+// haven't tested this!
     private void ResetGrowth()
     {
         // Handle growth reset when max size is reached
-        // Debug.Log("333 entered condition -- transform.localScale.x >= maxSize");
-        growSuccessParticles.Play();
+        // winGameParticles.Play();
         audioPlayer.Play(growSuccessClip);
         currentHue = startHue;
-        // Debug.Log("333[GROW] Florp reached max size, resetting to start size.");
     }
 
+
+// haven't tested this!
     private void UpdateColor()
     {
         // Increment the hue by the specified amount and wrap around if necessary
@@ -146,9 +183,7 @@ public class PlayOnCollision : MonoBehaviour
 
     private void HandleFollowOnCollider(Collision collision, bool isTarget)
     {
-        // Debug.Log("in the collision");
         // Store the transform of the collided object and reset velocity
-        // this is the "unity transform" - I found out by logging
         followTransform = collision.gameObject.transform;
         vel = Vector3.zero;
         collideTime = Time.time;
@@ -158,10 +193,10 @@ public class PlayOnCollision : MonoBehaviour
 
         collision.gameObject.transform.localScale += Vector3.one * scaleChange;
 
-        // Disable the collider to prevent further collisions
+// haven't tested this --> Disable the collider to prevent further collisions
         GetComponent<SphereCollider>().enabled = false;
 
-        // If the object has grown beyond the maximum size, reset its growth
+// haven't tested this --> If the object has grown beyond the maximum size, reset its growth
         if (transform.localScale.x >= maxSize)
         {
             ResetGrowth();
@@ -170,13 +205,13 @@ public class PlayOnCollision : MonoBehaviour
 
     public Vector3 randomDir(float collideTime)
     {
-        // Generate a random direction based on sine and cosine functions
+        // haven't tested this --> Generate a random direction based on sine and cosine functions
         return new Vector3(Mathf.Sin(collideTime), Mathf.Cos(collideTime), Mathf.Sin(collideTime * 2));
     }
 
     void Update()
     {
-        // If following a transform, apply force and update positions
+       // haven't tested this --> If following a transform, apply force and update positions
         if (followTransform != null)
         {
             Vector3 force = (followTransform.position - transform.position + randomDir(collideTime)) * followForce;
@@ -192,7 +227,7 @@ public class PlayOnCollision : MonoBehaviour
 
     void OnEnable()
     {
-        // Initialize hue when the object is enabled
+        // haven't tested this --> Initialize hue when the object is enabled
         currentHue = startHue;
     }
 }

@@ -114,10 +114,6 @@ public class Controller : MonoBehaviour
     public bool enablePlayerReassignment = true;
 
 
-
-
-
-
     // Dictionary to track stationary times
     private Dictionary<int, float> playerStationaryTimes = new Dictionary<int, float>();
 
@@ -157,8 +153,6 @@ public class Controller : MonoBehaviour
     //     }
     // }
 
-
-
     // private void CheckForPlayerReassignment(int playerIndex)
     // {
     //     if (!enablePlayerReassignment)
@@ -179,7 +173,6 @@ public class Controller : MonoBehaviour
     //         }
     //     }
     // }
-
 
 
     [Header("Skybox Info")]
@@ -213,8 +206,6 @@ public class Controller : MonoBehaviour
         skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
         skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
         skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
-
-
 
         players.Clear();
         playerAvatars.Clear();
@@ -252,17 +243,10 @@ public class Controller : MonoBehaviour
     // creating the player object to setting up its initial state.
     public void OnPlayerCreate(int playerID)
     {
-
         // Debug.Log($"Creating player with ID: {playerID}");
-
         GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         player.transform.position = getFinalPosition(player.transform.position);
-        // Debug.Log($"Creating player with startSize: {startSize}");
-
         player.transform.localScale = Vector3.one * startSize;
-
-        // Debug.Log($"Creating player with startSize: {startSize}");
-
         player.transform.SetParent(playerHolder);
         player.name = $"Player_{playerID}_Sphere";
 
@@ -399,8 +383,6 @@ public class Controller : MonoBehaviour
         }
     }
 
-
-
     // public void OnPlayerDestroy(int playerID)
     // {
     //     Debug.Log($"Destroying player with ID: {playerID}");
@@ -433,8 +415,6 @@ public class Controller : MonoBehaviour
         // Debug.Log($"[DEBUG] GetScale for player {i}: startSize = {startSize}, playerSeenScaler = {playerSeenScaler[i]}");
         return Vector3.one * playerSeenScaler[i] * startSize;
     }
-
-
 
     void Update()
     {
