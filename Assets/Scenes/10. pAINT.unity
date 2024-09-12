@@ -1721,7 +1721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1212776770}
   cubemapFaces: 55
-  domemasterResolution: 4096
+  domemasterResolution: 1024
   orientation: 1
   horizon: 210
   domeTilt: 0
@@ -1901,17 +1901,36 @@ MonoBehaviour:
   playerAvatars: []
   playerIDS: 
   playerLastSeenTimestamp: []
+  soundTimeout: 600
+  playerSoundStates: 
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
   playerHolder: {fileID: 1231796505}
   playerLerpSpeed: 1
+  Time2Wait4PlayerFadeOut: 0.3
   playerFadeInSpeed: 0.1
   playerFadeOutSpeed: 0.03
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  minPlayerScale: 0.01
+  removePlayerAfterStationaryTime: 300
+  enablePlayerReassignment: 1
+  skyboxMaterial: {fileID: 0}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   center: {fileID: 1890852101}
+  soundEventSender: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

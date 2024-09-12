@@ -9,9 +9,6 @@ public class OSCDataReceiver : MonoBehaviour
     public int port;
     public Controller controller;
 
-    //[SerializeField]
-    //private GameObject playerSpherePrefab; // The prefab to instantiate for each player
-
     [SerializeField]
     public float timeToWaitForMissingPlayers = 0.5f; // Time to wait before deactivating missing players
 
@@ -29,13 +26,8 @@ public class OSCDataReceiver : MonoBehaviour
         Debug.Log("OSC Server initialized and listening on port " + port);
     }
 
+    // Update function dequeing player position messages and updating player positions
 
-    /*
-
-        Update function
-        dequeing player position messages and updating player positions
-
-    */
     private void Update()
     {
         double currentTime = Time.unscaledTimeAsDouble;
@@ -48,7 +40,7 @@ public class OSCDataReceiver : MonoBehaviour
             Vector2 blobPosition = msg.BlobPosition;
 
             PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
-            ReactivatePlayer(playerData, currentTime);
+            // ReactivatePlayer(playerData, currentTime);
 
             playerData.LastOSCTimeStamp = currentTime;
 
@@ -58,66 +50,58 @@ public class OSCDataReceiver : MonoBehaviour
         }
 
         // Deactivate missing players
-        CheckForAndDeactivateMissingPlayers(currentTime);
+        // CheckForAndDeactivateMissingPlayers(currentTime);
     }
 
-    private void CheckForAndDeactivateMissingPlayers(double currentTime)
-    {
-        HashSet<int> activePlayersCopy = new HashSet<int>(activePlayerIds);
+    // private void CheckForAndDeactivateMissingPlayers(double currentTime)
+    // {
+    //     HashSet<int> activePlayersCopy = new HashSet<int>(activePlayerIds);
 
-        foreach (int playerId in activePlayersCopy)
-        {
-            PlayerData playerData = players[playerId];
-            if (playerData.IsActive && (currentTime - playerData.LastOSCTimeStamp > timeToWaitForMissingPlayers))
-            {
-                playerData.IsActive = false;
-                controller.DeactivatePlayer(playerId);
-                activePlayerIds.Remove(playerId);
+    //     foreach (int playerId in activePlayersCopy)
+    //     {
+    //         PlayerData playerData = players[playerId];
+    //         if (playerData.IsActive && (currentTime - playerData.LastOSCTimeStamp > timeToWaitForMissingPlayers))
+    //         {
+    //             playerData.IsActive = false;
+    //             controller.DeactivatePlayer(playerId);
+    //             activePlayerIds.Remove(playerId);
 
-                //Debug.Log($"Deactivated player {playerId} due to inactivity.");
-            }
-        }
-    }
+    //             //Debug.Log($"Deactivated player {playerId} due to inactivity.");
+    //         }
+    //     }
+    // }
 
-    private void ReactivatePlayer(PlayerData playerData, double currentTime)
-    {
-        if (!playerData.IsActive)
-        {
-            playerData.IsActive = true;
-            activePlayerIds.Add(playerData.PlayerId);
+    // private void ReactivatePlayer(PlayerData playerData, double currentTime)
+    // {
+    //     if (!playerData.IsActive)
+    //     {
+    //         playerData.IsActive = true;
+    //         activePlayerIds.Add(playerData.PlayerId);
 
-            // Reactivating the player in the game
-            controller.ReactivatePlayer(playerData.PlayerId);
+    //         // Reactivating the player in the game
+    //         controller.ReactivatePlayer(playerData.PlayerId);
 
-            //Debug.Log($"Reactivated player {playerData.PlayerId}.");
-        }
-    }
+    //         //Debug.Log($"Reactivated player {playerData.PlayerId}.");
+    //     }
+    // }
 
     // Getting or creating a player depending on if we have them or not!
     private PlayerData GetOrCreatePlayer(int playerId, double oscTime)
     {
         if (players.TryGetValue(playerId, out PlayerData playerData))
         {
-            //print("Player exists");
             return playerData;
         }
         else
         {
-
-
-
             // Instantiate a new sphere for the player
             playerData = new PlayerData(playerId);
             players.Add(playerId, playerData);
             controller.OnPlayerCreate(playerId);
-
             //Debug.Log($"Created new player {playerId} with sphere.");
             return playerData;
-
-
         }
     }
-
 
     // Getting a new player Position
     private void OscReceiver1(string address, OscDataHandle data)
@@ -126,7 +110,6 @@ public class OSCDataReceiver : MonoBehaviour
         {
             PlayerPositionMessage msg = new PlayerPositionMessage(address, data);
             playerPositionMessages.Enqueue(msg);
-
             //Debug.Log($"Enqueued position message for player {msg.PlayerId} with position {msg.Position}");
         }
     }
@@ -152,16 +135,7 @@ public class OSCDataReceiver : MonoBehaviour
             Address = address;
             PlayerId = GetPlayerNumber(address);
             BlobPosition = new Vector2(data.GetElementAsFloat(0), data.GetElementAsFloat(1));
-
-            /*
-                        Position = new Vector3(
-                            MapToRange(data.GetElementAsFloat(0), 0, (float)cameraResolution, -10, 10),
-                            0f, // Y is the ground plane
-                            MapToRange(data.GetElementAsFloat(1), 0, (float)cameraResolution, 10, -10)
-                        );*/
-
-            //            Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, Position={Position}");
-        }
+            }
 
         private static int GetPlayerNumber(string address)
         {
