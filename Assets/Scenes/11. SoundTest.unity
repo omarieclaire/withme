@@ -689,8 +689,8 @@ MonoBehaviour:
   _localReceiver: {fileID: 0}
   _localHost: 10.0.1.48
   _localPort: 800
-  _remoteHost: 10.10.21.151
-  _remotePort: 8089
+  _remoteHost: 127.0.0.1
+  _remotePort: 9239
   _useBundle: 0
 --- !u!1 &780603503
 GameObject:
@@ -1745,11 +1745,15 @@ MonoBehaviour:
   playerPrefab: {fileID: 755660615}
   playerHolder: {fileID: 1231796505}
   playerLerpSpeed: 1
+  Time2Wait4PlayerFadeOut: 0.3
   playerFadeInSpeed: 0.1
   playerFadeOutSpeed: 0.03
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  minPlayerScale: 0.01
+  removePlayerAfterStationaryTime: 300
+  enablePlayerReassignment: 1
   skyboxMaterial: {fileID: 2100000, guid: 8fa36c3f2c2855545a1713a77c482dca, type: 2}
   SunPosition: {x: 0, y: -1, z: 0}
   SunHue: 0

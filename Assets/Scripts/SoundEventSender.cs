@@ -10,9 +10,21 @@ public class SoundEventSender : MonoBehaviour
     private Vector3 _position = Vector3.zero;
     private Dictionary<string, OSCMessage> activeContinuousSounds = new Dictionary<string, OSCMessage>();
 
+// Doit();
+// public void Doit (){
+//     Debug.Log("yo");
+// }
+
+
+    void Start()
+    {
+           Debug.Log("yo");
+ 
+    }
 
     public void SendSoundEvent(string soundID, Vector3 position, SoundType soundType)
     {
+        Debug.Log("sending sound event");
         _position = position;
         switch (soundType)
         {
@@ -87,6 +99,7 @@ public class SoundEventSender : MonoBehaviour
 
     private OSCMessage CreateSoundMessage(string address, string soundID, Vector3 position)
     {
+        Debug.Log("creating message");
         var message = new OSCMessage(address);
         message.AddValue(OSCValue.String(soundID));
         message.AddValue(OSCValue.Float(position.x));

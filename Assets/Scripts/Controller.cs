@@ -269,7 +269,7 @@ public class Controller : MonoBehaviour
 
         Vector3 initialPosition = getFinalPosition(Vector3.zero);
         // Debug.Log("Starting continuous sound " + playerID);
-        // soundEventSender.SendSoundEvent("PlayerSound", initialPosition, SoundType.Continuous);
+        soundEventSender.SendSoundEvent("PlayerSound", initialPosition, SoundType.Continuous);
         // playerSoundStates.Add(true); // Mark the sound as playing
 
     }

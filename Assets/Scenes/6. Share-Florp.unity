@@ -2928,7 +2928,7 @@ MonoBehaviour:
   targetPrefab: {fileID: 1267425107}
   spikePrefab: {fileID: 298231090}
   numTargets: 40
-  numSpikes: 10
+  numSpikes: 194
   controller: {fileID: 1890852102}
   targetSize: 2
   spikeSize: 2
@@ -2979,9 +2979,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d2564e341cf4db284326b9c9f9de11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shiveringSpeed: 0.76
-  shiveringAmplitude: 0.1
-  rotationSpeed: 0.24
 --- !u!114 &1729653335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2994,9 +2991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e58509eddda4034b00ec7334787ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breathingSpeed: 0.04
-  breathingAmplitude: 0.05
-  rotationSpeed: 0.14
 --- !u!1001 &1803258790
 PrefabInstance:
   m_ObjectHideFlags: 0
