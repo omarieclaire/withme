@@ -690,7 +690,7 @@ MonoBehaviour:
   _localHost: 10.0.1.48
   _localPort: 800
   _remoteHost: 127.0.0.1
-  _remotePort: 9239
+  _remotePort: 8089
   _useBundle: 0
 --- !u!1 &780603503
 GameObject:
@@ -1597,6 +1597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Transmitter: {fileID: 768782084}
+  sphereSize: 10
 --- !u!1 &1873154113
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,20 +14,6 @@ public class Controller : MonoBehaviour
     [Tooltip("Maximum degrees for positioning calculations.")]
     public float maxDegrees = 210;
 
-    /* pushTowardsBottom is a factor that controls how much a player's position 
-     is pushed downward toward the bottom (or edge) of the dome. It influences the 
-     angleDown calculation by changing the distance from the center, making players 
-     appear lower or higher in the dome.
-     
-     It's a way to influence the final position of a player so that they're not distributed 
-     evenly all over the dome but are "pulled" toward the bottom or lower part of the dome.
-     
-     If pushTowardsBottom is 1, nothing changes; the player stays where they would normally
-      be, evenly distributed in the dome.
-      If pushTowardsBottom is less than 1 (like 0.5), the players get pulled more toward 
-      the bottom, making their positions lower in the dome.
-      If pushTowardsBottom is greater than 1 (like 2), the players stay more at the top 
-      of the dome. */
     [Tooltip("Factor for pushing positions towards the bottom of the dome.")]
     public float pushTowardsBottom = .5f;
 
@@ -38,9 +24,8 @@ public class Controller : MonoBehaviour
     [Tooltip("Vertical positioning value; higher values keep objects closer to the top of the dome.")]
     public float verticalValue = 1;
 
-    // maps 0 to the negative remap value, and maps 640 to the positive remap value
     // note, Y becomes Z because the osc only has two values and we need 3
-    [Tooltip("Remap values for camera input: maps 0 to negative and 640 to positive.")]
+    [Tooltip("Remap values for camera input: maps 0 to the negative remap value and 640 to positive.")]
     public Vector2 RemapValues = new Vector2(1, -1);
 
     [Tooltip("Maximum size for position scaling along each axis.")]
@@ -67,8 +52,6 @@ public class Controller : MonoBehaviour
     [Tooltip("List of scaling factors for player visibility.")]
     public List<float> playerSeenScaler;
 
-    // Speed at which players lerp towards their target position,
-    // smaller value means slower speed
 
     [Tooltip("List of target positions for players.")]
     public List<Vector3> playerTargetPositions;
@@ -100,7 +83,6 @@ public class Controller : MonoBehaviour
 
     [Tooltip("List of active player GameObjects.")]
     public List<PlayerAvatar> activePlayers;
-
 
     // New settings for shrinking and reassigning players
     [Header("Stationary Player Logic")]
@@ -265,13 +247,7 @@ public class Controller : MonoBehaviour
         playerTargetPositions.Add(player.transform.position);
         playerAvatar.Reset();
         playerStationaryTimes[playerID] = 0f; // Initialize the stationary time when the player is created
-
-
         Vector3 initialPosition = getFinalPosition(Vector3.zero);
-        // Debug.Log("Starting continuous sound " + playerID);
-        soundEventSender.SendSoundEvent("PlayerSound", initialPosition, SoundType.Continuous);
-        // playerSoundStates.Add(true); // Mark the sound as playing
-
     }
 
     // public void ReactivatePlayer(int playerID)
@@ -316,7 +292,6 @@ public class Controller : MonoBehaviour
     //             Debug.LogError($"[FAILED] OOO Player with ID: {playerID} was not deactivated as expected.");
     //         }
 
-    //         // soundEventSender.StopContinuousSound("PlayerSound"); // Uncomment if needed.
     //     }
     //     else
     //     {
@@ -326,6 +301,7 @@ public class Controller : MonoBehaviour
 
     public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
     {
+
         // Debug.Log($"[EXPECTED] Received position update for player {playerID} with blob position: {blobPosition}. We expect to remap the position and apply it.");
 
         float v1 = blobPosition.x / cameraResolution;
@@ -360,9 +336,7 @@ public class Controller : MonoBehaviour
                 playerTargetPositions[id] = fPos;
                 playerLastSeenTimestamp[id] = Time.time;
 
-                // Debug.Log($"Sending Sound Event: SoundID: PlayerSound, Position: {fPos}");
-                // soundEventSender.SendSoundEvent("PlayerSound", fPos, SoundType.Continuous);
-
+                soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, playerID);
                 // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
             }
             else
@@ -393,9 +367,6 @@ public class Controller : MonoBehaviour
     //         Destroy(players[index]);
     //         players.RemoveAt(index);
     //         playerIDS.RemoveAt(index);
-    //         Debug.Log("Stopping continuous sound FOREVER");
-
-    //         soundEventSender.StopContinuousSound("PlayerSound");
     //     }
     // }
 
@@ -450,7 +421,6 @@ public class Controller : MonoBehaviour
             // Check if player is inactive for a specific period
             if (timeSinceLastSeen > soundTimeout)
             {
-                // soundEventSender.StopContinuousSound("0PlayerSound");
             }
 
             // Start fading only if the player hasn't been seen for a few frames
@@ -464,8 +434,6 @@ public class Controller : MonoBehaviour
                 // if (timeSinceLastSeen > soundTimeout && playerSoundStates[i])
                 {
                     // Debug.Log($"[EXPECTED] Player {playerID} is inactive for more than {soundTimeout} seconds. Stopping sound.");
-                    // soundEventSender.StopContinuousSound("PlayerSound");
-                    // playerSoundStates[i] = false; // Mark the sound as stopped
                 }
             }
             else
@@ -479,9 +447,7 @@ public class Controller : MonoBehaviour
                 // if (!playerSoundStates[i])
                 {
                     // Debug.Log($"[EXPECTED] Player {playerID} has been seen again. Starting sound.");
-                    // soundEventSender.SendSoundEvent("PlayerSound", playerTargetPositions[i], SoundType.Continuous);
                     // playerSoundStates[i] = true; // Mark the sound as playing
-                    // Debug.Log($"[CONFIRMED] Player {playerID}'s sound has been resumed.");
                 }
             }
 
@@ -567,7 +533,7 @@ public class Controller : MonoBehaviour
              l is a value that represents the player's distance from the center of the dome on 
              the flat (XZ) plane. Think of it like a straight line from the middle of the dome 
              to where the player is.
-             This distance tells us how far the player is from the center, and it will be used 
+             "l" tells us how far the player is from the center, and it will be used 
              to figure out how "high" or "low" they should be.
          */
         float l = nXZ.magnitude;  // Get the distance from the center
