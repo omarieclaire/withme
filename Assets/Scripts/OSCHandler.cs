@@ -62,43 +62,7 @@ public class OSCHandler : MonoBehaviour
             playerData.LastOSCTimeStamp = currentTime;  // Update the player's last message timestamp
             controller.OnPlayerPositionUpdate(playerId, blobPosition);  // Notify the controller about the player's new position
         }
-
-        // CheckForAndDeactivateMissingPlayers(currentTime);  // Deactivate players who haven't sent messages recently
     }
-
-    // private void CheckForAndDeactivateMissingPlayers(double currentTime)
-    // {
-    // HashSet<int> activePlayersCopy = new HashSet<int>(activePlayerIds);  // Create a copy of the active player IDs
-
-    // Iterate over active players and deactivate those who have been inactive for too long
-    // foreach (int playerId in activePlayersCopy)
-    // {
-    // PlayerData playerData = players[playerId];
-    // if (playerData.IsActive && (currentTime - playerData.LastOSCTimeStamp > timeToWaitForMissingPlayers))
-    // {
-    //     playerData.IsActive = false;  // Mark player as inactive
-    //     controller.DeactivatePlayer(playerId);  // Notify the controller to deactivate the player
-    //     activePlayerIds.Remove(playerId);  // Remove player from the active set
-    //     if (debug)
-    //     {
-    //         Debug.Log($"Deactivated player {playerId} due to inactivity.");
-    //     }
-    // }
-    // }
-    // }
-
-    // private void ReactivatePlayer(PlayerData playerData, double currentTime)
-    // {
-    //     // If the player is inactive, reactivate them
-    //     if (!playerData.IsActive)
-    //     {
-    //         playerData.IsActive = true;
-    //         activePlayerIds.Add(playerData.PlayerId);  // Add the player back to the active set
-
-    //         controller.ReactivatePlayer(playerData.PlayerId);  // Notify the controller to reactivate the player
-    //         Debug.Log($"Reactivated player {playerData.PlayerId}.");
-    //     }
-    // }
 
     private PlayerData GetOrCreatePlayer(int playerId, double oscTime)
     {
