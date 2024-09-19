@@ -20,6 +20,9 @@ public class DotGameController : Controller
     [Tooltip("Number of dots in the game.")]
     public int numDots;
 
+        public int inty = 2;
+
+
     [Tooltip("Prefab used to instantiate dots.")]
     public GameObject dotPrefab;
 
@@ -193,10 +196,17 @@ public class DotGameController : Controller
 
     public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
     {
+        // Vector3 fPos = new Vector3(0, 0, 0); //garbage, remember to change
+        // // soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, inty);
+        // soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, inty);
+
         //Debug.Log("Player Trigger");
         // Check if the collider is a dot
         if (collider.CompareTag("Dot"))
         {
+            
+            
+
             int index = dots.IndexOf(collider.transform);
             if (index != -1)
             {

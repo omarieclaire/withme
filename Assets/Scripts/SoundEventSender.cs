@@ -1,15 +1,4 @@
-﻿/* 
-
-TODO:
-
-1. Ensure Proper Mapping of Azimuth, Elevation, and Radius:
-I've normalized the radius to fit SpatGRIS’s expected range of -3.0 to 3.0. 
-I need to ensure  that the mapping between Unity world position and SpatGRIS’s spherical coordinates (Azimuth, Elevation, Radius) matches what SpatGRIS expects.
-
-2. Correct Source Indexing!
-*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using extOSC;
 using System.Collections.Generic;
 
@@ -65,36 +54,62 @@ public class SoundEventSender : MonoBehaviour
         }
     }
 
-    // Helper method to add OSC values (Azimuth, Elevation, Radius, etc.) into a message
-    private void AddOSCValues(OSCMessage message, int sourceIndex, float azimuth, float elevation, float radius, string soundID)
-    {
-        message.AddValue(OSCValue.Int(sourceIndex + 1));  // Source index (spatGRIS requires 1-based indexing)
-        message.AddValue(OSCValue.Float(azimuth));        // Azimuth: The horizontal angle for the sound.
-        message.AddValue(OSCValue.Float(elevation));      // Elevation: The vertical position
-        message.AddValue(OSCValue.Float(radius));         // Radius:The distance from the center (e.g., how far the sound source is from the listener)
-        message.AddValue(OSCValue.Float(0.1f));           // Horizontal span (optional)
-        message.AddValue(OSCValue.Float(0.1f));           // Vertical span (optional)
-        message.AddValue(OSCValue.String(soundID));       // The ID of the sound to be triggered
-    }
+    // Helper method to add OSC values (Azimuth, Elevation, Radius, etc.) into a message without sending the sourceIndex
+// Helper method to add OSC values (Azimuth, Elevation, Radius, etc.) into a message
+private void AddOSCValues(OSCMessage message, float azimuth, float elevation, float radius, string soundID)
+{
+    message.AddValue(OSCValue.String(soundID));       // The ID of the sound to be triggered
+    message.AddValue(OSCValue.Float(azimuth));        // Azimuth: The horizontal angle for the sound.
+    message.AddValue(OSCValue.Float(elevation));      // Elevation: The vertical position
+    message.AddValue(OSCValue.Float(radius));         // Radius: The distance from the center (e.g., how far the sound source is from the listener)
+    message.AddValue(OSCValue.Float(0.1f));           // Horizontal span (optional)
+    message.AddValue(OSCValue.Float(0.1f));           // Vertical span (optional)
+}
+
+
+    /* Example: Call SendSoundEvent to play a continuous sound with soundID "abletonTrack11"
+    Vector3 soundPosition = new Vector3(1.0f, 2.0f, -3.0f);
+    soundEventSender.SendSoundEvent("abletonTrack11", soundPosition);
+
+    // Call: SendSoundEvent to play a one-shot sound with soundID "abletonTrack12"
+    Vector3 soundPosition = new Vector3(0.0f, 1.5f, -2.0f);
+    soundEventSender.SendSoundEvent("abletonTrack12", soundPosition);
+
+    // No specific sound position available (optional, use null for no position)
+    soundEventSender.SendSoundEvent("abletonTrack13", null);
+
+    // Stop the continuous sound (make sure the soundID matches the one you started)
+    soundEventSender.StopContinuousSound("abletonTrack11");
+    */
 
     // Method to send sound events with a given sound ID and position to TouchDesigner or SpatGRIS
-    public void SendSoundEvent(string soundID, Vector3 position, SoundType soundType, int sourceIndex)
+    public void SendSoundEvent(string soundID, Vector3? position)
     {
         // Create OSC message
-        string oscAddress = _soundAddress;
+        string oscAddress = "/sound/play";
         OSCMessage message = new OSCMessage(oscAddress);
 
-        // Convert Unity's position to SpatGRIS spherical coordinates using the SoundPosition struct
-        SoundPosition soundPos = new SoundPosition(position, sphereSize);
+        // If position is available, convert and add the spatial attributes to the message
+        if (position.HasValue)
+        {
+            SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
+            AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
+        }
+        else
+        {
+            LogMessage($"No position provided for sound {soundID}. Skipping spatial data.");
+            AddOSCValues(message, 0, 0, 0, soundID);  // Default values for spatial data
+        }
 
-        // Add the sound's spatial attributes to the OSC message
-        AddOSCValues(message, sourceIndex, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
+        // Add to active continuous sounds (only if not already added)
+        if (!activeContinuousSounds.ContainsKey(soundID))
+        {
+            activeContinuousSounds.Add(soundID, message);  // Track continuous sounds
+        }
 
         // Send the message using the Transmitter
         Transmitter.Send(message);
-
-        // Log the message for debugging (only if logging is enabled)
-        LogMessage($"Sending OSC message to TouchDesigner: {oscAddress}, {soundPos.Azimuth}, {soundPos.Elevation}, {soundPos.Radius}, {soundID}");
+        LogMessage($"Sending OSC message to TouchDesigner: {oscAddress}, {soundID}");
     }
 
     // Method to stop a continuous sound using its sound ID
@@ -107,27 +122,38 @@ public class SoundEventSender : MonoBehaviour
             return;
         }
 
-        // Create a stop message for the sound and send it
-        var stopMessage = new OSCMessage(_soundAddress + "/stop");
-        stopMessage.AddValue(OSCValue.String(soundID));
-        SafeSend(stopMessage); // Send the stop message
+        // Create a stop message for the sound
+        var stopMessage = new OSCMessage("/sound/stop");
+        stopMessage.AddValue(OSCValue.String(soundID));  // Use soundID to stop the correct sound
+
+        // Send the stop message
+        SafeSend(stopMessage);
 
         // Remove the sound from the active continuous sounds dictionary
         activeContinuousSounds.Remove(soundID);
         LogMessage($"Stopped and removed continuous sound {soundID}.");
     }
 
-    // Method to update the position of an already active continuous sound
+    // Method to update the position of an already active continuous sound in SpatGRIS
     private void UpdateContinuousSound(string soundID, Vector3 position)
     {
         // Check if the sound exists in the dictionary
         if (activeContinuousSounds.TryGetValue(soundID, out OSCMessage message))
         {
-            // Clear old values and update with the new position
+            // Clear old values and update with the new position (SpatGRIS)
             SoundPosition soundPos = new SoundPosition(position, sphereSize);
             message.Values.Clear();  // Clear old values
-            AddOSCValues(message, 1, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
-            SafeSend(message);  // Send the updated message
+
+            // Update spatial values in SpatGRIS without changing Ableton playback
+            AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
+
+            // Send the updated spatial information to SpatGRIS
+            SafeSend(message);
+            LogMessage($"Updated position for sound {soundID} in SpatGRIS.");
+        }
+        else
+        {
+            Debug.LogWarning($"Trying to update position for sound {soundID}, but it was not found in active continuous sounds.");
         }
     }
 

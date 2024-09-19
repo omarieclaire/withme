@@ -248,6 +248,19 @@ public class Controller : MonoBehaviour
         playerAvatar.Reset();
         playerStationaryTimes[playerID] = 0f; // Initialize the stationary time when the player is created
         Vector3 initialPosition = getFinalPosition(Vector3.zero);
+
+
+        string soundID = $"p{playerID}";
+
+        // Vector3 fPos = new Vector3(0, 0, 0);
+        // soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, playerID);
+        Vector3 soundPosition = new Vector3(1.0f, 2.0f, -3.0f);
+        soundEventSender.SendSoundEvent(soundID, soundPosition);
+
+
+
+
+
     }
 
     // public void ReactivatePlayer(int playerID)
@@ -323,7 +336,6 @@ public class Controller : MonoBehaviour
 
         Vector3 remappedPosition = new Vector3(v1, 0, v2);
         Vector3 fPos = getFinalPosition(remappedPosition);
-
         // Debug.Log($"[CONFIRMED] Player {playerID}'s position has been remapped to: {fPos}.");
 
         int id = playerIDS.IndexOf(playerID);
@@ -336,7 +348,10 @@ public class Controller : MonoBehaviour
                 playerTargetPositions[id] = fPos;
                 playerLastSeenTimestamp[id] = Time.time;
 
-                soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, playerID);
+                // findme 
+                // soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, playerID);
+                //    soundEventSender.SendSoundEvent("p0", remappedPosition);
+
                 // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
             }
             else
@@ -387,120 +402,124 @@ public class Controller : MonoBehaviour
         return Vector3.one * playerSeenScaler[i] * startSize;
     }
 
-    void Update()
+void Update()
+{
+    // Debug.Log("[EXPECTED] Update called. Resetting active players and calculating average position.");
+
+    numActivePlayers = 0;
+    averagePosition = Vector3.zero;
+    activePlayers.Clear();
+
+    for (int i = 0; i < players.Count; i++)
     {
-        // Debug.Log("[EXPECTED] Update called. Resetting active players and calculating average position.");
+        int playerID = playerIDS[i];
+        float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[i];
 
-        numActivePlayers = 0;
-        averagePosition = Vector3.zero;
-        activePlayers.Clear();
+        // if (playerTargetPositions[i] == players[i].transform.position)
+        // {
+        //     // Player is stationary
+        //     if (playerStationaryTimes.ContainsKey(playerID))
+        //     {
+        //         playerStationaryTimes[playerID] += Time.deltaTime;
+        //     }
+        //     else
+        //     {
+        //         playerStationaryTimes[playerID] = Time.deltaTime;  // Start tracking
+        //     }
+        // }
+        // else
+        // {
+        //     // Reset stationary time when the player moves
+        //     playerStationaryTimes[playerID] = 0;
+        // }
 
-        for (int i = 0; i < players.Count; i++)
+        // Check if player is inactive for a specific period
+        if (timeSinceLastSeen > soundTimeout)
         {
-            int playerID = playerIDS[i];
-            float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[i];
-
-            // if (playerTargetPositions[i] == players[i].transform.position)
-            // {
-            //     // Player is stationary
-            //     if (playerStationaryTimes.ContainsKey(playerID))
-            //     {
-            //         playerStationaryTimes[playerID] += Time.deltaTime;
-            //     }
-            //     else
-            //     {
-            //         playerStationaryTimes[playerID] = Time.deltaTime;  // Start tracking
-            //     }
-            // }
-            // else
-            // {
-            //     // Reset stationary time when the player moves
-            //     playerStationaryTimes[playerID] = 0;
-            // }
-
-            // Check if player is inactive for a specific period
-            if (timeSinceLastSeen > soundTimeout)
-            {
-            }
-
-            // Start fading only if the player hasn't been seen for a few frames
-            if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
-            {
-                // Fade out
-                playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 0, playerFadeOutSpeed * Time.deltaTime);
-                // Debug.Log($"[DEBUG] Fading out player {playerID}, playerSeenScaler = {playerSeenScaler[i]}");
-
-                // Check if player is inactive for a specific period and stop the sound
-                // if (timeSinceLastSeen > soundTimeout && playerSoundStates[i])
-                {
-                    // Debug.Log($"[EXPECTED] Player {playerID} is inactive for more than {soundTimeout} seconds. Stopping sound.");
-                }
-            }
-            else
-            {
-                // Fade in
-                playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 1, playerFadeInSpeed * Time.deltaTime);
-                playerSeenScaler[i] = Mathf.Clamp(playerSeenScaler[i], 0, 1); // Ensures value stays between 0 and 1
-
-                // Debug.Log($"[DEBUG] Fading in player {playerID}, playerSeenScaler = {playerSeenScaler[i]}");
-
-                // if (!playerSoundStates[i])
-                {
-                    // Debug.Log($"[EXPECTED] Player {playerID} has been seen again. Starting sound.");
-                    // playerSoundStates[i] = true; // Mark the sound as playing
-                }
-            }
-
-            // Update player scale based on playerSeenScaler
-            players[i].transform.localScale = GetScale(i);
-            // Debug.Log($"[CONFIRMED] Player {playerID}'s scale updated to: {players[i].transform.localScale}");
-
-            // Hide player if it has faded below threshold - the player is hidden using SetActive(false).
-            if (playerSeenScaler[i] < .03f)
-            {
-                if (players[i].activeSelf)
-                {
-                    players[i].SetActive(false);
-                    // Debug.Log($"[CONFIRMED] Player {playerID} has been hidden due to low visibility.");
-                }
-            }
-
-            // Show the player if it's above threshold and make them visible again using SetActive(true)
-            else
-            {
-                // Only turn on if not already active
-                if (!players[i].activeSelf)
-                {
-                    players[i].SetActive(true);
-                    // Debug.Log($"[CONFIRMED] Player {playerID} has been shown as visibility increased.");
-                }
-
-                // Call RegrowPlayer to scale up the player
-                // RegrowPlayer(i); // This was commented out
-            }
-
-            // Track active players and calculate average position
-            if (players[i].activeSelf)
-            {
-                numActivePlayers++;
-                activePlayers.Add(playerAvatars[i]);
-                averagePosition += players[i].transform.position;
-                // Debug.Log($"[CONFIRMED] Player {playerID} is active. Adding to active players list and updating average position.");
-            }
+            // Stop sound if player has been inactive for longer than the soundTimeout
+            string soundID = $"p{playerID}";
+            soundEventSender.StopContinuousSound(soundID);
+            Debug.Log($"[INFO] Player {playerID} has been inactive for {soundTimeout} seconds. Stopping sound.");
         }
 
-        // Calculate the average position of active players
-        if (numActivePlayers > 0)
+        // Start fading only if the player hasn't been seen for a few frames
+        if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
         {
-            averagePosition /= numActivePlayers;
-            // Debug.Log($"[CONFIRMED] Average position of {numActivePlayers} active players: {averagePosition}");
+            // Fade out
+            playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 0, playerFadeOutSpeed * Time.deltaTime);
+            // Debug.Log($"[DEBUG] Fading out player {playerID}, playerSeenScaler = {playerSeenScaler[i]}");
+
+            // Check if player is inactive for a specific period and stop the sound
+            // if (timeSinceLastSeen > soundTimeout && playerSoundStates[i])
+            {
+                // Debug.Log($"[EXPECTED] Player {playerID} is inactive for more than {soundTimeout} seconds. Stopping sound.");
+            }
         }
         else
         {
-            averagePosition = Vector3.zero;
-            // Debug.Log("[CONFIRMED] No active players. Average position reset to zero.");
+            // Fade in
+            playerSeenScaler[i] = Mathf.Lerp(playerSeenScaler[i], 1, playerFadeInSpeed * Time.deltaTime);
+            playerSeenScaler[i] = Mathf.Clamp(playerSeenScaler[i], 0, 1); // Ensures value stays between 0 and 1
+
+            // Debug.Log($"[DEBUG] Fading in player {playerID}, playerSeenScaler = {playerSeenScaler[i]}");
+
+            // if (!playerSoundStates[i])
+            {
+                // Debug.Log($"[EXPECTED] Player {playerID} has been seen again. Starting sound.");
+                // playerSoundStates[i] = true; // Mark the sound as playing
+            }
+        }
+
+        // Update player scale based on playerSeenScaler
+        players[i].transform.localScale = GetScale(i);
+        // Debug.Log($"[CONFIRMED] Player {playerID}'s scale updated to: {players[i].transform.localScale}");
+
+        // Hide player if it has faded below threshold - the player is hidden using SetActive(false).
+        if (playerSeenScaler[i] < .03f)
+        {
+            if (players[i].activeSelf)
+            {
+                players[i].SetActive(false);
+                // Debug.Log($"[CONFIRMED] Player {playerID} has been hidden due to low visibility.");
+            }
+        }
+
+        // Show the player if it's above the threshold and make them visible again using SetActive(true)
+        else
+        {
+            // Only turn on if not already active
+            if (!players[i].activeSelf)
+            {
+                players[i].SetActive(true);
+                // Debug.Log($"[CONFIRMED] Player {playerID} has been shown as visibility increased.");
+            }
+
+            // Call RegrowPlayer to scale up the player
+            // RegrowPlayer(i); // This was commented out
+        }
+
+        // Track active players and calculate average position
+        if (players[i].activeSelf)
+        {
+            numActivePlayers++;
+            activePlayers.Add(playerAvatars[i]);
+            averagePosition += players[i].transform.position;
+            // Debug.Log($"[CONFIRMED] Player {playerID} is active. Adding to active players list and updating average position.");
         }
     }
+
+    // Calculate the average position of active players
+    if (numActivePlayers > 0)
+    {
+        averagePosition /= numActivePlayers;
+        // Debug.Log($"[CONFIRMED] Average position of {numActivePlayers} active players: {averagePosition}");
+    }
+    else
+    {
+        averagePosition = Vector3.zero;
+        // Debug.Log("[CONFIRMED] No active players. Average position reset to zero.");
+    }
+}
 
 
     // Converts spherical coordinates to Cartesian coordinates
