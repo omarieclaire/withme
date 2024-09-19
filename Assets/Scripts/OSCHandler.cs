@@ -68,23 +68,23 @@ public class OSCHandler : MonoBehaviour
 
     // private void CheckForAndDeactivateMissingPlayers(double currentTime)
     // {
-        // HashSet<int> activePlayersCopy = new HashSet<int>(activePlayerIds);  // Create a copy of the active player IDs
+    // HashSet<int> activePlayersCopy = new HashSet<int>(activePlayerIds);  // Create a copy of the active player IDs
 
-        // Iterate over active players and deactivate those who have been inactive for too long
-        // foreach (int playerId in activePlayersCopy)
-        // {
-            // PlayerData playerData = players[playerId];
-            // if (playerData.IsActive && (currentTime - playerData.LastOSCTimeStamp > timeToWaitForMissingPlayers))
-            // {
-            //     playerData.IsActive = false;  // Mark player as inactive
-            //     controller.DeactivatePlayer(playerId);  // Notify the controller to deactivate the player
-            //     activePlayerIds.Remove(playerId);  // Remove player from the active set
-            //     if (debug)
-            //     {
-            //         Debug.Log($"Deactivated player {playerId} due to inactivity.");
-            //     }
-            // }
-        // }
+    // Iterate over active players and deactivate those who have been inactive for too long
+    // foreach (int playerId in activePlayersCopy)
+    // {
+    // PlayerData playerData = players[playerId];
+    // if (playerData.IsActive && (currentTime - playerData.LastOSCTimeStamp > timeToWaitForMissingPlayers))
+    // {
+    //     playerData.IsActive = false;  // Mark player as inactive
+    //     controller.DeactivatePlayer(playerId);  // Notify the controller to deactivate the player
+    //     activePlayerIds.Remove(playerId);  // Remove player from the active set
+    //     if (debug)
+    //     {
+    //         Debug.Log($"Deactivated player {playerId} due to inactivity.");
+    //     }
+    // }
+    // }
     // }
 
     // private void ReactivatePlayer(PlayerData playerData, double currentTime)
@@ -126,47 +126,42 @@ public class OSCHandler : MonoBehaviour
         {
             Debug.Log($"Received OSC message at address: {message.Address} with {message.Values.Count} values");
         }
-        
-        // Check if the message corresponds to blob center positions (center1 or center2)
-        if (message.Address.EndsWith("center1") || message.Address.EndsWith("center2"))
+
+        var addressParts = message.Address.Split('/');
+        if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
         {
-            var addressParts = message.Address.Split('/');
-            if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
+            string part = addressParts[5];
+            float value = message.Values[0].FloatValue;
+
+            // Initialize if necessary
+            // Get or initialize incomplete positions
+            if (!incompletePositions.TryGetValue(playerId, out Vector2 position))
             {
-                string part = addressParts[5];
-                float value = message.Values[0].FloatValue;
-
-                // Store or update incomplete position data
-                if (!incompletePositions.ContainsKey(playerId))
-                {
-                    incompletePositions[playerId] = new Vector2(float.NaN, float.NaN);  // Initialize with NaN values
-                }
-
-                if (part == "center1")
-                {
-                    incompletePositions[playerId] = new Vector2(value, incompletePositions[playerId].y);  // Update x position
-                }
-                else if (part == "center2")
-                {
-                    incompletePositions[playerId] = new Vector2(incompletePositions[playerId].x, value);  // Update y position
-                }
-
-                // Once both x and y values are received, queue the complete position message
-                Vector2 position = incompletePositions[playerId];
-                if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
-                {
-                    PlayerPositionMessage msg = new PlayerPositionMessage(message.Address, playerId, position);
-                    playerPositionMessages.Enqueue(msg);  // Add to the message queue
-                    incompletePositions.Remove(playerId);  // Remove the stored incomplete data
-                }
+                position = new Vector2(float.NaN, float.NaN);  // Initialize if the playerId is not present
             }
+
+            // Update x or y based on part (center1 or center2)
+            int index = (part == "center1") ? 0 : 1;
+            position[index] = value;  // Update the correct part of the position (x or y)
+            incompletePositions[playerId] = position;  // Update the dictionary with the new position
+
+
+            // Queue the message once both x and y are valid
+            if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
+            {
+                playerPositionMessages.Enqueue(new PlayerPositionMessage(message.Address, playerId, position));
+                incompletePositions.Remove(playerId); // Remove once processed
+            }
+
+
+
         }
         else
         {
-            // Log a warning if the message doesn't match the expected structure
             Debug.LogWarning($"Received message at {message.Address} does not match the expected address structure.");
         }
     }
+
 
     // Class representing a player's position message
     private class PlayerPositionMessage
