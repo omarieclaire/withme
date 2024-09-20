@@ -12,10 +12,32 @@ public class GameManager : MonoBehaviour
     private float gameTimer;
     private bool gameEnded = false;
 
+    private Controller controller;
+
+
     void Start()
     {
+        // Find the GameObject named "Main Controller" and get its Controller component
+        GameObject mainControllerObj = GameObject.Find("Main Controller");
+
+        if (mainControllerObj != null)
+        {
+            controller = mainControllerObj.GetComponent<Controller>();
+        }
+        else
+        {
+            Debug.LogError("[ERROR] Main Controller GameObject not found.");
+        }
+
+        if (controller == null)
+        {
+            Debug.LogError("[ERROR] No Controller component found on Main Controller GameObject.");
+        }
+
         gameTimer = gameDuration;
     }
+
+
 
     void Update()
     {
@@ -38,6 +60,10 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
+        if (controller != null)
+        {
+            controller.StopBackgroundMusic();  // Call StopBackgroundMusic from the Controller script
+        }
         gameEnded = true;
         Debug.Log("Game Over! Moving to the next scene in " + waitTime + " seconds.");
         Invoke("LoadNextScene", waitTime); // Wait for `waitTime` seconds before loading the next scene

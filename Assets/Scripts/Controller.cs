@@ -101,28 +101,23 @@ public class Controller : MonoBehaviour
     public SoundEventSender soundEventSender;
 
 
-    void Awake()
-    {
-        // // Initialize lists
-        // players = new List<GameObject>();
-        // playerAvatars = new List<PlayerAvatar>();
-        // playerIDS = new List<int>();
-        // playerLastSeenTimestamp = new List<float>();
-        // playerSoundStates = new List<bool>();
-        // playerSeenScaler = new List<float>();
-        // playerTargetPositions = new List<Vector3>();
-        // activePlayers = new List<PlayerAvatar>();
 
-        // // Assign soundEventSender
-        // if (soundEventSender == null)
-        // {
-        //     soundEventSender = FindObjectOfType<SoundEventSender>();
-        //     if (soundEventSender == null)
-        //     {
-        //         Debug.LogError("[ERROR] No SoundEventSender found in the scene.");
-        //     }
-        // }
+
+    void Start()
+    {
+        // Start the background music
+        string backgroundMusicID = "music";  // Use the same soundID throughout
+        Vector3 musicPosition = Vector3.zero;  // Centrally position the music (if not spatialized)
+        HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
     }
+
+    public void StopBackgroundMusic()
+    {
+        string backgroundMusicID = "music";  // Ensure the same soundID is used
+        HandleNonPlayerSound(backgroundMusicID, Vector3.zero, false);  // Stop the background music
+    }
+
+
 
 
     // Method to handle player position updates
@@ -164,7 +159,7 @@ public class Controller : MonoBehaviour
                 playerTargetPositions[id] = fPos;
                 playerLastSeenTimestamp[id] = Time.time;
 
-                soundEventSender.SendSoundEvent($"p{playerID}", remappedPosition);
+                soundEventSender.SendOrUpdateContinuousSound($"p{playerID}", remappedPosition);
 
                 Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
             }
@@ -185,7 +180,7 @@ public class Controller : MonoBehaviour
         playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], 0, playerFadeOutSpeed * Time.deltaTime);
     }
 
-    private void UpdatePlayerVisibility(int playerIndex)
+    private void UpdatePlayerVisibilityAndSound(int playerIndex)
     {
         if (playerSeenScaler[playerIndex] < .03f)
         {
@@ -214,48 +209,48 @@ public class Controller : MonoBehaviour
             Debug.LogError("[ERROR] soundEventSender is not assigned.");
             return;
         }
-        if (playerSoundStates == null || playerSoundStates.Count <= playerIndex)
-        {
-            Debug.LogError("[ERROR] playerSoundStates is null or index out of bounds.");
-            return;
-        }
-        if (players == null || players.Count <= playerIndex)
-        {
-            Debug.LogError("[ERROR] players list is null or index out of bounds.");
-            return;
-        }
-        if (playerIDS == null || playerIDS.Count <= playerIndex)
-        {
-            Debug.LogError("[ERROR] playerIDS list is null or index out of bounds.");
-            return;
-        }
 
-        // ... (rest of the method)
+        // Send or update continuous sound for player
+        string soundID = $"p{playerIDS[playerIndex]}";
+        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
     }
+
 
 
     private void StopPlayerSound(int playerIndex)
     {
-        // Check if the sound is currently playing
-        if (playerSoundStates[playerIndex])
-        {
-            string soundID = $"p{playerIDS[playerIndex]}";
-            soundEventSender.StopContinuousSound(soundID);
-            playerSoundStates[playerIndex] = false;  // Mark the sound as stopped
-            Debug.Log($"[INFO] Stopping sound for Player {playerIndex}");
-        }
+        string soundID = $"p{playerIDS[playerIndex]}";
+        soundEventSender.StopContinuousSound(soundID);
     }
+
+
 
     private void HandlePlayerSound(int playerIndex, float timeSinceLastSeen)
     {
         // If the player has been inactive for too long, stop the sound
+        string soundID = $"p{playerIDS[playerIndex]}";
+
         if (timeSinceLastSeen > soundTimeout)
         {
-            StopPlayerSound(playerIndex);
+            soundEventSender.StopContinuousSound(soundID);
         }
         else
         {
-            StartPlayerSound(playerIndex);  // Ensure sound plays if player is active
+            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+        }
+    }
+
+
+    // Example: sending or stopping non-player sounds
+    void HandleNonPlayerSound(string soundID, Vector3 position, bool playSound)
+    {
+        if (playSound)
+        {
+            soundEventSender.SendOrUpdateContinuousSound(soundID, position);
+        }
+        else
+        {
+            soundEventSender.StopContinuousSound(soundID);
         }
     }
 
@@ -270,19 +265,48 @@ public class Controller : MonoBehaviour
     {
         float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
 
+        // Shrink and deactivate the player if it has been inactive for too long
         if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
         {
-            FadePlayerOut(playerIndex);
+            ShrinkSilenceAndDeactivatePlayer(playerIndex);  // Player fades out and sound stops only after grace period
         }
         else
         {
-            FadePlayerIn(playerIndex);
+            ReactivatePlayer(playerIndex);  // Player fades in and scales up when a message is received
         }
-
-        HandlePlayerSound(playerIndex, timeSinceLastSeen);
-        UpdatePlayerVisibility(playerIndex);
-        ScalePlayer(playerIndex);
     }
+
+    private void ReactivatePlayer(int playerIndex)
+    {
+        FadePlayerIn(playerIndex);  // Player fades back in
+        HandlePlayerSound(playerIndex, 0f);  // Reset sound, since it's now active again
+        UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
+        ScalePlayer(playerIndex);  // Scale the player back to its original size
+    }
+
+
+    // Method to handle shrinking, silencing, and deactivating a player
+    private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
+    {
+        // Gradually shrink the player's scale
+        playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], minPlayerScale, playerFadeOutSpeed * Time.deltaTime);
+
+        // If the player is shrunk below the minimum scale, deactivate it
+        if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)  // Adding a small epsilon for float precision
+        {
+            if (players[playerIndex].activeSelf)
+            {
+                players[playerIndex].SetActive(false);  // Deactivate the player
+                StopPlayerSound(playerIndex);  // Stop the player's sound
+                Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+            }
+        }
+        else
+        {
+            FadePlayerOut(playerIndex);  // Continue fading the player out
+        }
+    }
+
 
     public virtual Vector3 GetScale(int i)
     {
