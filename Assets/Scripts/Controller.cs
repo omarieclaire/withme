@@ -102,20 +102,18 @@ public class Controller : MonoBehaviour
 
 
 
+void Start()
+{
+    // Start background music as a one-shot sound
+    soundEventSender.SendOneShotSound("music", null);  // No position needed for non-spatial sound
+}
 
-    void Start()
-    {
-        // Start the background music
-        string backgroundMusicID = "music";  // Use the same soundID throughout
-        Vector3 musicPosition = Vector3.zero;  // Centrally position the music (if not spatialized)
-        HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
-    }
 
-    public void StopBackgroundMusic()
-    {
-        string backgroundMusicID = "music";  // Ensure the same soundID is used
-        HandleNonPlayerSound(backgroundMusicID, Vector3.zero, false);  // Stop the background music
-    }
+public void StopBackgroundMusic()
+{
+    // Stop the one-shot background music
+    soundEventSender.StopOneShotSound("music");
+}
 
 
 
@@ -132,6 +130,8 @@ public class Controller : MonoBehaviour
 
         float v1 = blobPosition.x / cameraResolution;
         float v2 = blobPosition.y / cameraResolution;
+
+
 
         // Initialize the player's stationary time if it doesn't exist in the dictionary
         if (!playerStationaryTimes.ContainsKey(playerID))
@@ -216,12 +216,22 @@ public class Controller : MonoBehaviour
     }
 
 
+private void StopPlayerSound(int playerIndex)
+{
+    string soundID = $"p{playerIDS[playerIndex]}";
 
-    private void StopPlayerSound(int playerIndex)
+    // Ask SoundEventSender if the sound is active
+    if (soundEventSender.IsSoundActive(soundID))
     {
-        string soundID = $"p{playerIDS[playerIndex]}";
-        soundEventSender.StopContinuousSound(soundID);
+        soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
+        Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
     }
+    else
+    {
+        Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
+    }
+}
+
 
 
 
@@ -279,7 +289,7 @@ public class Controller : MonoBehaviour
     private void ReactivatePlayer(int playerIndex)
     {
         FadePlayerIn(playerIndex);  // Player fades back in
-        HandlePlayerSound(playerIndex, 0f);  // Reset sound, since it's now active again
+    soundEventSender.SendOrUpdateContinuousSound($"p{playerIDS[playerIndex]}", players[playerIndex].transform.position);
         UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
         ScalePlayer(playerIndex);  // Scale the player back to its original size
     }
