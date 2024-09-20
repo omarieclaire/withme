@@ -4,5 +4,38 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/0. Orientation.unity
+    guid: ced33697a9dbcfd48b44099f0ace3d24
+  - enabled: 1
+    path: Assets/Scenes/1. WithMe-DotCollector.unity
+    guid: bc9ccc25cd9bf424f83d1c224b1222d4
+  - enabled: 1
+    path: Assets/Scenes/2. Steer-SpaceShipSteerer.unity
+    guid: a09b6fc25265cba4ea82acf3d29bd85d
+  - enabled: 1
+    path: Assets/Scenes/3. Hug.unity
+    guid: 65a253ca5700c9a448eb7df31fddf4f8
+  - enabled: 1
+    path: Assets/Scenes/4. Kalli.unity
+    guid: dce86069a46a9ba42b699a978472a4bf
+  - enabled: 1
+    path: Assets/Scenes/5. Mimic Shape.unity
+    guid: 7625b1a5e81759f40b34f05c34941dc8
+  - enabled: 1
+    path: Assets/Scenes/6. Share-Florp.unity
+    guid: 5850fa8a8606c19468231300493faa51
+  - enabled: 1
+    path: Assets/Scenes/7. StickTogether.unity
+    guid: 821bc931c58748043ae007dc663f8e01
+  - enabled: 1
+    path: Assets/Scenes/8. Buddy-SelfFlorp.unity
+    guid: a7a8b3647f92ad64e92c712ced13c578
+  - enabled: 1
+    path: Assets/Scenes/9. Flock.unity
+    guid: f20843e45de588f43aa374b4ee2c282a
+  - enabled: 1
+    path: Assets/Scenes/10. pAINT.unity
+    guid: 08910bbd5b21ce943bf033c75bbc6746
   m_configObjects: {}

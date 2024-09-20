@@ -20,7 +20,7 @@ public class DotGameController : Controller
     [Tooltip("Number of dots in the game.")]
     public int numDots;
 
-        public int inty = 2;
+    public int inty = 2;
 
 
     [Tooltip("Prefab used to instantiate dots.")]
@@ -136,13 +136,20 @@ public class DotGameController : Controller
     }
 
 
+
     public override void SetUp()
+
+
     {
-        _SetUp();
+        Debug.Log("[INFO] DotGameController SetUp called.");
 
-        controlTreeMaterialValues.barkShown = 0;
-        controlTreeMaterialValues.flowersShown = 0;
+        // First, run the common setup logic
+        base.SetUp();
 
+        // Then, run the scene-specific setup logic for the dots
+        Debug.Log("[INFO] DotGameController specific setup called.");
+
+        // Initialize dots list
         dots = new List<Transform>();
         dotAvatars = new List<Dot>();
 
@@ -153,8 +160,15 @@ public class DotGameController : Controller
 
         dotRegenerationTimer = dotRegenerationInterval;
         StartCoroutine(BlueMoonDotRegenerationRoutine());
+
+        Debug.Log("[INFO] DotGameController setup completed.");
     }
 
+
+void Start()
+{
+    SetUp();  // This ensures SetUp is called when the scene starts
+}
 
     public override Vector3 GetScale(int i)
     {
@@ -204,8 +218,8 @@ public class DotGameController : Controller
         // Check if the collider is a dot
         if (collider.CompareTag("Dot"))
         {
-            
-            
+
+
 
             int index = dots.IndexOf(collider.transform);
             if (index != -1)

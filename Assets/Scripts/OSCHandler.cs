@@ -42,27 +42,64 @@ public class OSCHandler : MonoBehaviour
             Debug.LogError("OSCReceiver is not assigned!");  // Error if no receiver is assigned
         }
     }
-
-    private void Update()
+private void Update()
+{
+    double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
+    
+    // Process all messages in the queue
+    while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
     {
-        double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
+        if (debug)
+        {
+            Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
+        }
 
-        // Process all messages in the queue
-        while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
+        int playerId = msg.PlayerId;
+        Vector2 blobPosition = msg.BlobPosition;
+
+        // Log before attempting to get or create player data
+        if (debug)
+        {
+            Debug.Log($"[DEBUG] Attempting to get or create player data for Player ID: {playerId}");
+        }
+
+        // Attempt to get or create the player data
+        PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
+
+        // Check if playerData is null (though it should not be, add extra logging for safety)
+        if (playerData == null)
+        {
+            Debug.LogError($"[ERROR] PlayerData is null for Player ID: {playerId}. Cannot proceed.");
+            continue;  // Skip this iteration if playerData is null
+        }
+
+        // Log before updating the player's timestamp
+        if (debug)
+        {
+            Debug.Log($"[DEBUG] Updating last OSC timestamp for Player ID: {playerId} to {currentTime}");
+        }
+
+        // Update the player's last message timestamp
+        playerData.LastOSCTimeStamp = currentTime;
+
+        // Log before calling the controller method to update player position
+        if (controller == null)
+        {
+            Debug.LogError($"[ERROR] Controller is null, cannot update player position for Player ID: {playerId}");
+        }
+        else
         {
             if (debug)
             {
-                Debug.Log($"Processing message for player {msg.PlayerId} at position {msg.BlobPosition}");
+                Debug.Log($"[DEBUG] Calling OnPlayerPositionUpdate for Player ID: {playerId}, Blob Position: {blobPosition}");
             }
 
-            int playerId = msg.PlayerId;
-            Vector2 blobPosition = msg.BlobPosition;
-            PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);  // Get or create the player data
-            // ReactivatePlayer(playerData, currentTime);  // Reactivate player if necessary
-            playerData.LastOSCTimeStamp = currentTime;  // Update the player's last message timestamp
-            controller.OnPlayerPositionUpdate(playerId, blobPosition);  // Notify the controller about the player's new position
+            // Notify the controller about the player's new position
+            controller.OnPlayerPositionUpdate(playerId, blobPosition);
         }
     }
+}
+
 
     private PlayerData GetOrCreatePlayer(int playerId, double oscTime)
     {
