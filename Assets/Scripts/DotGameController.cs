@@ -165,10 +165,10 @@ public class DotGameController : Controller
     }
 
 
-void Start()
-{
-    SetUp();  // This ensures SetUp is called when the scene starts
-}
+    void Start()
+    {
+        SetUp();  // This ensures SetUp is called when the scene starts
+    }
 
     public override Vector3 GetScale(int i)
     {
@@ -241,7 +241,21 @@ void Start()
                 dotAvatars[index].collector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                audioPlayer.Play(onDotCollectClip);
+                string soundID = "point1";  // This is the ID you've mapped in your soundSourceMapping dictionary
+                Vector3 pointPosition = new Vector3(0, 0, 0);  // Replace with the actual position of the point
+                // Vector3 pointPostitionPray = new Vector3(dots[index].GetComponent<Dot>().transform);
+                
+                // Vector3 pointPositionPray = dots[index].GetComponent<Dot>().transform.position;
+                // Debug.Log(pointPostitionPray);
+
+                // Send the sound event for the point sound
+                soundEventSender.SendOrUpdateContinuousSound(soundID, pointPosition);
+
+                // Debug log to verify it's triggered
+                Debug.Log($"Sending OSC message to play point sound: {soundID}");
+
+
+                // audioPlayer.Play(onDotCollectClip);
                 playerCollectDotParticleSystem.transform.position = collider.transform.position;
                 playerCollectDotParticleSystem.Play();
                 // dots[index].gameObject.SetActive(false);

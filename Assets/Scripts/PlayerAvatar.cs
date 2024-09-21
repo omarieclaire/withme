@@ -82,6 +82,8 @@ public class PlayerAvatar : MonoBehaviour
     public void OnTriggerEnter(Collider collider)
     {
         controller.OnPlayerTrigger(this, collider.gameObject); // Notify controller of the trigger event
+
+        
     }
 
     // Updates player state each frame

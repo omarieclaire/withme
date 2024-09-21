@@ -44,8 +44,8 @@ public class Controller : MonoBehaviour
     public List<float> playerLastSeenTimestamp;
     public float soundTimeout = 600f; // Time in seconds to stop sound after inactivity
 
-    [Tooltip("List of sound states for players.")]
-    public List<bool> playerSoundStates;
+    // [Tooltip("List of sound states for players.")]
+    // public List<bool> playerSoundStates;
 
     [Tooltip("List of scaling factors for player visibility.")]
     public List<float> playerSeenScaler;
@@ -100,74 +100,75 @@ public class Controller : MonoBehaviour
     [Header("Sound Event Sender")]
     public SoundEventSender soundEventSender;
 
+    private bool musicPlayed = false; // Flag to ensure music is played only once
 
 
-void Start()
-{
-    // Start background music as a one-shot sound
-    soundEventSender.SendOneShotSound("music", null);  // No position needed for non-spatial sound
-}
 
+    void Start()
+    {
+        string soundID = "music";
+        Vector3 musicPosition = Vector3.zero;
+        string backgroundMusicID = "music";  
+        HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
+    }
 
-public void StopBackgroundMusic()
-{
-    // Stop the one-shot background music
-    soundEventSender.StopOneShotSound("music");
-}
+    public void StopBackgroundMusic()
+    {
+        soundEventSender.StopContinuousSound("music");  // Stop the background music when needed
+        // HandleNonPlayerSound(backgroundMusicID, Vector3.zero, false);  // Stop the background music
+    }
 
 
 
 
     // Method to handle player position updates
-    public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
+public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
+{
+    // Ensure the player ID exists before updating
+    if (!playerIDS.Contains(playerID))
     {
-        // Ensure the player ID exists before updating
-        if (!playerIDS.Contains(playerID))
-        {
-            Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
-            OnPlayerCreate(playerID);
-        }
-
-        float v1 = blobPosition.x / cameraResolution;
-        float v2 = blobPosition.y / cameraResolution;
-
-
-
-        // Initialize the player's stationary time if it doesn't exist in the dictionary
-        if (!playerStationaryTimes.ContainsKey(playerID))
-        {
-            playerStationaryTimes[playerID] = 0f;
-            Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
-        }
-
-        // Reset stationary time when the player moves
-        playerStationaryTimes[playerID] = 0f;
-
-        // Remap the X and Y values from the camera to fit within the dome's space
-        v1 = Mathf.Lerp(-RemapValues.x, RemapValues.x, v1);
-        v2 = Mathf.Lerp(-RemapValues.y, RemapValues.y, v2);
-
-        Vector3 remappedPosition = new Vector3(v1, 0, v2);
-        Vector3 fPos = getFinalPosition(remappedPosition);
-
-        int id = playerIDS.IndexOf(playerID);
-        if (id != -1)
-        {
-            // Only change position if it's different from the current target
-            if (playerTargetPositions[id] != fPos)
-            {
-                playerTargetPositions[id] = fPos;
-                playerLastSeenTimestamp[id] = Time.time;
-
-                soundEventSender.SendOrUpdateContinuousSound($"p{playerID}", remappedPosition);
-
-                Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
-            }
-
-            // Smoothly move player to the new target position
-            players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
-        }
+        Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
+        OnPlayerCreate(playerID);
     }
+
+    float v1 = blobPosition.x / cameraResolution;
+    float v2 = blobPosition.y / cameraResolution;
+
+    // Initialize the player's stationary time if it doesn't exist in the dictionary
+    if (!playerStationaryTimes.ContainsKey(playerID))
+    {
+        playerStationaryTimes[playerID] = 0f;
+        Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
+    }
+
+    // Reset stationary time when the player moves
+    playerStationaryTimes[playerID] = 0f;
+
+    // Remap the X and Y values from the camera to fit within the dome's space
+    v1 = Mathf.Lerp(-RemapValues.x, RemapValues.x, v1);
+    v2 = Mathf.Lerp(-RemapValues.y, RemapValues.y, v2);
+
+    Vector3 remappedPosition = new Vector3(v1, 0, v2);
+    Vector3 fPos = getFinalPosition(remappedPosition);
+
+    int id = playerIDS.IndexOf(playerID);
+    if (id != -1)
+    {
+        // Only change position if it's different from the current target with a small tolerance
+        if (Vector3.Distance(playerTargetPositions[id], fPos) > 0.01f) // Tolerance check
+        {
+            playerTargetPositions[id] = fPos;
+            playerLastSeenTimestamp[id] = Time.time;
+
+            soundEventSender.SendOrUpdateContinuousSound($"p{playerID}", remappedPosition);
+            // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
+        }
+
+        // Smoothly move player to the new target position
+        players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
+    }
+}
+
 
     private void FadePlayerIn(int playerIndex)
     {
@@ -188,7 +189,7 @@ public void StopBackgroundMusic()
             {
                 players[playerIndex].SetActive(false);
                 StopPlayerSound(playerIndex);
-                Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been hidden due to low visibility.");
+                // Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been hidden due to low visibility.");
             }
         }
         else
@@ -197,7 +198,7 @@ public void StopBackgroundMusic()
             {
                 players[playerIndex].SetActive(true);
                 StartPlayerSound(playerIndex);
-                Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been shown as visibility increased.");
+                // Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been shown as visibility increased.");
             }
         }
     }
@@ -216,21 +217,21 @@ public void StopBackgroundMusic()
     }
 
 
-private void StopPlayerSound(int playerIndex)
-{
-    string soundID = $"p{playerIDS[playerIndex]}";
+    private void StopPlayerSound(int playerIndex)
+    {
+        string soundID = $"p{playerIDS[playerIndex]}";
 
-    // Ask SoundEventSender if the sound is active
-    if (soundEventSender.IsSoundActive(soundID))
-    {
-        soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
-        Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
+        // Ask SoundEventSender if the sound is active
+        if (soundEventSender.IsSoundActive(soundID))
+        {
+            soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
+            Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
+        }
+        else
+        {
+            Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
+        }
     }
-    else
-    {
-        Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
-    }
-}
 
 
 
@@ -289,7 +290,7 @@ private void StopPlayerSound(int playerIndex)
     private void ReactivatePlayer(int playerIndex)
     {
         FadePlayerIn(playerIndex);  // Player fades back in
-    soundEventSender.SendOrUpdateContinuousSound($"p{playerIDS[playerIndex]}", players[playerIndex].transform.position);
+        soundEventSender.SendOrUpdateContinuousSound($"p{playerIDS[playerIndex]}", players[playerIndex].transform.position);
         UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
         ScalePlayer(playerIndex);  // Scale the player back to its original size
     }
@@ -350,7 +351,7 @@ private void StopPlayerSound(int playerIndex)
         playerLastSeenTimestamp.Add(Time.time);
         playerSeenScaler.Add(.001f);
         playerTargetPositions.Add(player.transform.position);
-        playerSoundStates.Add(false);
+        // playerSoundStates.Add(false);
         playerAvatar.Reset();
         playerStationaryTimes[playerID] = 0f;
 
@@ -360,8 +361,20 @@ private void StopPlayerSound(int playerIndex)
 
 
 
-    void Update()
+void Update()
     {
+        if (!musicPlayed)
+        {
+            // Ensure the sound event sender is ready
+            if (soundEventSender != null)
+            {
+                string soundID = "music";
+                Vector3 musicPosition = Vector3.zero;
+                soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
+                Debug.Log($"Sending OSC message to play music: {soundID}");
+                musicPlayed = true; // Set the flag to true so this block runs only once
+            }
+        }
         numActivePlayers = 0;
         averagePosition = Vector3.zero;
         activePlayers.Clear();
@@ -463,7 +476,7 @@ private void StopPlayerSound(int playerIndex)
         playerLastSeenTimestamp = new List<float>();
         playerSeenScaler = new List<float>();
         playerTargetPositions = new List<Vector3>();
-        playerSoundStates = new List<bool>();
+        // playerSoundStates = new List<bool>();
         activePlayers = new List<PlayerAvatar>();
 
         Debug.Log("[INFO] Common setup for player lists completed.");

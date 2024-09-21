@@ -92,71 +92,62 @@ public class SoundEventSender : MonoBehaviour
         LogMessage($"Sending one-shot OSC message to TouchDesigner: {oscAddress}, {soundID}");
     }
 
-    public void StopOneShotSound(string soundID)
-{
-    // Create a stop message for the one-shot sound
-    var stopMessage = new OSCMessage("/sound/stop");
-    stopMessage.AddValue(OSCValue.String(soundID));  // Use soundID to stop the correct sound
-
-    // Send the stop message
-    SafeSend(stopMessage);
-    LogMessage($"Stopped one-shot sound {soundID}.");
-}
-
 
     // Method to send or update continuous sound events
+   // Method to send or update continuous sound events
 public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 {
-    if (activeContinuousSounds.ContainsKey(soundID))
+    if (position.HasValue)
     {
-        // Update the existing continuous sound's position if position is provided
-        if (position.HasValue)
+        // Check if the sound is already active
+        if (IsSoundActive(soundID))
         {
+            // Update the existing continuous sound's position
             UpdateContinuousSound(soundID, position.Value);
         }
         else
         {
-            LogMessage($"[WARNING] No position provided for sound {soundID}, keeping existing position.");
+            // Send the initial continuous sound event (position may be null for background music)
+            SendNewContinuousSound(soundID, position);
         }
     }
     else
     {
-        // Send the initial continuous sound event (position may be null for background music)
-        SendNewContinuousSound(soundID, position);
+        Debug.LogWarning($"Position for {soundID} not available.");
     }
 }
 
 
-// Method to send a new continuous sound
-private void SendNewContinuousSound(string soundID, Vector3? position)
-{
-    string oscAddress = _soundAddress;
-    OSCMessage message = new OSCMessage(oscAddress);
-
-    if (position.HasValue)
+    // Method to send a new continuous sound
+    private void SendNewContinuousSound(string soundID, Vector3? position)
     {
-        // For sounds with spatial data
-        SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
-        AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
+        string oscAddress = _soundAddress;
+        OSCMessage message = new OSCMessage(oscAddress);
+
+        if (position.HasValue)
+        {
+            // For sounds with spatial data
+            SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
+            AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
+        }
+        else
+        {
+            // If no position is provided, send a default or static value for non-spatial sounds
+            AddOSCValues(message, 0, 0, 0, soundID);  // Default values
+        }
+
+        // Add to active continuous sounds if it's not already playing
+        activeContinuousSounds.Add(soundID, message);
+
+        // Send the message
+        SafeSend(message);
+        LogMessage($"Sent new continuous sound OSC message: {oscAddress}, {soundID}");
     }
-    else
+
+    public bool IsSoundActive(string soundID)
     {
-        // If no position is provided, send a default or static value for non-spatial sounds
-        AddOSCValues(message, 0, 0, 0, soundID);  // Default values
+        return activeContinuousSounds.ContainsKey(soundID);
     }
-
-    // Add to active continuous sounds if it's not already playing
-    activeContinuousSounds.Add(soundID, message);
-
-    // Send the message
-    SafeSend(message);
-    LogMessage($"Sent new continuous sound OSC message: {oscAddress}, {soundID}");
-}
-
-public bool IsSoundActive(string soundID)
-{
-    return activeContinuousSounds.ContainsKey(soundID);
-}
 
 
 
