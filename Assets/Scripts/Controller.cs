@@ -106,10 +106,11 @@ public class Controller : MonoBehaviour
 
     void Start()
     {
-        string soundID = "music";
-        Vector3 musicPosition = Vector3.zero;
-        string backgroundMusicID = "music";  
-        HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
+        SetUp();
+        // string soundID = "music";
+        // Vector3 musicPosition = Vector3.zero;
+        // string backgroundMusicID = "music";  
+        // HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
     }
 
     public void StopBackgroundMusic()
@@ -362,44 +363,55 @@ public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
 
 
 void Update()
+{
+    numActivePlayers = 0;
+    averagePosition = Vector3.zero;
+    activePlayers.Clear();
+
+    for (int i = 0; i < players.Count; i++)
     {
-        if (!musicPlayed)
+        HandlePlayerActivity(i);
+
+        if (players[i].activeSelf)
         {
-            // Ensure the sound event sender is ready
-            if (soundEventSender != null)
-            {
-                string soundID = "music";
-                Vector3 musicPosition = Vector3.zero;
-                soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
-                Debug.Log($"Sending OSC message to play music: {soundID}");
-                musicPlayed = true; // Set the flag to true so this block runs only once
-            }
+            numActivePlayers++;
+            activePlayers.Add(playerAvatars[i]);
+            averagePosition += players[i].transform.position;
         }
-        numActivePlayers = 0;
+    }
+
+    if (numActivePlayers > 0)
+    {
+        averagePosition /= numActivePlayers;
+    }
+    else
+    {
         averagePosition = Vector3.zero;
-        activePlayers.Clear();
+    }
 
-        for (int i = 0; i < players.Count; i++)
+    if (!musicPlayed)  // Ensure this block only runs once
+    {
+        Debug.Log("music has not been played");
+
+        // Ensure the sound event sender is ready
+        if (soundEventSender != null)
         {
-            HandlePlayerActivity(i);
+            Debug.Log("music! soundEventSender does seem to exist");
 
-            if (players[i].activeSelf)
-            {
-                numActivePlayers++;
-                activePlayers.Add(playerAvatars[i]);
-                averagePosition += players[i].transform.position;
-            }
-        }
-
-        if (numActivePlayers > 0)
-        {
-            averagePosition /= numActivePlayers;
+            string soundID = "music";
+            Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);  // Fixed
+            soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
+            Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
+            musicPlayed = true;  // Set the flag to true so this block runs only once
+            Debug.Log("music has NOW been played");
         }
         else
         {
-            averagePosition = Vector3.zero;
+            Debug.Log("music! error no soundEventSender, can't send music");
         }
     }
+}
+
 
     public Vector3 SphericalToCartesian(float radius, float polar, float elevation)
     {
@@ -468,6 +480,7 @@ void Update()
     {
         // This handles the common setup logic for all scenes
         Debug.Log("[INFO] Common setup (_SetUp) called.");
+        // musicPlayed = false;
 
         // Common initialization logic
         players = new List<GameObject>();

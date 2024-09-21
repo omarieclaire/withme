@@ -97,16 +97,23 @@ public class SoundEventSender : MonoBehaviour
    // Method to send or update continuous sound events
 public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 {
+    Debug.Log($"{soundID} we have entered SendOrUpdateContinuousSound ");
     if (position.HasValue)
     {
+            Debug.Log($"{soundID} we have a position");
+
         // Check if the sound is already active
         if (IsSoundActive(soundID))
         {
+            Debug.Log($"{soundID} sound is active so we'll UpdateContinuousSound");
+
             // Update the existing continuous sound's position
             UpdateContinuousSound(soundID, position.Value);
         }
         else
         {
+            Debug.Log($"{soundID} sound is NOT active so we'll send SendNewContinuousSound");
+
             // Send the initial continuous sound event (position may be null for background music)
             SendNewContinuousSound(soundID, position);
         }
@@ -126,12 +133,14 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 
         if (position.HasValue)
         {
+            Debug.Log($"{soundID} we're in SendNewContinuousSound and position has valu");
             // For sounds with spatial data
             SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
             AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
         }
         else
         {
+            Debug.Log($"{soundID} we're in SendNewContinuousSound and position has not been provided");
             // If no position is provided, send a default or static value for non-spatial sounds
             AddOSCValues(message, 0, 0, 0, soundID);  // Default values
         }
