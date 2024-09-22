@@ -86,3 +86,51 @@ crashlytics-build.properties
 *.dna
 *.DNA
 *.cubemap
+
+# Ableton
+# Ignore Ableton samples across all projects inside the Ableton folder
+ableton/**/Samples/
+
+# Ignore Ableton backup files across all projects inside the Ableton folder
+ableton/**/Backup/
+
+# Ignore Ableton cache files across all projects inside the Ableton folder
+ableton/**/Caches/
+
+# Ignore Ableton analysis files inside the Ableton folder
+ableton/**/*.asd
+
+
+# Ignore temporary files across all Ableton projects inside the Ableton folder
+ableton/**/tmp/
+
+# Ignore rendered audio across all Ableton projects inside the Ableton folder
+ableton/**/Rendered/
+
+
+# Inside TouchDesigner project folder, ignore media files and large assets
+touchdesigner/**/*.mp4
+touchdesigner/**/*.mov
+touchdesigner/**/*.avi
+touchdesigner/**/*.wav
+touchdesigner/**/*.mp3
+touchdesigner/**/*.png
+touchdesigner/**/*.jpg
+touchdesigner/**/*.jpeg
+touchdesigner/**/*.tiff
+
+# Ignore rendered or exported media inside TouchDesigner folder
+touchdesigner/**/exports/
+touchdesigner/**/renders/
+
+# Ignore Cache and temp files inside TouchDesigner folder
+touchdesigner/**/Cache/
+touchdesigner/**/tmp/
+
+# Ignore backup and autosave files inside TouchDesigner folder
+touchdesigner/**/*.backup
+touchdesigner/**/*.autosave
+
+# Allow tracking of .toe and .tox files in the TouchDesigner folder (if needed)
+!touchdesigner/**/*.toe
+!touchdesigner/**/*.tox
