@@ -44,9 +44,6 @@ public class Controller : MonoBehaviour
     public List<float> playerLastSeenTimestamp;
     public float soundTimeout = 600f; // Time in seconds to stop sound after inactivity
 
-    // [Tooltip("List of sound states for players.")]
-    // public List<bool> playerSoundStates;
-
     [Tooltip("List of scaling factors for player visibility.")]
     public List<float> playerSeenScaler;
 
@@ -100,7 +97,7 @@ public class Controller : MonoBehaviour
     [Header("Sound Event Sender")]
     public SoundEventSender soundEventSender;
 
-    private bool musicPlayed = false; // Flag to ensure music is played only once
+    // private bool musicPlayed = false; // Flag to ensure music is played only once
 
 
 
@@ -113,9 +110,23 @@ public class Controller : MonoBehaviour
         // HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
     }
 
+    public void StartBackgroundMusic()
+    {
+
+        // string soundID = "music";
+        // Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);  // Fixed
+        // soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
+        // Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
+        // // musicPlayed = true;  // Set the flag to true so this block runs only once
+        // Debug.Log("music has NOW been played");
+
+    }
+
+
     public void StopBackgroundMusic()
     {
-        soundEventSender.StopContinuousSound("music");  // Stop the background music when needed
+
+        // soundEventSender.StopContinuousSound("music");  // Stop the background music when needed
         // HandleNonPlayerSound(backgroundMusicID, Vector3.zero, false);  // Stop the background music
     }
 
@@ -123,52 +134,52 @@ public class Controller : MonoBehaviour
 
 
     // Method to handle player position updates
-public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
-{
-    // Ensure the player ID exists before updating
-    if (!playerIDS.Contains(playerID))
+    public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
     {
-        Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
-        OnPlayerCreate(playerID);
-    }
-
-    float v1 = blobPosition.x / cameraResolution;
-    float v2 = blobPosition.y / cameraResolution;
-
-    // Initialize the player's stationary time if it doesn't exist in the dictionary
-    if (!playerStationaryTimes.ContainsKey(playerID))
-    {
-        playerStationaryTimes[playerID] = 0f;
-        Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
-    }
-
-    // Reset stationary time when the player moves
-    playerStationaryTimes[playerID] = 0f;
-
-    // Remap the X and Y values from the camera to fit within the dome's space
-    v1 = Mathf.Lerp(-RemapValues.x, RemapValues.x, v1);
-    v2 = Mathf.Lerp(-RemapValues.y, RemapValues.y, v2);
-
-    Vector3 remappedPosition = new Vector3(v1, 0, v2);
-    Vector3 fPos = getFinalPosition(remappedPosition);
-
-    int id = playerIDS.IndexOf(playerID);
-    if (id != -1)
-    {
-        // Only change position if it's different from the current target with a small tolerance
-        if (Vector3.Distance(playerTargetPositions[id], fPos) > 0.01f) // Tolerance check
+        // Ensure the player ID exists before updating
+        if (!playerIDS.Contains(playerID))
         {
-            playerTargetPositions[id] = fPos;
-            playerLastSeenTimestamp[id] = Time.time;
-
-            soundEventSender.SendOrUpdateContinuousSound($"p{playerID}", remappedPosition);
-            // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
+            Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
+            OnPlayerCreate(playerID);
         }
 
-        // Smoothly move player to the new target position
-        players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
+        float v1 = blobPosition.x / cameraResolution;
+        float v2 = blobPosition.y / cameraResolution;
+
+        // Initialize the player's stationary time if it doesn't exist in the dictionary
+        if (!playerStationaryTimes.ContainsKey(playerID))
+        {
+            playerStationaryTimes[playerID] = 0f;
+            Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
+        }
+
+        // Reset stationary time when the player moves
+        playerStationaryTimes[playerID] = 0f;
+
+        // Remap the X and Y values from the camera to fit within the dome's space
+        v1 = Mathf.Lerp(-RemapValues.x, RemapValues.x, v1);
+        v2 = Mathf.Lerp(-RemapValues.y, RemapValues.y, v2);
+
+        Vector3 remappedPosition = new Vector3(v1, 0, v2);
+        Vector3 fPos = getFinalPosition(remappedPosition);
+
+        int id = playerIDS.IndexOf(playerID);
+        if (id != -1)
+        {
+            // Only change position if it's different from the current target with a small tolerance
+            if (Vector3.Distance(playerTargetPositions[id], fPos) > 0.01f) // Tolerance check
+            {
+                playerTargetPositions[id] = fPos;
+                playerLastSeenTimestamp[id] = Time.time;
+
+                soundEventSender.SendOrUpdateContinuousSound($"p{playerID}", remappedPosition);
+                // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
+            }
+
+            // Smoothly move player to the new target position
+            players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
+        }
     }
-}
 
 
     private void FadePlayerIn(int playerIndex)
@@ -362,55 +373,49 @@ public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
 
 
 
-void Update()
-{
-    numActivePlayers = 0;
-    averagePosition = Vector3.zero;
-    activePlayers.Clear();
-
-    for (int i = 0; i < players.Count; i++)
+    void Update()
     {
-        HandlePlayerActivity(i);
-
-        if (players[i].activeSelf)
-        {
-            numActivePlayers++;
-            activePlayers.Add(playerAvatars[i]);
-            averagePosition += players[i].transform.position;
-        }
-    }
-
-    if (numActivePlayers > 0)
-    {
-        averagePosition /= numActivePlayers;
-    }
-    else
-    {
+        numActivePlayers = 0;
         averagePosition = Vector3.zero;
-    }
+        activePlayers.Clear();
 
-    if (!musicPlayed)  // Ensure this block only runs once
-    {
-        Debug.Log("music has not been played");
-
-        // Ensure the sound event sender is ready
-        if (soundEventSender != null)
+        for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log("music! soundEventSender does seem to exist");
+            HandlePlayerActivity(i);
 
-            string soundID = "music";
-            Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);  // Fixed
-            soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
-            Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
-            musicPlayed = true;  // Set the flag to true so this block runs only once
-            Debug.Log("music has NOW been played");
+            if (players[i].activeSelf)
+            {
+                numActivePlayers++;
+                activePlayers.Add(playerAvatars[i]);
+                averagePosition += players[i].transform.position;
+            }
+        }
+
+        if (numActivePlayers > 0)
+        {
+            averagePosition /= numActivePlayers;
         }
         else
         {
-            Debug.Log("music! error no soundEventSender, can't send music");
+            averagePosition = Vector3.zero;
         }
+
+        // if (!musicPlayed)  // Ensure this block only runs once
+        // {
+        //     Debug.Log("music has not been played");
+
+        //     // Ensure the sound event sender is ready
+        //     if (soundEventSender != null)
+        //     {
+        //         Debug.Log("music! soundEventSender does seem to exist");
+        //         StartBackgroundMusic();
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("music! error no soundEventSender, can't send music");
+        //     }
+        // }
     }
-}
 
 
     public Vector3 SphericalToCartesian(float radius, float polar, float elevation)
