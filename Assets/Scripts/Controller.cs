@@ -104,35 +104,9 @@ public class Controller : MonoBehaviour
     void Start()
     {
         SetUp();
-        // string soundID = "music";
-        // Vector3 musicPosition = Vector3.zero;
-        // string backgroundMusicID = "music";  
-        // HandleNonPlayerSound(backgroundMusicID, musicPosition, true);  // Start playing the background music
     }
 
-    public void StartBackgroundMusic()
-    {
-
-        // string soundID = "music";
-        // Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);  // Fixed
-        // soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
-        // Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
-        // // musicPlayed = true;  // Set the flag to true so this block runs only once
-        // Debug.Log("music has NOW been played");
-
-    }
-
-
-    public void StopBackgroundMusic()
-    {
-
-        // soundEventSender.StopContinuousSound("music");  // Stop the background music when needed
-        // HandleNonPlayerSound(backgroundMusicID, Vector3.zero, false);  // Stop the background music
-    }
-
-
-
-
+   
     // Method to handle player position updates
     public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
     {
@@ -233,16 +207,16 @@ public class Controller : MonoBehaviour
     {
         string soundID = $"p{playerIDS[playerIndex]}";
 
-        // Ask SoundEventSender if the sound is active
-        if (soundEventSender.IsSoundActive(soundID))
-        {
+        // // Ask SoundEventSender if the sound is active
+        // if (soundEventSender.IsSoundActive(soundID))
+        // {
             soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
             Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
-        }
-        else
-        {
-            Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
-        }
+        // }
+        // else
+        // {
+        //     Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
+        // }
     }
 
 
@@ -256,6 +230,8 @@ public class Controller : MonoBehaviour
         if (timeSinceLastSeen > soundTimeout)
         {
             soundEventSender.StopContinuousSound(soundID);
+            Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been inactive for too long sound is being stopped.");
+
         }
         else
         {
@@ -263,8 +239,6 @@ public class Controller : MonoBehaviour
         }
     }
 
-
-    // Example: sending or stopping non-player sounds
     void HandleNonPlayerSound(string soundID, Vector3 position, bool playSound)
     {
         if (playSound)

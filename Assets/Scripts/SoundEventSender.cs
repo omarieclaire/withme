@@ -93,7 +93,6 @@ public class SoundEventSender : MonoBehaviour
     }
 
 
-    // Method to send or update continuous sound events
    // Method to send or update continuous sound events
 public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 {

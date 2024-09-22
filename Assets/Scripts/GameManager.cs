@@ -154,7 +154,7 @@ public void StopBackgroundMusic()
         if (controller != null)
         {
             Debug.Log("[INFO] Stopping background music.");
-            controller.StopBackgroundMusic();  // Stop the background music when the game ends
+            StopBackgroundMusic();  // Stop the background music when the game ends
         }
 
         gameEnded = true;

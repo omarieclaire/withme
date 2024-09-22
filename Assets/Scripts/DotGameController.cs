@@ -249,7 +249,7 @@ public class DotGameController : Controller
                 // Debug.Log(pointPostitionPray);
 
                 // Send the sound event for the point sound
-                soundEventSender.SendOrUpdateContinuousSound(soundID, pointPosition);
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
 
                 // Debug log to verify it's triggered
                 Debug.Log($"Sending OSC message to play point sound: {soundID}");
