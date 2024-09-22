@@ -1126,11 +1126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: waitTime
-      value: 300
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: retryCount
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: soundEventSender
@@ -2065,6 +2065,10 @@ PrefabInstance:
     - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: _remotePort
       value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _closeOnPause
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7609084583398965478, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_Name
