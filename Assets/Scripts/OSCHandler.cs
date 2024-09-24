@@ -1,104 +1,109 @@
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using UnityEngine;
-using extOSC;
-using UnityEngine.UI;
+using System.Collections.Concurrent;  // Provides thread-safe collection classes like ConcurrentQueue
+using System.Collections.Generic;      // Provides generic collection types like Dictionary and HashSet
+using UnityEngine;                     // Core Unity engine classes for game development
+using extOSC;                          // OSC (Open Sound Control) library for receiving OSC messages
+using UnityEngine.UI;                  // UI classes in Unity for handling Text elements
 using System;
 
 public class OSCHandler : MonoBehaviour
 {
+    public bool debug;  // Boolean flag to enable/disable debug logs
 
-    public bool debug;
-
-    public OSCReceiver Receiver;
+    public OSCReceiver Receiver;  // OSC Receiver to handle incoming messages
 
     [Header("Receiver UI Settings")]
-    public float timeToWaitForMissingPlayers = 0.5f; // Time to wait before deactivating missing players
+    public float timeToWaitForMissingPlayers = 0.5f;  // Time to wait before deactivating inactive players
 
-    public Text ReceiverTextBlob;
+    public Text ReceiverTextBlob;  // UI element to display information about blobs
 
-    private const string _blobAddress = "/livepose/blobs/0/*/center*";
+    private const string _blobAddress = "/livepose/blobs/0/*/center*";  // OSC address to listen for blob center positions
 
-    public Controller controller;
+    public Controller controller;  // Reference to the game controller that handles player actions
 
-    private HashSet<int> activePlayerIds = new HashSet<int>();
-    private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();
-    private Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();
+    private HashSet<int> activePlayerIds = new HashSet<int>();  // Set of currently active player IDs
+    private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();  // Queue to store incoming player position messages
+    private Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();  // Dictionary to store player data, keyed by player ID
 
-    private Dictionary<int, Vector2> incompletePositions = new Dictionary<int, Vector2>();
+    private Dictionary<int, Vector2> incompletePositions = new Dictionary<int, Vector2>();  // Dictionary to store incomplete position data (x or y not yet received)
 
     private void Start()
     {
+        // Initialize the OSC receiver and bind the blob address if the receiver is assigned
         if (Receiver != null)
         {
             if (debug)
             {
                 Debug.Log($"OSC Receiver initialized and bound to {_blobAddress}");
             }
-            Receiver.Bind(_blobAddress, ReceiveBlob);
+            Receiver.Bind(_blobAddress, ReceiveBlob);  // Bind the OSC receiver to the blob address
         }
         else
         {
-            Debug.LogError("OSCReceiver is not assigned!");
+            Debug.LogError("OSCReceiver is not assigned!");  // Error if no receiver is assigned
         }
     }
-
-    private void Update()
+private void Update()
+{
+    double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
+    
+    // Process all messages in the queue
+    while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
     {
-        double currentTime = Time.unscaledTimeAsDouble;
+        if (debug)
+        {
+            Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
+        }
 
-        while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
+        int playerId = msg.PlayerId;
+        Vector2 blobPosition = msg.BlobPosition;
+
+        // Log before attempting to get or create player data
+        if (debug)
+        {
+            Debug.Log($"[DEBUG] Attempting to get or create player data for Player ID: {playerId}");
+        }
+
+        // Attempt to get or create the player data
+        PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
+
+        // Check if playerData is null (though it should not be, add extra logging for safety)
+        if (playerData == null)
+        {
+            Debug.LogError($"[ERROR] PlayerData is null for Player ID: {playerId}. Cannot proceed.");
+            continue;  // Skip this iteration if playerData is null
+        }
+
+        // Log before updating the player's timestamp
+        if (debug)
+        {
+            Debug.Log($"[DEBUG] Updating last OSC timestamp for Player ID: {playerId} to {currentTime}");
+        }
+
+        // Update the player's last message timestamp
+        playerData.LastOSCTimeStamp = currentTime;
+
+        // Log before calling the controller method to update player position
+        if (controller == null)
+        {
+            Debug.LogError($"[ERROR] Controller is null, cannot update player position for Player ID: {playerId}");
+        }
+        else
         {
             if (debug)
             {
-                Debug.Log($"Processing message for player {msg.PlayerId} at position {msg.BlobPosition}");
+                Debug.Log($"[DEBUG] Calling OnPlayerPositionUpdate for Player ID: {playerId}, Blob Position: {blobPosition}");
             }
 
-            int playerId = msg.PlayerId;
-            Vector2 blobPosition = msg.BlobPosition;
-            PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
-            ReactivatePlayer(playerData, currentTime);
-            playerData.LastOSCTimeStamp = currentTime;
+            // Notify the controller about the player's new position
             controller.OnPlayerPositionUpdate(playerId, blobPosition);
         }
-
-        CheckForAndDeactivateMissingPlayers(currentTime);
     }
+}
 
-    private void CheckForAndDeactivateMissingPlayers(double currentTime)
-    {
-        HashSet<int> activePlayersCopy = new HashSet<int>(activePlayerIds);
-
-        foreach (int playerId in activePlayersCopy)
-        {
-            PlayerData playerData = players[playerId];
-            if (playerData.IsActive && (currentTime - playerData.LastOSCTimeStamp > timeToWaitForMissingPlayers))
-            {
-                playerData.IsActive = false;
-                controller.DeactivatePlayer(playerId);
-                activePlayerIds.Remove(playerId);
-                if (debug)
-                {
-                    Debug.Log($"Deactivated player {playerId} due to inactivity.");
-                }
-            }
-        }
-    }
-
-    private void ReactivatePlayer(PlayerData playerData, double currentTime)
-    {
-        if (!playerData.IsActive)
-        {
-            playerData.IsActive = true;
-            activePlayerIds.Add(playerData.PlayerId);
-
-            controller.ReactivatePlayer(playerData.PlayerId);
-            Debug.Log($"Reactivated player {playerData.PlayerId}.");
-        }
-    }
 
     private PlayerData GetOrCreatePlayer(int playerId, double oscTime)
     {
+        // Check if player already exists, otherwise create a new player
         if (players.TryGetValue(playerId, out PlayerData playerData))
         {
             return playerData;
@@ -106,8 +111,8 @@ public class OSCHandler : MonoBehaviour
         else
         {
             playerData = new PlayerData(playerId);
-            players.Add(playerId, playerData);
-            controller.OnPlayerCreate(playerId);
+            players.Add(playerId, playerData);  // Add the new player to the dictionary
+            controller.OnPlayerCreate(playerId);  // Notify the controller of the new player
             if (debug)
             {
                 Debug.Log($"Created new player {playerId}");
@@ -122,46 +127,44 @@ public class OSCHandler : MonoBehaviour
         {
             Debug.Log($"Received OSC message at address: {message.Address} with {message.Values.Count} values");
         }
-        // Check if the address matches the specific structure for center1 or center2
-        if (message.Address.EndsWith("center1") || message.Address.EndsWith("center2"))
+
+        var addressParts = message.Address.Split('/');
+        if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
         {
-            var addressParts = message.Address.Split('/');
-            if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
+            string part = addressParts[5];
+            float value = message.Values[0].FloatValue;
+
+            // Initialize if necessary
+            // Get or initialize incomplete positions
+            if (!incompletePositions.TryGetValue(playerId, out Vector2 position))
             {
-                string part = addressParts[5];
-                float value = message.Values[0].FloatValue;
-
-                if (!incompletePositions.ContainsKey(playerId))
-                {
-                    incompletePositions[playerId] = new Vector2(float.NaN, float.NaN);
-                }
-
-                if (part == "center1")
-                {
-                    incompletePositions[playerId] = new Vector2(value, incompletePositions[playerId].y);
-                }
-                else if (part == "center2")
-                {
-                    incompletePositions[playerId] = new Vector2(incompletePositions[playerId].x, value);
-                }
-
-                Vector2 position = incompletePositions[playerId];
-                if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
-                {
-                    PlayerPositionMessage msg = new PlayerPositionMessage(message.Address, playerId, position);
-                    playerPositionMessages.Enqueue(msg);
-                    incompletePositions.Remove(playerId);
-                }
+                position = new Vector2(float.NaN, float.NaN);  // Initialize if the playerId is not present
             }
+
+            // Update x or y based on part (center1 or center2)
+            int index = (part == "center1") ? 0 : 1;
+            position[index] = value;  // Update the correct part of the position (x or y)
+            incompletePositions[playerId] = position;  // Update the dictionary with the new position
+
+
+            // Queue the message once both x and y are valid
+            if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
+            {
+                playerPositionMessages.Enqueue(new PlayerPositionMessage(message.Address, playerId, position));
+                incompletePositions.Remove(playerId); // Remove once processed
+            }
+
+
+
         }
         else
         {
-
-
             Debug.LogWarning($"Received message at {message.Address} does not match the expected address structure.");
         }
     }
 
+
+    // Class representing a player's position message
     private class PlayerPositionMessage
     {
         public string Address { get; }
@@ -173,22 +176,20 @@ public class OSCHandler : MonoBehaviour
             Address = address;
             PlayerId = playerId;
             BlobPosition = blobPosition;
-
-            //            Debug.Log($"Created PlayerPositionMessage: Address={Address}, PlayerId={PlayerId}, BlobPosition={BlobPosition}");
-
         }
     }
 
+    // Class to store data about individual players
     private class PlayerData
     {
         public int PlayerId { get; }
         public bool IsActive { get; set; }
-        public double LastOSCTimeStamp { get; set; }
+        public double LastOSCTimeStamp { get; set; }  // Last time a message was received for the player
 
         public PlayerData(int playerId)
         {
             PlayerId = playerId;
-            IsActive = true;
+            IsActive = true;  // Player starts as active
         }
     }
 }

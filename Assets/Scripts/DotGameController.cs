@@ -20,6 +20,9 @@ public class DotGameController : Controller
     [Tooltip("Number of dots in the game.")]
     public int numDots;
 
+    public int inty = 2;
+
+
     [Tooltip("Prefab used to instantiate dots.")]
     public GameObject dotPrefab;
 
@@ -133,13 +136,20 @@ public class DotGameController : Controller
     }
 
 
+
     public override void SetUp()
+
+
     {
-        _SetUp();
+        Debug.Log("[INFO] DotGameController SetUp called.");
 
-        controlTreeMaterialValues.barkShown = 0;
-        controlTreeMaterialValues.flowersShown = 0;
+        // First, run the common setup logic
+        base.SetUp();
 
+        // Then, run the scene-specific setup logic for the dots
+        Debug.Log("[INFO] DotGameController specific setup called.");
+
+        // Initialize dots list
         dots = new List<Transform>();
         dotAvatars = new List<Dot>();
 
@@ -150,8 +160,15 @@ public class DotGameController : Controller
 
         dotRegenerationTimer = dotRegenerationInterval;
         StartCoroutine(BlueMoonDotRegenerationRoutine());
+
+        Debug.Log("[INFO] DotGameController setup completed.");
     }
 
+
+    void Start()
+    {
+        SetUp();  // This ensures SetUp is called when the scene starts
+    }
 
     public override Vector3 GetScale(int i)
     {
@@ -193,10 +210,17 @@ public class DotGameController : Controller
 
     public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
     {
+        // Vector3 fPos = new Vector3(0, 0, 0); //garbage, remember to change
+        // // soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, inty);
+        // soundEventSender.SendSoundEvent("abletonTrack11", fPos, SoundType.Continuous, inty);
+
         //Debug.Log("Player Trigger");
         // Check if the collider is a dot
         if (collider.CompareTag("Dot"))
         {
+
+
+
             int index = dots.IndexOf(collider.transform);
             if (index != -1)
             {
@@ -216,6 +240,20 @@ public class DotGameController : Controller
                 dotAvatars[index].collected = true;
                 dotAvatars[index].collector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
+
+                string soundID = "withmepoints";  // This is the ID you've mapped in your soundSourceMapping dictionary
+                Vector3 pointPosition = new Vector3(0, 0, 0);  // Replace with the actual position of the point
+                // Vector3 pointPostitionPray = new Vector3(dots[index].GetComponent<Dot>().transform);
+                
+                // Vector3 pointPositionPray = dots[index].GetComponent<Dot>().transform.position;
+                // Debug.Log(pointPostitionPray);
+
+                // Send the sound event for the point sound
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+                // Debug log to verify it's triggered
+                Debug.Log($"Sending OSC message to play point sound: {soundID}");
+
 
                 audioPlayer.Play(onDotCollectClip);
                 playerCollectDotParticleSystem.transform.position = collider.transform.position;
