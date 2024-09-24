@@ -1,3 +1,45 @@
+// Live Pose Camera and Play Area Setup:
+// cameraResolution: Refers to the resolution of the live pose feed, likely tracking player positions.
+// sphereSize: Defines the radius of the play area where players and dots exist.
+// maxDegrees: Limits the range of motion for positioning players in the dome.
+// pushTowardsBottom: Pushes positions toward the bottom of the dome for more natural distribution.
+// RemapValues: Used to map camera coordinates to the game's coordinate system.
+
+// 2. Player Info and Management:
+// players, playerAvatars, playerIDS, playerLastSeenTimestamp, and other lists store information about players (their GameObjects, IDs, timestamps for when they were last seen, etc.).
+// playerPrefab: A prefab for instantiating new players.
+// playerLerpSpeed: Controls how quickly players move to new positions.
+// soundTimeout: Defines how long to wait before stopping a player’s sound after they’ve been inactive.
+
+// 3. Player Creation and Positioning:
+// OnPlayerCreate: Instantiates a new player, adds it to the appropriate lists, and starts playing their sound.
+// OnPlayerPositionUpdate: Updates the position of a player based on live pose data (likely blob tracking) and sends sound updates to the sound system.
+// The player's position is remapped from the camera feed to fit within the dome’s space.
+// If the player is moving, their position is updated and they are smoothly moved toward their target position using lerping.
+
+// 4. Sound and Visibility Handling:
+// soundEventSender: Manages sound events for each player. Each player's sound is updated based on their position or stopped when they become inactive.
+// FadePlayerIn/FadePlayerOut: Handles the gradual fading in/out of players based on visibility.
+// HandlePlayerSound: Manages whether a player's sound should continue or stop based on their last seen timestamp.
+
+// 5. Stationary Player Logic:
+// Tracks how long players have been stationary using a Dictionary.
+// HandlePlayerActivity: Deactivates players if they’ve been inactive for too long and fades them back in when they become active again.
+// ShrinkSilenceAndDeactivatePlayer: Gradually shrinks and silences players that have been stationary for a long time.
+
+// 6. Position Conversion to Dome Coordinates:
+// getFinalPosition: Converts 2D player positions from the live feed into 3D coordinates that fit the dome’s spherical space, using polar/spherical coordinates.
+// SphericalToCartesian: Converts spherical coordinates into Cartesian coordinates, useful for positioning objects inside the dome.
+
+// 7. Common Setup for Scenes:
+// _SetUp/SetUp: Sets up the player lists and other components. The base SetUp method can be overridden by subclasses for game-specific logic.
+
+// 8. Placeholder Methods:
+// Several placeholder methods are present (OnWorldComplete, OnPlayerTrigger, etc.), which are filled in for specific game mechanics in derived classes.
+
+
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

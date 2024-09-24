@@ -241,7 +241,7 @@ public class DotGameController : Controller
                 dotAvatars[index].collector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                string soundID = "point1";  // This is the ID you've mapped in your soundSourceMapping dictionary
+                string soundID = "withmepoints";  // This is the ID you've mapped in your soundSourceMapping dictionary
                 Vector3 pointPosition = new Vector3(0, 0, 0);  // Replace with the actual position of the point
                 // Vector3 pointPostitionPray = new Vector3(dots[index].GetComponent<Dot>().transform);
                 
