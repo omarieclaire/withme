@@ -2956,7 +2956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraResolution: 640
-  sphereSize: 19.2
+  sphereSize: 9.9
   maxDegrees: 182.3
   pushTowardsBottom: 0.09
   startSize: 2
