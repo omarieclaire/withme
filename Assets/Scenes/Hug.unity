@@ -2325,7 +2325,7 @@ MonoBehaviour:
   faceVerticality: 0
   faces: []
   controller: {fileID: 1890852102}
-  activationRadius: 10
+  activationRadius: 2.45
   connectionPrefab: {fileID: 931979819}
   connections: []
   smilesDiscovered: 
@@ -2956,7 +2956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraResolution: 640
-  sphereSize: 10
+  sphereSize: 19.2
   maxDegrees: 182.3
   pushTowardsBottom: 0.09
   startSize: 2

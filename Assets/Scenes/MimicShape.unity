@@ -2889,7 +2889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraResolution: 640
-  sphereSize: 10
+  sphereSize: 13.64
   maxDegrees: 195
   pushTowardsBottom: 0.9
   startSize: 2
@@ -2900,7 +2900,7 @@ MonoBehaviour:
   playerAvatars: []
   playerIDS: 
   playerLastSeenTimestamp: []
-  soundTimeout: 600
+  soundTimeout: 1600
   playerSeenScaler: []
   playerTargetPositions: []
   playerPrefab: {fileID: 755660615}
