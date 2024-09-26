@@ -106,8 +106,8 @@ Material:
     - _SunAzimuth: 20
     - _SunBeta: 1
     - _SunHue: 0
-    - _SunHueSize: 1.78
-    - _SunIntensity: 4.57
+    - _SunHueSize: 0.1
+    - _SunIntensity: 1
     - _SunRayMultiplier: 1
     - _TriplanarSharpness: 1
     - _UVSec: 0

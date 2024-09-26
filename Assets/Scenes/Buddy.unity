@@ -823,6 +823,15 @@ MonoBehaviour:
   maxRing: {fileID: 385121747}
   color: {r: 0, g: 0, b: 0, a: 0}
   showPlayerName: 0
+  colorRotationSpeed: 0.1
+  hueRangeStart: 0.25
+  hueRangeEnd: 0.75
+  colorSaturation: 0.8
+  colorValue: 1
+  initialHueOffset: 0.5
+  collisionThreshold: 0.1
+  playerModel: {fileID: 0}
+  usePlayerModel: 1
 --- !u!54 &755660622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2008,7 +2017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1212776770}
   cubemapFaces: 55
-  domemasterResolution: 4096
+  domemasterResolution: 1024
   orientation: 1
   horizon: 210
   domeTilt: 0
@@ -2203,7 +2212,20 @@ MonoBehaviour:
   minPlayerScale: 0.01
   removePlayerAfterStationaryTime: 300
   enablePlayerReassignment: 1
+  playerDeactivationTime: 1
   center: {fileID: 1890852101}
+  skyboxMaterial: {fileID: -876546973899608171, guid: c1623d7e8e476b0408a460fe70b83c3a, type: 3}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   soundEventSender: {fileID: 278078152}
 --- !u!1 &2049855977
 GameObject:

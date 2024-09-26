@@ -32,6 +32,37 @@ public class PlayerAvatar : MonoBehaviour
     [Tooltip("Checkbox to toggle player name display.")]
     public bool showPlayerName;
 
+    // Variables for tweaking appearance
+    [Header("Color Tweak Variables")]
+    [Tooltip("Speed of color rotation through the color wheel.")]
+    public float colorRotationSpeed = 0.1f;
+
+    [Tooltip("Starting hue for the color range (e.g., 0.25 for green).")]
+    public float hueRangeStart = 0.25f;
+    
+    [Tooltip("Ending hue for the color range (e.g., 0.75 for purple).")]
+    public float hueRangeEnd = 0.75f;
+    
+    [Tooltip("Saturation of the color (0 = grayscale, 1 = full color).")]
+    public float colorSaturation = 0.8f;
+    
+    [Tooltip("Brightness/Value of the color (0 = black, 1 = full brightness).")]
+    public float colorValue = 1f;
+
+    [Tooltip("Initial hue offset to differentiate players' starting colors.")]
+    public float initialHueOffset = 0.5f;
+
+    [Tooltip("Distance threshold for triggering a collision between players.")]
+    public float collisionThreshold = 0.1f;
+
+    // New 3D model and visibility toggle
+    [Header("3D Model Settings")]
+    [Tooltip("3D model for the player avatar.")]
+    public GameObject playerModel;
+
+    [Tooltip("Check to enable or disable the 3D model.")]
+    public bool usePlayerModel = true; // Default is to show the 3D model
+
     // Sets the player's data including name and color
     public void SetData(string name)
     {
@@ -44,70 +75,94 @@ public class PlayerAvatar : MonoBehaviour
             text.text = ""; // Leave player name blank
         }
 
-        color = Color.HSVToRGB((Mathf.Sin(id) + 1) / 2, 1, 1); // Generate unique color based on ID
+        // Set the initial color based on player's ID using a unique hue and the initial offset
+        float initialHue = Mathf.Repeat((Mathf.Sin(id) + initialHueOffset) / 2, 1f);
+        color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
 
-        // Set the color for all rings and text
-        regularRing.material.color = color;
-        chargedRing.material.color = color;
-        maxRing.material.color = color;
-        text.color = color;
+        UpdatePlayerColor(); // Ensure all rings get the starting color
+
+        // Toggle the 3D model based on usePlayerModel bool
+        if (playerModel != null)
+        {
+            playerModel.SetActive(usePlayerModel);
+        }
     }
 
-    // Handles dot collection and updates rings
     public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
     {
         if (chargeRingOn)
         {
-            chargedRing.enabled = true; // Enable charged ring if condition met
+            chargedRing.enabled = true; 
         }
 
         if (maxRingOn)
         {
-            maxRing.enabled = true; // Enable max ring if condition met
+            maxRing.enabled = true; 
         }
 
-        numDotsCollected++; // Increment the number of collected dots
+        numDotsCollected++;
     }
 
-    // Resets the player's state
     public void Reset()
     {
-        numDotsCollected = 0; // Reset collected dots count
-        maxRing.enabled = false; // Disable max ring
-        chargedRing.enabled = false; // Disable charged ring
-        regularRing.enabled = true; // Enable regular ring
+        numDotsCollected = 0;
+        maxRing.enabled = false;
+        chargedRing.enabled = false;
+        regularRing.enabled = true;
     }
 
-    // Trigger event handler
     public void OnTriggerEnter(Collider collider)
     {
-        controller.OnPlayerTrigger(this, collider.gameObject); // Notify controller of the trigger event
-
-        
+        controller.OnPlayerTrigger(this, collider.gameObject);
     }
 
-    // Updates player state each frame
     public void Update()
     {
-        transform.LookAt(controller.center); // Make the player face the center
+        float hue = Mathf.Lerp(hueRangeStart, hueRangeEnd, Mathf.PingPong(Time.time * colorRotationSpeed, 1f));
+        hue = Mathf.Lerp(hueRangeStart, hueRangeEnd, hue);
 
-        // Check for collisions with other players
+        color = Color.HSVToRGB(hue, 0.8f, 1f);
+
+        UpdatePlayerColor();
+
+        transform.LookAt(controller.center);
+
         for (int i = 0; i < controller.players.Count; i++)
         {
             if (controller.players[i] != this.gameObject)
             {
                 float distance = Vector3.Distance(controller.players[i].transform.position, transform.position);
 
-                // Adjust distance for player scales
                 distance -= transform.localScale.x / 2;
                 distance -= controller.players[i].transform.localScale.x / 2;
 
-                if (distance < 0)
+                Debug.Log($"Distance: {distance}, CollisionThreshold: {collisionThreshold}");
+
+                if (distance < collisionThreshold)
                 {
-                    // Notify controller of player collision if close enough
                     controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
                 }
             }
+        }
+    }
+
+    private void UpdatePlayerColor()
+    {
+        if (regularRing != null)
+        {
+            regularRing.material.color = color;
+        }
+        if (chargedRing != null)
+        {
+            chargedRing.material.color = color;
+        }
+        if (maxRing != null)
+        {
+            maxRing.material.color = color;
+        }
+        if (text != null)
+        {
+            text.color = color;
         }
     }
 }

@@ -852,6 +852,15 @@ MonoBehaviour:
   maxRing: {fileID: 385121747}
   color: {r: 0, g: 0, b: 0, a: 0}
   showPlayerName: 0
+  colorRotationSpeed: 0.1
+  hueRangeStart: 0.25
+  hueRangeEnd: 0.75
+  colorSaturation: 0.8
+  colorValue: 1
+  initialHueOffset: 0.5
+  collisionThreshold: 0.1
+  playerModel: {fileID: 0}
+  usePlayerModel: 1
 --- !u!54 &755660622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2101,7 +2110,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.14901961}
+  m_BackGroundColor: {r: 0, g: 0.55501795, b: 1, a: 0.14901961}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2673,7 +2682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1212776770}
   cubemapFaces: 55
-  domemasterResolution: 4096
+  domemasterResolution: 1024
   orientation: 1
   horizon: 210
   domeTilt: 0
@@ -2982,7 +2991,20 @@ MonoBehaviour:
   minPlayerScale: 0.01
   removePlayerAfterStationaryTime: 300
   enablePlayerReassignment: 1
+  playerDeactivationTime: 1
   center: {fileID: 1890852101}
+  skyboxMaterial: {fileID: 2100000, guid: 70e6c63d498cdcf45b9e4994c19c302d, type: 2}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0.45
+  sunIntensity: 1.28
+  sunHueSize: 0.1
+  auroraIntensity: 1.39
+  auroraSpeed: 1
+  auroraHueStart: 1
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
   soundEventSender: {fileID: 1391619008}
 --- !u!1001 &2133388839
 PrefabInstance:

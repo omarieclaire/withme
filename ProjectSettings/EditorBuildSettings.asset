@@ -36,6 +36,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Herd.unity
     guid: f20843e45de588f43aa374b4ee2c282a
   - enabled: 1
-    path: Assets/Scenes/Paint.unity
+    path: Assets/Scenes/debugscenes/Paint.unity
     guid: 08910bbd5b21ce943bf033c75bbc6746
   m_configObjects: {}

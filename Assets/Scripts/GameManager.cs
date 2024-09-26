@@ -23,6 +23,11 @@ public class GameManager : MonoBehaviour
 
     public SoundEventSender soundEventSender;
 
+    public string timeoutSoundID = "timeoutSound";  // Sound ID for timeout sound
+    public string winGameSoundID = "winGameSound";  // Sound ID for win game sound
+    private bool winConditionMet = false;           // Flag to indicate if the win condition is met
+
+
     void Start()
     {
         Debug.Log("[INFO] GameManager started. Looking for Main Controller...");
@@ -57,15 +62,21 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Decrease timer if the game hasn't ended
         if (!gameEnded)
         {
             gameTimer -= Time.deltaTime;
 
             // Check if time has run out or a win condition has been met
-            if (gameTimer <= 0f)
+            if (gameTimer <= 0f && !winConditionMet)
             {
-                Debug.Log("[INFO] Time's up. Ending the game.");
+                Debug.Log("[INFO] Time's up. Playing timeout sound and ending the game.");
+                PlayTimeoutSound();
+                EndGame();
+            }
+            else if (winConditionMet)
+            {
+                Debug.Log("[INFO] Win condition met. Playing win game sound.");
+                PlayWinGameSound();
                 EndGame();
             }
         }
@@ -121,32 +132,30 @@ public class GameManager : MonoBehaviour
     }
 
     string GetSoundIDForCurrentScene()
-{
-    // Get the current scene's name
-    Scene currentScene = SceneManager.GetActiveScene();
-    string sceneName = currentScene.name;
-
-    // Format the soundID as "SceneNameBGMusic"
-    string soundID = $"{sceneName}BGMusic";
-    Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
-    return soundID;
-}
-
-
-public void StopBackgroundMusic()
-{
-    string soundID = GetSoundIDForCurrentScene();  // Get the unique soundID for the current scene
-    
-    if (soundEventSender != null)
     {
-        soundEventSender.StopContinuousSound(soundID);
-        Debug.Log($"[INFO] Stopped background music: {soundID}");
+        // Get the current scene's name
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+
+        // Format the soundID as "SceneNameBGMusic"
+        string soundID = $"{sceneName}BGMusic";
+        Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
+        return soundID;
     }
-    else
-    {
-        Debug.LogError("[ERROR] No soundEventSender available to stop background music.");
-    }
-}
+
+    // public void StopBackgroundMusic()
+    // {
+    //     string soundID = GetSoundIDForCurrentScene();  // Get the unique soundID for the current scene
+    //     if (soundEventSender != null)
+    //     {
+    //         soundEventSender.StopContinuousSound(soundID);
+    //         Debug.Log($"[INFO] Stopped background music: {soundID}");
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError("[ERROR] No soundEventSender available to stop background music.");
+    //     }
+    // }
 
 
     void EndGame()
@@ -154,7 +163,10 @@ public void StopBackgroundMusic()
         if (controller != null)
         {
             Debug.Log("[INFO] Stopping background music.");
-            StopBackgroundMusic();  // Stop the background music when the game ends
+            string soundID = GetSoundIDForCurrentScene();  // Get the unique soundID for the current scene
+            soundEventSender.StopContinuousSound(soundID);
+
+            // StopBackgroundMusic();  // Stop the background music when the game ends
         }
 
         gameEnded = true;
@@ -176,5 +188,42 @@ public void StopBackgroundMusic()
         int previousSceneIndex = (currentSceneIndex - 1 + SceneManager.sceneCountInBuildSettings) % SceneManager.sceneCountInBuildSettings;
         Debug.Log("[INFO] Loading previous scene. Current scene index: " + currentSceneIndex + ", Previous scene index: " + previousSceneIndex);
         SceneManager.LoadScene(previousSceneIndex);
+    }
+
+    // New method to play the timeout sound
+    void PlayTimeoutSound()
+    {
+        if (soundEventSender != null)
+        {
+            Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
+            soundEventSender.SendOrUpdateContinuousSound(timeoutSoundID, soundPosition);
+            Debug.Log($"[INFO] Playing timeout sound: {timeoutSoundID}");
+        }
+        else
+        {
+            Debug.LogError("[ERROR] No soundEventSender available for timeout sound.");
+        }
+    }
+
+    // New method to play the win game sound
+    void PlayWinGameSound()
+    {
+        if (soundEventSender != null)
+        {
+            Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
+            soundEventSender.SendOrUpdateContinuousSound(winGameSoundID, soundPosition);
+            Debug.Log($"[INFO] Playing win game sound: {winGameSoundID}");
+        }
+        else
+        {
+            Debug.LogError("[ERROR] No soundEventSender available for win game sound.");
+        }
+    }
+
+    // Call this method from another script to indicate the win condition has been met
+    public void SetWinConditionMet()
+    {
+        winConditionMet = true;
+        Debug.Log("[INFO] Win condition met has been set.");
     }
 }

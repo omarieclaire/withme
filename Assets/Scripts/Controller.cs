@@ -37,8 +37,7 @@
 // 8. Placeholder Methods:
 // Several placeholder methods are present (OnWorldComplete, OnPlayerTrigger, etc.), which are filled in for specific game mechanics in derived classes.
 
-
-
+using UnityEngine.SceneManagement;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -130,25 +129,52 @@ public class Controller : MonoBehaviour
     [Tooltip("Enable or disable player reassignment logic.")]
     public bool enablePlayerReassignment = true;
 
+    // New variable to control player deactivation time based on OSC system behavior
+    [Tooltip("Time in seconds to deactivate a player after losing OSC data.")]
+    public float playerDeactivationTime = 1.0f; // New variable for player deactivation time
+
     // Dictionary to track stationary times
     private Dictionary<int, float> playerStationaryTimes = new Dictionary<int, float>();
 
     // New attributes
     public Transform center;
 
+    [Header("Skybox Info")]
+    [Header("Re Enable in play mode to update")]
+
+    [Tooltip("Skybox stuff")]
+    public Material skyboxMaterial;
+
+
+    [Tooltip("Sun position for skybox. Y IS NEGATIVE SORRY")]
+    public Vector3 SunPosition = new Vector3(0, -1, 0);
+
+    public float SunHue = 0;
+    public float sunIntensity = 1;
+    public float sunHueSize = .1f;
+    public float auroraIntensity = 1;
+    public float auroraSpeed = 1;
+    public float auroraHueStart = 0;
+    public float auroraHueSize = 1;
+
+    public float auroraHorizonImportance = .1f;
+
+    public float auroraNoiseSize = 1;
+
+
+    public float auroraVibrantness = 1;
+
+
     [Header("Sound Event Sender")]
     public SoundEventSender soundEventSender;
 
     // private bool musicPlayed = false; // Flag to ensure music is played only once
-
-
 
     void Start()
     {
         SetUp();
     }
 
-   
     // Method to handle player position updates
     public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
     {
@@ -188,7 +214,9 @@ public class Controller : MonoBehaviour
                 playerTargetPositions[id] = fPos;
                 playerLastSeenTimestamp[id] = Time.time;
 
-                soundEventSender.SendOrUpdateContinuousSound($"p{playerID}", remappedPosition);
+        string soundID = GetSceneSpecificSoundID(playerID); 
+        soundEventSender.SendOrUpdateContinuousSound(soundID, remappedPosition);
+        // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
                 // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
             }
 
@@ -196,6 +224,27 @@ public class Controller : MonoBehaviour
             players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
         }
     }
+
+
+    private string GetSceneSpecificSoundID(int playerID)
+{
+    // Check if the current scene is "WithMe"
+    Scene currentScene = SceneManager.GetActiveScene();
+    if (currentScene.name == "WithMe")
+    {
+        // Return playerID with "WithMePlayerSound"
+        string id = $"p{playerID}WithMePlayerSound";
+        Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
+        return id;
+    }
+    else
+    {
+        // Return default sound ID
+        string defaultID = $"p{playerID}";
+        Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
+        return defaultID;
+    }
+}
 
 
     private void FadePlayerIn(int playerIndex)
@@ -239,21 +288,23 @@ public class Controller : MonoBehaviour
             return;
         }
 
-        // Send or update continuous sound for player
-        string soundID = $"p{playerIDS[playerIndex]}";
+        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+        // string soundID = $"p{playerIDS[playerIndex]}";
         soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
     }
 
 
     private void StopPlayerSound(int playerIndex)
     {
-        string soundID = $"p{playerIDS[playerIndex]}";
+
+        // string soundID = $"p{playerIDS[playerIndex]}";
 
         // // Ask SoundEventSender if the sound is active
         // if (soundEventSender.IsSoundActive(soundID))
         // {
-            soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
-            Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
+        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+        soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
+        Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
         // }
         // else
         // {
@@ -267,16 +318,17 @@ public class Controller : MonoBehaviour
     private void HandlePlayerSound(int playerIndex, float timeSinceLastSeen)
     {
         // If the player has been inactive for too long, stop the sound
-        string soundID = $"p{playerIDS[playerIndex]}";
+        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+        // string soundID = $"p{playerIDS[playerIndex]}";
 
         if (timeSinceLastSeen > soundTimeout)
         {
             soundEventSender.StopContinuousSound(soundID);
             Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been inactive for too long sound is being stopped.");
-
         }
         else
         {
+
             soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
         }
     }
@@ -316,12 +368,15 @@ public class Controller : MonoBehaviour
     }
 
     private void ReactivatePlayer(int playerIndex)
-    {
-        FadePlayerIn(playerIndex);  // Player fades back in
-        soundEventSender.SendOrUpdateContinuousSound($"p{playerIDS[playerIndex]}", players[playerIndex].transform.position);
-        UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
-        ScalePlayer(playerIndex);  // Scale the player back to its original size
-    }
+{
+    FadePlayerIn(playerIndex);  // Player fades back in
+    string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+    soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+    
+    UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
+    ScalePlayer(playerIndex);  // Scale the player back to its original size
+}
+
 
 
     // Method to handle shrinking, silencing, and deactivating a player
@@ -335,6 +390,7 @@ public class Controller : MonoBehaviour
         {
             if (players[playerIndex].activeSelf)
             {
+    
                 players[playerIndex].SetActive(false);  // Deactivate the player
                 StopPlayerSound(playerIndex);  // Stop the player's sound
                 Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
@@ -502,6 +558,19 @@ public class Controller : MonoBehaviour
         // This handles the common setup logic for all scenes
         Debug.Log("[INFO] Common setup (_SetUp) called.");
         // musicPlayed = false;
+
+        skyboxMaterial.SetVector("_LightDir", SunPosition.normalized);
+        skyboxMaterial.SetFloat("_SunIntensity", sunIntensity);
+        skyboxMaterial.SetFloat("_SunHue", SunHue);
+        skyboxMaterial.SetFloat("_SunHueSize", sunHueSize);
+        skyboxMaterial.SetFloat("_AuroraIntensity", auroraIntensity);
+        skyboxMaterial.SetFloat("_AuroraSpeed", auroraSpeed);
+        skyboxMaterial.SetFloat("_AuroraHueStart", auroraHueStart);
+        skyboxMaterial.SetFloat("_AuroraHueSize", auroraHueSize);
+        skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
+        skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
+        skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
+
 
         // Common initialization logic
         players = new List<GameObject>();
