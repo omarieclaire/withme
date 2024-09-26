@@ -26,6 +26,8 @@ public class OSCHandler : MonoBehaviour
 
     private Dictionary<int, Vector2> incompletePositions = new Dictionary<int, Vector2>();  // Dictionary to store incomplete position data (x or y not yet received)
 
+    private double inactivityThreshold = 5.0;  // Threshold for player inactivity (5 seconds)
+
     private void Start()
     {
         // Initialize the OSC receiver and bind the blob address if the receiver is assigned
@@ -42,63 +44,63 @@ public class OSCHandler : MonoBehaviour
             Debug.LogError("OSCReceiver is not assigned!");  // Error if no receiver is assigned
         }
     }
-private void Update()
-{
-    double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
-    
-    // Process all messages in the queue
-    while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
+    private void Update()
     {
-        if (debug)
-        {
-            Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
-        }
+        double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
 
-        int playerId = msg.PlayerId;
-        Vector2 blobPosition = msg.BlobPosition;
-
-        // Log before attempting to get or create player data
-        if (debug)
-        {
-            Debug.Log($"[DEBUG] Attempting to get or create player data for Player ID: {playerId}");
-        }
-
-        // Attempt to get or create the player data
-        PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
-
-        // Check if playerData is null (though it should not be, add extra logging for safety)
-        if (playerData == null)
-        {
-            Debug.LogError($"[ERROR] PlayerData is null for Player ID: {playerId}. Cannot proceed.");
-            continue;  // Skip this iteration if playerData is null
-        }
-
-        // Log before updating the player's timestamp
-        if (debug)
-        {
-            Debug.Log($"[DEBUG] Updating last OSC timestamp for Player ID: {playerId} to {currentTime}");
-        }
-
-        // Update the player's last message timestamp
-        playerData.LastOSCTimeStamp = currentTime;
-
-        // Log before calling the controller method to update player position
-        if (controller == null)
-        {
-            Debug.LogError($"[ERROR] Controller is null, cannot update player position for Player ID: {playerId}");
-        }
-        else
+        // Process all messages in the queue
+        while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
         {
             if (debug)
             {
-                Debug.Log($"[DEBUG] Calling OnPlayerPositionUpdate for Player ID: {playerId}, Blob Position: {blobPosition}");
+                Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
             }
 
-            // Notify the controller about the player's new position
-            controller.OnPlayerPositionUpdate(playerId, blobPosition);
+            int playerId = msg.PlayerId;
+            Vector2 blobPosition = msg.BlobPosition;
+
+            // Log before attempting to get or create player data
+            if (debug)
+            {
+                Debug.Log($"[DEBUG] Attempting to get or create player data for Player ID: {playerId}");
+            }
+
+            // Attempt to get or create the player data
+            PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
+
+            // Check if playerData is null (though it should not be, add extra logging for safety)
+            if (playerData == null)
+            {
+                Debug.LogError($"[ERROR] PlayerData is null for Player ID: {playerId}. Cannot proceed.");
+                continue;  // Skip this iteration if playerData is null
+            }
+
+            // Log before updating the player's timestamp
+            if (debug)
+            {
+                Debug.Log($"[DEBUG] Updating last OSC timestamp for Player ID: {playerId} to {currentTime}");
+            }
+
+            // Update the player's last message timestamp
+            playerData.LastOSCTimeStamp = currentTime;
+
+            // Log before calling the controller method to update player position
+            if (controller == null)
+            {
+                Debug.LogError($"[ERROR] Controller is null, cannot update player position for Player ID: {playerId}");
+            }
+            else
+            {
+                if (debug)
+                {
+                    Debug.Log($"[DEBUG] Calling OnPlayerPositionUpdate for Player ID: {playerId}, Blob Position: {blobPosition}");
+                }
+
+                // Notify the controller about the player's new position
+                controller.OnPlayerPositionUpdate(playerId, blobPosition);
+            }
         }
     }
-}
 
 
     private PlayerData GetOrCreatePlayer(int playerId, double oscTime)
@@ -190,6 +192,51 @@ private void Update()
         {
             PlayerId = playerId;
             IsActive = true;  // Player starts as active
+        }
+    }
+
+    private void CheckInactivePlayersAndStopSounds(double currentTime)
+    {
+        foreach (var playerData in players.Values)
+        {
+            if (currentTime - playerData.LastOSCTimeStamp > inactivityThreshold)
+            {
+                int playerId = playerData.PlayerId;
+
+                // Stop relevant sounds for this player if they are active
+                StopPlayerSounds(playerId);
+            }
+        }
+    }
+
+    private void StopPlayerSounds(int playerId)
+    {
+        // Example sound IDs for different players
+        string soundId = $"p{playerId}";
+        string withMeSoundId = $"p{playerId}WithMePlayerSound";
+        string constellationSoundId = $"p{playerId}ConstellationPlayerSound";
+
+        // Stop the sounds using SoundEventSender
+        SoundEventSender soundEventSender = FindObjectOfType<SoundEventSender>();
+
+        if (soundEventSender != null)
+        {
+            if (soundEventSender.IsSoundActive(soundId))
+            {
+                soundEventSender.StopContinuousSound(soundId);
+            }
+            if (soundEventSender.IsSoundActive(withMeSoundId))
+            {
+                soundEventSender.StopContinuousSound(withMeSoundId);
+            }
+            if (soundEventSender.IsSoundActive(constellationSoundId))
+            {
+                soundEventSender.StopContinuousSound(constellationSoundId);
+            }
+        }
+        else
+        {
+            Debug.LogError("SoundEventSender is not found in the scene!");
         }
     }
 }

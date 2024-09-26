@@ -6,6 +6,9 @@ public class MimicShape : MonoBehaviour
 {
     // Public variables to be set in the Unity Editor
     public int numSpheres;
+
+    public SoundEventSender soundEventSender;  // Add this to your class
+
     public List<GameObject> spheres;
     public GameObject spherePrefab;
     public Controller controller;
@@ -13,7 +16,6 @@ public class MimicShape : MonoBehaviour
     public float sphereSize;
 
     public Timer timer;
-
 
     // Called when the script is enabled
     public void OnEnable()
@@ -52,7 +54,6 @@ public class MimicShape : MonoBehaviour
     public Transform lineRendererHolder;
     public GameObject lineRendererPrefab;
 
-
     // Sets a new shape by randomizing sphere positions
     public void NewShapeSet()
     {
@@ -70,21 +71,25 @@ public class MimicShape : MonoBehaviour
             spheres[i].transform.position = randomPos;
         }
 
-        audio.Play(newShapeSetClip);
+        // Play New Constellation Sound
+        string soundID = "MimicShapeNewShapeGen";
+        Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+        soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+        // Comment out the old audio system call
+        // audio.Play(newShapeSetClip);
 
         while (lineRendererHolder.childCount > 0)
         {
             DestroyImmediate(lineRendererHolder.GetChild(0).gameObject);
         }
 
-
+        // Connect spheres with random lines
         for (int i = 0; i < numSpheres; i++)
         {
             int numRandomConnections = Random.Range(1, numSpheres - 2);
-
             for (int j = 0; j < numRandomConnections; j++)
             {
-
                 GameObject lr = Instantiate(lineRendererPrefab);
                 lr.transform.SetParent(lineRendererHolder);
 
@@ -97,168 +102,163 @@ public class MimicShape : MonoBehaviour
                     lr.GetComponent<LineRenderer>().SetPosition(1, spheres[randomConnection].transform.position);
                 }
             }
-
         }
-
-
     }
-
-
 
     // Variables for time-based shape changes
     [Tooltip("Time interval between shape changes")]
-
     public float timeBetweenChanges;
 
     [Tooltip("Time of the last shape change")]
-
     public float lastTimeChange;
 
     [Tooltip("Radius within which a sphere gets activated")]
-
     public float activationRadius;
 
-    public AudioClip onTickClip;
+    // Removed onTickClip and old audio play logic
+    // public AudioClip onTickClip;
 
     float oTime;
     float nTime;
 
-
     public float tickRate = .1f;
 
     // Update is called once per frame
+
     void Update()
     {
-
         oTime = nTime;
 
         nTime = Time.time - lastTimeChange;
         nTime /= timeBetweenChanges;
 
-
-        if (nTime % tickRate < oTime % tickRate)
-        {
-            audio.Play(onTickClip, .5f + nTime * .5f);
-        }
-
-
         timer.SetHand(nTime);
-
-
 
         // Check if it's time to change the shape
         if (Time.time - lastTimeChange > timeBetweenChanges)
         {
+            // Play Timeout Sound
+            string soundID = "MimicShapeTimeout";
+            Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+            // Reset timer and change shape
             lastTimeChange = Time.time;
             NewShapeSet();
         }
+    
 
         // Check the activation state of each sphere
-        for (int j = 0; j < numSpheres; j++)
+        for (int j = 0; j<numSpheres; j++)
         {
             bool sphereActive = false;
 
             // Check each active player's distance to the sphere
-            for (int i = 0; i < controller.activePlayers.Count; i++)
+            for (int i = 0; i<controller.activePlayers.Count; i++)
             {
                 GameObject player = controller.activePlayers[i].gameObject;
-                float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
+    float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
 
                 // Activate the sphere if a player is within the activation radius
-                if (distance < activationRadius)
+                if (distance<activationRadius)
                 {
                     sphereActive = true;
                     LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
-                    lr.positionCount = 2;
+    lr.positionCount = 2;
                     lr.SetPosition(0, spheres[j].transform.position);
                     lr.SetPosition(1, player.transform.position);
+
+                    // Play sound if the sphere was previously inactive and is now activated
+                    if (!spheresActive[j]) // Only play sound if the sphere wasn't active before
+                    {
+                        string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
+    Vector3 playerPosition = player.transform.position;
+    soundEventSender.SendOneShotSound(soundID, playerPosition);
+                    }
                 }
             }
 
             // Set the sphere's color and active state based on its activation status
             if (sphereActive)
-            {
+{
+    Color color = Color.green;
+    Renderer rend = spheres[j].GetComponent<Renderer>();
+    rend.material.SetColor("_Color", color);
+    spheresActive[j] = true;
+}
+else
+{
+    LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
+    lr.positionCount = 0;
 
+    Color color = Color.red;
 
-                Color color = Color.green;
-
-                Renderer rend = spheres[j].GetComponent<Renderer>();
-                rend.material.SetColor("_Color", color);
-                rend.material.SetColor("_BaseColor", color * .1f);
-                rend.material.SetColor("_ReflectionColor", color);
-                rend.material.SetColor("_CenterOrbColor", color * .1f);
-                rend.material.SetColor("_NoiseColor", color * 2);
-
-
-                spheresActive[j] = true;
-            }
-            else
-            {
-                LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
-                lr.positionCount = 0;
-
-                Color color = Color.red;
-
-                Renderer rend = spheres[j].GetComponent<Renderer>();
-                rend.material.SetColor("_Color", color);
-                rend.material.SetColor("_BaseColor", color * .1f);
-                rend.material.SetColor("_ReflectionColor", color);
-                rend.material.SetColor("_CenterOrbColor", color * .1f);
-                rend.material.SetColor("_NoiseColor", color * 2);
-
-                spheresActive[j] = false;
-            }
+    Renderer rend = spheres[j].GetComponent<Renderer>();
+    rend.material.SetColor("_Color", color);
+    spheresActive[j] = false;
+}
         }
-
 
         int oNumActivated = numShapesActivated;
-        // Count the number of activated spheres
-        numShapesActivated = 0;
-        for (int i = 0; i < numSpheres; i++)
-        {
-            if (spheresActive[i])
-            {
-                numShapesActivated++;
-            }
-        }
+// Count the number of activated spheres
+numShapesActivated = 0;
+for (int i = 0; i < numSpheres; i++)
+{
+    if (spheresActive[i])
+    {
+        numShapesActivated++;
+    }
+}
 
-        if (oNumActivated != numShapesActivated)
-        {
-            if (oNumActivated < numShapesActivated)
-            {
-                audio.Play(onLeaveClip);
-            }
-            else
-            {
-                audio.Play(onEnterClip);
-            }
-        }
+if (oNumActivated != numShapesActivated)
+{
+    if (oNumActivated < numShapesActivated)
+    {
+        // Comment out the old audio play and replace it with SoundEventSender for Leave sound
+        // audio.Play(onLeaveClip);
+        string soundID = "MimicShapeLeave";
+        Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+        soundEventSender.SendOneShotSound(soundID, pointPosition);
+    }
+    else
+    {
+        // Comment out the old audio play and replace it with SoundEventSender for Enter sound
+        // audio.Play(onEnterClip);
+        string soundID = "MimicShapeEnter";
+        Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+        soundEventSender.SendOneShotSound(soundID, pointPosition);
+    }
+}
 
-
-        // Trigger the shape complete event if all spheres are activated
-        if (numShapesActivated == numSpheres)
-        {
-            OnShapeComplete();
-        }
+// Trigger the shape complete event if all spheres are activated
+if (numShapesActivated == numSpheres)
+{
+    OnShapeComplete();
+}
     }
 
     // References for audio and particle effects
-    public AudioPlayer audio;
+    // public AudioPlayer audio;
     public AudioClip onShapeCompleteClip;
-    public ParticleSystem onShapeCompleteParticles;
-    public AudioClip newShapeSetClip;
-    public AudioClip onEnterClip;
-    public AudioClip onLeaveClip;
+public ParticleSystem onShapeCompleteParticles;
+public AudioClip newShapeSetClip;
+public AudioClip onEnterClip;
+public AudioClip onLeaveClip;
 
-    // Called when the shape is complete
-    void OnShapeComplete()
-    {
-        // Play audio and particle effects
-        audio.Play(onShapeCompleteClip);
-        onShapeCompleteParticles.transform.position = transform.position;
-        onShapeCompleteParticles.Play();
+// Called when the shape is complete
+void OnShapeComplete()
+{
+    // Play Success Matching Shape Sound
+    string soundID = "MimicShapeMatch";
+    Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+    soundEventSender.SendOneShotSound(soundID, pointPosition);
 
-        // Set a new shape
-        NewShapeSet();
-    }
+    // Comment out the old audio system call
+    // audio.Play(onShapeCompleteClip);
+    onShapeCompleteParticles.transform.position = transform.position;
+    onShapeCompleteParticles.Play();
+
+    // Set a new shape
+    NewShapeSet();
+}
 }

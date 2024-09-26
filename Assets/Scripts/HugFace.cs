@@ -10,6 +10,9 @@ public class HugFace : MonoBehaviour
     public int smileID;
     public int state;
 
+    public SoundEventSender soundEventSender;
+
+
     public GameObject preDiscovered;
     public GameObject discovered;
     public GameObject finished;
@@ -62,23 +65,40 @@ public class HugFace : MonoBehaviour
 
     public void WhileInside(PlayerAvatar player)
     {
+        // Track whether sounds have been played
+        if (!soundsPlayed)
+        {
+            Debug.Log("hug:inside for now");
+
+            // Play the first sound when face flips
+            string soundID = $"p{player.id}EffectsHugFaceFlipSound";
+            Vector3 pointPosition = player.transform.position;
+            Debug.Log($"Playing hug sound: {soundID} at {pointPosition}");
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+            // Play the second sound for the face song
+            soundID = $"p{player.id}EffectsHugFaceSongSound";
+            pointPosition = player.transform.position;
+            Debug.Log($"Playing hug sound: {soundID} at {pointPosition}");
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+            // Mark sounds as played
+            soundsPlayed = true;
+        }
+
         discovered.SetActive(true);
         preDiscovered.SetActive(false);
         finished.SetActive(false);
         inside = true;
 
-
-
         bool allInside = true;
 
         if (fullComplete == false)
         {
-
             LineRenderer lr = player.gameObject.GetComponent<LineRenderer>();
             lr.SetPosition(0, player.transform.position);
             lr.SetPosition(1, transform.position);
             lr.enabled = true;
-
 
             for (int i = 0; i < partners.Count; i++)
             {
@@ -89,17 +109,23 @@ public class HugFace : MonoBehaviour
                 }
             }
 
-
             if (allInside)
             {
+                Debug.Log("hug:inside");
+                
+                // Play the sigh sound when all players are inside (matched)
+                string soundID = $"p{player.id}EffectsHugFaceSigh";
+                Vector3 pointPosition = player.transform.position;
+                Debug.Log($"Playing hug sigh sound: {soundID} at {pointPosition}");
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
 
-                hug.HUG(this, smileID);// 
-
+                hug.HUG(this, smileID);
             }
         }
-
-
     }
+
+    // Add a flag at the class level to ensure the sounds are only played once
+    private bool soundsPlayed = false;
 
     public void Update()
     {

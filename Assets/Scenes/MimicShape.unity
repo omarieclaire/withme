@@ -2969,6 +2969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numSpheres: 2
+  soundEventSender: {fileID: 337709554}
   spheres: []
   spherePrefab: {fileID: 485896220}
   controller: {fileID: 1890852102}
@@ -2978,12 +2979,10 @@ MonoBehaviour:
   numShapesActivated: 0
   lineRendererHolder: {fileID: 139449677}
   lineRendererPrefab: {fileID: 2059163418}
-  timeBetweenChanges: 10
+  timeBetweenChanges: 50
   lastTimeChange: 0
   activationRadius: 5
-  onTickClip: {fileID: 8300000, guid: b0c20a1e48e96d342af181b3d77dfdb9, type: 3}
   tickRate: 0.1
-  audio: {fileID: 1113222680}
   onShapeCompleteClip: {fileID: 8300000, guid: ae5226bf54c3c45428938c336e3d2168, type: 3}
   onShapeCompleteParticles: {fileID: 1811304936}
   newShapeSetClip: {fileID: 8300000, guid: 033b0a5ef8e450246b6df33558f2f0c7, type: 3}

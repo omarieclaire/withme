@@ -8,6 +8,9 @@ public class StickTogether : MonoBehaviour
 {
     public Controller controller;
 
+    public SoundEventSender soundEventSender;  
+
+
     [Tooltip("The radius within which players need to stay.")]
     public float radiusForCollection = 1;
 
@@ -123,11 +126,19 @@ public class StickTogether : MonoBehaviour
             // If the player is inside the circle
             if (dist < radiusForCollection)
             {
-                // If the player wasn't inside before, play the sound
+                // If the player wasn't inside before, play the sound and send OSC
                 if (!playersInside.Contains(controller.activePlayers[i].gameObject))
                 {
                     playersInside.Add(controller.activePlayers[i].gameObject);
+
+                    // Play the happy sound locally
                     audioPlayer.Play(happySound);
+
+                    // Send OSC message for the sound event
+                    string soundID = $"p{controller.activePlayers[i].GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
+                    Vector3 pointPosition = controller.activePlayers[i].transform.position;
+
+                    soundEventSender.SendOneShotSound(soundID, pointPosition);
                 }
 
                 // Count this player as inside
@@ -153,6 +164,12 @@ public class StickTogether : MonoBehaviour
             {
                 // Timer starts or continues incrementing
                 majorityInside = true;
+
+                // Play looping sound via OSC
+                string soundID = "StickTogetherBeat";
+                Vector3 pointPosition = new Vector3(0, 2, 0);
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+
                 //  collectionRepresentation.GetComponent<Renderer>().material.color = Color.green; // Change color to green
             }
             timer += Time.deltaTime;
@@ -164,10 +181,17 @@ public class StickTogether : MonoBehaviour
                 // Timer resets
                 majorityInside = false;
                 timer = 0f;
+
+                // Stop looping sound via OSC
+                string soundID = "StopStickTogetherBeat";  // You can define the stop message format in your OSC system
+                Vector3 pointPosition = new Vector3(0, 2, 0);
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+
                 // collectionRepresentation.GetComponent<Renderer>().material.color = Color.red; // Change color to red
                 audioPlayer.Play(sadSound); // Play sad sound
             }
         }
+
 
         loop.volume = Mathf.Lerp(loop.volume, Mathf.Clamp(timer, 0, 1), .03f);
 

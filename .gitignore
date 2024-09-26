@@ -87,6 +87,8 @@ crashlytics-build.properties
 *.DNA
 *.cubemap
 
+# IM ignoring all Ableton files (Manu)
+ableton/*
 # Ableton
 # Ignore Ableton samples across all projects inside the Ableton folder
 ableton/**/Samples/

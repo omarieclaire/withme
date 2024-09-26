@@ -136,7 +136,7 @@ public class PlayerAvatar : MonoBehaviour
                 distance -= transform.localScale.x / 2;
                 distance -= controller.players[i].transform.localScale.x / 2;
 
-                Debug.Log($"Distance: {distance}, CollisionThreshold: {collisionThreshold}");
+                // Debug.Log($"Distance: {distance}, CollisionThreshold: {collisionThreshold}");
 
                 if (distance < collisionThreshold)
                 {

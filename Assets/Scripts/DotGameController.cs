@@ -203,9 +203,42 @@ public class DotGameController : Controller
         p1.Reset();
         p2.Reset();
 
-        audioPlayer.Play(onExplodeClip);
+        // Assuming p1 and p2 are PlayerAvatar instances
+        // Debug.Log($"PlayerAvatar 1 ID: {p1.id}");
+        // Debug.Log($"PlayerAvatar 2 ID: {p2.id}");
+
+        PlayCollisionSound(p1);
+        PlayCollisionSound(p2);
+
+
+        // void SendCollisionSound(Player p)
+        // {
+        //     string soundID = $"p{p.id}EffectsWithMePlayerCollision";
+        //     Vector3 pointPosition = p.transform.position;
+        //     soundEventSender.SendOneShotSound(soundID, pointPosition);
+        // }
+
+        // SendCollisionSound(p1);
+        // SendCollisionSound(p2);
+
+
+
+        // audioPlayer.Play(onExplodeClip);
         explosionParticles.transform.position = (p1.transform.position + p2.transform.position) / 2;
         explosionParticles.Play();
+    }
+
+    private void PlayCollisionSound(PlayerAvatar player)
+    {
+        // Construct the sound ID and get the player's position
+        string soundID = $"p{player.id}EffectsWithMePlayerCollision";
+        Vector3 pointPosition = player.transform.position;
+
+        // Send the sound event to play the collision sound
+        soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+        // Log for verification
+        Debug.Log($"Sent collision sound for player {player.id} at position {pointPosition}.");
     }
 
     public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
@@ -241,21 +274,27 @@ public class DotGameController : Controller
                 dotAvatars[index].collector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                string soundID = "withmepoints";  // This is the ID you've mapped in your soundSourceMapping dictionary
-                Vector3 pointPosition = new Vector3(0, 0, 0);  // Replace with the actual position of the point
+                // string soundID = "withmepoints";  // This is the ID you've mapped in your soundSourceMapping dictionary
+                // Vector3 pointPosition = new Vector3(0, 0, 0);  // Replace with the actual position of the point
+
+
+                string soundID = $"p{player.id}EffectsWithMePointCollision";
+                Vector3 pointPosition = player.transform.position;
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+
                 // Vector3 pointPostitionPray = new Vector3(dots[index].GetComponent<Dot>().transform);
-                
+
                 // Vector3 pointPositionPray = dots[index].GetComponent<Dot>().transform.position;
                 // Debug.Log(pointPostitionPray);
 
                 // Send the sound event for the point sound
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                // soundEventSender.SendOneShotSound(soundID, pointPosition);
 
                 // Debug log to verify it's triggered
                 Debug.Log($"Sending OSC message to play point sound: {soundID}");
 
 
-                audioPlayer.Play(onDotCollectClip);
+                // audioPlayer.Play(onDotCollectClip);
                 playerCollectDotParticleSystem.transform.position = collider.transform.position;
                 playerCollectDotParticleSystem.Play();
                 // dots[index].gameObject.SetActive(false);
