@@ -7,7 +7,7 @@ public class MimicShape : MonoBehaviour
     // Public variables to be set in the Unity Editor
     public int numSpheres;
 
-    public SoundEventSender soundEventSender;  // Add this to your class
+    public SoundEventSender soundEventSender;  
 
     public List<GameObject> spheres;
     public GameObject spherePrefab;
