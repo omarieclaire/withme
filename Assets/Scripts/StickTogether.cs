@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;  // Include the TextMeshPro namespace
-
+using TMPro;
 
 public class StickTogether : MonoBehaviour
 {
     public Controller controller;
 
-    public SoundEventSender soundEventSender;  
+    public SoundEventSender soundEventSender;
 
 
-    [Tooltip("The radius within which players need to stay.")]
+    [Tooltip("The radius of the area we need to stay inside.")]
     public float radiusForCollection = 1;
 
     [Tooltip("The representation of the collection area.")]
@@ -47,6 +46,10 @@ public class StickTogether : MonoBehaviour
     [Header("Timer Info")]
     [Tooltip("3D TextMesh component to display the timer.")]
     public TextMeshPro timerTextMesh;
+
+    [Tooltip("Offset for the timer text relative to the collection area.")]
+    public Vector3 timerTextOffset;
+
 
     [Tooltip("Percentage of players required to be inside the circle to keep the timer running.")]
     public float requiredPercentage = 0.5f;
@@ -89,6 +92,23 @@ public class StickTogether : MonoBehaviour
 
         // Set the position of the collection area
         transform.position = controller.getFinalPosition(position);
+
+
+
+// Update the timer text position to match the collection area's position
+    if (timerTextMesh != null)
+    {
+        timerTextMesh.transform.position = transform.position + timerTextOffset;
+
+        // Adjust the text scale to maintain a readable size
+        float scaleFactor = 7.1f;  // Adjust this value to fit your needs
+        timerTextMesh.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+      // Make the text face the center of the collection area
+        timerTextMesh.transform.LookAt(transform.position);  // This ensures the text is looking towards the collection area
+
+        // Optional: You might want to flip the text, as LookAt can cause it to face backwards. To fix this, rotate by 180 degrees.
+        timerTextMesh.transform.Rotate(0, 0, 0);
+    }
 
         // If the number of connections doesn't match the number of players
         if (connections.Count != controller.activePlayers.Count)

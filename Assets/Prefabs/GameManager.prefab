@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3160918365536298541}
   - component: {fileID: 6220094444521858188}
+  - component: {fileID: 1375164640719608508}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -49,3 +50,29 @@ MonoBehaviour:
   retryCount: 3
   retryDelay: 0.5
   soundEventSender: {fileID: 0}
+  timeoutSoundID: timeoutSound
+  winGameSoundID: winGameSound
+--- !u!114 &1375164640719608508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4836883292527609003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c29f25483314e5fb597d8ff3bf6c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skyboxMaterial: {fileID: 0}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1

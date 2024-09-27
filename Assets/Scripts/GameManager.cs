@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("[INFO] GameManager started. Looking for Main Controller...");
 
         // Find the GameObject named "Main Controller" and get its Controller component
-        GameObject mainControllerObj = GameObject.Find("Main Controller");
+        GameObject mainControllerObj = GameObject.Find("AnOracleOfAll");
 
         if (mainControllerObj != null)
         {

@@ -66,14 +66,14 @@ public class PlayerAvatar : MonoBehaviour
     // Sets the player's data including name and color
     public void SetData(string name)
     {
-        if (showPlayerName)
-        {
-            text.text = name; // Set player name
-        }
-        else
-        {
-            text.text = ""; // Leave player name blank
-        }
+        // if (showPlayerName)
+        // {
+        //     text.text = name; // Set player name
+        // }
+        // else
+        // {
+        //     text.text = ""; // Leave player name blank
+        // }
 
         // Set the initial color based on player's ID using a unique hue and the initial offset
         float initialHue = Mathf.Repeat((Mathf.Sin(id) + initialHueOffset) / 2, 1f);
