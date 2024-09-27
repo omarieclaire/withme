@@ -1432,7 +1432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 2039369492}
   soundEventSender: {fileID: 467197940}
-  radiusForCollection: 8
+  radiusForCollection: 4
   collectionRepresentation: {fileID: 1188546422}
   connections: []
   connectionPrefab: {fileID: 558958222}

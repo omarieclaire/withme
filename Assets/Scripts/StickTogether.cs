@@ -94,21 +94,16 @@ public class StickTogether : MonoBehaviour
         transform.position = controller.getFinalPosition(position);
 
 
-
-// Update the timer text position to match the collection area's position
-    if (timerTextMesh != null)
-    {
-        timerTextMesh.transform.position = transform.position + timerTextOffset;
-
-        // Adjust the text scale to maintain a readable size
-        float scaleFactor = 7.1f;  // Adjust this value to fit your needs
-        timerTextMesh.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-      // Make the text face the center of the collection area
-        timerTextMesh.transform.LookAt(transform.position);  // This ensures the text is looking towards the collection area
-
-        // Optional: You might want to flip the text, as LookAt can cause it to face backwards. To fix this, rotate by 180 degrees.
-        timerTextMesh.transform.Rotate(0, 0, 0);
-    }
+        // Update the timer text position to match the collection area's position
+        if (timerTextMesh != null)
+        {
+            timerTextMesh.transform.position = transform.position + timerTextOffset;
+            float scaleFactor = 7.1f;  // Adjust this value to fit your needs
+            timerTextMesh.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            // Make the text always face the camera or players, keeping X rotation at 0
+            timerTextMesh.transform.LookAt(controller.getFinalPosition(Vector3.zero));  // Assuming you want it to face the center
+            timerTextMesh.transform.Rotate(0, 180, 0);  // Flip to correct orientation
+        }
 
         // If the number of connections doesn't match the number of players
         if (connections.Count != controller.activePlayers.Count)
