@@ -210,6 +210,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464088183d2a1484ab8fb64e356c9f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &106015095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 481033887538468961, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+  m_PrefabInstance: {fileID: 447054916}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &447054916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -730,7 +735,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
   m_PrefabInstance: {fileID: 447054916}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 106015095}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95eff87bfdd59c94a91fca152d701beb, type: 3}
@@ -1087,6 +1092,10 @@ PrefabInstance:
       propertyPath: waitTime
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+      propertyPath: TheOracleOfAll
+      value: 
+      objectReference: {fileID: 106015095}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: soundEventSender
       value: 

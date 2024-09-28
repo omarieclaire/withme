@@ -3,7 +3,12 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
+
 {
+
+    public GameObject TheOracleOfAll;
+
+
     [Tooltip("Duration of the game before switching scenes (in seconds)")]
     public float gameDuration = 60f;  // Time before the scene switches
 
@@ -32,13 +37,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[INFO] GameManager started. Looking for Main Controller...");
 
-        // Find the GameObject named "Main Controller" and get its Controller component
-        GameObject mainControllerObj = GameObject.Find("AnOracleOfAll");
-
-        if (mainControllerObj != null)
+        if (TheOracleOfAll != null)
         {
-            Debug.Log("[INFO] Main Controller GameObject found.");
-            controller = mainControllerObj.GetComponent<Controller>();
+            controller = TheOracleOfAll.GetComponent<Controller>();
         }
         else
         {

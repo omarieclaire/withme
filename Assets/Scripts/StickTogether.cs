@@ -6,12 +6,10 @@ using TMPro;
 public class StickTogether : MonoBehaviour
 {
     public Controller controller;
-
     public SoundEventSender soundEventSender;
 
-
     [Tooltip("The radius of the area we need to stay inside.")]
-    public float radiusForCollection = 1;
+    public float radiusForCollection;
 
     [Tooltip("The representation of the collection area.")]
     public GameObject collectionRepresentation;
@@ -31,44 +29,66 @@ public class StickTogether : MonoBehaviour
     [Tooltip("Size of the movement area for the collection.")]
     public Vector3 movementSize;
 
+    [Tooltip("The minimum allowed Y position (bottom of the dome) to prevent the collection area from going underground.")]
+    public float bottomOfDome = 0f;
+
     [Tooltip("Offset for the movement of the collection area.")]
     public Vector3 movementOffset;
 
+    [Tooltip("Control points for the Bezier curve path.")]
+    public Vector3[] bezierControlPoints = new Vector3[4];
+
+    [Tooltip("Radius of the dome.")]
+    public float domeRadius = 20;  // Adjust the dome radius as needed
+
+    [Tooltip("Temporary visual representation of the dome (for testing purposes).")]
+    public GameObject tempDomeVisual;  // Assign a sphere or dome mesh for testing
+
     [Header("Audio Info")]
-    [Tooltip("Sound played when a player gets inside the circle.")]
     public AudioClip happySound;
-
-    [Tooltip("Sound played when the majority of players fall outside the circle.")]
     public AudioClip sadSound;
-
     public AudioPlayer audioPlayer;
 
     [Header("Timer Info")]
-    [Tooltip("3D TextMesh component to display the timer.")]
     public TextMeshPro timerTextMesh;
-
-    [Tooltip("Offset for the timer text relative to the collection area.")]
     public Vector3 timerTextOffset;
-
 
     [Tooltip("Percentage of players required to be inside the circle to keep the timer running.")]
     public float requiredPercentage = 0.5f;
 
     private HashSet<GameObject> playersInside = new HashSet<GameObject>();
     private float timer = 0f;
-    private bool majorityInside = false;
-
+    private bool majorityInsideStartTheParty = false;
     public AudioSource loop;
 
     void Start()
     {
-        // Initialize connections list if null
+        InitializeConnections();      // Call this to initialize connections
+        InitializeTimerDisplay();     // Call this to initialize timer display
+        InitializeBezierControlPoints(); // Call this to initialize Bezier control points
+    }
+
+    // Initialize Bezier control points
+    void InitializeBezierControlPoints()
+    {
+        bezierControlPoints[0] = controller.getFinalPosition(new Vector3(0, bottomOfDome + 5f, 0));
+        bezierControlPoints[1] = controller.getFinalPosition(new Vector3(3f, bottomOfDome + 8f, 5f));
+        bezierControlPoints[2] = controller.getFinalPosition(new Vector3(-3f, bottomOfDome + 8f, -5f));
+        bezierControlPoints[3] = controller.getFinalPosition(new Vector3(0, bottomOfDome + 5f, -10f));
+    }
+
+    // Initialize connections
+    void InitializeConnections()
+    {
         if (connections == null)
         {
             connections = new List<LineRenderer>();
         }
+    }
 
-        // Initialize timer display
+    // Initialize timer display
+    void InitializeTimerDisplay()
+    {
         if (timerTextMesh != null)
         {
             timerTextMesh.text = timer.ToString("F2");
@@ -77,140 +97,226 @@ public class StickTogether : MonoBehaviour
 
     void Update()
     {
-        // Make the collection area a sphere that grows/shrinks based on the radiusForCollection
-        transform.localScale = new Vector3(radiusForCollection * 2, radiusForCollection * 2, radiusForCollection * 2);
+        UpdateCollectionAreaPosition();
+        UpdateTimerDisplay();
 
-        // Calculate the new position for the collection area using a wavy motion/sine wave
-        Vector3 position = new Vector3(
-            Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
-            Mathf.Sin(Time.time * movementSpeed.y) * movementSize.y,
-            Mathf.Sin(Time.time * movementSpeed.z) * movementSize.z
-        );
+        if (connections.Count != controller.activePlayers.Count)
+        {
+            UpdateConnections();
+        }
 
-        // Add the starting point (offset) to the position
-        position += movementOffset;
+        CheckPlayerPositions();
+        UpdateTimerBasedOnPlayers();
+        UpdateLoopVolume();
 
-        // Set the position of the collection area
-        transform.position = controller.getFinalPosition(position);
+        // Check if the collection area intersects with the dome
+        CheckIntersectionWithDome();
+    }
+
+    void UpdateCollectionAreaPosition()
+{
+    // Make the collection area a sphere that grows/shrinks based on the radiusForCollection
+    transform.localScale = new Vector3(radiusForCollection * 2, radiusForCollection * 2, radiusForCollection * 2);
+
+    // Calculate the new position for the collection area using a wavy motion/sine wave
+    Vector3 position = new Vector3(
+        Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
+        Mathf.Sin(Time.time * movementSpeed.y) * movementSize.y,
+        Mathf.Sin(Time.time * movementSpeed.z) * movementSize.z
+    ) + movementOffset;
+
+    // Log initial position before projection
+    Debug.Log($"[DEBUG] Initial position before dome projection: {position}");
+
+    // Ensure the collection area stays outside the dome
+    Vector3 outsidePosition = ProjectOutsideDome(position);
+
+    // Set the position of the collection area and log it
+    transform.position = controller.getFinalPosition(outsidePosition);
+    Debug.Log($"[DEBUG] Final position for collection area after dome projection: {transform.position}");
+}
 
 
-        // Update the timer text position to match the collection area's position
+
+    // Calculate a cubic Bezier curve point
+    Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
+
+        Vector3 p = uuu * p0; // First term
+        p += 3 * uu * t * p1; // Second term
+        p += 3 * u * tt * p2; // Third term
+        p += ttt * p3; // Fourth term
+
+        return p;
+    }
+
+  // Ensure the collection area stays outside the dome
+Vector3 ProjectOutsideDome(Vector3 position)
+{
+    // Calculate the distance from the dome's center (assumed to be (0,0,0))
+    float distanceFromCenter = Vector3.Distance(position, Vector3.zero);
+
+    // Log distance information for debugging
+    Debug.Log($"[DEBUG] Initial distance from center: {distanceFromCenter}, Dome radius: {domeRadius}");
+
+    // If the position is inside or too close to the dome, push it outside
+    if (distanceFromCenter < domeRadius + radiusForCollection)
+    {
+        // Get the direction from the center of the dome to the position
+        Vector3 directionFromCenter = position.normalized;
+
+        // Ensure it's placed outside the dome by moving it to the dome radius plus the collection area's radius
+        Vector3 adjustedPosition = directionFromCenter * (domeRadius + radiusForCollection);
+
+        // Log the adjustment process
+        Debug.Log($"[DEBUG] Collection area pushed outside the dome. Adjusted position: {adjustedPosition}, Dome radius: {domeRadius}");
+
+        return adjustedPosition;
+    }
+
+    // If the position is already outside the dome, return the original position
+    Debug.Log($"[DEBUG] Collection area is already outside the dome. Position: {position}, Distance from center: {distanceFromCenter}");
+    return position;
+}
+
+
+
+
+    
+
+    // Check if the collection area intersects with the dome
+    void CheckIntersectionWithDome()
+    {
+        float distanceFromCenter = transform.position.magnitude;
+
+        if (distanceFromCenter > domeRadius)
+        {
+            Debug.Log($"[DEBUG] Collection area is outside the dome. Distance: {distanceFromCenter}, Dome radius: {domeRadius}");
+        }
+        else if (distanceFromCenter < domeRadius)
+        {
+            Debug.Log($"[DEBUG] Collection area is inside the dome. Distance: {distanceFromCenter}, Dome radius: {domeRadius}");
+        }
+
+        // Visualize the temporary dome for testing purposes
+        if (tempDomeVisual != null)
+        {
+            tempDomeVisual.transform.localScale = new Vector3(domeRadius * 2, domeRadius * 2, domeRadius * 2);
+        }
+    }
+
+    // Move code for updating timer text
+    void UpdateTimerDisplay()
+    {
         if (timerTextMesh != null)
         {
             timerTextMesh.transform.position = transform.position + timerTextOffset;
-            float scaleFactor = 7.1f;  // Adjust this value to fit your needs
+            float scaleFactor = 7.1f;
             timerTextMesh.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-            // Make the text always face the camera or players, keeping X rotation at 0
-            timerTextMesh.transform.LookAt(controller.getFinalPosition(Vector3.zero));  // Assuming you want it to face the center
-            timerTextMesh.transform.Rotate(0, 180, 0);  // Flip to correct orientation
+            timerTextMesh.transform.LookAt(controller.getFinalPosition(Vector3.zero));
+            timerTextMesh.transform.Rotate(0, 180, 0); // Flip to correct orientation
         }
+    }
 
-        // If the number of connections doesn't match the number of players
-        if (connections.Count != controller.activePlayers.Count)
+    // Handle connection line updates
+    void UpdateConnections()
+    {
+        // Remove all existing connections
+        while (transform.childCount > 0)
         {
-            // Remove all existing connections (lines)
-            while (transform.childCount > 0)
-            {
-                DestroyImmediate(transform.GetChild(0).gameObject);
-            }
-
-            // Clear the list of connections
-            connections.Clear();
-
-            // Create new connection lines for each player
-            for (int i = 0; i < controller.activePlayers.Count; i++)
-            {
-                // Make a new connection line at the collection area's position
-                GameObject newConnection = Instantiate(connectionPrefab, transform.position, Quaternion.identity);
-                newConnection.transform.parent = transform;
-                // Add the new connection to the list
-                connections.Add(newConnection.GetComponent<LineRenderer>());
-            }
+            DestroyImmediate(transform.GetChild(0).gameObject);
         }
 
-        // Reset the count of players inside the circle
-        totalInsideCircle = 0;
+        // Clear the list of connections
+        connections.Clear();
 
-        // Check each player to see if they are inside the circle
+        // Create new connection lines for each player
         for (int i = 0; i < controller.activePlayers.Count; i++)
         {
-            // Find the direction and distance from the player to the center of the collection area
+            GameObject newConnection = Instantiate(connectionPrefab, transform.position, Quaternion.identity);
+            newConnection.transform.parent = transform;
+            connections.Add(newConnection.GetComponent<LineRenderer>());
+        }
+    }
+
+    // Check player positions relative to the collection area
+    void CheckPlayerPositions()
+    {
+        totalInsideCircle = 0;
+
+        for (int i = 0; i < controller.activePlayers.Count; i++)
+        {
             Vector3 dir = controller.activePlayers[i].transform.position - transform.position;
             float dist = dir.magnitude;
 
-            // If the player is inside the circle
             if (dist < radiusForCollection)
             {
-                // If the player wasn't inside before, play the sound and send OSC
                 if (!playersInside.Contains(controller.activePlayers[i].gameObject))
                 {
                     playersInside.Add(controller.activePlayers[i].gameObject);
-
-                    // Play the happy sound locally
                     audioPlayer.Play(happySound);
 
-                    // Send OSC message for the sound event
                     string soundID = $"p{controller.activePlayers[i].GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
-                    Vector3 pointPosition = controller.activePlayers[i].transform.position;
-
-                    soundEventSender.SendOneShotSound(soundID, pointPosition);
+                    Vector3 playerPosition = controller.activePlayers[i].transform.position;
+                    soundEventSender.SendOneShotSound(soundID, playerPosition);
                 }
 
-                // Count this player as inside
                 totalInsideCircle++;
-                // Draw a line between the collection area and the player
                 connections[i].positionCount = 2;
                 connections[i].SetPosition(0, transform.position);
                 connections[i].SetPosition(1, controller.activePlayers[i].transform.position);
             }
             else
             {
-                // If the player is outside, don't draw a line and remove from the inside set
                 connections[i].positionCount = 0;
                 playersInside.Remove(controller.activePlayers[i].gameObject);
             }
         }
+    }
 
-        // Check if the majority of players are inside the circle
+    // Update the timer based on the number of players inside the circle
+    void UpdateTimerBasedOnPlayers()
+    {
         float requiredNumber = controller.activePlayers.Count * requiredPercentage;
+
         if (totalInsideCircle >= requiredNumber)
         {
-            if (!majorityInside)
+            if (!majorityInsideStartTheParty)
             {
-                // Timer starts or continues incrementing
-                majorityInside = true;
+                majorityInsideStartTheParty = true;
 
-                // Play looping sound via OSC
                 string soundID = "StickTogetherBeat";
-                Vector3 pointPosition = new Vector3(0, 2, 0);
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
-
-                //  collectionRepresentation.GetComponent<Renderer>().material.color = Color.green; // Change color to green
+                Vector3 centerOfCollectionArea = transform.position;
+                soundEventSender.SendOrUpdateContinuousSound(soundID, centerOfCollectionArea);
             }
             timer += Time.deltaTime;
         }
         else
         {
-            if (majorityInside)
+            if (majorityInsideStartTheParty)
             {
-                // Timer resets
-                majorityInside = false;
+                majorityInsideStartTheParty = false;
                 timer = 0f;
 
-                // Stop looping sound via OSC
-                string soundID = "StopStickTogetherBeat";  // You can define the stop message format in your OSC system
-                Vector3 pointPosition = new Vector3(0, 2, 0);
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                string soundID = "StickTogetherBeat";
+                Vector3 centerOfCollectionArea = transform.position;
+                soundEventSender.StopContinuousSound(soundID);
 
-                // collectionRepresentation.GetComponent<Renderer>().material.color = Color.red; // Change color to red
-                audioPlayer.Play(sadSound); // Play sad sound
+                audioPlayer.Play(sadSound);
             }
         }
+    }
 
-
+    // Update the volume of the loop audio
+    void UpdateLoopVolume()
+    {
         loop.volume = Mathf.Lerp(loop.volume, Mathf.Clamp(timer, 0, 1), .03f);
 
-        // Update timer display
         if (timerTextMesh != null)
         {
             timerTextMesh.text = timer.ToString("F2");

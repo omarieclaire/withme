@@ -527,8 +527,13 @@ public class Controller : MonoBehaviour
         float angleAround = Mathf.Atan2(nZ, nX);
         float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
 
+
         Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
         fPosition = transform.TransformPoint(fPosition);
+
+        //     // Ensure the position doesn't go below the floor (y = 0)
+//     fPosition.y = Mathf.Max(fPosition.y, 0f);
+        
         return fPosition;
     }
 
