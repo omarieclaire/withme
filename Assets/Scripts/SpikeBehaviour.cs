@@ -1,30 +1,25 @@
-// using System.Collections;
 // using UnityEngine;
 
 // public class SpikeBehavior : MonoBehaviour
 // {
-//     public float shiveringSpeed = 10f;
-//     public float shiveringAmplitude = 0.1f;
-//     public float rotationSpeed = 10f;
+//     public float shiveringSpeed = 10f;        // Speed of the shivering effect
+//     public float shiveringAmplitude = 0.1f;   // Amplitude of the shivering effect
+//     public float rotationSpeed = 10f;         // Speed of rotation
 
 //     private Vector3 initialScale;
 
 //     void Start()
 //     {
 //         initialScale = transform.localScale;
-//         StartCoroutine(ShiveringMovement());
 //     }
 
-//     // Apply shivering-like movement and slow rotation
-//     IEnumerator ShiveringMovement()
+//     void Update()
 //     {
-//         while (true)
-//         {
-//             float scale = 1 + Mathf.PerlinNoise(Time.time * shiveringSpeed, 0) * shiveringAmplitude;
-//             transform.localScale = initialScale * scale;
+//         // Apply a shivering-like movement using Sin function for a smooth jitter effect
+//         float scale = 1 + Mathf.Sin(Time.time * shiveringSpeed) * shiveringAmplitude;
+//         transform.localScale = initialScale * scale;
 
-//             transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-//             yield return null;
-//         }
+//         // Rotate the object around its own Y-axis
+//         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
 //     }
 // }
