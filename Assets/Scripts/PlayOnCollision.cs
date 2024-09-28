@@ -1,3 +1,5 @@
+// using for buddy
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +8,7 @@ public class PlayOnCollision : MonoBehaviour
 {
     public AudioPlayer audioPlayer;
 
-        public SoundEventSender soundEventSender;  
-
+    public SoundEventSender soundEventSender;  
 
     public bool die;
     public bool changeColor;
@@ -64,10 +65,10 @@ void OnCollisionEnter(Collision collision)
         // Shrink this object (FlorpTarget or FlorpSpike)
         ShrinkOtherObject(thisObject);
         PlayParticleEffect(collision, thisObject);
-        // PlayAudioClip(thisObject);
+        
+        // PlayOldAudioClip(thisObject); // <-- keep old audio for debugging
+        PlayAudioClip(thisObject, otherObject);
 
-        // Send the appropriate sound event with FLORP's position
-        SendCollisionSound(thisObject, otherObject);
 
         if (die)
         {
@@ -86,33 +87,6 @@ void OnCollisionEnter(Collision collision)
         }
     }
 }
-
-
-
-
-    private void SendCollisionSound(GameObject thisObject, GameObject otherObject)
-    {
-        Debug.Log("sending collision for sommmmmm");
-        string soundID;
-        Vector3 pointPosition = otherObject.transform.position;  // Position of the FLORP (colliding object)
-
-        if (thisObject.name.Contains("FlorpTarget"))
-        {
-            // Play the EffectsSharePoint sound when the FLORP hits a target
-            soundID = $"p{otherObject.GetInstanceID()}EffectsSharePoint";  // Use FLORP's instance ID to generate unique sound ID
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
-        }
-        else if (thisObject.name.Contains("FlorpSpike"))
-        {
-            // Play the EffectsShareSpikes sound when the FLORP hits a spike
-            soundID = $"p{otherObject.GetInstanceID()}EffectsShareSpikes";  // Use FLORP's instance ID to generate unique sound ID
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
-        }
-    }
-
-
-
-
 
     private void ShrinkOtherObject(GameObject obj)
     {
@@ -164,24 +138,42 @@ void OnCollisionEnter(Collision collision)
 
 
 
-    private void PlayAudioClip(GameObject thisObject)
+    // private void PlayOldAudioClip(GameObject thisObject) // <--- keep for debugging
+    // {
+    //     // Play different audio clips based on the object type
+    //     if (thisObject.name.Contains("FlorpTarget"))
+    //     {
+    //         if (audioPlayer != null && growSuccessClip != null)
+    //         {
+    //             float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
+    //             audioPlayer.Play(growSuccessClip, fPitch);  // Play success clip for FlorpTarget
+    //         }
+    //     }
+    //     else if (thisObject.name.Contains("FlorpSpike"))
+    //     {
+    //         if (audioPlayer != null && spikeClip != null)
+    //         {
+    //             float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
+    //             audioPlayer.Play(spikeClip, fPitch);  // Play spike clip for FlorpSpike
+    //         }
+    //     }
+    // }
+
+
+    private void PlayAudioClip(GameObject targetOrSpike, GameObject player)
     {
-        // Play different audio clips based on the object type
-        if (thisObject.name.Contains("FlorpTarget"))
+        string soundID;
+        Vector3 pointPosition = targetOrSpike.transform.position;  // Position of the FLORP (colliding object)
+
+        if (targetOrSpike.name.Contains("FlorpTarget"))
         {
-            if (audioPlayer != null && growSuccessClip != null)
-            {
-                float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
-                audioPlayer.Play(growSuccessClip, fPitch);  // Play success clip for FlorpTarget
-            }
+            soundID = $"p{player.GetInstanceID()}EffectsSharePoint";  // I'm using player's spat channel because I don't want to manage distributing spike locations for spat
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
         }
-        else if (thisObject.name.Contains("FlorpSpike"))
+        else if (targetOrSpike.name.Contains("FlorpSpike"))
         {
-            if (audioPlayer != null && spikeClip != null)
-            {
-                float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
-                audioPlayer.Play(spikeClip, fPitch);  // Play spike clip for FlorpSpike
-            }
+            soundID = $"p{player.GetInstanceID()}EffectsShareSpikes";  
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
         }
     }
 
