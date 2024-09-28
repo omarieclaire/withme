@@ -259,7 +259,7 @@ Vector3 ProjectOutsideDome(Vector3 position)
                 if (!playersInside.Contains(controller.activePlayers[i].gameObject))
                 {
                     playersInside.Add(controller.activePlayers[i].gameObject);
-                    audioPlayer.Play(happySound);
+                    // audioPlayer.Play(happySound); // <-- deep for debugging
 
                     string soundID = $"p{controller.activePlayers[i].GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
                     Vector3 playerPosition = controller.activePlayers[i].transform.position;
@@ -307,7 +307,7 @@ Vector3 ProjectOutsideDome(Vector3 position)
                 Vector3 centerOfCollectionArea = transform.position;
                 soundEventSender.StopContinuousSound(soundID);
 
-                audioPlayer.Play(sadSound);
+                // audioPlayer.Play(sadSound); // <-- deep for debugging
             }
         }
     }

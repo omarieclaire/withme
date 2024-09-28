@@ -67,7 +67,7 @@ void OnCollisionEnter(Collision collision)
         PlayParticleEffect(collision, thisObject);
         
         // PlayOldAudioClip(thisObject); // <-- keep old audio for debugging
-        PlayAudioClip(thisObject, otherObject);
+        SendAudioSounds(thisObject, otherObject);
 
 
         if (die)
@@ -160,7 +160,7 @@ void OnCollisionEnter(Collision collision)
     // }
 
 
-    private void PlayAudioClip(GameObject targetOrSpike, GameObject player)
+    private void SendAudioSounds(GameObject targetOrSpike, GameObject player)
     {
         string soundID;
         Vector3 pointPosition = targetOrSpike.transform.position;  // Position of the FLORP (colliding object)
