@@ -234,7 +234,7 @@ public class DotGameController : Controller
     private void PlayCollisionSound(PlayerAvatar player)
     {
         
-        audioPlayer.Play(onExplodeClip); // <-- old sound keep for debugging
+        // audioPlayer.Play(onExplodeClip); // <-- old sound keep for debugging
         // Construct the sound ID and get the player's position
         string soundID = $"p{player.id}EffectsWithMePlayerCollision";
         Vector3 pointPosition = player.transform.position;
