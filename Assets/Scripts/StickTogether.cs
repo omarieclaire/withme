@@ -292,7 +292,7 @@ Vector3 ProjectOutsideDome(Vector3 position)
 
                 string soundID = "StickTogetherBeat";
                 Vector3 centerOfCollectionArea = transform.position;
-                soundEventSender.SendOrUpdateContinuousSound(soundID, centerOfCollectionArea);
+                soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(soundID, centerOfCollectionArea);
             }
             timer += Time.deltaTime;
         }

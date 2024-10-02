@@ -274,7 +274,7 @@ public class Controller : MonoBehaviour
 
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
         // string soundID = $"p{playerIDS[playerIndex]}";
-        // soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+        // soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(soundID, players[playerIndex].transform.position);
     }
 
 
@@ -312,7 +312,7 @@ public class Controller : MonoBehaviour
         else
         {
 
-            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+            soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(soundID, players[playerIndex].transform.position);
         }
     }
 
@@ -320,7 +320,7 @@ public class Controller : MonoBehaviour
     {
         if (playSound)
         {
-            soundEventSender.SendOrUpdateContinuousSound(soundID, position);
+            soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(soundID, position);
         }
         else
         {
@@ -354,7 +354,7 @@ public class Controller : MonoBehaviour
     {
         FadePlayerIn(playerIndex);  // Player fades back in
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+        soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(soundID, players[playerIndex].transform.position);
 
         UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
         ScalePlayer(playerIndex);  // Scale the player back to its original size

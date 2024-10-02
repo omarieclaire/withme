@@ -8,17 +8,9 @@ using System.Collections.Generic;
 public class SoundEventSender : MonoBehaviour
 {
     public OSCTransmitter Transmitter;
-
-    // Constant OSC address for sound play events
     private const string _soundAddress = "/sound/play";
-
-    // Sphere size reference for scaling the sound positioning
     public float sphereSize = 10f;
-
-    // Debug flag to control whether logging is enabled or disabled
     public bool enableDebugLogging = true;
-
-    // Dictionary to keep track of continuous sounds currently playing
     private Dictionary<string, OSCMessage> activeContinuousSounds = new Dictionary<string, OSCMessage>();
 
     void Start()
@@ -70,8 +62,6 @@ public class SoundEventSender : MonoBehaviour
     // Method to send one-shot sound events without tracking them in the dictionary
     public void SendOneShotSound(string soundID, Vector3? position)
     {
-        Debug.Log("whhhhhhh");
-        // Create OSC message
         string oscAddress = "/sound/play";
         OSCMessage message = new OSCMessage(oscAddress);
 
@@ -88,31 +78,21 @@ public class SoundEventSender : MonoBehaviour
         }
 
         // Send the message using the Transmitter
-        SafeSend(message);
+        SafelySendOSC(message);
         LogMessage($"Sending one-shot OSC message to TouchDesigner: {oscAddress}, {soundID}");
     }
 
 
-    // Method to send or update continuous sound events
-    public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
+    public void StartContinuousSoundOrUpdatePosForContinuousSound(string soundID, Vector3? position)
     {
-        // Debug.Log("music? we have entered SendOrUpdateContinuousSound ");
         if (position.HasValue)
         {
-            // Debug.Log("music? we have a position");
-
-            // Check if the sound is already active
             if (IsSoundActive(soundID))
             {
-                // Debug.Log("music? sound is active so we'll UpdateContinuousSound");
-
-                // Update the existing continuous sound's position
                 UpdatePositionOfContinuousSound(soundID, position.Value);
             }
             else
             {
-                Debug.Log("music? sound is NOT active so we'll send SendNewContinuousSound");
-
                 // Send the initial continuous sound event (position may be null for background music)
                 SendNewContinuousSound(soundID, position);
             }
@@ -123,8 +103,6 @@ public class SoundEventSender : MonoBehaviour
         }
     }
 
-
-    // Method to send a new continuous sound
     private void SendNewContinuousSound(string soundID, Vector3? position)
     {
         string oscAddress = _soundAddress;
@@ -132,8 +110,6 @@ public class SoundEventSender : MonoBehaviour
 
         if (position.HasValue)
         {
-            // Debug.Log("music? we're in SendNewContinuousSound and position has value");
-            // For sounds with spatial data
             SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
             AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
         }
@@ -148,7 +124,7 @@ public class SoundEventSender : MonoBehaviour
         activeContinuousSounds.Add(soundID, message);
 
         // Send the message
-        SafeSend(message);
+        SafelySendOSC(message);
         LogMessage($"Sent new continuous sound OSC message: {oscAddress}, {soundID}");
     }
 
@@ -167,13 +143,9 @@ public class SoundEventSender : MonoBehaviour
             // Clear old values and update with the new position (SpatGRIS)
             SoundPosition soundPos = new SoundPosition(position, sphereSize);
             message.Values.Clear();  // Clear old values
-
-            // Update spatial values in SpatGRIS without changing Ableton playback
+            
             AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
-
-            // Send the updated spatial information to SpatGRIS
-            SafeSend(message);
-            LogMessage($"Updated position for sound {soundID} in SpatGRIS.");
+            SafelySendOSC(message);
         }
         else
         {
@@ -195,8 +167,7 @@ public class SoundEventSender : MonoBehaviour
         var stopMessage = new OSCMessage("/sound/stop");
         stopMessage.AddValue(OSCValue.String(soundID));  // Use soundID to stop the correct sound
 
-        // Send the stop message
-        SafeSend(stopMessage);
+        SafelySendOSC(stopMessage);
 
         // Remove the sound from the active continuous sounds dictionary
         activeContinuousSounds.Remove(soundID);
@@ -204,7 +175,7 @@ public class SoundEventSender : MonoBehaviour
     }
 
     // Method to safely send an OSC message and handle potential exceptions
-    private void SafeSend(OSCMessage message)
+    private void SafelySendOSC(OSCMessage message)
     {
         try
         {

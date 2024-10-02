@@ -74,23 +74,6 @@ public class HugFace : MonoBehaviour
             PlayHugSound(player, "FlipSound");
             PlayHugSound(player, "SongSound");
             soundsPlayed = true;
-
-
-
-            // // Play the first sound when face flips
-            // string soundID = $"p{player.id}EffectsHugFaceFlipSound";
-            // Vector3 pointPosition = player.transform.position;
-            // Debug.Log($"Playing hug sound: {soundID} at {pointPosition}");
-            // soundEventSender.SendOneShotSound(soundID, pointPosition);
-
-            // // Play the second sound for the face song
-            // soundID = $"p{player.id}EffectsHugFaceSongSound";
-            // pointPosition = player.transform.position;
-            // Debug.Log($"Playing hug sound: {soundID} at {pointPosition}");
-            // soundEventSender.SendOneShotSound(soundID, pointPosition);
-
-            // // Mark sounds as played
-            // soundsPlayed = true;
         }
 
         discovered.SetActive(true);
@@ -119,16 +102,7 @@ public class HugFace : MonoBehaviour
             if (allInside)
             {
                 Debug.Log("hug:inside");
-
-                // // Play the sigh sound when all players are inside (matched)
-                // string soundID = $"p{player.id}EffectsHugFaceSigh";
-                // Vector3 pointPosition = player.transform.position;
-                // Debug.Log($"Playing hug sigh sound: {soundID} at {pointPosition}");
-                // soundEventSender.SendOneShotSound(soundID, pointPosition);
-
-                // PlayHugSound(player, "Sigh");
-
-
+                PlayHugSound(player, "Sigh");
                 hug.HUG(this, smileID);
             }
         }
@@ -137,7 +111,6 @@ public class HugFace : MonoBehaviour
     private void PlayHugSound(PlayerAvatar player, string soundType)
     {
         // audioPlayer.Play(soundType); // <-- old code to keep, maybe not accurate
-
         string soundID = $"p{player.id}EffectsHugFace{soundType}";
         Vector3 pointPosition = player.transform.position;
         Debug.Log($"Playing hug {soundType.ToLower()} sound: {soundID} at {pointPosition}");

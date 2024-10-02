@@ -110,8 +110,8 @@ public class GameManager : MonoBehaviour
             if (soundEventSender != null)
             {
                 Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);  // Fixed position for background music
-                soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
-                Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
+                soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(soundID, musicPosition);
+                Debug.Log($"Sending music data to soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound: {soundID} {musicPosition}");
             }
             else
             {
@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
         if (soundEventSender != null)
         {
             Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
-            soundEventSender.SendOrUpdateContinuousSound(timeoutSoundID, soundPosition);
+            soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(timeoutSoundID, soundPosition);
             Debug.Log($"[INFO] Playing timeout sound: {timeoutSoundID}");
         }
         else
@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour
         if (soundEventSender != null)
         {
             Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
-            soundEventSender.SendOrUpdateContinuousSound(winGameSoundID, soundPosition);
+            soundEventSender.StartContinuousSoundOrUpdatePosForContinuousSound(winGameSoundID, soundPosition);
             Debug.Log($"[INFO] Playing win game sound: {winGameSoundID}");
         }
         else

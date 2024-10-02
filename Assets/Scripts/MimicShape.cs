@@ -7,7 +7,7 @@ public class MimicShape : MonoBehaviour
     // Public variables to be set in the Unity Editor
     public int numSpheres;
 
-    public SoundEventSender soundEventSender;  
+    public SoundEventSender soundEventSender;
 
     public List<GameObject> spheres;
     public GameObject spherePrefab;
@@ -26,6 +26,8 @@ public class MimicShape : MonoBehaviour
 
     private float oTime;
     private float nTime;
+
+    private Vector3 defaultPosition = new Vector3(0, 0, 0);
 
     public float tickRate = .1f;
 
@@ -80,11 +82,9 @@ public class MimicShape : MonoBehaviour
 
         // Play New Constellation Sound
         string soundID = "MimicShapeNewShapeGen";
-        Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-        soundEventSender.SendOneShotSound(soundID, pointPosition);
+        soundEventSender.SendOneShotSound(soundID, defaultPosition);
 
-        // Comment out the old audio system call
-        // audio.Play(newShapeSetClip);
+        // audio.Play(newShapeSetClip); // <-- keep old sound code
 
         while (lineRendererHolder.childCount > 0)
         {
@@ -123,28 +123,27 @@ public class MimicShape : MonoBehaviour
         {
             // Play Timeout Sound
             string soundID = "MimicShapeTimeout";
-            Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
+            soundEventSender.SendOneShotSound(soundID, defaultPosition);
 
             // Reset timer and change shape
             lastTimeChange = Time.time;
             NewShapeSet();
         }
-    
+
 
         // Check the activation state of each sphere
-        for (int j = 0; j<numSpheres; j++)
+        for (int j = 0; j < numSpheres; j++)
         {
             bool sphereActive = false;
 
             // Check each active player's distance to the sphere
-            for (int i = 0; i<controller.activePlayers.Count; i++)
+            for (int i = 0; i < controller.activePlayers.Count; i++)
             {
                 GameObject player = controller.activePlayers[i].gameObject;
                 float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
 
                 // Activate the sphere if a player is within the activation radius
-                if (distance<activationRadius)
+                if (distance < activationRadius)
                 {
                     sphereActive = true;
                     LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
@@ -202,16 +201,14 @@ public class MimicShape : MonoBehaviour
                 // Comment out the old audio play and replace it with SoundEventSender for Leave sound
                 // audio.Play(onLeaveClip);
                 string soundID = "MimicShapeLeave";
-                Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                soundEventSender.SendOneShotSound(soundID, defaultPosition);
             }
             else
             {
                 // Comment out the old audio play and replace it with SoundEventSender for Enter sound
                 // audio.Play(onEnterClip);
                 string soundID = "MimicShapeEnter";
-                Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                soundEventSender.SendOneShotSound(soundID, defaultPosition);
             }
         }
 
