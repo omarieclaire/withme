@@ -96,23 +96,18 @@ public class SoundEventSender : MonoBehaviour
     // Method to send or update continuous sound events
 public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 {
-    // Debug.Log("music? we have entered SendOrUpdateContinuousSound ");
     if (position.HasValue)
     {
-            // Debug.Log("music? we have a position");
-
         // Check if the sound is already active
         if (IsSoundActive(soundID))
         {
-            // Debug.Log("music? sound is active so we'll UpdateContinuousSound");
-
             // Update the existing continuous sound's position
             UpdateContinuousSound(soundID, position.Value);
         }
         else
         {
             Debug.Log("music? sound is NOT active so we'll send SendNewContinuousSound");
-            Debug.LogWarning($"music? sound is NOT active so we'll send SendNewContinuousSound for {soundID}");
+            Debug.LogWarning($"music? sound is NOT active so we'll send SendNewContinuousSound for {soundID}.");
 
 
             // Send the initial continuous sound event (position may be null for background music)
