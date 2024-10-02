@@ -1856,6 +1856,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _remoteHost
+      value: 127.0.0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _remotePort
+      value: 61535
+      objectReference: {fileID: 0}
     - target: {fileID: 7609084583398965478, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_Name
       value: OSCManager
@@ -2375,7 +2383,6 @@ SceneRoots:
   - {fileID: 1724995164}
   - {fileID: 149830917}
   - {fileID: 1408745624}
-  - {fileID: 1541684476}
   - {fileID: 622670483}
   - {fileID: 383862227}
   - {fileID: 449751174}
@@ -2385,3 +2392,4 @@ SceneRoots:
   - {fileID: 305227063}
   - {fileID: 1874753128}
   - {fileID: 780259791}
+  - {fileID: 1541684476}

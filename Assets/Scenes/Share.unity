@@ -760,6 +760,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _remoteHost
+      value: 127.0.0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: _remotePort
       value: 61535
       objectReference: {fileID: 0}
@@ -2575,6 +2579,6 @@ SceneRoots:
   - {fileID: 1803258790}
   - {fileID: 1663627442}
   - {fileID: 1804265883}
-  - {fileID: 342480099}
   - {fileID: 596996929}
   - {fileID: 304445868}
+  - {fileID: 342480099}

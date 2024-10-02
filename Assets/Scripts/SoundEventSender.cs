@@ -112,6 +112,8 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
         else
         {
             Debug.Log("music? sound is NOT active so we'll send SendNewContinuousSound");
+            Debug.LogWarning($"music? sound is NOT active so we'll send SendNewContinuousSound for {soundID}");
+
 
             // Send the initial continuous sound event (position may be null for background music)
             SendNewContinuousSound(soundID, position);

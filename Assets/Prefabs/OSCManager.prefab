@@ -67,7 +67,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   Receiver: {fileID: 2033076562337935756}
-  timeToWaitForMissingPlayers: 0.5
   ReceiverTextBlob: {fileID: 0}
   controller: {fileID: 0}
 --- !u!114 &7251996025533612479
@@ -93,4 +92,4 @@ MonoBehaviour:
   _localPort: 800
   _remoteHost: 192.168.1.61
   _remotePort: 900
-  _useBundle: 0
+  _useBundle: 1

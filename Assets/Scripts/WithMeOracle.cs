@@ -268,7 +268,7 @@ public class DotGameController : Controller
                 dotAvatars[index].collector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
+                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
 
 
 

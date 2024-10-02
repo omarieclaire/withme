@@ -1,3 +1,11 @@
+// Handles OSC messages to track the positions of players. 
+// Listens for incoming blob position data via the OSC protocol, processes the data by parsing the message 
+// to extract player IDs and coordinates, and stores incomplete positions until both x and y coordinates are 
+// received. Once a complete position is available, it queues the player position message for processing. 
+// The Update method dequeues messages and updates the player's position in the game, notifying the game 
+// controller of the player's new position or creation. It also manages player data, including tracking the 
+// last time a message was received for each player
+
 using System.Collections.Concurrent;  // Provides thread-safe collection classes like ConcurrentQueue
 using System.Collections.Generic;      // Provides generic collection types like Dictionary and HashSet
 using UnityEngine;                     // Core Unity engine classes for game development
@@ -12,15 +20,13 @@ public class OSCHandler : MonoBehaviour
     public OSCReceiver Receiver;  // OSC Receiver to handle incoming messages
 
     [Header("Receiver UI Settings")]
-    public float timeToWaitForMissingPlayers = 0.5f;  // Time to wait before deactivating inactive players
-
     public Text ReceiverTextBlob;  // UI element to display information about blobs
 
     private const string _blobAddress = "/livepose/blobs/0/*/center*";  // OSC address to listen for blob center positions
 
     public Controller controller;  // Reference to the game controller that handles player actions
 
-    private HashSet<int> activePlayerIds = new HashSet<int>();  // Set of currently active player IDs
+    // private HashSet<int> activePlayerIds = new HashSet<int>();  // Set of currently active player IDs
     private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();  // Queue to store incoming player position messages
     private Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();  // Dictionary to store player data, keyed by player ID
 
@@ -192,51 +198,6 @@ public class OSCHandler : MonoBehaviour
         {
             PlayerId = playerId;
             IsActive = true;  // Player starts as active
-        }
-    }
-
-    private void CheckInactivePlayersAndStopSounds(double currentTime)
-    {
-        foreach (var playerData in players.Values)
-        {
-            if (currentTime - playerData.LastOSCTimeStamp > inactivityThreshold)
-            {
-                int playerId = playerData.PlayerId;
-
-                // Stop relevant sounds for this player if they are active
-                StopPlayerSounds(playerId);
-            }
-        }
-    }
-
-    private void StopPlayerSounds(int playerId)
-    {
-        // Example sound IDs for different players
-        string soundId = $"p{playerId}";
-        string withMeSoundId = $"p{playerId}WithMePlayerSound";
-        string constellationSoundId = $"p{playerId}ConstellationPlayerSound";
-
-        // Stop the sounds using SoundEventSender
-        SoundEventSender soundEventSender = FindObjectOfType<SoundEventSender>();
-
-        if (soundEventSender != null)
-        {
-            if (soundEventSender.IsSoundActive(soundId))
-            {
-                soundEventSender.StopContinuousSound(soundId);
-            }
-            if (soundEventSender.IsSoundActive(withMeSoundId))
-            {
-                soundEventSender.StopContinuousSound(withMeSoundId);
-            }
-            if (soundEventSender.IsSoundActive(constellationSoundId))
-            {
-                soundEventSender.StopContinuousSound(constellationSoundId);
-            }
-        }
-        else
-        {
-            Debug.LogError("SoundEventSender is not found in the scene!");
         }
     }
 }

@@ -1351,6 +1351,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _remoteHost
+      value: 127.0.0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _remotePort
+      value: 61535
+      objectReference: {fileID: 0}
     - target: {fileID: 7609084583398965478, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_Name
       value: OSCManager
@@ -1649,6 +1657,13 @@ MonoBehaviour:
   movementSize: {x: 0.5, y: 0, z: 0.5}
   bottomOfDome: 50
   movementOffset: {x: 0, y: 5, z: 0}
+  bezierControlPoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  domeRadius: 20
+  tempDomeVisual: {fileID: 0}
   happySound: {fileID: 8300000, guid: e09b4e14b1206412093224a1e475700e, type: 3}
   sadSound: {fileID: 8300000, guid: 3fec4c5e5f2014b3da1855a313071ebf, type: 3}
   audioPlayer: {fileID: 581040364}
@@ -1737,7 +1752,7 @@ SceneRoots:
   - {fileID: 558958224}
   - {fileID: 172732675}
   - {fileID: 649270823}
-  - {fileID: 1812179506}
   - {fileID: 1188546421}
   - {fileID: 201885973}
   - {fileID: 43543361}
+  - {fileID: 1812179506}

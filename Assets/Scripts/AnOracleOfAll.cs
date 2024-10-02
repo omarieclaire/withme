@@ -153,30 +153,6 @@ public class Controller : MonoBehaviour
     // New attributes
     public Transform center;
 
-    // [Header("Skybox Info")]
-    // [Header("Re Enable in play mode to update")]
-
-    // [Tooltip("Skybox stuff")]
-    // public Material skyboxMaterial;
-
-
-    // [Tooltip("Sun position for skybox. Y IS NEGATIVE SORRY")]
-    // public Vector3 SunPosition = new Vector3(0, -1, 0);
-
-    // public float SunHue = 0;
-    // public float sunIntensity = 1;
-    // public float sunHueSize = .1f;
-    // public float auroraIntensity = 1;
-    // public float auroraSpeed = 1;
-    // public float auroraHueStart = 0;
-    // public float auroraHueSize = 1;
-
-    // public float auroraHorizonImportance = .1f;
-
-    // public float auroraNoiseSize = 1;
-
-
-    // public float auroraVibrantness = 1;
 
 
     [Header("Sound Event Sender")]
@@ -228,37 +204,40 @@ public class Controller : MonoBehaviour
                 playerTargetPositions[id] = fPos;
                 playerLastSeenTimestamp[id] = Time.time;
 
-        string soundID = GetSceneSpecificSoundID(playerID); 
-        soundEventSender.SendOrUpdateContinuousSound(soundID, remappedPosition);
-        // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
-                // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
-            }
+                // Smoothly move player to the new target position
+                players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
 
-            // Smoothly move player to the new target position
-            players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
+                // Check if the sound needs to be updated based on position change
+                if (Vector3.Distance(players[id].transform.position, fPos) > 0.05f) // 0.05f as a significant threshold
+                {
+                    string soundID = GetSceneSpecificSoundID(playerID);
+                    soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
+                }
+            }
         }
     }
 
 
+
     private string GetSceneSpecificSoundID(int playerID)
-{
-    // Check if the current scene is "WithMe"
-    Scene currentScene = SceneManager.GetActiveScene();
-    if (currentScene.name == "WithMe")
     {
-        // Return playerID with "WithMePlayerSound"
-        string id = $"p{playerID}WithMePlayerSound";
-        Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
-        return id;
+        // Check if the current scene is "WithMe"
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "WithMe")
+        {
+            // Return playerID with "WithMePlayerSound"
+            string id = $"p{playerID}WithMePlayerSound";
+            Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
+            return id;
+        }
+        else
+        {
+            // Return default sound ID
+            string defaultID = $"p{playerID}";
+            Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
+            return defaultID;
+        }
     }
-    else
-    {
-        // Return default sound ID
-        string defaultID = $"p{playerID}";
-        Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
-        return defaultID;
-    }
-}
 
 
     private void FadePlayerIn(int playerIndex)
@@ -326,40 +305,6 @@ public class Controller : MonoBehaviour
         // }
     }
 
-
-
-
-    private void HandlePlayerSound(int playerIndex, float timeSinceLastSeen)
-    {
-        // If the player has been inactive for too long, stop the sound
-        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-        // string soundID = $"p{playerIDS[playerIndex]}";
-
-        if (timeSinceLastSeen > soundTimeout)
-        {
-            soundEventSender.StopContinuousSound(soundID);
-            Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been inactive for too long sound is being stopped.");
-        }
-        else
-        {
-
-            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
-        }
-    }
-
-    void HandleNonPlayerSound(string soundID, Vector3 position, bool playSound)
-    {
-        if (playSound)
-        {
-            soundEventSender.SendOrUpdateContinuousSound(soundID, position);
-        }
-        else
-        {
-            soundEventSender.StopContinuousSound(soundID);
-        }
-    }
-
-
     private void ScalePlayer(int playerIndex)
     {
         players[playerIndex].transform.localScale = GetScale(playerIndex);
@@ -382,14 +327,14 @@ public class Controller : MonoBehaviour
     }
 
     private void ReactivatePlayer(int playerIndex)
-{
-    FadePlayerIn(playerIndex);  // Player fades back in
-    string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-    soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
-    
-    UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
-    ScalePlayer(playerIndex);  // Scale the player back to its original size
-}
+    {
+        FadePlayerIn(playerIndex);  // Player fades back in
+        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+
+        UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
+        ScalePlayer(playerIndex);  // Scale the player back to its original size
+    }
 
 
 
@@ -404,7 +349,7 @@ public class Controller : MonoBehaviour
         {
             if (players[playerIndex].activeSelf)
             {
-    
+
                 players[playerIndex].SetActive(false);  // Deactivate the player
                 StopPlayerSound(playerIndex);  // Stop the player's sound
                 Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
@@ -532,8 +477,8 @@ public class Controller : MonoBehaviour
         fPosition = transform.TransformPoint(fPosition);
 
         //     // Ensure the position doesn't go below the floor (y = 0)
-//     fPosition.y = Mathf.Max(fPosition.y, 0f);
-        
+        //     fPosition.y = Mathf.Max(fPosition.y, 0f);
+
         return fPosition;
     }
 
