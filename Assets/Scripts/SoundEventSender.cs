@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class SoundEventSender : MonoBehaviour
 {
-    // OSC Transmitter to send messages 
     public OSCTransmitter Transmitter;
 
     // Constant OSC address for sound play events
@@ -71,6 +70,7 @@ public class SoundEventSender : MonoBehaviour
     // Method to send one-shot sound events without tracking them in the dictionary
     public void SendOneShotSound(string soundID, Vector3? position)
     {
+        Debug.Log("whhhhhhh");
         // Create OSC message
         string oscAddress = "/sound/play";
         OSCMessage message = new OSCMessage(oscAddress);
@@ -94,34 +94,34 @@ public class SoundEventSender : MonoBehaviour
 
 
     // Method to send or update continuous sound events
-public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
-{
-    // Debug.Log("music? we have entered SendOrUpdateContinuousSound ");
-    if (position.HasValue)
+    public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
     {
+        // Debug.Log("music? we have entered SendOrUpdateContinuousSound ");
+        if (position.HasValue)
+        {
             // Debug.Log("music? we have a position");
 
-        // Check if the sound is already active
-        if (IsSoundActive(soundID))
-        {
-            // Debug.Log("music? sound is active so we'll UpdateContinuousSound");
+            // Check if the sound is already active
+            if (IsSoundActive(soundID))
+            {
+                // Debug.Log("music? sound is active so we'll UpdateContinuousSound");
 
-            // Update the existing continuous sound's position
-            UpdateContinuousSound(soundID, position.Value);
+                // Update the existing continuous sound's position
+                UpdatePositionOfContinuousSound(soundID, position.Value);
+            }
+            else
+            {
+                Debug.Log("music? sound is NOT active so we'll send SendNewContinuousSound");
+
+                // Send the initial continuous sound event (position may be null for background music)
+                SendNewContinuousSound(soundID, position);
+            }
         }
         else
         {
-            Debug.Log("music? sound is NOT active so we'll send SendNewContinuousSound");
-
-            // Send the initial continuous sound event (position may be null for background music)
-            SendNewContinuousSound(soundID, position);
+            Debug.LogWarning($"Position for {soundID} not available.");
         }
     }
-    else
-    {
-        Debug.LogWarning($"Position for {soundID} not available.");
-    }
-}
 
 
     // Method to send a new continuous sound
@@ -158,9 +158,8 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
     }
 
 
-
     // Method to update the position of an already active continuous sound in SpatGRIS
-    private void UpdateContinuousSound(string soundID, Vector3 position)
+    private void UpdatePositionOfContinuousSound(string soundID, Vector3 position)
     {
         // Check if the sound exists in the dictionary
         if (activeContinuousSounds.TryGetValue(soundID, out OSCMessage message))

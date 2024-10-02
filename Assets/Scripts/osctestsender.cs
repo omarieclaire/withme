@@ -19,6 +19,7 @@ public class SimpleSoundTest : MonoBehaviour
     // Play sound
     public void PlaySound()
     {
+        OSCBundle b;
         OSCMessage message = new OSCMessage("/sound/play");
         message.AddValue(OSCValue.String(soundID));  // Add soundID to message
         Transmitter.Send(message);

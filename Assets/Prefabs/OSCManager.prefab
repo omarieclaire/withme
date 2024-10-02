@@ -93,4 +93,4 @@ MonoBehaviour:
   _localPort: 800
   _remoteHost: 192.168.1.61
   _remotePort: 900
-  _useBundle: 0
+  _useBundle: 1

@@ -853,6 +853,10 @@ PrefabInstance:
       value: 215
       objectReference: {fileID: 0}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: sphereSize
+      value: 111
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerHolder
       value: 
       objectReference: {fileID: 846870808}

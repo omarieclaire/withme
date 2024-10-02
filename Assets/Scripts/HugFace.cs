@@ -126,7 +126,7 @@ public class HugFace : MonoBehaviour
                 // Debug.Log($"Playing hug sigh sound: {soundID} at {pointPosition}");
                 // soundEventSender.SendOneShotSound(soundID, pointPosition);
 
-                PlayHugSound(player, "Sigh");
+                // PlayHugSound(player, "Sigh");
 
 
                 hug.HUG(this, smileID);

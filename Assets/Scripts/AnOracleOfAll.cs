@@ -153,36 +153,9 @@ public class Controller : MonoBehaviour
     // New attributes
     public Transform center;
 
-    // [Header("Skybox Info")]
-    // [Header("Re Enable in play mode to update")]
-
-    // [Tooltip("Skybox stuff")]
-    // public Material skyboxMaterial;
-
-
-    // [Tooltip("Sun position for skybox. Y IS NEGATIVE SORRY")]
-    // public Vector3 SunPosition = new Vector3(0, -1, 0);
-
-    // public float SunHue = 0;
-    // public float sunIntensity = 1;
-    // public float sunHueSize = .1f;
-    // public float auroraIntensity = 1;
-    // public float auroraSpeed = 1;
-    // public float auroraHueStart = 0;
-    // public float auroraHueSize = 1;
-
-    // public float auroraHorizonImportance = .1f;
-
-    // public float auroraNoiseSize = 1;
-
-
-    // public float auroraVibrantness = 1;
-
 
     [Header("Sound Event Sender")]
     public SoundEventSender soundEventSender;
-
-    // private bool musicPlayed = false; // Flag to ensure music is played only once
 
     void Start()
     {
@@ -228,10 +201,7 @@ public class Controller : MonoBehaviour
                 playerTargetPositions[id] = fPos;
                 playerLastSeenTimestamp[id] = Time.time;
 
-        string soundID = GetSceneSpecificSoundID(playerID); 
-        soundEventSender.SendOrUpdateContinuousSound(soundID, remappedPosition);
-        // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
-                // Debug.Log($"[CONFIRMED] Player {playerID}'s target position updated to: {fPos}.");
+                string soundID = GetSceneSpecificSoundID(playerID);
             }
 
             // Smoothly move player to the new target position
@@ -241,24 +211,24 @@ public class Controller : MonoBehaviour
 
 
     private string GetSceneSpecificSoundID(int playerID)
-{
-    // Check if the current scene is "WithMe"
-    Scene currentScene = SceneManager.GetActiveScene();
-    if (currentScene.name == "WithMe")
     {
-        // Return playerID with "WithMePlayerSound"
-        string id = $"p{playerID}WithMePlayerSound";
-        Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
-        return id;
+        // Check if the current scene is "WithMe"
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "WithMe")
+        {
+            // Return playerID with "WithMePlayerSound"
+            string id = $"p{playerID}WithMePlayerSound";
+            Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
+            return id;
+        }
+        else
+        {
+            // Return default sound ID
+            string defaultID = $"p{playerID}";
+            Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
+            return defaultID;
+        }
     }
-    else
-    {
-        // Return default sound ID
-        string defaultID = $"p{playerID}";
-        Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
-        return defaultID;
-    }
-}
 
 
     private void FadePlayerIn(int playerIndex)
@@ -304,7 +274,7 @@ public class Controller : MonoBehaviour
 
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
         // string soundID = $"p{playerIDS[playerIndex]}";
-        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+        // soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
     }
 
 
@@ -333,7 +303,6 @@ public class Controller : MonoBehaviour
     {
         // If the player has been inactive for too long, stop the sound
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-        // string soundID = $"p{playerIDS[playerIndex]}";
 
         if (timeSinceLastSeen > soundTimeout)
         {
@@ -382,14 +351,14 @@ public class Controller : MonoBehaviour
     }
 
     private void ReactivatePlayer(int playerIndex)
-{
-    FadePlayerIn(playerIndex);  // Player fades back in
-    string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-    soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
-    
-    UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
-    ScalePlayer(playerIndex);  // Scale the player back to its original size
-}
+    {
+        FadePlayerIn(playerIndex);  // Player fades back in
+        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+
+        UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
+        ScalePlayer(playerIndex);  // Scale the player back to its original size
+    }
 
 
 
@@ -404,7 +373,7 @@ public class Controller : MonoBehaviour
         {
             if (players[playerIndex].activeSelf)
             {
-    
+
                 players[playerIndex].SetActive(false);  // Deactivate the player
                 StopPlayerSound(playerIndex);  // Stop the player's sound
                 Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
@@ -485,22 +454,6 @@ public class Controller : MonoBehaviour
         {
             averagePosition = Vector3.zero;
         }
-
-        // if (!musicPlayed)  // Ensure this block only runs once
-        // {
-        //     Debug.Log("music has not been played");
-
-        //     // Ensure the sound event sender is ready
-        //     if (soundEventSender != null)
-        //     {
-        //         Debug.Log("music! soundEventSender does seem to exist");
-        //         StartBackgroundMusic();
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("music! error no soundEventSender, can't send music");
-        //     }
-        // }
     }
 
 
@@ -532,8 +485,8 @@ public class Controller : MonoBehaviour
         fPosition = transform.TransformPoint(fPosition);
 
         //     // Ensure the position doesn't go below the floor (y = 0)
-//     fPosition.y = Mathf.Max(fPosition.y, 0f);
-        
+        //     fPosition.y = Mathf.Max(fPosition.y, 0f);
+
         return fPosition;
     }
 
@@ -574,23 +527,6 @@ public class Controller : MonoBehaviour
 
     public virtual void _SetUp()
     {
-        // // This handles the common setup logic for all scenes
-        // Debug.Log("[INFO] Common setup (_SetUp) called.");
-        // // musicPlayed = false;
-
-        // skyboxMaterial.SetVector("_LightDir", SunPosition.normalized);
-        // skyboxMaterial.SetFloat("_SunIntensity", sunIntensity);
-        // skyboxMaterial.SetFloat("_SunHue", SunHue);
-        // skyboxMaterial.SetFloat("_SunHueSize", sunHueSize);
-        // skyboxMaterial.SetFloat("_AuroraIntensity", auroraIntensity);
-        // skyboxMaterial.SetFloat("_AuroraSpeed", auroraSpeed);
-        // skyboxMaterial.SetFloat("_AuroraHueStart", auroraHueStart);
-        // skyboxMaterial.SetFloat("_AuroraHueSize", auroraHueSize);
-        // skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
-        // skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
-        // skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
-
-
         // Common initialization logic
         players = new List<GameObject>();
         playerAvatars = new List<PlayerAvatar>();
@@ -602,6 +538,12 @@ public class Controller : MonoBehaviour
         activePlayers = new List<PlayerAvatar>();
 
         Debug.Log("[INFO] Common setup for player lists completed.");
+
+        if (soundEventSender != null)
+        {
+            soundEventSender.sphereSize = this.sphereSize;  // Pass sphereSize to the SoundEventSender
+            Debug.Log("yooo" + this.sphereSize);
+        }
     }
 
     public virtual void SetUp()
