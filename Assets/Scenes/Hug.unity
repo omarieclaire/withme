@@ -1337,7 +1337,7 @@ MonoBehaviour:
   smilesDiscovered: 
   completedFaces: []
   numFacesPerGroup: 2
-  numColors: 3
+  numColors: 1
   hugSpeed: 0.01
   onHugClip: {fileID: 8300000, guid: fbe07c972808f224aa1ef87af8dbe1ed, type: 3}
   onHugParticleSystem: {fileID: 889365378}
