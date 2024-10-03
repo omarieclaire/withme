@@ -5,6 +5,8 @@ using UnityEngine;
 public class FlorpManager1 : MonoBehaviour
 {
 
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
 
     public Controller controller;
     public List<GameObject> florps;

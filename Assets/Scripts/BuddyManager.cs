@@ -6,6 +6,8 @@ public class FlorpManager : MonoBehaviour
 {
 
 
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
     public Controller controller;
     public List<GameObject> florps;
 

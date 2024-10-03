@@ -38,14 +38,6 @@ public class MimicShape : MonoBehaviour
 
     public ParticleSystem onShapeCompleteParticles; // Reference for the particle system on shape completion
 
-
-    // Ground reference (no-go below ground)
-    public GameObject ground; // not really using this
-
-    public Collider doorCollider;         // Collider for the Door area
-    public Collider soundBoothCollider;   // Collider for the SoundBooth area
-    public Collider stageCollider;        // Collider for the Stage area
-
     // Called when the script is enabled
     public void OnEnable()
     {
@@ -111,36 +103,68 @@ public class MimicShape : MonoBehaviour
         numShapesActivated = 0;
         lastTimeChange = Time.time;
 
-        // Get the y-position of the ground
-        if (ground == null)
-        {
-            Debug.LogError("[ERROR] Ground object is not assigned.");
-        }
-        float groundY = ground != null ? ground.transform.position.y : 0;
-
         // Set each sphere to a new random position
         for (int i = 0; i < numSpheres; i++)
         {
             spheresActive[i] = false;
 
-            Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
-            Debug.Log($"xxx Sphere_{i}: Initial Random Position = {randomPos}");
+            Vector3 randomPos;
+            bool isBlockedByNoGoZone;
+            int retryCount = 0; // Track the number of retries for generating a valid position
 
-            if (controller != null)
+            // Retry generating random positions until one is found outside no-go zones
+            do
             {
-                randomPos = controller.getFinalPosition(randomPos);
-                Debug.Log($"xxx Sphere_{i}: Position after getFinalPosition = {randomPos}");
-            }
-            else
-            {
-                Debug.LogWarning("[WARNING] Controller reference is null. Cannot calculate final position.");
-            }
+                randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
+                Debug.Log($"xxx Sphere_{i}: Trying Random Position = {randomPos}");
 
-            // Check if the position is in a no-go zone using NoGoZoneManager
+                if (controller != null)
+                {
+                    randomPos = controller.getFinalPosition(randomPos);
+                    Debug.Log($"xxx Sphere_{i}: Position after getFinalPosition = {randomPos}");
+                }
+
+                // Cast a ray from the center of the dome to the random sphere position
+                Ray ray = new Ray(Vector3.zero, randomPos.normalized); // Ensure direction is normalized
+                RaycastHit hit;
+
+                // Perform raycast to check if anything is between the center and the random position
+                if (Physics.Raycast(ray, out hit, randomPos.magnitude))
+                {
+                    // Check if the ray hits a forbidden zone
+                    isBlockedByNoGoZone = hit.collider == noGoZoneManager.doorCollider ||
+                                          hit.collider == noGoZoneManager.soundBoothCollider ||
+                                          hit.collider == noGoZoneManager.stageCollider;
+
+                    if (isBlockedByNoGoZone)
+                    {
+                        Debug.Log($"Sphere {i} placement blocked by {hit.collider.name} at position {randomPos}.");
+                    }
+                    else
+                    {
+                        Debug.Log($"Ray hit {hit.collider.name} but not a forbidden zone.");
+                    }
+                }
+                else
+                {
+                    isBlockedByNoGoZone = false; // No collision, it's a valid position
+                    Debug.Log($"No hit for sphere {i} at position {randomPos}.");
+                }
+
+                retryCount++;
+                if (retryCount > 10) // Add a safety limit to prevent infinite loops
+                {
+                    Debug.LogWarning($"[WARNING] Sphere_{i} failed to generate a valid position after 10 tries. Using last position: {randomPos}");
+                    break;
+                }
+
+            } while (isBlockedByNoGoZone); // Repeat if position is in a no-go zone
+
+            // Log and set sphere's color based on final valid position
             if (noGoZoneManager.IsInNoGoZone(randomPos))
             {
-                Debug.Log($"Sphere_{i} is generated in a no-go zone at: {randomPos}");
-                spheres[i].GetComponent<Renderer>().material.color = Color.yellow;
+                Debug.Log($"Sphere_{i} is still generated in a no-go zone at: {randomPos}, using last valid position.");
+                spheres[i].transform.localScale = Vector3.one * sphereSize * 20; // Scale it up to highlight it
             }
             else
             {

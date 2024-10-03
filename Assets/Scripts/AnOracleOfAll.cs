@@ -59,6 +59,8 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+
+
     [Header("Camera Live Pose Feed Info")]
     [Tooltip("Resolution of the live pose camera.")]
     public int cameraResolution = 640;
@@ -435,21 +437,6 @@ public class Controller : MonoBehaviour
             averagePosition = Vector3.zero;
         }
 
-        // if (!musicPlayed)  // Ensure this block only runs once
-        // {
-        //     Debug.Log("music has not been played");
-
-        //     // Ensure the sound event sender is ready
-        //     if (soundEventSender != null)
-        //     {
-        //         Debug.Log("music! soundEventSender does seem to exist");
-        //         StartBackgroundMusic();
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("music! error no soundEventSender, can't send music");
-        //     }
-        // }
     }
 
 
@@ -524,23 +511,6 @@ public class Controller : MonoBehaviour
 
     public virtual void _SetUp()
     {
-        // // This handles the common setup logic for all scenes
-        // Debug.Log("[INFO] Common setup (_SetUp) called.");
-        // // musicPlayed = false;
-
-        // skyboxMaterial.SetVector("_LightDir", SunPosition.normalized);
-        // skyboxMaterial.SetFloat("_SunIntensity", sunIntensity);
-        // skyboxMaterial.SetFloat("_SunHue", SunHue);
-        // skyboxMaterial.SetFloat("_SunHueSize", sunHueSize);
-        // skyboxMaterial.SetFloat("_AuroraIntensity", auroraIntensity);
-        // skyboxMaterial.SetFloat("_AuroraSpeed", auroraSpeed);
-        // skyboxMaterial.SetFloat("_AuroraHueStart", auroraHueStart);
-        // skyboxMaterial.SetFloat("_AuroraHueSize", auroraHueSize);
-        // skyboxMaterial.SetFloat("_AuroraHorizonImportance", auroraHorizonImportance);
-        // skyboxMaterial.SetFloat("_AuroraNoiseSize", auroraNoiseSize);
-        // skyboxMaterial.SetFloat("_AuroraVibrantness", auroraVibrantness);
-
-
         // Common initialization logic
         players = new List<GameObject>();
         playerAvatars = new List<PlayerAvatar>();

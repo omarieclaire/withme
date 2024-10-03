@@ -5,6 +5,8 @@ using UnityEngine.Playables;
 
 public class HugFace : MonoBehaviour
 {
+        public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
     public Hug hug;
     public List<HugFace> partners;
     public int smileID;

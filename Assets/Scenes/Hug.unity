@@ -420,6 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8976b02da788e4ea03f5a42416945c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 0}
   hug: {fileID: 1395838879}
   partners: []
   smileID: 0
@@ -652,6 +653,67 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1266312760479527552, guid: 89f7209469b3841598ec0a530918250a, type: 3}
   m_PrefabInstance: {fileID: 940528597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &838548343
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4840521509176900330, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_Name
+      value: BlockNoGoAreasMyLove
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04725039
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.026821014
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.005834155
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1055734400}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
 --- !u!1001 &889365377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1354,6 +1416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504a7ae99eff10d4682ec06cab3de667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 0}
   facePrefab: {fileID: 660355872}
   faceSize: 0.7
   faceVerticality: 0
@@ -2013,3 +2076,4 @@ SceneRoots:
   - {fileID: 758316352}
   - {fileID: 1353191221}
   - {fileID: 1427088142}
+  - {fileID: 838548343}

@@ -145,7 +145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &43543358
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -920,6 +920,67 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2089905185038129228, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
   m_PrefabInstance: {fileID: 774355489}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1089015133
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4840521509176900330, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_Name
+      value: BlockNoGoAreasMyLove
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04725039
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.026821014
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.005834155
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2039369492}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
 --- !u!1001 &1111207011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1298,6 +1359,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
+--- !u!114 &1792845380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+  m_PrefabInstance: {fileID: 1089015133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb63b8bfb34fc4f3a9393d23f590fa6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1812179506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1641,6 +1713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67598b775b12a9147933f7846cd3faeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 1792845380}
   controller: {fileID: 2039369492}
   soundEventSender: {fileID: 467197940}
   radiusForCollection: 8
@@ -1751,3 +1824,4 @@ SceneRoots:
   - {fileID: 43543361}
   - {fileID: 649270823}
   - {fileID: 1812179506}
+  - {fileID: 1089015133}

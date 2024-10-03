@@ -5,6 +5,8 @@ using TMPro;
 
 public class StickTogether : MonoBehaviour
 {
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
     public Controller controller;
     public SoundEventSender soundEventSender;
 
@@ -26,7 +28,7 @@ public class StickTogether : MonoBehaviour
     [Tooltip("Speed at which the collection area moves.")]
     public Vector3 movementSpeed;
 
-    
+
 
     [Tooltip("Size of the movement area for the collection.")]
     public Vector3 movementSize;
@@ -62,7 +64,7 @@ public class StickTogether : MonoBehaviour
     private float timer = 0f;
     private bool majorityInsideStartTheParty = false;
 
-         private  Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f); 
+    private Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f);
 
     public AudioSource loop;
 
@@ -119,27 +121,55 @@ public class StickTogether : MonoBehaviour
     }
 
     void UpdateCollectionAreaPosition()
-{
-    // Make the collection area a sphere that grows/shrinks based on the radiusForCollection
-    transform.localScale = new Vector3(radiusForCollection * 2, radiusForCollection * 2, radiusForCollection * 2);
+    {
+        // Make the collection area a sphere that grows/shrinks based on the radiusForCollection
+        transform.localScale = new Vector3(radiusForCollection * 2, radiusForCollection * 2, radiusForCollection * 2);
 
-    // Calculate the new position for the collection area using a wavy motion/sine wave
-    Vector3 position = new Vector3(
-        Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
-        Mathf.Sin(Time.time * movementSpeed.y) * movementSize.y,
-        Mathf.Sin(Time.time * movementSpeed.z) * movementSize.z
-    ) + movementOffset;
+        Vector3 position;
+        bool isBlockedByNoGoZone;
 
-    // Log initial position before projection
-    Debug.Log($"[DEBUG] Initial position before dome projection: {position}");
+        // Loop to ensure the collection area is not placed in forbidden zones
+        do
+        {
+            // Calculate the new position for the collection area using a wavy motion/sine wave
+            position = new Vector3(
+                Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
+                Mathf.Sin(Time.time * movementSpeed.y) * movementSize.y,
+                Mathf.Sin(Time.time * movementSpeed.z) * movementSize.z
+            ) + movementOffset;
 
-    // Ensure the collection area stays outside the dome
-    Vector3 outsidePosition = ProjectOutsideDome(position);
+            // Ensure the collection area stays outside the dome
+            Vector3 outsidePosition = ProjectOutsideDome(position);
 
-    // Set the position of the collection area and log it
-    transform.position = controller.getFinalPosition(outsidePosition);
-    Debug.Log($"[DEBUG] Final position for collection area after dome projection: {transform.position}");
-}
+            // Cast a ray from the dome center (assumed to be (0,0,0)) to the collection area position
+            Ray ray = new Ray(Vector3.zero, outsidePosition.normalized);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, outsidePosition.magnitude))
+            {
+                // Check if the ray hits a forbidden zone
+                isBlockedByNoGoZone = hit.collider == noGoZoneManager.doorCollider ||
+                                      hit.collider == noGoZoneManager.soundBoothCollider ||
+                                      hit.collider == noGoZoneManager.stageCollider;
+
+                if (isBlockedByNoGoZone)
+                {
+                    Debug.Log($"Collection area blocked by {hit.collider.name} at {outsidePosition}.");
+                }
+            }
+            else
+            {
+                isBlockedByNoGoZone = false;  // No collision, it's a valid position
+                Debug.Log($"Collection area is not blocked at position {outsidePosition}.");
+            }
+
+        } while (isBlockedByNoGoZone);  // Repeat if the position is blocked by a forbidden zone
+
+        // Set the final position of the collection area
+        transform.position = controller.getFinalPosition(position);
+        Debug.Log($"[DEBUG] Final position for collection area after dome projection and no-go zone checks: {transform.position}");
+    }
+
 
 
 
@@ -160,39 +190,39 @@ public class StickTogether : MonoBehaviour
         return p;
     }
 
-  // Ensure the collection area stays outside the dome
-Vector3 ProjectOutsideDome(Vector3 position)
-{
-    // Calculate the distance from the dome's center (assumed to be (0,0,0))
-    float distanceFromCenter = Vector3.Distance(position, Vector3.zero);
-
-    // Log distance information for debugging
-    Debug.Log($"[DEBUG] Initial distance from center: {distanceFromCenter}, Dome radius: {domeRadius}");
-
-    // If the position is inside or too close to the dome, push it outside
-    if (distanceFromCenter < domeRadius + radiusForCollection)
+    // Ensure the collection area stays outside the dome
+    Vector3 ProjectOutsideDome(Vector3 position)
     {
-        // Get the direction from the center of the dome to the position
-        Vector3 directionFromCenter = position.normalized;
+        // Calculate the distance from the dome's center (assumed to be (0,0,0))
+        float distanceFromCenter = Vector3.Distance(position, Vector3.zero);
 
-        // Ensure it's placed outside the dome by moving it to the dome radius plus the collection area's radius
-        Vector3 adjustedPosition = directionFromCenter * (domeRadius + radiusForCollection);
+        // Log distance information for debugging
+        Debug.Log($"[DEBUG] Initial distance from center: {distanceFromCenter}, Dome radius: {domeRadius}");
 
-        // Log the adjustment process
-        Debug.Log($"[DEBUG] Collection area pushed outside the dome. Adjusted position: {adjustedPosition}, Dome radius: {domeRadius}");
+        // If the position is inside or too close to the dome, push it outside
+        if (distanceFromCenter < domeRadius + radiusForCollection)
+        {
+            // Get the direction from the center of the dome to the position
+            Vector3 directionFromCenter = position.normalized;
 
-        return adjustedPosition;
+            // Ensure it's placed outside the dome by moving it to the dome radius plus the collection area's radius
+            Vector3 adjustedPosition = directionFromCenter * (domeRadius + radiusForCollection);
+
+            // Log the adjustment process
+            Debug.Log($"[DEBUG] Collection area pushed outside the dome. Adjusted position: {adjustedPosition}, Dome radius: {domeRadius}");
+
+            return adjustedPosition;
+        }
+
+        // If the position is already outside the dome, return the original position
+        Debug.Log($"[DEBUG] Collection area is already outside the dome. Position: {position}, Distance from center: {distanceFromCenter}");
+        return position;
     }
 
-    // If the position is already outside the dome, return the original position
-    Debug.Log($"[DEBUG] Collection area is already outside the dome. Position: {position}, Distance from center: {distanceFromCenter}");
-    return position;
-}
 
 
 
 
-    
 
     // Check if the collection area intersects with the dome
     void CheckIntersectionWithDome()

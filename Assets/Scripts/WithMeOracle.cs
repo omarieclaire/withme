@@ -38,6 +38,8 @@ using UnityEngine.UI;
 
 public class DotGameController : Controller
 {
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
 
     public Transform tree;
 
@@ -130,12 +132,62 @@ public class DotGameController : Controller
 
     private void CreateDot(int id)
     {
-        // Instantiate dot at a random position within the dome
+        if (noGoZoneManager == null || noGoZoneManager.doorCollider == null ||
+    noGoZoneManager.soundBoothCollider == null || noGoZoneManager.stageCollider == null)
+        {
+            Debug.LogError("NoGoZoneManager or one of its colliders is not assigned!");
+            return;
+        }
+
+        // Instantiate dot
         GameObject dot = Instantiate(dotPrefab, Vector3.zero, Quaternion.identity);
+        Vector3 randomPos;
+        bool isBlockedByNoGoZone;
 
-        Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
-        randomPos = getFinalPosition(randomPos);
+        // Loop to ensure the dot is not placed in the line of sight of forbidden zones
+        do
+        {
+            // Generate random position
+            randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
+            randomPos = getFinalPosition(randomPos);  // Map the random position
 
+            // Cast a ray from the center of the dome to the random dot position
+            Ray ray = new Ray(Vector3.zero, randomPos.normalized); // Ensure direction is normalized
+            RaycastHit hit;
+
+            // Perform raycast to check if anything is between the center and the random position
+            if (Physics.Raycast(ray, out hit, randomPos.magnitude))
+            {
+                // Check if the ray hits a forbidden zone
+                isBlockedByNoGoZone = hit.collider == noGoZoneManager.doorCollider ||
+                                      hit.collider == noGoZoneManager.soundBoothCollider ||
+                                      hit.collider == noGoZoneManager.stageCollider;
+
+                if (isBlockedByNoGoZone)
+                {
+                    Debug.Log($"Dot {id} placement blocked by {hit.collider.name} at position {randomPos}.");
+                }
+                else
+                {
+                    Debug.Log($"Ray hit {hit.collider.name} but not a forbidden zone.");
+                }
+            }
+            else
+            {
+                isBlockedByNoGoZone = false; // No collision, it's a valid position
+                Debug.Log($"No hit for dot {id} at position {randomPos}.");
+            }
+
+
+        } while (isBlockedByNoGoZone);  // Repeat if the position is blocked by a forbidden zone
+
+        // Ensure the NoGoZoneManager is set
+        if (noGoZoneManager == null)
+        {
+            Debug.LogWarning("[WARNING] NoGoZoneManager is not assigned. Dot placement may be incorrect.");
+        }
+
+        // Assign dot properties
         Dot dotAvatar = dot.GetComponent<Dot>();
         if (dotAvatar == null)
         {
@@ -143,7 +195,6 @@ public class DotGameController : Controller
             return;
         }
 
-        // Initialize dot properties
         dotAvatar.controller = this;
         dotAvatar.id = id;
         dotAvatar.originalPosition = randomPos;
@@ -152,16 +203,18 @@ public class DotGameController : Controller
         dotAvatar.collected = false;
         dotAvatar.SetData();
 
-        // Set dot transform properties
+        // Set the position of the dot and scale
         dot.transform.position = randomPos;
         dot.transform.SetParent(dotHolder);
         dot.transform.localScale = Vector3.one * dotSize;
 
-        dot.SetActive(true); // Activate dot
+        dot.SetActive(true);  // Activate dot
 
-        dots.Add(dot.transform); // Add to dots list
-        dotAvatars.Add(dotAvatar); // Add to dotAvatars list
+        // Add to dots and avatars lists
+        dots.Add(dot.transform);
+        dotAvatars.Add(dotAvatar);
     }
+
 
     public override void SetUp()
 
@@ -233,7 +286,7 @@ public class DotGameController : Controller
 
     private void PlayCollisionSound(PlayerAvatar player)
     {
-        
+
         // audioPlayer.Play(onExplodeClip); // <-- old sound keep for debugging
         // Construct the sound ID and get the player's position
         string soundID = $"p{player.id}EffectsWithMePlayerCollision";
