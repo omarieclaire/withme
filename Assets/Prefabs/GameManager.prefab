@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ccb66a9dbf37487db981618293b6c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TheOracleOfAll: {fileID: 0}
   gameDuration: 1000
-  waitTime: 20
-  retryCount: 3
+  waitTime: 2
+  retryCount: 1
   retryDelay: 0.5
   soundEventSender: {fileID: 0}
   timeoutSoundID: timeoutSound

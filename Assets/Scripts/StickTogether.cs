@@ -26,6 +26,8 @@ public class StickTogether : MonoBehaviour
     [Tooltip("Speed at which the collection area moves.")]
     public Vector3 movementSpeed;
 
+    
+
     [Tooltip("Size of the movement area for the collection.")]
     public Vector3 movementSize;
 
@@ -59,6 +61,9 @@ public class StickTogether : MonoBehaviour
     private HashSet<GameObject> playersInside = new HashSet<GameObject>();
     private float timer = 0f;
     private bool majorityInsideStartTheParty = false;
+
+         private  Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f); 
+
     public AudioSource loop;
 
     void Start()
@@ -305,7 +310,7 @@ Vector3 ProjectOutsideDome(Vector3 position)
 
                 string soundID = "StickTogetherBeat";
                 Vector3 centerOfCollectionArea = transform.position;
-                soundEventSender.StopContinuousSound(soundID);
+                soundEventSender.StopContinuousSound(soundID, defaultSoundPosition);
 
                 // audioPlayer.Play(sadSound); // <-- deep for debugging
             }

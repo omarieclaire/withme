@@ -212,6 +212,8 @@ public class Controller : MonoBehaviour
                 {
                     string soundID = GetSceneSpecificSoundID(playerID);
                     soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
+                    Debug.Log($"[DEBUG] xxx Sending sound for Player ID {playerID}, Index {id}, Position {players[id].transform.position}");
+
                 }
             }
         }
@@ -296,7 +298,7 @@ public class Controller : MonoBehaviour
         // if (soundEventSender.IsSoundActive(soundID))
         // {
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-        soundEventSender.StopContinuousSound(soundID);  // Stop sound if it's active
+        soundEventSender.StopContinuousSound(soundID, players[playerIndex].transform.position);  // Stop sound if it's active
         Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
         // }
         // else

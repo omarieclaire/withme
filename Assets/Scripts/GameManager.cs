@@ -3,35 +3,27 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
-
 {
-
     public GameObject TheOracleOfAll;
-
-
-    [Tooltip("Duration of the game before switching scenes (in seconds)")]
-    public float gameDuration = 60f;  // Time before the scene switches
-
-    [Tooltip("Time to wait after win condition or timer runs out before switching scenes")]
-    public float waitTime = 3f;  // You can set this in the Inspector
-
-    [Tooltip("Number of retries to send the background music message")]
-    public int retryCount = 3;  // Number of times to retry sending the message
-
-    [Tooltip("Delay between retries (in seconds)")]
-    public float retryDelay = 0.5f;  // Delay between retries
-
+    public float gameDuration = 60f;
+    public float waitTime = 3f;
+    public int retryCount = 3;
+    public float retryDelay = 0.5f;
     private float gameTimer;
     private bool gameEnded = false;
     private Controller controller;
-    private bool musicPlayed = false; // Flag to ensure music is played only once
+    private bool musicPlayed = false;
+     private  Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f); 
 
     public SoundEventSender soundEventSender;
 
-    public string timeoutSoundID = "timeoutSound";  // Sound ID for timeout sound
-    public string winGameSoundID = "winGameSound";  // Sound ID for win game sound
-    private bool winConditionMet = false;           // Flag to indicate if the win condition is met
+    public string timeoutSoundID = "timeoutSound"; 
+    public string winGameSoundID = "winGameSound"; 
+    private bool winConditionMet = false;
 
+    // List of all player sound IDs (can be dynamic based on your needs)
+    private string[] playerSoundIDs = { "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10"  
+    };
 
     void Start()
     {
@@ -52,7 +44,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Start the background music when the game starts
             Debug.Log("[INFO] Starting background music.");
             StartCoroutine(TryStartBackgroundMusicWithRetries());
         }
@@ -61,13 +52,75 @@ public class GameManager : MonoBehaviour
         Debug.Log("[INFO] Game timer initialized to " + gameDuration + " seconds.");
     }
 
+    public void StopAllSoundsOnPlayExit()
+    {
+        // Stop background music for the current scene
+        StopBackgroundMusic();
+
+        // Stop all player sounds
+        StopAllPlayerSounds();
+    }
+
+    public void StopBackgroundMusic()
+    {
+        string soundID = GetSoundIDForCurrentScene();  
+        if (soundEventSender != null)
+        {
+            soundEventSender.StopContinuousSound(soundID, defaultSoundPosition);
+            Debug.Log($"[INFO] Stopped background music: {soundID}");
+        }
+        else
+        {
+            Debug.LogError("[ERROR] No soundEventSender available to stop background music.");
+        }
+    }
+
+    private void StopAllPlayerSounds()
+{
+    if (soundEventSender != null)
+    {
+        soundEventSender.StopContinuousSound("p0", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p1", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p2", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p3", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p4", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p5", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p6", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p7", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p8", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p9", defaultSoundPosition);
+        soundEventSender.StopContinuousSound("p10", defaultSoundPosition);
+
+
+        // foreach (string playerSoundID in playerSoundIDs)
+        // {
+        //     Debug.Log($"[DEBUG] Attempting to stop player sound: {playerSoundID}");
+        //     soundEventSender.StopContinuousSound(playerSoundID);
+        //     Debug.Log($"[INFO] Stopped player sound: {playerSoundID}");
+        // }
+    }
+    else
+    {
+        Debug.LogError("[ERROR] No soundEventSender available to stop player sounds.");
+    }
+}
+
+
+    string GetSoundIDForCurrentScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        string soundID = $"{sceneName}BGMusic";
+        Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
+        return soundID;
+    }
+
     void Update()
     {
         if (!gameEnded)
         {
             gameTimer -= Time.deltaTime;
 
-            // Check if time has run out or a win condition has been met
             if (gameTimer <= 0f && !winConditionMet)
             {
                 Debug.Log("[INFO] Time's up. Playing timeout sound and ending the game.");
@@ -82,7 +135,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Keypress to switch scenes manually
         if (Input.GetKeyDown(KeyCode.N))
         {
             Debug.Log("[INFO] Keypress detected: N. Loading next scene.");
@@ -99,8 +151,7 @@ public class GameManager : MonoBehaviour
     IEnumerator TryStartBackgroundMusicWithRetries()
     {
         int attempts = 0;
-        // string soundID = "music";
-        string soundID = GetSoundIDForCurrentScene();  // Get the unique soundID for the current scene
+        string soundID = GetSoundIDForCurrentScene();  
 
         while (attempts < retryCount && !musicPlayed)
         {
@@ -109,7 +160,7 @@ public class GameManager : MonoBehaviour
 
             if (soundEventSender != null)
             {
-                Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);  // Fixed position for background music
+                Vector3 musicPosition = new Vector3(1f, 1f, 0.01f); 
                 soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
                 Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
             }
@@ -118,7 +169,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("[ERROR] No soundEventSender available to send background music.");
             }
 
-            yield return new WaitForSeconds(retryDelay);  // Wait before retrying
+            yield return new WaitForSeconds(retryDelay);  
         }
 
         if (attempts >= retryCount)
@@ -128,51 +179,21 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("[INFO] Background music successfully sent within retry limit.");
-            musicPlayed = true;  // Mark music as played to stop further attempts
+            musicPlayed = true;  
         }
     }
-
-    string GetSoundIDForCurrentScene()
-    {
-        // Get the current scene's name
-        Scene currentScene = SceneManager.GetActiveScene();
-        string sceneName = currentScene.name;
-
-        // Format the soundID as "SceneNameBGMusic"
-        string soundID = $"{sceneName}BGMusic";
-        Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
-        return soundID;
-    }
-
-    // public void StopBackgroundMusic()
-    // {
-    //     string soundID = GetSoundIDForCurrentScene();  // Get the unique soundID for the current scene
-    //     if (soundEventSender != null)
-    //     {
-    //         soundEventSender.StopContinuousSound(soundID);
-    //         Debug.Log($"[INFO] Stopped background music: {soundID}");
-    //     }
-    //     else
-    //     {
-    //         Debug.LogError("[ERROR] No soundEventSender available to stop background music.");
-    //     }
-    // }
-
 
     void EndGame()
     {
         if (controller != null)
         {
             Debug.Log("[INFO] Stopping background music.");
-            string soundID = GetSoundIDForCurrentScene();  // Get the unique soundID for the current scene
-            soundEventSender.StopContinuousSound(soundID);
-
-            // StopBackgroundMusic();  // Stop the background music when the game ends
+            StopBackgroundMusic();
         }
 
         gameEnded = true;
         Debug.Log("Game Over! Moving to the next scene in " + waitTime + " seconds.");
-        Invoke("LoadNextScene", waitTime); // Wait for `waitTime` seconds before loading the next scene
+        Invoke("LoadNextScene", waitTime); 
     }
 
     void LoadNextScene()
@@ -191,7 +212,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(previousSceneIndex);
     }
 
-    // New method to play the timeout sound
     void PlayTimeoutSound()
     {
         if (soundEventSender != null)
@@ -206,7 +226,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // New method to play the win game sound
     void PlayWinGameSound()
     {
         if (soundEventSender != null)
@@ -221,7 +240,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Call this method from another script to indicate the win condition has been met
     public void SetWinConditionMet()
     {
         winConditionMet = true;

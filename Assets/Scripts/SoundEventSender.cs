@@ -180,12 +180,12 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
     }
 
     // Method to stop a continuous sound using its sound ID
-    public void StopContinuousSound(string soundID)
+    public void StopContinuousSound(string soundID, Vector3? position)
     {
         // Check if the sound ID exists in the active continuous sounds dictionary
         if (!activeContinuousSounds.ContainsKey(soundID))
         {
-            Debug.LogWarning($"Trying to stop sound {soundID}, but it was not found in active continuous sounds.");
+            Debug.LogWarning($"background ? Trying to stop sound {soundID}, but it was not found in active continuous sounds.");
             return;
         }
 
@@ -198,7 +198,7 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 
         // Remove the sound from the active continuous sounds dictionary
         activeContinuousSounds.Remove(soundID);
-        LogMessage($"Stopped and removed continuous sound {soundID}.");
+        LogMessage($"background ? Stopped and removed continuous sound {soundID}.");
     }
 
     // Method to safely send an OSC message and handle potential exceptions
