@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7e3c54cab5b440386d737b2406f79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 0}
   targetPrefab: {fileID: 1196994872}
   spikePrefab: {fileID: 0}
   numTargets: 30
@@ -226,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d66d656fa7a2490c9d568738381fe66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 0}
   controller: {fileID: 1265113568}
   florps: []
   florpPrefab: {fileID: 2049855977}
@@ -499,6 +501,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1265113568}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
