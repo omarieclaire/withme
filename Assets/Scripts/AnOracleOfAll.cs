@@ -68,6 +68,8 @@ public class Controller : MonoBehaviour
     public float sphereSize = 10;
     [Tooltip("Maximum degrees for positioning calculations.")]
     public float maxDegrees = 210;
+    [Tooltip("No lower than this for finalposition calculations")]
+    public float minY = 0f;         // Minimum height (ground level)
 
     [Tooltip("Factor for pushing positions towards the bottom of the dome.")]
     public float pushTowardsBottom = .5f;
@@ -474,15 +476,16 @@ public class Controller : MonoBehaviour
         float angleAround = Mathf.Atan2(nZ, nX);
         float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
 
-
+        // Convert to spherical coordinates
         Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
         fPosition = transform.TransformPoint(fPosition);
 
-        //     // Ensure the position doesn't go below the floor (y = 0)
-        //     fPosition.y = Mathf.Max(fPosition.y, 0f);
+        // Ensure the position doesn't go below the ground (minY) or above the dome height (maxY)
+        fPosition.y = Mathf.Clamp(fPosition.y, minY, sphereSize);
 
         return fPosition;
     }
+
 
     // Empty functions for use in other scenes
     public virtual void OnPlayersWithDotsCollided(PlayerAvatar p1, PlayerAvatar p2)

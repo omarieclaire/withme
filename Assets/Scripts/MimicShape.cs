@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class MimicShape : MonoBehaviour
 {
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
     // Public variables to be set in the Unity Editor
     public int numSpheres;
 
-    public SoundEventSender soundEventSender;  
+    public SoundEventSender soundEventSender;
 
     public List<GameObject> spheres;
     public GameObject spherePrefab;
@@ -24,6 +26,8 @@ public class MimicShape : MonoBehaviour
     public float lastTimeChange;
     public float activationRadius;
 
+    public AudioClip onTickClip;  // Keeping old audio references for fallback or debugging
+
     private float oTime;
     private float nTime;
 
@@ -32,9 +36,36 @@ public class MimicShape : MonoBehaviour
     // Number of activated shapes
     public int numShapesActivated;
 
+    public ParticleSystem onShapeCompleteParticles; // Reference for the particle system on shape completion
+
+
+    // Ground reference (no-go below ground)
+    public GameObject ground; // not really using this
+
+    public Collider doorCollider;         // Collider for the Door area
+    public Collider soundBoothCollider;   // Collider for the SoundBooth area
+    public Collider stageCollider;        // Collider for the Stage area
+
     // Called when the script is enabled
     public void OnEnable()
     {
+        // Check for required components
+        if (spherePrefab == null)
+        {
+            Debug.LogError("[ERROR] Sphere Prefab is not assigned.");
+            return;
+        }
+
+        if (soundEventSender == null)
+        {
+            Debug.LogError("[ERROR] SoundEventSender is not assigned.");
+        }
+
+        if (controller == null)
+        {
+            Debug.LogError("[ERROR] Controller reference is missing.");
+        }
+
         // Destroy any existing child GameObjects
         while (transform.childCount > 0)
         {
@@ -48,14 +79,21 @@ public class MimicShape : MonoBehaviour
         // Create the specified number of spheres
         for (int i = 0; i < numSpheres; i++)
         {
-            // Instantiate a new sphere and set its properties
-            GameObject sphere = Instantiate(spherePrefab, Vector3.zero, Quaternion.identity);
-            sphere.transform.position = Vector3.zero;
-            sphere.transform.localScale = Vector3.one * sphereSize;
-            sphere.transform.SetParent(transform);
-            sphere.name = $"Sphere_{i}";
-            spheres.Add(sphere);
-            spheresActive.Add(false);
+            try
+            {
+                // Instantiate a new sphere and set its properties
+                GameObject sphere = Instantiate(spherePrefab, Vector3.zero, Quaternion.identity);
+                sphere.transform.position = Vector3.zero;
+                sphere.transform.localScale = Vector3.one * sphereSize;
+                sphere.transform.SetParent(transform);
+                sphere.name = $"Sphere_{i}";
+                spheres.Add(sphere);
+                spheresActive.Add(false);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"[ERROR] Failed to instantiate sphere {i}: {ex.Message}");
+            }
         }
 
         // Initialize a new shape set
@@ -64,8 +102,21 @@ public class MimicShape : MonoBehaviour
 
     public void NewShapeSet()
     {
+        if (noGoZoneManager == null)
+        {
+            Debug.LogError("[ERROR] NoGoZoneManager is not assigned.");
+            return;
+        }
+
         numShapesActivated = 0;
         lastTimeChange = Time.time;
+
+        // Get the y-position of the ground
+        if (ground == null)
+        {
+            Debug.LogError("[ERROR] Ground object is not assigned.");
+        }
+        float groundY = ground != null ? ground.transform.position.y : 0;
 
         // Set each sphere to a new random position
         for (int i = 0; i < numSpheres; i++)
@@ -73,19 +124,47 @@ public class MimicShape : MonoBehaviour
             spheresActive[i] = false;
 
             Vector3 randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
-            randomPos = controller.getFinalPosition(randomPos);
+            Debug.Log($"xxx Sphere_{i}: Initial Random Position = {randomPos}");
 
+            if (controller != null)
+            {
+                randomPos = controller.getFinalPosition(randomPos);
+                Debug.Log($"xxx Sphere_{i}: Position after getFinalPosition = {randomPos}");
+            }
+            else
+            {
+                Debug.LogWarning("[WARNING] Controller reference is null. Cannot calculate final position.");
+            }
+
+            // Check if the position is in a no-go zone using NoGoZoneManager
+            if (noGoZoneManager.IsInNoGoZone(randomPos))
+            {
+                Debug.Log($"Sphere_{i} is generated in a no-go zone at: {randomPos}");
+                spheres[i].GetComponent<Renderer>().material.color = Color.yellow;
+            }
+            else
+            {
+                Debug.Log($"Sphere_{i} is generated at: {randomPos}");
+                spheres[i].GetComponent<Renderer>().material.color = Color.white;
+            }
+
+            // Set the sphere's position
             spheres[i].transform.position = randomPos;
         }
 
-        // Play New Constellation Sound
-        string soundID = "MimicShapeNewShapeGen";
-        Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-        soundEventSender.SendOneShotSound(soundID, pointPosition);
+        // Play New Constellation Sound via SoundEventSender
+        if (soundEventSender != null)
+        {
+            string soundID = "MimicShapeNewShapeGen";
+            Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
+        }
+        else
+        {
+            Debug.LogWarning("[WARNING] SoundEventSender is null. Cannot play sound.");
+        }
 
-        // Comment out the old audio system call
-        // audio.Play(newShapeSetClip);
-
+        // Clear existing lines
         while (lineRendererHolder.childCount > 0)
         {
             DestroyImmediate(lineRendererHolder.GetChild(0).gameObject);
@@ -97,54 +176,94 @@ public class MimicShape : MonoBehaviour
             int numRandomConnections = Random.Range(1, numSpheres - 2);
             for (int j = 0; j < numRandomConnections; j++)
             {
-                GameObject lr = Instantiate(lineRendererPrefab);
-                lr.transform.SetParent(lineRendererHolder);
-
-                int randomConnection = Random.Range(0, numSpheres);
-
-                if (randomConnection != i)
+                try
                 {
-                    lr.GetComponent<LineRenderer>().positionCount = 2;
-                    lr.GetComponent<LineRenderer>().SetPosition(0, spheres[i].transform.position);
-                    lr.GetComponent<LineRenderer>().SetPosition(1, spheres[randomConnection].transform.position);
+                    GameObject lr = Instantiate(lineRendererPrefab);
+                    lr.transform.SetParent(lineRendererHolder);
+
+                    int randomConnection = Random.Range(0, numSpheres);
+
+                    if (randomConnection != i)
+                    {
+                        lr.GetComponent<LineRenderer>().positionCount = 2;
+                        lr.GetComponent<LineRenderer>().SetPosition(0, spheres[i].transform.position);
+                        lr.GetComponent<LineRenderer>().SetPosition(1, spheres[randomConnection].transform.position);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"[ERROR] Failed to create line between spheres: {ex.Message}");
                 }
             }
         }
     }
 
+    // Declare a flag to track whether ticking is currently playing
+    private bool isTickingPlaying = false;
+
     void Update()
     {
         oTime = nTime;
-        nTime = (Time.time - lastTimeChange) / timeBetweenChanges;
-        timer.SetHand(nTime);
+        nTime = Time.time - lastTimeChange;
+        nTime /= timeBetweenChanges;
+
+        // Check if it's time to start or continue the ticking sound
+        if (nTime % tickRate < oTime % tickRate)
+        {
+            if (!isTickingPlaying && soundEventSender != null)
+            {
+                string soundID = "MimicShapeTick";
+                soundEventSender.SendOrUpdateContinuousSound(soundID, transform.position);
+                isTickingPlaying = true;
+            }
+        }
+        else
+        {
+            if (isTickingPlaying && soundEventSender != null)
+            {
+                string soundID = "MimicShapeTick";
+                soundEventSender.StopContinuousSound(soundID, transform.position);
+                isTickingPlaying = false;
+            }
+        }
 
         // Check if it's time to change the shape
         if (Time.time - lastTimeChange > timeBetweenChanges)
         {
-            // Play Timeout Sound
-            string soundID = "MimicShapeTimeout";
-            Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
+            if (isTickingPlaying && soundEventSender != null)
+            {
+                string soundID = "MimicShapeTick";
+                soundEventSender.StopContinuousSound(soundID, transform.position);
+                isTickingPlaying = false;
+            }
 
-            // Reset timer and change shape
+            if (soundEventSender != null)
+            {
+                string timeoutSoundID = "MimicShapeTimeout";
+                soundEventSender.SendOneShotSound(timeoutSoundID, transform.position);
+            }
+
             lastTimeChange = Time.time;
             NewShapeSet();
         }
-    
 
         // Check the activation state of each sphere
-        for (int j = 0; j<numSpheres; j++)
+        if (controller == null)
+        {
+            Debug.LogError("[ERROR] Controller reference is missing.");
+            return;
+        }
+
+        for (int j = 0; j < numSpheres; j++)
         {
             bool sphereActive = false;
 
-            // Check each active player's distance to the sphere
-            for (int i = 0; i<controller.activePlayers.Count; i++)
+            for (int i = 0; i < controller.activePlayers.Count; i++)
             {
                 GameObject player = controller.activePlayers[i].gameObject;
                 float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
 
-                // Activate the sphere if a player is within the activation radius
-                if (distance<activationRadius)
+                if (distance < activationRadius)
                 {
                     sphereActive = true;
                     LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
@@ -152,22 +271,21 @@ public class MimicShape : MonoBehaviour
                     lr.SetPosition(0, spheres[j].transform.position);
                     lr.SetPosition(1, player.transform.position);
 
-                    // Play sound if the sphere was previously inactive and is now activated
-                    if (!spheresActive[j]) // Only play sound if the sphere wasn't active before
+                    if (!spheresActive[j])
                     {
-                        string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
-                        Vector3 playerPosition = player.transform.position;
-                        soundEventSender.SendOneShotSound(soundID, playerPosition);
+                        if (soundEventSender != null)
+                        {
+                            string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
+                            soundEventSender.SendOneShotSound(soundID, player.transform.position);
+                        }
                     }
                 }
             }
 
-            // Set the sphere's color and active state based on its activation status
             if (sphereActive)
             {
-                Color color = Color.green;
                 Renderer rend = spheres[j].GetComponent<Renderer>();
-                rend.material.SetColor("_Color", color);
+                rend.material.SetColor("_Color", Color.green);
                 spheresActive[j] = true;
             }
             else
@@ -175,15 +293,13 @@ public class MimicShape : MonoBehaviour
                 LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
                 lr.positionCount = 0;
 
-                Color color = Color.red;
-
                 Renderer rend = spheres[j].GetComponent<Renderer>();
-                rend.material.SetColor("_Color", color);
+                rend.material.SetColor("_Color", Color.red);
                 spheresActive[j] = false;
             }
         }
 
-        // Count the number of activated spheres
+        // Count activated spheres and trigger shape complete if all are active
         int oNumActivated = numShapesActivated;
         numShapesActivated = 0;
         for (int i = 0; i < numSpheres; i++)
@@ -194,56 +310,51 @@ public class MimicShape : MonoBehaviour
             }
         }
 
-        // Check if the number of activated spheres has changed
         if (oNumActivated != numShapesActivated)
         {
             if (oNumActivated < numShapesActivated)
             {
-                // Comment out the old audio play and replace it with SoundEventSender for Leave sound
-                // audio.Play(onLeaveClip);
-                string soundID = "MimicShapeLeave";
-                Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                if (soundEventSender != null)
+                {
+                    string soundID = "MimicShapeLeave";
+                    soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+                }
             }
             else
             {
-                // Comment out the old audio play and replace it with SoundEventSender for Enter sound
-                // audio.Play(onEnterClip);
-                string soundID = "MimicShapeEnter";
-                Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                if (soundEventSender != null)
+                {
+                    string soundID = "MimicShapeEnter";
+                    soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+                }
             }
         }
 
-        // Trigger the shape complete event if all spheres are activated
         if (numShapesActivated == numSpheres)
         {
             OnShapeComplete();
         }
     }
 
-    // References for audio and particle effects
-    // public AudioPlayer audio;
-    public AudioClip onShapeCompleteClip;
-    public ParticleSystem onShapeCompleteParticles;
-    public AudioClip newShapeSetClip;
-    public AudioClip onEnterClip;
-    public AudioClip onLeaveClip;
-
     // Called when the shape is complete
     void OnShapeComplete()
     {
-        // Play Success Matching Shape Sound
-        string soundID = "MimicShapeMatch";
-        Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-        soundEventSender.SendOneShotSound(soundID, pointPosition);
+        if (soundEventSender != null)
+        {
+            string soundID = "MimicShapeMatch";
+            soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+        }
 
-        // Comment out the old audio system call
-        // audio.Play(onShapeCompleteClip);
-        onShapeCompleteParticles.transform.position = transform.position;
-        onShapeCompleteParticles.Play();
+        if (onShapeCompleteParticles != null)
+        {
+            onShapeCompleteParticles.transform.position = transform.position;
+            onShapeCompleteParticles.Play();
+        }
+        else
+        {
+            Debug.LogWarning("[WARNING] Shape Complete Particles not assigned.");
+        }
 
-        // Set a new shape
         NewShapeSet();
     }
 }

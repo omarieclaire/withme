@@ -473,6 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 2021420187}
+  clip: {fileID: 0}
   soundEventSender: {fileID: 1804265884}
   die: 0
   changeColor: 0
@@ -1166,6 +1167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 2021420187}
+  clip: {fileID: 0}
   soundEventSender: {fileID: 1804265884}
   die: 0
   changeColor: 0
@@ -1903,7 +1905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341471095657089676, guid: 56a3e997b30c10245af808e1c7d0e9b4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1968,8 +1970,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 18b57cb404477614f9f0b9bbdf732dd8, type: 2}
   - {fileID: 2100000, guid: 23e997e652d8cba408e3b9cc986e21d8, type: 2}
   - {fileID: 2100000, guid: 000b1e2793462b24e841d5ab29d9a143, type: 2}
-  Florp: {fileID: 1628351438}
-  ps: {fileID: 1373468238}
+  Florp: {fileID: 1729653331}
+  ps: {fileID: 1663627443}
   clip: {fileID: 8300000, guid: a9957e297969f3946ac43a88a29d5621, type: 3}
   audioPlayer: {fileID: 2021420187}
   finished: 0
@@ -2000,9 +2002,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d2564e341cf4db284326b9c9f9de11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shiveringSpeed: 10
-  shiveringAmplitude: 0.1
-  rotationSpeed: 10
 --- !u!114 &1729653335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2015,9 +2014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e58509eddda4034b00ec7334787ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breathingSpeed: 0
-  breathingAmplitude: 0
-  rotationSpeed: 0
 --- !u!1001 &1803258790
 PrefabInstance:
   m_ObjectHideFlags: 0

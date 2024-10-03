@@ -8,6 +8,9 @@ public class PlayOnCollision : MonoBehaviour
 {
     public AudioPlayer audioPlayer;
 
+    public AudioClip clip;
+
+
     public SoundEventSender soundEventSender;  
 
     public bool die;
@@ -167,11 +170,24 @@ void OnCollisionEnter(Collision collision)
 
         if (targetOrSpike.name.Contains("FlorpTarget"))
         {
+            // audioPlayer.Play(growSuccessClip);
+
+            
             soundID = $"p{player.GetInstanceID()}EffectsSharePoint";  // I'm using player's spat channel because I don't want to manage distributing spike locations for spat
             soundEventSender.SendOneShotSound(soundID, pointPosition);
         }
         else if (targetOrSpike.name.Contains("FlorpSpike"))
         {
+            // float fPitch = 1.0f;
+            // fPitch += Random.Range(-randomizePitch, randomizePitch);
+            // audioPlayer.Play(clip, fPitch);
+
+            // if (audioPlayer == null && clip != null)
+            // {
+            //     print("AUDS");
+            //     audioPlayer.Play(clip);
+            // }
+            
             soundID = $"p{player.GetInstanceID()}EffectsShareSpikes";  
             soundEventSender.SendOneShotSound(soundID, pointPosition);
         }

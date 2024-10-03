@@ -502,7 +502,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 567080653947400126, guid: 0449166889e334c059404a48c798b0cc, type: 3}
   m_PrefabInstance: {fileID: 1188546421}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188546422}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce04620e4cf474a8cb3cbc511e441ea9, type: 3}
@@ -1038,11 +1038,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0449166889e334c059404a48c798b0cc, type: 3}
---- !u!1 &1188546422 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1265136629359764664, guid: 0449166889e334c059404a48c798b0cc, type: 3}
-  m_PrefabInstance: {fileID: 1188546421}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1206115461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1648,8 +1643,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 2039369492}
   soundEventSender: {fileID: 467197940}
-  radiusForCollection: 4
-  collectionRepresentation: {fileID: 1188546422}
+  radiusForCollection: 8
+  collectionRepresentation: {fileID: 0}
   connections: []
   connectionPrefab: {fileID: 558958222}
   totalInsideCircle: 0
@@ -1743,6 +1738,7 @@ SceneRoots:
   - {fileID: 1443420427}
   - {fileID: 1933211458}
   - {fileID: 2020778966}
+  - {fileID: 201885973}
   - {fileID: 1111207011}
   - {fileID: 1206115461}
   - {fileID: 1481265849}
@@ -1751,8 +1747,7 @@ SceneRoots:
   - {fileID: 783642190}
   - {fileID: 558958224}
   - {fileID: 172732675}
-  - {fileID: 649270823}
   - {fileID: 1188546421}
-  - {fileID: 201885973}
   - {fileID: 43543361}
+  - {fileID: 649270823}
   - {fileID: 1812179506}

@@ -12,6 +12,12 @@ public class HugFace : MonoBehaviour
 
     public SoundEventSender soundEventSender;
 
+    public AudioPlayer player;
+    public AudioClip onFlipClip;
+    public AudioClip SongSoundClip;
+    public AudioClip SighClip;
+
+
 
     public GameObject preDiscovered;
     public GameObject discovered;
@@ -64,47 +70,56 @@ public class HugFace : MonoBehaviour
     }
 
     public void WhileInside(PlayerAvatar player)
-{
-    if (fullComplete) 
     {
-        // Do nothing if the hugface is already matched
-        return;
-    }
-
-    // Track whether sounds have been played
-    if (!soundsPlayed)
-    {
-        Debug.Log("hug:inside for now");
-
-        // Play both sounds (face flip and face song)
-        PlayHugSound(player, "FlipSound");
-        PlayHugSound(player, "SongSound");
-        soundsPlayed = true;
-    }
-
-    discovered.SetActive(true);
-    preDiscovered.SetActive(false);
-    finished.SetActive(false);
-    inside = true;
-
-    bool allInside = true;
-
-    for (int i = 0; i < partners.Count; i++)
-    {
-        if (!partners[i].inside)
+        if (fullComplete)
         {
-            allInside = false;
-            break;
+            // Do nothing if the hugface is already matched
+            return;
+        }
+
+        // Track whether sounds have been played
+        if (!soundsPlayed)
+        {
+            Debug.Log("hug:inside for now");
+
+            // Play both sounds (face flip and face song)
+            PlayHugSound(player, "FlipSound");
+
+
+
+            // player.Play(onFlipClip);
+
+            PlayHugSound(player, "SongSound");
+            // player.Play(SongSound);
+
+            soundsPlayed = true;
+        }
+
+        discovered.SetActive(true);
+        preDiscovered.SetActive(false);
+        finished.SetActive(false);
+        inside = true;
+
+        bool allInside = true;
+
+        for (int i = 0; i < partners.Count; i++)
+        {
+            if (!partners[i].inside)
+            {
+                allInside = false;
+                break;
+            }
+        }
+
+        if (allInside)
+        {
+            Debug.Log("hug: all inside");
+            PlayHugSound(player, "Sigh");
+            // player.Play(Sigh);
+
+            hug.HUG(this, smileID);
         }
     }
-
-    if (allInside)
-    {
-        Debug.Log("hug: all inside");
-        PlayHugSound(player, "Sigh");
-        hug.HUG(this, smileID);
-    }
-}
 
 
     private void PlayHugSound(PlayerAvatar player, string soundType)

@@ -425,6 +425,10 @@ MonoBehaviour:
   smileID: 0
   state: 0
   soundEventSender: {fileID: 1391619008}
+  player: {fileID: 624508766}
+  onFlipClip: {fileID: 8300000, guid: 42c276826c5bc3b40a4cdec8686d5b91, type: 3}
+  SongSoundClip: {fileID: 0}
+  SighClip: {fileID: 0}
   preDiscovered: {fileID: 169225780}
   discovered: {fileID: 1815985053}
   finished: {fileID: 964920484}
@@ -909,7 +913,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: text
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 940528598}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: maxRing
       value: 
@@ -949,6 +953,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1443993585}
   m_SourcePrefab: {fileID: 100100000, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+--- !u!114 &940528598 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1206365506051034243, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+  m_PrefabInstance: {fileID: 940528597}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &964920484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,7 +1140,7 @@ PrefabInstance:
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerHolder
       value: 
-      objectReference: {fileID: 1055734399}
+      objectReference: {fileID: 1055734401}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerPrefab
       value: 
@@ -1135,8 +1150,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1391619008}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: playerFadeInSpeed
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: pushTowardsBottom
       value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: Time2Wait4PlayerFadeOut
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1164,6 +1187,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a4787902fee7545bd052fddb9fdede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1055734401 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2884566870493833324, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+  m_PrefabInstance: {fileID: 1055734397}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1182829748
 PrefabInstance:
   m_ObjectHideFlags: 0

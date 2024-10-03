@@ -681,6 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 2119574657}
+  clip: {fileID: 8300000, guid: 85684cab07df146d3be87dac114f3033, type: 3}
   soundEventSender: {fileID: 278078152}
   die: 0
   changeColor: 0
@@ -704,7 +705,7 @@ MonoBehaviour:
   currentHue: 0
   followOnColliderTarget: 0
   followOnColliderSpike: 1
-  followTransform: {fileID: 1265113569}
+  followTransform: {fileID: 0}
   collideTime: 0
   followLine: {fileID: 2049855986}
   increaseCollider: 0
@@ -868,7 +869,7 @@ PrefabInstance:
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerHolder
       value: 
-      objectReference: {fileID: 1265113569}
+      objectReference: {fileID: 1769549273}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerPrefab
       value: 
@@ -977,6 +978,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+--- !u!4 &1769549273 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2884566870493833324, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+  m_PrefabInstance: {fileID: 1265113567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1837579373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1380,7 +1386,7 @@ MonoBehaviour:
   controller: {fileID: 1265113568}
   pullForce: 0.4
   rb: {fileID: 2049855983}
-  target: {fileID: 1265113569}
+  target: {fileID: 0}
   playerID: 0
   lr: {fileID: 2049855986}
   forceTowardsSphere: 1
@@ -1405,7 +1411,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b510a7151947e884a9a0221cd86679c8, type: 2}
+  - {fileID: 2100000, guid: e3dca80e0856245688ad827ef83f33ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

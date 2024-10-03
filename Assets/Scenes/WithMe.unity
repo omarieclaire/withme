@@ -299,6 +299,14 @@ PrefabInstance:
       propertyPath: playerCollectDotParticleSystem
       value: 
       objectReference: {fileID: 631686739}
+    - target: {fileID: 8357134953894058359, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357134953894058359, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1269,7 +1277,7 @@ PrefabInstance:
     - target: {fileID: 1842264286978992341, guid: 01470d5f6bfa14efb8b9c86d7919d778, type: 3}
       propertyPath: controller
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1346514504}
     - target: {fileID: 6641976204458463430, guid: 01470d5f6bfa14efb8b9c86d7919d778, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
