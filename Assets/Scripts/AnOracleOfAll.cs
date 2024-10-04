@@ -49,7 +49,7 @@
 
 // 8. Placeholder Methods:
 
-// Several placeholder methods are present (OnWorldComplete, OnPlayerTrigger, etc.), which are filled in for specific game mechanics in derived classes.
+// Several placeholder methods are present (OnWorldComplete, OnPlayerCollideWithDot, etc.), which are filled in for specific game mechanics in derived classes.
 
 using UnityEngine.SceneManagement;
 
@@ -63,344 +63,554 @@ public class Controller : MonoBehaviour
 {
 
 
-    [Header("Camera Live Pose Feed Info")]
-    [Tooltip("Resolution of the live pose camera.")]
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Camera Settings~~~")]
+
+    [Tooltip("Resolution of the live pose camera feed used to track player positions.")]
     public int cameraResolution = 640;
+    [Tooltip("Mapping for camera input: maps 0 (camera min) to the negative remap value, and 640 (camera max) to the positive value.")]
+    public Vector2 RemapValues = new Vector2(1, -1);
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Play Area Settings~~~")]
+    [Tooltip("Center point of the game or play area, used for positioning calculations.")]
+    public Transform center;
 
-    [Header("BIG INFO")]
-    [Tooltip("Radius of the 'playsphere' where dots and players exist, used to visually scale the game.")]
+    [Tooltip("Radius of the play area where players and dots exist, used to scale the game world.")]
     public float sphereSize = 10;
-    [Tooltip("Maximum degrees for positioning calculations.")]
+
+    [Tooltip("Maximum angular range for positioning players around the dome in degrees.")]
     public float maxDegrees = 210;
-    [Tooltip("No lower than this for finalposition calculations")]
-    public float minY = 0f;         // Minimum height (ground level)
 
-    [Tooltip("Factor for pushing positions towards the bottom of the dome.")]
-    public float pushTowardsBottom = .5f;
+    [Tooltip("Minimum height for player/object positioning, to prevent going below the dome's surface.")]
+    public float minY = 0f;
 
-    [Tooltip("Initial size for players.")]
-    public float startSize;
+    [Tooltip("Factor pushing player/object positions towards the bottom of the dome for more natural distribution.")]
+    public float pushTowardsBottom = 0.5f;
 
-    [Header("Positioning Info")]
-    [Tooltip("Vertical positioning value; higher values keep objects closer to the top of the dome.")]
+    [Tooltip("Vertical positioning value; higher values place objects closer to the top of the dome.")]
     public float verticalValue = 1;
 
-    [Tooltip("Remap values for camera input: maps 0 to the negative remap value and 640 to positive.")]
-    public Vector2 RemapValues = new Vector2(1, -1);
-
-    [Tooltip("Maximum size for position scaling along each axis.")]
+    [Tooltip("Maximum size for scaling positions along each axis.")]
     public Vector3 maxSize = new Vector3(1, 0, 1);
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Player Settings~~~")]
+    [Tooltip("Toggle for displaying player IDs on-screen.")]
+    public bool displayPlayerIDText = false;
 
-    [Header("Player Info")]
+
+    [Header("~~~Movement Settings~~~")]
+    [Tooltip("Speed at which players interpolate to their target position. 0 means no movement.")]
+    public float playerLerpSpeed;
+    [Tooltip("Playerholder.")]
+
+    public Transform playerHolder;
+    [Tooltip("Prefab used for instantiating player GameObjects.")]
+    public GameObject playerPrefab;
+
+    [Tooltip("Initial size for players when they are created.")]
+    public float startSize;
+
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Stationary Player Settings~~~")]
+    [Tooltip("Time (in seconds) to wait before fading out a player due to inactivity.")]
+    public float Time2Wait4PlayerFadeOut;
+
+    [Tooltip("Speed at which players fade in.")]
+    public float playerFadeInSpeed;
+
+    [Tooltip("Speed at which players fade out.")]
+    public float playerFadeOutSpeed;
+
+    [Tooltip("Minimum scale factor to shrink a player down to when stationary.")]
+    public float minPlayerScale = 0.01f;
+
+    [Tooltip("Time (in seconds) before deactivating a player after losing OSC data.")]
+    public float playerDeactivationTime = 1.0f;
+
+    [Tooltip("Dictionary to track how long players have been stationary.")]
+    private Dictionary<int, float> playerStationaryTimes = new Dictionary<int, float>();
+    [Header("Sound Settings")]
+    [Tooltip("Time (in seconds) before stopping a player's sound after inactivity.")]
+    public float soundTimeout = 600f;
+
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Player Info~~~")]
+
+    [Tooltip("Average position of active players.")]
+    public Vector3 averagePosition;
+
+    [Tooltip("Number of currently active players.")]
+    public int numActivePlayers;
+
     [Tooltip("List of player GameObjects.")]
     public List<GameObject> players;
 
-    [Tooltip("List of player avatars.")]
+    [Tooltip("List of PlayerAvatar components associated with each player.")]
     public List<PlayerAvatar> playerAvatars;
 
     [Tooltip("List of player IDs.")]
     public List<int> playerIDS;
 
-    [Tooltip("List of last seen timestamps for players.")]
+    [Tooltip("List of timestamps for when each player was last seen.")]
     public List<float> playerLastSeenTimestamp;
-    public float soundTimeout = 600f; // Time in seconds to stop sound after inactivity
 
-    [Tooltip("List of scaling factors for player visibility.")]
+    [Tooltip("List of scaling factors for player visibility (used for fade in/out).")]
     public List<float> playerSeenScaler;
 
-    [Tooltip("List of target positions for players.")]
+    [Tooltip("List of target positions for players, where they should be moved.")]
     public List<Vector3> playerTargetPositions;
-
-    [Tooltip("Prefab for player instances.")]
-    public GameObject playerPrefab;
-
-    [Tooltip("Parent transform for player instances.")]
-    public Transform playerHolder;
-
-    [Header("Movement Info")]
-    [Tooltip("Speed for player movement lerping. 0 would be it doesn't move.")]
-    public float playerLerpSpeed;
-
-    [Tooltip("Time to wait until fading out player.")]
-    public float Time2Wait4PlayerFadeOut;
-
-    [Tooltip("Speed for player fade-in.")]
-    public float playerFadeInSpeed;
-
-    [Tooltip("Speed for player fade-out.")]
-    public float playerFadeOutSpeed;
-
-    [Tooltip("Average position of active players.")]
-    public Vector3 averagePosition;
-
-    [Tooltip("Number of active players.")]
-    public int numActivePlayers;
 
     [Tooltip("List of active player GameObjects.")]
     public List<PlayerAvatar> activePlayers;
 
-    public bool displayPlayerIDText = false; // Toggle for showing/hiding the text
+    [Header("~~~Sound~~~")]
 
-
-    [Header("Stationary Player Logic")]
-    [Tooltip("Minimum scale factor to shrink a player down to when stationary.")]
-    public float minPlayerScale = 0.01f;
-
-    [Tooltip("Time in seconds before we remove a stationary player entirely.")]
-    public float removePlayerAfterStationaryTime = 300f;
-
-    [Tooltip("Enable or disable player reassignment logic.")]
-    public bool enablePlayerReassignment = true;
-
-    // New variable to control player deactivation time based on OSC system behavior
-    [Tooltip("Time in seconds to deactivate a player after losing OSC data.")]
-    public float playerDeactivationTime = 1.0f; // New variable for player deactivation time
-
-    // Dictionary to track stationary times
-    private Dictionary<int, float> playerStationaryTimes = new Dictionary<int, float>();
-
-    // New attributes
-    public Transform center;
-
-
-
-    [Header("Sound Event Sender")]
+    [Tooltip("SoundEventSender for sending sound events based on player actions.")]
     public SoundEventSender soundEventSender;
 
-    // private bool musicPlayed = false; // Flag to ensure music is played only once
+
+
 
     void Start()
+
     {
+
         SetUp();
+
     }
 
+
+
     // Method to handle player position updates
+
     public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
+
     {
+
         // Ensure the player ID exists before updating
+
         if (!playerIDS.Contains(playerID))
+
         {
-            Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
+
+            // Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
+
             OnPlayerCreate(playerID);
+
         }
+
+
 
         float v1 = blobPosition.x / cameraResolution;
+
         float v2 = blobPosition.y / cameraResolution;
 
+
+
         // Initialize the player's stationary time if it doesn't exist in the dictionary
+
         if (!playerStationaryTimes.ContainsKey(playerID))
+
         {
+
             playerStationaryTimes[playerID] = 0f;
-            Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
+
+            // Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
+
         }
 
+
+
         // Reset stationary time when the player moves
+
         playerStationaryTimes[playerID] = 0f;
 
+
+
         // Remap the X and Y values from the camera to fit within the dome's space
+
         v1 = Mathf.Lerp(-RemapValues.x, RemapValues.x, v1);
+
         v2 = Mathf.Lerp(-RemapValues.y, RemapValues.y, v2);
 
+
+
         Vector3 remappedPosition = new Vector3(v1, 0, v2);
+
         Vector3 fPos = getFinalPosition(remappedPosition);
 
+
+
         int id = playerIDS.IndexOf(playerID);
+
         if (id != -1)
+
         {
+
+            // Debug.Log($"[POSITION UPDATE] Player {playerID}: Moving to {fPos}, Current Scale = {players[id].transform.localScale}");
+
+
+
             // Only change position if it's different from the current target with a small tolerance
+
             if (Vector3.Distance(playerTargetPositions[id], fPos) > 0.01f) // Tolerance check
+
             {
+
                 playerTargetPositions[id] = fPos;
+
                 playerLastSeenTimestamp[id] = Time.time;
 
+
+
                 // Smoothly move player to the new target position
+
                 players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
-                Debug.Log($"[POSITION UPDATE] Player {playerID} moved to {players[id].transform.position}.");
+
+                // Debug.Log($"[POSITION UPDATE] Player {playerID} moved to {players[id].transform.position}.");
+
+
+
 
 
                 // Check if the sound needs to be updated based on position change
+
                 if (Vector3.Distance(players[id].transform.position, fPos) > 0.05f) // 0.05f as a significant threshold
+
                 {
+
                     string soundID = GetSceneSpecificSoundID(playerID);
+
                     soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
-                    Debug.Log($"[SOUND UPDATE] Player {playerID}, Position {players[id].transform.position}");
+
+                    // Debug.Log($"[SOUND UPDATE] Player {playerID}, Position {players[id].transform.position}");
+
+
 
                 }
+
             }
+
         }
+
     }
+
+
+
+
 
 
 
     private string GetSceneSpecificSoundID(int playerID)
+
     {
+
         // Check if the current scene is "WithMe"
+
         Scene currentScene = SceneManager.GetActiveScene();
+
         if (currentScene.name == "WithMe")
+
         {
+
             // Return playerID with "WithMePlayerSound"
+
             string id = $"p{playerID}WithMePlayerSound";
+
             // Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
+
             return id;
+
         }
+
         else
+
         {
+
             // Return default sound ID
+
             string defaultID = $"p{playerID}";
+
             // Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
+
             return defaultID;
+
         }
+
     }
+
+
+
 
 
     private void FadePlayerIn(int playerIndex)
+
     {
+
         playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], 1, playerFadeInSpeed * Time.deltaTime);
+
         playerSeenScaler[playerIndex] = Mathf.Clamp(playerSeenScaler[playerIndex], 0, 1);
+
+        // Debug.Log($"[FADE IN] Player {playerIndex}: Seen Scaler = {playerSeenScaler[playerIndex]}, Scale = {players[playerIndex].transform.localScale}");
+
+
+
     }
+
+
 
     private void FadePlayerOut(int playerIndex)
+
     {
+
         playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], 0, playerFadeOutSpeed * Time.deltaTime);
+
+        // Debug.Log($"[FADE OUT] Player {playerIndex}: Seen Scaler = {playerSeenScaler[playerIndex]}, Scale = {players[playerIndex].transform.localScale}");
+
+
+
     }
+
+
 
     private void UpdatePlayerVisibilityAndSound(int playerIndex)
+
     {
+
+
+
         if (playerSeenScaler[playerIndex] < .03f)
+
         {
+
             if (players[playerIndex].activeSelf)
+
             {
+
                 players[playerIndex].SetActive(false);
+
                 StopPlayerSound(playerIndex);
+
                 // Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been hidden due to low visibility.");
+
             }
+
         }
+
         else
+
         {
+
             if (!players[playerIndex].activeSelf)
+
             {
+
                 players[playerIndex].SetActive(true);
+
                 StartPlayerSound(playerIndex);
+
                 // Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been shown as visibility increased.");
+
             }
+
         }
+
     }
+
+
 
     private void StartPlayerSound(int playerIndex)
+
     {
+
         if (soundEventSender == null)
+
         {
-            Debug.LogError("[ERROR] soundEventSender is not assigned.");
+
+            // Debug.LogError("[ERROR] soundEventSender is not assigned.");
+
             return;
+
         }
 
+
+
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+
         // string soundID = $"p{playerIDS[playerIndex]}";
+
         soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+
     }
+
+
+
 
 
     private void StopPlayerSound(int playerIndex)
+
     {
+
+
 
         // string soundID = $"p{playerIDS[playerIndex]}";
 
+
+
         // // Ask SoundEventSender if the sound is active
+
         // if (soundEventSender.IsSoundActive(soundID))
+
         // {
+
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+
         soundEventSender.StopContinuousSound(soundID, players[playerIndex].transform.position);  // Stop sound if it's active
-        Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
+
+        // Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
+
         // }
+
         // else
+
         // {
+
         //     Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
+
         // }
+
     }
+
+
+     public virtual Vector3 GetScale(int playerIndex)
+    {
+        return Vector3.one * playerSeenScaler[playerIndex] * startSize;
+    }
+
+
+// making the player bigger or smaller:
+    // players[playerIndex]: Refers to a specific player in the game.
+    // transform.localScale: Controls the size of that player.
+    // GetScale(playerIndex): Figures out how big or small the player should be based on certain factors, like how many dots they've collected.
+    // So, this line is saying: "Set the player's size to whatever GetScale says it should be."
 
     private void ScalePlayer(int playerIndex)
     {
         players[playerIndex].transform.localScale = GetScale(playerIndex);
+        Debug.Log("ooo i should not be here in anoricleofall /scaleplayer");
+
+        // Debug.Log($"[SCALE APPLY] Player {playerIndex}: Applied Scale = {players[playerIndex].transform.localScale}");
     }
+
 
 
     private void HandlePlayerActivity(int playerIndex)
+
     {
+
         float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
 
+        Debug.Log($"[PLAYER ACTIVITY] Player {playerIndex}: Time since last seen = {timeSinceLastSeen}");
+
+
+
         // Shrink and deactivate the player if it has been inactive for too long
+
         if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
+
         {
+
             ShrinkSilenceAndDeactivatePlayer(playerIndex);  // Player fades out and sound stops only after grace period
+
         }
+
         else
+
         {
+
             ReactivatePlayer(playerIndex);  // Player fades in and scales up when a message is received
+
         }
+
     }
+
+
 
     private void ReactivatePlayer(int playerIndex)
+
     {
+
         FadePlayerIn(playerIndex);  // Player fades back in
+
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+
         soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
 
+
+
         UpdatePlayerVisibilityAndSound(playerIndex);  // Ensure the player becomes visible
+
         ScalePlayer(playerIndex);  // Scale the player back to its original size
+
     }
+
+
+
 
 
 
     // Method to handle shrinking, silencing, and deactivating a player
-   private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
-{
-    float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
-
-    // Start shrinking and fading after Time2Wait4PlayerFadeOut
-    if (timeSinceLastSeen >= Time2Wait4PlayerFadeOut)
+    private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
     {
-        // Shrink the player's scale and fade out the player gradually
-        playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], minPlayerScale, playerFadeOutSpeed * Time.deltaTime);
+        float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
 
-        // Disable the collider after 1 second of inactivity
-        if (timeSinceLastSeen >= 1.0f)
+        // Start shrinking and fading after Time2Wait4PlayerFadeOut
+        if (timeSinceLastSeen >= Time2Wait4PlayerFadeOut)
         {
-            Collider playerCollider = players[playerIndex].GetComponent<Collider>();
-            if (playerCollider != null && playerCollider.enabled)
+            // Shrink the player's scale and fade out the player gradually
+            playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], minPlayerScale, playerFadeOutSpeed * Time.deltaTime);
+
+            // Disable the collider after 1 second of inactivity
+            if (timeSinceLastSeen >= 1.0f)
             {
-                playerCollider.enabled = false;
-                Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
+                Collider playerCollider = players[playerIndex].GetComponent<Collider>();
+                if (playerCollider != null && playerCollider.enabled)
+                {
+                    playerCollider.enabled = false;
+                    // Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
+                }
             }
-        }
 
-        // If the player shrinks below the minimum scale, deactivate it
-        if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)
-        {
-            if (players[playerIndex].activeSelf)
+            // If the player shrinks below the minimum scale, deactivate it
+            if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)
             {
-                players[playerIndex].SetActive(false);
-                StopPlayerSound(playerIndex);
-                Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+                if (players[playerIndex].activeSelf)
+                {
+                    players[playerIndex].SetActive(false);
+                    StopPlayerSound(playerIndex);
+                    // Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+                }
             }
+            else
+            {
+                // Apply gradual fade out
+                FadePlayerOut(playerIndex); // Continue fading the player out
+                // Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
+            }
+
+            // Apply scaling to shrink the player
+            ScalePlayer(playerIndex);
         }
-        else
-        {
-            // Apply gradual fade out
-            FadePlayerOut(playerIndex); // Continue fading the player out
-            Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
-        }
-
-        // Apply scaling to shrink the player
-        ScalePlayer(playerIndex);
     }
-}
 
 
 
-    public virtual Vector3 GetScale(int i)
-    {
-        return Vector3.one * playerSeenScaler[i] * startSize;
-    }
+
+
+    // public virtual Vector3 GetScale(int i)
+    // {
+    //     return Vector3.one * playerSeenScaler[i] * startSize;
+    // }
 
     public void OnPlayerCreate(int playerID)
     {
@@ -524,12 +734,12 @@ public class Controller : MonoBehaviour
 
 
     // Empty functions for use in other scenes
-    public virtual void OnPlayersWithDotsCollided(PlayerAvatar p1, PlayerAvatar p2)
+    public virtual void OnPlayersCollided(PlayerAvatar p1, PlayerAvatar p2)
     {
         // Placeholder for use in other scenes
     }
 
-    public virtual void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
+    public virtual void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider)
     {
         // Placeholder for use in other scenes
     }

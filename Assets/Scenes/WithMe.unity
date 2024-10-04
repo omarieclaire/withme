@@ -349,6 +349,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 602924234}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: startSize
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: sphereSize
       value: 10
       objectReference: {fileID: 0}
@@ -375,6 +379,10 @@ PrefabInstance:
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: displayPlayerIDText
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: sizeIncrementOnCollect
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: Time2Wait4PlayerFadeOut
@@ -520,6 +528,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1346514504}
+    - target: {fileID: 2770900130220968578, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
+      propertyPath: lineRenderer
+      value: 
+      objectReference: {fileID: 602924235}
     - target: {fileID: 3600061564155665821, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -576,6 +588,11 @@ PrefabInstance:
 --- !u!1 &602924234 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6535192396746532489, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
+  m_PrefabInstance: {fileID: 594293529}
+  m_PrefabAsset: {fileID: 0}
+--- !u!120 &602924235 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 728456781390363943, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
   m_PrefabInstance: {fileID: 594293529}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &623935956

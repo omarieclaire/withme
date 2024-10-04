@@ -39,13 +39,13 @@ public class PlayerAvatar : MonoBehaviour
 
     [Tooltip("Starting hue for the color range (e.g., 0.25 for green).")]
     public float hueRangeStart = 0.25f;
-    
+
     [Tooltip("Ending hue for the color range (e.g., 0.75 for purple).")]
     public float hueRangeEnd = 0.75f;
-    
+
     [Tooltip("Saturation of the color (0 = grayscale, 1 = full color).")]
     public float colorSaturation = 0.8f;
-    
+
     [Tooltip("Brightness/Value of the color (0 = black, 1 = full brightness).")]
     public float colorValue = 1f;
 
@@ -87,21 +87,27 @@ public class PlayerAvatar : MonoBehaviour
             playerModel.SetActive(usePlayerModel);
         }
     }
-
-    public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
+public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
+{
+    if (chargeRingOn)
     {
-        if (chargeRingOn)
-        {
-            chargedRing.enabled = true; 
-        }
-
-        if (maxRingOn)
-        {
-            maxRing.enabled = true; 
-        }
-
-        numDotsCollected++;
+        chargedRing.enabled = true;
     }
+
+    if (maxRingOn)
+    {
+        maxRing.enabled = true;
+    }
+
+    // Increment the number of dots collected
+    numDotsCollected++;
+
+    transform.localScale = controller.GetScale(id);
+
+    // Log the player's new scale for debugging
+    Debug.Log($"[DOT COLLECTED] Player {id}: New Scale = {transform.localScale}");
+}
+
 
     public void Reset()
     {
@@ -109,11 +115,17 @@ public class PlayerAvatar : MonoBehaviour
         maxRing.enabled = false;
         chargedRing.enabled = false;
         regularRing.enabled = true;
+        // Reset the player's size
+        Debug.Log($"[ooo Entering player RESET, currently doing the scaledown manually] Player {id}: Reset complete. controller startSize: {controller.startSize}; Dots now: {numDotsCollected}, Scale before reset: {transform.localScale}"); 
+        transform.localScale = Vector3.one * controller.startSize; 
+        Debug.Log($"[ooo Exiting player RESET, currently doing the scaledown manually] Player {id}: Reset complete. controller startSize: {controller.startSize}; Dots now: {numDotsCollected}, Scale after reset: {transform.localScale}"); 
+
+         // Debug.Log($"[RESET] Player {id}: Reset complete. Dots now: {numDotsCollected}, Scale after reset: {transform.localScale}"); 
     }
 
     public void OnTriggerEnter(Collider collider)
     {
-        controller.OnPlayerTrigger(this, collider.gameObject);
+        controller.OnPlayerCollideWithDot(this, collider.gameObject);
     }
 
     public void Update()
@@ -137,10 +149,10 @@ public class PlayerAvatar : MonoBehaviour
                 distance -= controller.players[i].transform.localScale.x / 2;
 
                 // Debug.Log($"Distance: {distance}, CollisionThreshold: {collisionThreshold}");
-
+                // players have collided with eachother
                 if (distance < collisionThreshold)
                 {
-                    controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
+                    controller.OnPlayersCollided(this, controller.playerAvatars[i]);
                 }
             }
         }
