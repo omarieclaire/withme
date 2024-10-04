@@ -87,41 +87,50 @@ public class PlayerAvatar : MonoBehaviour
             playerModel.SetActive(usePlayerModel);
         }
     }
-public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
+    public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
+    {
+        Debug.Log($"[DOT COLLECT] Player {id}: chargeRingOn = {chargeRingOn}, maxRingOn = {maxRingOn}");
+
+        if (chargeRingOn)
+        {
+            chargedRing.enabled = true;
+        }
+
+        if (maxRingOn)
+        {
+            maxRing.enabled = true;
+        }
+
+        numDotsCollected++;
+        transform.localScale = controller.GetScale(id);
+
+        Debug.Log($"[DOT COLLECTED] Player {id}: New Scale = {transform.localScale}, Dots Collected: {numDotsCollected}");
+    }
+
+
+
+public void Reset()
 {
-    if (chargeRingOn)
-    {
-        chargedRing.enabled = true;
-    }
+    // Resetting player stats
+    numDotsCollected = 0;
+    Debug.Log($"[RESET] Player {id}: Resetting numDotsCollected to 0.");
 
-    if (maxRingOn)
-    {
-        maxRing.enabled = true;
-    }
+    // Resetting ring states
+    maxRing.enabled = false;
+    chargedRing.enabled = false;
+    regularRing.enabled = true;
+    Debug.Log($"[RESET] Player {id}: Ring states reset. maxRing: {maxRing.enabled}, chargedRing: {chargedRing.enabled}, regularRing: {regularRing.enabled}");
 
-    // Increment the number of dots collected
-    numDotsCollected++;
+    // Resetting player scale
+    Debug.Log($"[RESET] Player {id}: Resetting scale to original size. Original scale: {controller.startSize}");
+    transform.localScale = Vector3.one * controller.startSize;
+    Debug.Log($"[RESET COMPLETE] Player {id}: Scale after reset: {transform.localScale}");
 
-    transform.localScale = controller.GetScale(id);
-
-    // Log the player's new scale for debugging
-    Debug.Log($"[DOT COLLECTED] Player {id}: New Scale = {transform.localScale}");
+    // Final confirmation of reset
+    Debug.Log($"[RESET COMPLETE] Player {id}: Reset to original size. Final Scale: {transform.localScale}");
 }
 
 
-    public void Reset()
-    {
-        numDotsCollected = 0;
-        maxRing.enabled = false;
-        chargedRing.enabled = false;
-        regularRing.enabled = true;
-        // Reset the player's size
-        Debug.Log($"[ooo Entering player RESET, currently doing the scaledown manually] Player {id}: Reset complete. controller startSize: {controller.startSize}; Dots now: {numDotsCollected}, Scale before reset: {transform.localScale}"); 
-        transform.localScale = Vector3.one * controller.startSize; 
-        Debug.Log($"[ooo Exiting player RESET, currently doing the scaledown manually] Player {id}: Reset complete. controller startSize: {controller.startSize}; Dots now: {numDotsCollected}, Scale after reset: {transform.localScale}"); 
-
-         // Debug.Log($"[RESET] Player {id}: Reset complete. Dots now: {numDotsCollected}, Scale after reset: {transform.localScale}"); 
-    }
 
     public void OnTriggerEnter(Collider collider)
     {

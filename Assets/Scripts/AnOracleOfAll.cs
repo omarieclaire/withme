@@ -482,25 +482,47 @@ public class Controller : MonoBehaviour
     }
 
 
-     public virtual Vector3 GetScale(int playerIndex)
+    // Calls GetGameSpecificScale to handle both general player scaling (e.g., visibility via playerSeenScaler)
+// and game-specific scaling.
+public virtual Vector3 GetScale(int playerIndex)
+{
+    // Call a new virtual method for game-specific scaling, with a default implementation.
+    Vector3 gameSpecificScale = GetGameSpecificScale(playerIndex);
+    
+    // Calculate final scale by multiplying game-specific scaling with playerSeenScaler.
+    Vector3 finalScale = gameSpecificScale * playerSeenScaler[playerIndex];
+
+    // Debug log for tracking the calculated scale values.
+    Debug.Log($"[SCALE CALCULATION] Player {playerIndex}: gameSpecificScale = {gameSpecificScale}, playerSeenScaler = {playerSeenScaler[playerIndex]}, finalScale = {finalScale}");
+
+    // Return the calculated final scale.
+    return finalScale;
+}
+
+
+    // Virtual method to be overridden in game controllers like DotGameController.
+    //provides a base implementation that simply returns the starting size (startSize), but each game can override this to apply its own scaling rules.
+
+    public virtual Vector3 GetGameSpecificScale(int playerIndex)
     {
-        return Vector3.one * playerSeenScaler[playerIndex] * startSize;
+        // Default implementation returns the starting size (no scaling based on game mechanics).
+        return Vector3.one * startSize;
     }
 
+    // uses the combined logic from GetScale, which now encapsulates both visibility-based scaling 
+    // and game-specific scaling. 
 
-// making the player bigger or smaller:
-    // players[playerIndex]: Refers to a specific player in the game.
-    // transform.localScale: Controls the size of that player.
-    // GetScale(playerIndex): Figures out how big or small the player should be based on certain factors, like how many dots they've collected.
-    // So, this line is saying: "Set the player's size to whatever GetScale says it should be."
+    public void ScalePlayer(int playerIndex)
+{
+    Vector3 newScale = GetScale(playerIndex);
+    Debug.Log($"[SCALE APPLY] Player {playerIndex}: Before scale applied. Calculated scale: {newScale}");
 
-    private void ScalePlayer(int playerIndex)
-    {
-        players[playerIndex].transform.localScale = GetScale(playerIndex);
-        Debug.Log("ooo i should not be here in anoricleofall /scaleplayer");
+    // Apply the scale
+    players[playerIndex].transform.localScale = newScale;
 
-        // Debug.Log($"[SCALE APPLY] Player {playerIndex}: Applied Scale = {players[playerIndex].transform.localScale}");
-    }
+    Debug.Log($"[SCALE APPLY] Player {playerIndex}: After scale applied. Final scale: {players[playerIndex].transform.localScale}");
+}
+
 
 
 
@@ -508,10 +530,10 @@ public class Controller : MonoBehaviour
 
     {
 
+
         float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
 
-        Debug.Log($"[PLAYER ACTIVITY] Player {playerIndex}: Time since last seen = {timeSinceLastSeen}");
-
+            // Debug.Log($"[PLAYER ACTIVITY] Player {playerIndex}: Time since last seen = {timeSinceLastSeen[playerIndex]}");
 
 
         // Shrink and deactivate the player if it has been inactive for too long
@@ -531,6 +553,8 @@ public class Controller : MonoBehaviour
             ReactivatePlayer(playerIndex);  // Player fades in and scales up when a message is received
 
         }
+            Debug.Log($"[ACTIVITY HANDLING] Player {playerIndex}: Final state after activity handling. Scale: {players[playerIndex].transform.localScale}");
+
 
     }
 

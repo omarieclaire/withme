@@ -247,19 +247,13 @@ public class DotGameController : Controller
 
 
 
-    // returns the size the player should be, considering both their initial size and how 
-    // visible they are in the game.
-
-    public override Vector3 GetScale(int i)
+    public override Vector3 GetGameSpecificScale(int playerIndex)
     {
-        Debug.Log($"[2a. withmeoracle/GetScale ooo Entering function, Player {playerAvatars[i].id}: local startSize: {startSize}; Dots now: {playerAvatars[i].numDotsCollected}, Scale before reset: {playerAvatars[i].transform.localScale.x}"); 
+        // Calculate scale based on the player's starting size and number of collected dots
+        float scaleFactor = startSize + playerAvatars[playerIndex].numDotsCollected * sizeIncrementOnCollect;
 
-        // Calculate scale based on the player's starting size, visibility, and number of collected dots
-        float scaleFactor = startSize + playerAvatars[i].numDotsCollected * sizeIncrementOnCollect;
-        return Vector3.one * playerSeenScaler[i] * scaleFactor;
-
-        Debug.Log($"[2a. withmeoracle/GetScale ooo leaving function (returning some value), Player {playerAvatars[i].id}: local startSize: {startSize}; Dots now: {playerAvatars[i].numDotsCollected}, Scale before reset: {playerAvatars[i].transform.localScale.x}"); 
-
+        // Return the new scale factor (doesn't include player visibility, which GetScale will handle)
+        return Vector3.one * scaleFactor;
     }
 
 
@@ -287,10 +281,9 @@ public class DotGameController : Controller
         Debug.Log($"[ooo About to enter RESET] Player ids are {p1} and {p2}: controller startSize: {startSize}");
 
         p1.Reset();
+        Debug.Log($"[POST RESET] Player {p1.id}: Scale after reset: {p1.transform.localScale}");
         p2.Reset();
-
-        // p1.transform.localScale = GetScale(p1.id);
-        // p2.transform.localScale = GetScale(p2.id);
+        Debug.Log($"[POST RESET] Player {p2.id}: Scale after reset: {p2.transform.localScale}");
 
 
 
@@ -335,20 +328,19 @@ public class DotGameController : Controller
                     return;
                 }
 
+                // Debug.Log($"[DOT PROCESSING] Player {playerIndex}: Processing collected dot. Total dots collected: {numDotsCollected}");
+
                 dotAvatars[index].collectedDot = true;
                 dotAvatars[index].dotCollector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
+                // Debug.Log($"[DOT PROCESSING COMPLETE] Player {playerIndex}: Processing complete. Current scale: {players[playerIndex].transform.localScale}");
 
-                // scale player maybe shouldnt! 
-                // float newScale = Mathf.Clamp(controller.startSize + numDotsCollected * controller.sizeIncrementOnCollect, controller.startSize * 0.5f, controller.startSize * 2.5f); // Adjust the max limit
-                Debug.Log($"[1. withmeoracle/OnPlayerCollideWithDot ooo player just got a dot] Player id is {player.id}: controller startSize: {startSize}; Dots now: {player.numDotsCollected}, Scale before: {player.transform.localScale.x}");
+                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
 
 
                 player.transform.localScale = GetScale(player.id);
 
-                Debug.Log($"[3. withmeoracle/OnPlayerCollideWithDot, we have supposedly set the playercale to whatever we got from getscale)Player id is {player.id}: controller startSize: {startSize}; Dots now: {player.numDotsCollected}, Scale AFTER: {player.transform.localScale.x}");
 
                 string soundID = $"p{player.id}EffectsWithMePointCollision";
                 Vector3 pointPosition = player.transform.position;
