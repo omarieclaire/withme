@@ -39,13 +39,13 @@ public class PlayerAvatar : MonoBehaviour
 
     [Tooltip("Starting hue for the color range (e.g., 0.25 for green).")]
     public float hueRangeStart = 0.25f;
-    
+
     [Tooltip("Ending hue for the color range (e.g., 0.75 for purple).")]
     public float hueRangeEnd = 0.75f;
-    
+
     [Tooltip("Saturation of the color (0 = grayscale, 1 = full color).")]
     public float colorSaturation = 0.8f;
-    
+
     [Tooltip("Brightness/Value of the color (0 = black, 1 = full brightness).")]
     public float colorValue = 1f;
 
@@ -92,24 +92,30 @@ public class PlayerAvatar : MonoBehaviour
     {
         if (chargeRingOn)
         {
-            chargedRing.enabled = true; 
+            chargedRing.enabled = true;
         }
 
         if (maxRingOn)
         {
-            maxRing.enabled = true; 
+            maxRing.enabled = true;
         }
 
         numDotsCollected++;
     }
-
     public void Reset()
     {
+        // Reset the number of dots collected
         numDotsCollected = 0;
+
+        // Reset the rings
         maxRing.enabled = false;
         chargedRing.enabled = false;
         regularRing.enabled = true;
+
+        // Reset the player's size
+        transform.localScale = Vector3.one * controller.startSize; // Assuming startSize is your default size
     }
+
 
     public void OnTriggerEnter(Collider collider)
     {

@@ -256,26 +256,27 @@ public class DotGameController : Controller
     }
 
     public override void OnPlayersWithDotsCollided(PlayerAvatar p1, PlayerAvatar p2)
+{
+    if (p1.numDotsCollected < minNumDotsForCollision || p2.numDotsCollected < minNumDotsForCollision)
     {
+        return;
+    }
 
-        // Dont do it if they dont have enought
-        if (p1.numDotsCollected < minNumDotsForCollision || p2.numDotsCollected < minNumDotsForCollision)
+    // Loop through all dots and release those collected by the players
+    for (int i = 0; i < dots.Count; i++)
+    {
+        if ((dotAvatars[i].collector == p1.transform || dotAvatars[i].collector == p2.transform) && !dotAvatars[i].atTree)
         {
-            return;
+            dotAvatars[i].collected = false;
+            dotAvatars[i].collector = null;
+            dotAvatars[i].OnPlayersHoldingMeCollided();
         }
-
-        for (int i = 0; i < dots.Count; i++)
-        {
-            if (dotAvatars[i].collector == p1.transform || dotAvatars[i].collector == p2.transform)
-            {
-                dotAvatars[i].collected = false;
-                dotAvatars[i].collector = null;
-                dotAvatars[i].OnPlayersHoldingMeCollided();
-            }
-        }
+    }
 
         p1.Reset();
         p2.Reset();
+
+    
 
         PlayCollisionSound(p1);
         // PlayCollisionSound(p2);
@@ -295,56 +296,43 @@ public class DotGameController : Controller
         // Debug.Log($"Sent collision sound for player {player.id} at position {pointPosition}.");
     }
 
-    public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
+   public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
+{
+    if (collider.CompareTag("Dot"))
     {
-        // Check if the collider is a dot
-        if (collider.CompareTag("Dot"))
+        Dot dotAvatar = collider.GetComponent<Dot>();
+        if (dotAvatar != null)
         {
-
-            int index = dots.IndexOf(collider.transform);
-            if (index != -1)
+            // Don't collect if we have reached the max or if the dot is already collected or at the tree
+            if (player.numDotsCollected > maxDotsPerPlayer || dotAvatar.collected || dotAvatar.atTree)
             {
-
-                // Dont collect if we have reached the max
-                if (player.numDotsCollected > maxDotsPerPlayer)
-                {
-                    return;
-                }
-
-                // Dont Recollect
-                if (dots[index].GetComponent<Dot>().collected)
-                {
-                    return;
-                }
-
-                dotAvatars[index].collected = true;
-                dotAvatars[index].collector = player.transform;
-                player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
-
-                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
-
-
-
-
-                string soundID = $"p{player.id}EffectsWithMePointCollision";
-                Vector3 pointPosition = player.transform.position;
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
-
-                playerCollectDotParticleSystem.transform.position = collider.transform.position;
-                playerCollectDotParticleSystem.Play();
-                // Debug.Log($"Sending OSC message to play point sound: {soundID}");
-
-                // dots[index].gameObject.SetActive(false);
-                // dots[index].position = dotOriginalPositions[index];
-                // dots[index].gameObject.SetActive(true);
+                return;
             }
-        }
-        else
-        {
-            // print("NOT A DOT");
-            // print("COLLIDER TAG: " + collider.tag);
+
+            dotAvatar.collected = true;
+            dotAvatar.collector = player.transform;
+            player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
+
+            // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
+
+            string soundID = $"p{player.id}EffectsWithMePointCollision";
+            Vector3 pointPosition = player.transform.position;
+            soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+            playerCollectDotParticleSystem.transform.position = collider.transform.position;
+            playerCollectDotParticleSystem.Play();
+
+            // dots[index].gameObject.SetActive(false);
+            // dots[index].position = dotOriginalPositions[index];
+            // dots[index].gameObject.SetActive(true);
         }
     }
+    else
+    {
+        // print("NOT A DOT");
+        // print("COLLIDER TAG: " + collider.tag);
+    }
+}
 
     private IEnumerator BlueMoonDotRegenerationRoutine()
     {
@@ -370,7 +358,6 @@ public class DotGameController : Controller
 
 
 
-
     public void OnTreeCollect()
     {
         totalDotsCollected++;
@@ -380,7 +367,10 @@ public class DotGameController : Controller
         {
             OnLevelComplete();
         }
+        else
+        {
 
+        }
     }
     public void OnLevelComplete()
     {

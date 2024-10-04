@@ -13,23 +13,27 @@ public class Dot : MonoBehaviour
     public LineRenderer lr;
     public Vector2 randomDirection;
     public Vector3 targetPosition;
+
+    // how much we spread out the collected dots
+    public float spreadRadius = 0.01f; // Radius for spreading dots at the tree
+
+
     private Transform _transform;
+    public bool towardsTree;
+    public bool atTree; // New variable to track if the dot is at the tree
 
     void Start()
     {
         _transform = transform;
     }
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        // Handle collision
-    }
-
     public void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.name == "Tree")
+        if (collider.gameObject.name == "Tree" && !atTree)
         {
             controller.OnTreeCollect();
+            // Set the dot's position to the tree's position
+            transform.position = collider.transform.position;
             OnTreeFed();
         }
     }
@@ -45,6 +49,8 @@ public class Dot : MonoBehaviour
 
     public void Update()
     {
+        if (atTree) return; // If at the tree, don't update position
+
         float fForce = collected ? controller.dotForceTowardsCollector : controller.dotForceTowardsPosition;
 
         if (collected)
@@ -87,19 +93,46 @@ public class Dot : MonoBehaviour
         _transform.Rotate(0, 180, 0);
     }
 
-    public bool towardsTree;
-
     public void OnPlayersHoldingMeCollided()
     {
         collected = true;
         collector = controller.tree;
         towardsTree = true;
     }
-
     public void OnTreeFed()
     {
+        atTree = true;
         collected = false;
         collector = null;
         towardsTree = false;
+        velocity = Vector3.zero;
+
+        // Increase the spread radius for a larger spread, but still keep it within control
+        Vector2 randomOffset = Random.insideUnitCircle * spreadRadius;  // Adjust spreadRadius if needed
+
+        // Introduce a small random value for the Y axis to give height variation
+        float yOffset = Random.Range(0.1f, 0.5f);  // Adjust the range as needed for vertical spread
+
+        Vector3 spreadPosition = controller.tree.position + new Vector3(randomOffset.x, yOffset, randomOffset.y);
+
+        // Allow a bit more room for spread while keeping it constrained
+        float maxSpreadDistance = 0.5f;  // Increase this for a bit more spread
+        Vector3 offsetFromTree = spreadPosition - controller.tree.position;
+
+        // Clamp the spread to ensure it doesn't go too far, but still gives some room for variation
+        if (offsetFromTree.magnitude > maxSpreadDistance)
+        {
+            spreadPosition = controller.tree.position + offsetFromTree.normalized * maxSpreadDistance;
+        }
+
+        // Apply the spread position
+        transform.position = spreadPosition;
+
+        if (lr != null)
+        {
+            lr.positionCount = 0;
+        }
     }
+
+
 }

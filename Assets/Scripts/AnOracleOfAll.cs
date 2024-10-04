@@ -63,111 +63,111 @@ public class Controller : MonoBehaviour
 {
 
 
-    [Header("Camera Live Pose Feed Info")]
-    [Tooltip("Resolution of the live pose camera.")]
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Camera Settings~~~")]
+
+    [Tooltip("Resolution of the live pose camera feed used to track player positions.")]
     public int cameraResolution = 640;
+    [Tooltip("Mapping for camera input: maps 0 (camera min) to the negative remap value, and 640 (camera max) to the positive value.")]
+    public Vector2 RemapValues = new Vector2(1, -1);
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Play Area Settings~~~")]
+    [Tooltip("Center point of the game or play area, used for positioning calculations.")]
+    public Transform center;
 
-    [Header("BIG INFO")]
-    [Tooltip("Radius of the 'playsphere' where dots and players exist, used to visually scale the game.")]
+    [Tooltip("Radius of the play area where players and dots exist, used to scale the game world.")]
     public float sphereSize = 10;
-    [Tooltip("Maximum degrees for positioning calculations.")]
+
+    [Tooltip("Maximum angular range for positioning players around the dome in degrees.")]
     public float maxDegrees = 210;
-    [Tooltip("No lower than this for finalposition calculations")]
-    public float minY = 0f;         // Minimum height (ground level)
 
-    [Tooltip("Factor for pushing positions towards the bottom of the dome.")]
-    public float pushTowardsBottom = .5f;
+    [Tooltip("Minimum height for player/object positioning, to prevent going below the dome's surface.")]
+    public float minY = 0f;
 
-    [Tooltip("Initial size for players.")]
-    public float startSize;
+    [Tooltip("Factor pushing player/object positions towards the bottom of the dome for more natural distribution.")]
+    public float pushTowardsBottom = 0.5f;
 
-    [Header("Positioning Info")]
-    [Tooltip("Vertical positioning value; higher values keep objects closer to the top of the dome.")]
+    [Tooltip("Vertical positioning value; higher values place objects closer to the top of the dome.")]
     public float verticalValue = 1;
 
-    [Tooltip("Remap values for camera input: maps 0 to the negative remap value and 640 to positive.")]
-    public Vector2 RemapValues = new Vector2(1, -1);
-
-    [Tooltip("Maximum size for position scaling along each axis.")]
+    [Tooltip("Maximum size for scaling positions along each axis.")]
     public Vector3 maxSize = new Vector3(1, 0, 1);
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Player Settings~~~")]
+    [Tooltip("Toggle for displaying player IDs on-screen.")]
+    public bool displayPlayerIDText = false;
 
-    [Header("Player Info")]
+
+    [Header("~~~Movement Settings~~~")]
+    [Tooltip("Speed at which players interpolate to their target position. 0 means no movement.")]
+    public float playerLerpSpeed;
+    [Tooltip("Playerholder.")]
+
+    public Transform playerHolder;
+    [Tooltip("Prefab used for instantiating player GameObjects.")]
+    public GameObject playerPrefab;
+
+    [Tooltip("Initial size for players when they are created.")]
+    public float startSize;
+
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Stationary Player Settings~~~")]
+    [Tooltip("Time (in seconds) to wait before fading out a player due to inactivity.")]
+    public float Time2Wait4PlayerFadeOut;
+
+    [Tooltip("Speed at which players fade in.")]
+    public float playerFadeInSpeed;
+
+    [Tooltip("Speed at which players fade out.")]
+    public float playerFadeOutSpeed;
+
+    [Tooltip("Minimum scale factor to shrink a player down to when stationary.")]
+    public float minPlayerScale = 0.01f;
+
+    [Tooltip("Time (in seconds) before deactivating a player after losing OSC data.")]
+    public float playerDeactivationTime = 1.0f;
+
+    [Tooltip("Dictionary to track how long players have been stationary.")]
+    private Dictionary<int, float> playerStationaryTimes = new Dictionary<int, float>();
+    [Header("Sound Settings")]
+    [Tooltip("Time (in seconds) before stopping a player's sound after inactivity.")]
+    public float soundTimeout = 600f;
+
+    // ~~~~~~~~~~~~~~
+    [Header("~~~Player Info~~~")]
+
+    [Tooltip("Average position of active players.")]
+    public Vector3 averagePosition;
+
+    [Tooltip("Number of currently active players.")]
+    public int numActivePlayers;
+
     [Tooltip("List of player GameObjects.")]
     public List<GameObject> players;
 
-    [Tooltip("List of player avatars.")]
+    [Tooltip("List of PlayerAvatar components associated with each player.")]
     public List<PlayerAvatar> playerAvatars;
 
     [Tooltip("List of player IDs.")]
     public List<int> playerIDS;
 
-    [Tooltip("List of last seen timestamps for players.")]
+    [Tooltip("List of timestamps for when each player was last seen.")]
     public List<float> playerLastSeenTimestamp;
-    public float soundTimeout = 600f; // Time in seconds to stop sound after inactivity
 
-    [Tooltip("List of scaling factors for player visibility.")]
+    [Tooltip("List of scaling factors for player visibility (used for fade in/out).")]
     public List<float> playerSeenScaler;
 
-    [Tooltip("List of target positions for players.")]
+    [Tooltip("List of target positions for players, where they should be moved.")]
     public List<Vector3> playerTargetPositions;
-
-    [Tooltip("Prefab for player instances.")]
-    public GameObject playerPrefab;
-
-    [Tooltip("Parent transform for player instances.")]
-    public Transform playerHolder;
-
-    [Header("Movement Info")]
-    [Tooltip("Speed for player movement lerping. 0 would be it doesn't move.")]
-    public float playerLerpSpeed;
-
-    [Tooltip("Time to wait until fading out player.")]
-    public float Time2Wait4PlayerFadeOut;
-
-    [Tooltip("Speed for player fade-in.")]
-    public float playerFadeInSpeed;
-
-    [Tooltip("Speed for player fade-out.")]
-    public float playerFadeOutSpeed;
-
-    [Tooltip("Average position of active players.")]
-    public Vector3 averagePosition;
-
-    [Tooltip("Number of active players.")]
-    public int numActivePlayers;
 
     [Tooltip("List of active player GameObjects.")]
     public List<PlayerAvatar> activePlayers;
 
-    public bool displayPlayerIDText = false; // Toggle for showing/hiding the text
+    [Header("~~~Sound~~~")]
 
-
-    [Header("Stationary Player Logic")]
-    [Tooltip("Minimum scale factor to shrink a player down to when stationary.")]
-    public float minPlayerScale = 0.01f;
-
-    [Tooltip("Time in seconds before we remove a stationary player entirely.")]
-    public float removePlayerAfterStationaryTime = 300f;
-
-    [Tooltip("Enable or disable player reassignment logic.")]
-    public bool enablePlayerReassignment = true;
-
-    // New variable to control player deactivation time based on OSC system behavior
-    [Tooltip("Time in seconds to deactivate a player after losing OSC data.")]
-    public float playerDeactivationTime = 1.0f; // New variable for player deactivation time
-
-    // Dictionary to track stationary times
-    private Dictionary<int, float> playerStationaryTimes = new Dictionary<int, float>();
-
-    // New attributes
-    public Transform center;
-
-
-
-    [Header("Sound Event Sender")]
+    [Tooltip("SoundEventSender for sending sound events based on player actions.")]
     public SoundEventSender soundEventSender;
 
-    // private bool musicPlayed = false; // Flag to ensure music is played only once
 
     void Start()
     {
@@ -352,48 +352,48 @@ public class Controller : MonoBehaviour
 
 
     // Method to handle shrinking, silencing, and deactivating a player
-   private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
-{
-    float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
-
-    // Start shrinking and fading after Time2Wait4PlayerFadeOut
-    if (timeSinceLastSeen >= Time2Wait4PlayerFadeOut)
+    private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
     {
-        // Shrink the player's scale and fade out the player gradually
-        playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], minPlayerScale, playerFadeOutSpeed * Time.deltaTime);
+        float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
 
-        // Disable the collider after 1 second of inactivity
-        if (timeSinceLastSeen >= 1.0f)
+        // Start shrinking and fading after Time2Wait4PlayerFadeOut
+        if (timeSinceLastSeen >= Time2Wait4PlayerFadeOut)
         {
-            Collider playerCollider = players[playerIndex].GetComponent<Collider>();
-            if (playerCollider != null && playerCollider.enabled)
+            // Shrink the player's scale and fade out the player gradually
+            playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], minPlayerScale, playerFadeOutSpeed * Time.deltaTime);
+
+            // Disable the collider after 1 second of inactivity
+            if (timeSinceLastSeen >= 1.0f)
             {
-                playerCollider.enabled = false;
-                Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
+                Collider playerCollider = players[playerIndex].GetComponent<Collider>();
+                if (playerCollider != null && playerCollider.enabled)
+                {
+                    playerCollider.enabled = false;
+                    Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
+                }
             }
-        }
 
-        // If the player shrinks below the minimum scale, deactivate it
-        if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)
-        {
-            if (players[playerIndex].activeSelf)
+            // If the player shrinks below the minimum scale, deactivate it
+            if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)
             {
-                players[playerIndex].SetActive(false);
-                StopPlayerSound(playerIndex);
-                Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+                if (players[playerIndex].activeSelf)
+                {
+                    players[playerIndex].SetActive(false);
+                    StopPlayerSound(playerIndex);
+                    Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+                }
             }
-        }
-        else
-        {
-            // Apply gradual fade out
-            FadePlayerOut(playerIndex); // Continue fading the player out
-            Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
-        }
+            else
+            {
+                // Apply gradual fade out
+                FadePlayerOut(playerIndex); // Continue fading the player out
+                Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
+            }
 
-        // Apply scaling to shrink the player
-        ScalePlayer(playerIndex);
+            // Apply scaling to shrink the player
+            ScalePlayer(playerIndex);
+        }
     }
-}
 
 
 
