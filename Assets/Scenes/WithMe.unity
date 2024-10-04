@@ -342,12 +342,16 @@ PrefabInstance:
       objectReference: {fileID: 1346514505}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: numDots
-      value: 100
+      value: 166
       objectReference: {fileID: 0}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: dotPrefab
       value: 
       objectReference: {fileID: 602924234}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: startSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: sphereSize
       value: 10
@@ -365,6 +369,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1619094247}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: maxDotsPerPlayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: soundEventSender
       value: 
       objectReference: {fileID: 623935957}
@@ -381,6 +389,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: minNumDotsForCollision
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: sizeIncrementOnCollect
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: Time2Wait4PlayerFadeOut
       value: 1
       objectReference: {fileID: 0}
@@ -388,6 +404,10 @@ PrefabInstance:
       propertyPath: playerCollectDotParticleSystem
       value: 
       objectReference: {fileID: 631686739}
+    - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+      propertyPath: totalDotsCollectedForCompletion
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8357134953894058359, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.175
@@ -524,6 +544,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 1346514504}
+    - target: {fileID: 2770900130220968578, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
+      propertyPath: lineRenderer
+      value: 
+      objectReference: {fileID: 602924235}
     - target: {fileID: 3600061564155665821, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -580,6 +604,11 @@ PrefabInstance:
 --- !u!1 &602924234 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6535192396746532489, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
+  m_PrefabInstance: {fileID: 594293529}
+  m_PrefabAsset: {fileID: 0}
+--- !u!120 &602924235 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 728456781390363943, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
   m_PrefabInstance: {fileID: 594293529}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &623935956

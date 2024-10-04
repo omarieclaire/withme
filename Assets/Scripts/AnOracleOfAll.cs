@@ -49,7 +49,7 @@
 
 // 8. Placeholder Methods:
 
-// Several placeholder methods are present (OnWorldComplete, OnPlayerTrigger, etc.), which are filled in for specific game mechanics in derived classes.
+// Several placeholder methods are present (OnWorldComplete, OnPlayerCollideWithDot, etc.), which are filled in for specific game mechanics in derived classes.
 
 using UnityEngine.SceneManagement;
 
@@ -180,7 +180,7 @@ public class Controller : MonoBehaviour
         // Ensure the player ID exists before updating
         if (!playerIDS.Contains(playerID))
         {
-            Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
+            // Debug.LogWarning($"[WARNING] Player ID {playerID} not found. Creating player.");
             OnPlayerCreate(playerID);
         }
 
@@ -191,7 +191,7 @@ public class Controller : MonoBehaviour
         if (!playerStationaryTimes.ContainsKey(playerID))
         {
             playerStationaryTimes[playerID] = 0f;
-            Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
+            // Debug.Log($"[INITIALIZED] Player {playerID}'s stationary time initialized.");
         }
 
         // Reset stationary time when the player moves
@@ -207,6 +207,8 @@ public class Controller : MonoBehaviour
         int id = playerIDS.IndexOf(playerID);
         if (id != -1)
         {
+            // Debug.Log($"[POSITION UPDATE] Player {playerID}: Moving to {fPos}, Current Scale = {players[id].transform.localScale}");
+
             // Only change position if it's different from the current target with a small tolerance
             if (Vector3.Distance(playerTargetPositions[id], fPos) > 0.01f) // Tolerance check
             {
@@ -215,7 +217,7 @@ public class Controller : MonoBehaviour
 
                 // Smoothly move player to the new target position
                 players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
-                Debug.Log($"[POSITION UPDATE] Player {playerID} moved to {players[id].transform.position}.");
+                // Debug.Log($"[POSITION UPDATE] Player {playerID} moved to {players[id].transform.position}.");
 
 
                 // Check if the sound needs to be updated based on position change
@@ -223,7 +225,7 @@ public class Controller : MonoBehaviour
                 {
                     string soundID = GetSceneSpecificSoundID(playerID);
                     soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
-                    Debug.Log($"[SOUND UPDATE] Player {playerID}, Position {players[id].transform.position}");
+                    // Debug.Log($"[SOUND UPDATE] Player {playerID}, Position {players[id].transform.position}");
 
                 }
             }
@@ -257,15 +259,20 @@ public class Controller : MonoBehaviour
     {
         playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], 1, playerFadeInSpeed * Time.deltaTime);
         playerSeenScaler[playerIndex] = Mathf.Clamp(playerSeenScaler[playerIndex], 0, 1);
+        // Debug.Log($"[FADE IN] Player {playerIndex}: Seen Scaler = {playerSeenScaler[playerIndex]}, Scale = {players[playerIndex].transform.localScale}");
+
     }
 
     private void FadePlayerOut(int playerIndex)
     {
         playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], 0, playerFadeOutSpeed * Time.deltaTime);
+        // Debug.Log($"[FADE OUT] Player {playerIndex}: Seen Scaler = {playerSeenScaler[playerIndex]}, Scale = {players[playerIndex].transform.localScale}");
+
     }
 
     private void UpdatePlayerVisibilityAndSound(int playerIndex)
     {
+
         if (playerSeenScaler[playerIndex] < .03f)
         {
             if (players[playerIndex].activeSelf)
@@ -290,7 +297,7 @@ public class Controller : MonoBehaviour
     {
         if (soundEventSender == null)
         {
-            Debug.LogError("[ERROR] soundEventSender is not assigned.");
+            // Debug.LogError("[ERROR] soundEventSender is not assigned.");
             return;
         }
 
@@ -310,7 +317,7 @@ public class Controller : MonoBehaviour
         // {
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
         soundEventSender.StopContinuousSound(soundID, players[playerIndex].transform.position);  // Stop sound if it's active
-        Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
+        // Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
         // }
         // else
         // {
@@ -321,12 +328,15 @@ public class Controller : MonoBehaviour
     private void ScalePlayer(int playerIndex)
     {
         players[playerIndex].transform.localScale = GetScale(playerIndex);
+        // Debug.Log($"[SCALE APPLY] Player {playerIndex}: Applied Scale = {players[playerIndex].transform.localScale}");
+
     }
 
 
     private void HandlePlayerActivity(int playerIndex)
     {
         float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
+        Debug.Log($"[PLAYER ACTIVITY] Player {playerIndex}: Time since last seen = {timeSinceLastSeen}");
 
         // Shrink and deactivate the player if it has been inactive for too long
         if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
@@ -369,7 +379,7 @@ public class Controller : MonoBehaviour
                 if (playerCollider != null && playerCollider.enabled)
                 {
                     playerCollider.enabled = false;
-                    Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
+                    // Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
                 }
             }
 
@@ -380,14 +390,14 @@ public class Controller : MonoBehaviour
                 {
                     players[playerIndex].SetActive(false);
                     StopPlayerSound(playerIndex);
-                    Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+                    // Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
                 }
             }
             else
             {
                 // Apply gradual fade out
                 FadePlayerOut(playerIndex); // Continue fading the player out
-                Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
+                // Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
             }
 
             // Apply scaling to shrink the player
@@ -406,7 +416,7 @@ public class Controller : MonoBehaviour
     {
         if (playerIDS.Contains(playerID))
         {
-            Debug.LogError($"[ERROR] Player with ID {playerID} already exists.");
+            // Debug.LogError($"[ERROR] Player with ID {playerID} already exists.");
             return;
         }
 
@@ -435,7 +445,7 @@ public class Controller : MonoBehaviour
         playerAvatar.Reset();
         playerStationaryTimes[playerID] = 0f;
 
-        Debug.Log($"[CREATION] Player {playerID} created at position {player.transform.position}.");
+        // Debug.Log($"[CREATION] Player {playerID} created at position {player.transform.position}.");
 
         TextMeshPro tmp = player.GetComponentInChildren<TextMeshPro>();
         if (tmp != null)
@@ -454,7 +464,7 @@ public class Controller : MonoBehaviour
 
 
         StartPlayerSound(players.Count - 1);  // Start sound for the new player
-        Debug.Log($"[CONFIRMED] Player {playerID} initialized and sound started.");
+        // Debug.Log($"[CONFIRMED] Player {playerID} initialized and sound started.");
     }
 
 
@@ -467,6 +477,8 @@ public class Controller : MonoBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
+            // Debug.Log($"[UPDATE] Player {i}: Active = {players[i].activeSelf}, Scale = {players[i].transform.localScale}, Dots Collected = {playerAvatars[i].numDotsCollected}");
+
             HandlePlayerActivity(i);
 
             if (players[i].activeSelf)
@@ -524,12 +536,12 @@ public class Controller : MonoBehaviour
 
 
     // Empty functions for use in other scenes
-    public virtual void OnPlayersWithDotsCollided(PlayerAvatar p1, PlayerAvatar p2)
+    public virtual void OnPlayersCollided(PlayerAvatar p1, PlayerAvatar p2)
     {
         // Placeholder for use in other scenes
     }
 
-    public virtual void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
+    public virtual void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider)
     {
         // Placeholder for use in other scenes
     }

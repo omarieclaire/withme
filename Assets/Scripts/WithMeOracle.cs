@@ -6,12 +6,12 @@
 
 // Dot Collection Mechanic:
 
-// When a player collides with a dot, the OnPlayerTrigger method is triggered. The code checks if the collider is a dot, and if the player hasn't reached their maximum dot limit (maxDotsPerPlayer) and the dot hasn’t already been collected.
+// When a player collides with a dot, the OnPlayerCollideWithDot method is triggered. The code checks if the collider is a dot, and if the player hasn't reached their maximum dot limit (maxDotsPerPlayer) and the dot hasn’t already been collected.
 // If valid, the dot is marked as collected, attached to the player, and the player grows by an amount (sizeIncrementOnCollect). A sound is played for the collection event, and a particle effect is triggered at the dot’s position. Additionally, an OSC message is sent to trigger the sound in external systems.
 
 // Player Collision Mechanic:
 
-// When two players collide, the OnPlayersWithDotsCollided method is called. If both players have collected enough dots (determined by minNumDotsForCollision), the collected dots are released and no longer attached to the players. An explosion sound is played, and a particle effect is triggered between the two players.
+// When two players collide, the OnPlayersCollided method is called. If both players have collected enough dots (determined by minNumDotsForCollision), the collected dots are released and no longer attached to the players. An explosion sound is played, and a particle effect is triggered between the two players.
 // The players are reset to their initial state, and the game proceeds.
 // Dot Regeneration:
 
@@ -38,96 +38,92 @@ using UnityEngine.UI;
 
 public class DotGameController : Controller
 {
-    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager for handling no-go areas
 
+    public Transform tree; // Reference to the "tree" object (central goal)
 
-    public Transform tree;
-
-    [Header("Collectable Info")]
+    [Header("~~~Collectable Info~~~")]
     [Tooltip("Number of dots in the game.")]
-    public int numDots;
+    public int numDots;  // Total number of collectible dots in the game
 
-    public int inty = 2;
-
+    public int inty = 2;  // Not sure what this variable is used for – might need clarification
 
     [Tooltip("Prefab used to instantiate dots.")]
-    public GameObject dotPrefab;
+    public GameObject dotPrefab;  // Prefab representing the dot object
 
     [Tooltip("Actual size of the dot.")]
-    public float dotSize;
+    public float dotSize;  // Size of each dot
 
     [Tooltip("Lower value spawns near the top of the dome, a higher value towards the ring of the dome.")]
-    public float dotFlatnessPower;
+    public float dotFlatnessPower;  // Used to control how dots are distributed in the dome (placement logic)
 
     [Tooltip("List of transforms for each dot in the game.")]
-    public List<Transform> dots;
+    public List<Transform> dots;  // List holding the transform component of each instantiated dot
 
     [Tooltip("List of Dot objects representing the dot avatars.")]
-    public List<Dot> dotAvatars;
+    public List<Dot> dotAvatars;  // List holding the Dot components (data and behavior)
 
     [Tooltip("Transform that holds all the dot objects.")]
-    public Transform dotHolder;
+    public Transform dotHolder;  // Parent transform to organize all dots under a single hierarchy
+
     [Tooltip("How slowly the dot moves to the new position, after being in the tree or at the beginning of its life.")]
-    public float dotForceTowardsPosition;
+    public float dotForceTowardsPosition;  // Force applied to move dots to their position
 
     [Tooltip("Dampening factor for the dot's movement.")]
-    public float dotDampening;
+    public float dotDampening;  // Damping applied to the dot's movement to smooth the transitions
 
-    [Header("Game Info")]
+    [Header("~~~Game Info~~~")]
     [Tooltip("Minimum number of dots required for the possibility of a player collision.")]
-    public int minNumDotsForCollision;
+    public int minNumDotsForCollision;  // Threshold for dots collected before players can collide and release dots
 
     [Tooltip("Maximum number of dots a player can collect.")]
-    public int maxDotsPerPlayer;
+    public int maxDotsPerPlayer;  // Maximum number of dots a player can hold at one time
 
     [Tooltip("Size increment of the player when a dot is collected.")]
-    public float sizeIncrementOnCollect;
+    public float sizeIncrementOnCollect;  // How much the player's size increases when collecting a dot
 
-    [Header("Dot Regeneration Settings")]
+    [Header("~~~Dot Regeneration Settings~~~")]
     [Tooltip("Time in seconds between each dot regeneration cycle.")]
-    public float dotRegenerationInterval = 30f;
+    public float dotRegenerationInterval = 30f;  // Time interval between regeneration of dots
 
     [Tooltip("Number of dots to regenerate in each cycle.")]
-    public int dotsToRegenerate = 5;
+    public int dotsToRegenerate = 5;  // Number of new dots created each regeneration cycle
 
-    private float dotRegenerationTimer;
+    private float dotRegenerationTimer;  // Tracks time for dot regeneration
 
-    [Header("Audio Info")]
-
+    [Header("~~~Audio Info~~~~")]
     [Tooltip("Sound played when a dot is collected.")]
-    public AudioClip onDotCollectClip;
+    public AudioClip onDotCollectClip;  // Audio clip for collecting a dot
 
     [Tooltip("Sound played when players collide.")]
-    public AudioClip onExplodeClip;
+    public AudioClip onExplodeClip;  // Audio clip for player collision
 
     [Tooltip("Sound played when the flowers bloom.")]
-    public AudioClip onLevelCompleteClip;
+    public AudioClip onLevelCompleteClip;  // Audio clip for level completion (victory sound)
 
-    public AudioPlayer audioPlayer;
+    public AudioPlayer audioPlayer;  // Handles audio playback
 
-    public ParticleSystem explosionParticles;
-    public ParticleSystem playerCollectDotParticleSystem;
-
+    public ParticleSystem explosionParticles;  // Particle effect for player collision
+    public ParticleSystem playerCollectDotParticleSystem;  // Particle effect for dot collection
 
     [Tooltip("Number of dots that have been brought to the tree.")]
-    public int totalDotsCollected;
+    public int totalDotsCollected;  // Total number of dots collected by players and delivered to the tree
 
     [Tooltip("Number of dots that need to reach the tree before we turn on the flowers / game over! Win!")]
-    public int totalDotsCollectedForCompletion;
-
+    public int totalDotsCollectedForCompletion;  // Threshold for winning the game (number of dots needed)
 
     [Tooltip("Force from the dots towards the player who collected them")]
-    public float dotForceTowardsCollector;
+    public float dotForceTowardsCollector;  // Force applied to dots when they are being collected by a player
+
     [Tooltip("Force from the dots towards the tree")]
-    public float dotForceTowardsTree;
+    public float dotForceTowardsTree;  // Force applied to dots when moving toward the tree
 
-    public ControlTreeMaterialValues controlTreeMaterialValues;
-
+    public ControlTreeMaterialValues controlTreeMaterialValues;  // Controls visuals related to the tree (e.g., bark, flowers)
 
     [Tooltip("Image used to fade the screen to black.")]
-    public RawImage fadeImage;
+    public RawImage fadeImage;  // UI element used to fade the screen to black upon game completion
 
-    private bool isLevelComplete = false;
+    private bool isLevelComplete = false;  // Tracks whether the level has already been marked as complete
 
 
     private void CreateDot(int id)
@@ -135,7 +131,7 @@ public class DotGameController : Controller
         if (noGoZoneManager == null || noGoZoneManager.doorCollider == null ||
     noGoZoneManager.soundBoothCollider == null || noGoZoneManager.stageCollider == null)
         {
-            Debug.LogError("NoGoZoneManager or one of its colliders is not assigned!");
+            // Debug.LogError("NoGoZoneManager or one of its colliders is not assigned!");
             return;
         }
 
@@ -184,7 +180,7 @@ public class DotGameController : Controller
         // Ensure the NoGoZoneManager is set
         if (noGoZoneManager == null)
         {
-            Debug.LogWarning("[WARNING] NoGoZoneManager is not assigned. Dot placement may be incorrect.");
+            // Debug.LogWarning("[WARNING] NoGoZoneManager is not assigned. Dot placement may be incorrect.");
         }
 
         // Assign dot properties
@@ -196,11 +192,11 @@ public class DotGameController : Controller
         }
 
         dotAvatar.controller = this;
-        dotAvatar.id = id;
-        dotAvatar.originalPosition = randomPos;
-        dotAvatar.velocity = Vector3.zero;
-        dotAvatar.targetPosition = randomPos;
-        dotAvatar.collected = false;
+        dotAvatar.dotId = id;
+        dotAvatar.dotOriginalPosition = randomPos;
+        dotAvatar.dotVelocity = Vector3.zero;
+        dotAvatar.dotTargetPosition = randomPos;
+        dotAvatar.dotIsCollected = false;
         dotAvatar.SetData();
 
         // Set the position of the dot and scale
@@ -248,35 +244,55 @@ public class DotGameController : Controller
     {
         SetUp();  // This ensures SetUp is called when the scene starts
     }
+    // Calculates the scale of the player based on collected dots and other factors
 
     public override Vector3 GetScale(int i)
     {
+        // Formula to calculate scale based on the number of collected dots
+        // Clamp the scale to prevent it from becoming too large or small
+
         float fScale = (startSize + (float)playerAvatars[i].numDotsCollected * sizeIncrementOnCollect) * playerSeenScaler[i];
+
+        // Log the scaling calculation components
+        // Debug.Log($"[SCALE CALC] Player {i}: startSize = {startSize}, numDotsCollected = {playerAvatars[i].numDotsCollected}, sizeIncrementOnCollect = {sizeIncrementOnCollect}, playerSeenScaler = {playerSeenScaler[i]}, Calculated Scale = {fScale}");
+
+        // Clamp the scale to prevent extremes
+        fScale = Mathf.Clamp(fScale, startSize * 0.5f, startSize * 1.5f);
+
         return Vector3.one * fScale;
     }
 
-    public override void OnPlayersWithDotsCollided(PlayerAvatar p1, PlayerAvatar p2)
-{
-    if (p1.numDotsCollected < minNumDotsForCollision || p2.numDotsCollected < minNumDotsForCollision)
-    {
-        return;
-    }
 
-    // Loop through all dots and release those collected by the players
-    for (int i = 0; i < dots.Count; i++)
+    // Handles logic when two players with dots collide
+
+    public override void OnPlayersCollided(PlayerAvatar p1, PlayerAvatar p2)
     {
-        if ((dotAvatars[i].collector == p1.transform || dotAvatars[i].collector == p2.transform) && !dotAvatars[i].atTree)
+        // Debug.Log($"[PLAYER COLLISION] Player {p1.id} and Player {p2.id} collided. Dots before release: P1 = {p1.numDotsCollected}, P2 = {p2.numDotsCollected}");
+
+        // Check if both players have enough dots to trigger a collision effect
+
+        if (p1.numDotsCollected < minNumDotsForCollision || p2.numDotsCollected < minNumDotsForCollision)
         {
-            dotAvatars[i].collected = false;
-            dotAvatars[i].collector = null;
-            dotAvatars[i].OnPlayersHoldingMeCollided();
+            return;  // Exit if the players haven't collected enough dots
         }
-    }
+
+        // Loop through all dots and release those that were collected by the colliding players
+        for (int i = 0; i < dots.Count; i++)
+        {
+            if ((dotAvatars[i].playerWhoCollectedTheDot == p1.transform || dotAvatars[i].playerWhoCollectedTheDot == p2.transform) && !dotAvatars[i].dotIsAtTree)
+            {
+                dotAvatars[i].dotIsCollected = false;
+                dotAvatars[i].playerWhoCollectedTheDot = null;
+                dotAvatars[i].OnPlayersHoldingMeCollided();
+            }
+        }
+        // Reset the state of the players after the collision
 
         p1.Reset();
         p2.Reset();
 
-    
+        // Debug.Log($"[PLAYER COLLISION] Dot release and reset complete. P1 dots: {p1.numDotsCollected}, P2 dots: {p2.numDotsCollected}");
+
 
         PlayCollisionSound(p1);
         // PlayCollisionSound(p2);
@@ -284,10 +300,10 @@ public class DotGameController : Controller
         explosionParticles.transform.position = (p1.transform.position + p2.transform.position) / 2;
         explosionParticles.Play();
     }
+    // Triggers the sound for player collisions
 
     private void PlayCollisionSound(PlayerAvatar player)
     {
-
         // audioPlayer.Play(onExplodeClip); // <-- old sound keep for debugging
         // Construct the sound ID and get the player's position
         string soundID = $"p{player.id}EffectsWithMePlayerCollision";
@@ -295,50 +311,60 @@ public class DotGameController : Controller
         soundEventSender.SendOneShotSound(soundID, pointPosition);
         // Debug.Log($"Sent collision sound for player {player.id} at position {pointPosition}.");
     }
+    // Handles logic when a player collects a dot
 
-   public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
-{
-    if (collider.CompareTag("Dot"))
+    public override void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider)
     {
-        Dot dotAvatar = collider.GetComponent<Dot>();
-        if (dotAvatar != null)
+        if (collider.CompareTag("Dot"))
         {
-            // Don't collect if we have reached the max or if the dot is already collected or at the tree
-            if (player.numDotsCollected > maxDotsPerPlayer || dotAvatar.collected || dotAvatar.atTree)
+            Dot dotAvatar = collider.GetComponent<Dot>();
+            if (dotAvatar != null)
             {
-                return;
+                // Don't collect if we have reached the max or if the dot is already collected or at the tree
+                if (player.numDotsCollected > maxDotsPerPlayer || dotAvatar.dotIsCollected || dotAvatar.dotIsAtTree)
+                {
+                    return;
+                }
+                // Mark the dot as collected and assign the collector
+
+                dotAvatar.dotIsCollected = true;
+                dotAvatar.playerWhoCollectedTheDot = player.transform;
+                // Trigger player-specific dot collection logic
+
+                player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
+
+                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
+                // Trigger sound and particle effects for the collection event
+
+                string soundID = $"p{player.id}EffectsWithMePointCollision";
+                Vector3 pointPosition = player.transform.position;
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+
+                playerCollectDotParticleSystem.transform.position = collider.transform.position;
+                playerCollectDotParticleSystem.Play();
+                // dots[index].gameObject.SetActive(false);
+                // dots[index].position = dotOriginalPositions[index];
+                // dots[index].gameObject.SetActive(true);
             }
-
-            dotAvatar.collected = true;
-            dotAvatar.collector = player.transform;
-            player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
-
-            // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
-
-            string soundID = $"p{player.id}EffectsWithMePointCollision";
-            Vector3 pointPosition = player.transform.position;
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
-
-            playerCollectDotParticleSystem.transform.position = collider.transform.position;
-            playerCollectDotParticleSystem.Play();
-
-            // dots[index].gameObject.SetActive(false);
-            // dots[index].position = dotOriginalPositions[index];
-            // dots[index].gameObject.SetActive(true);
+        }
+        else
+        {
+            // print("NOT A DOT");
+            // print("COLLIDER TAG: " + collider.tag);
         }
     }
-    else
-    {
-        // print("NOT A DOT");
-        // print("COLLIDER TAG: " + collider.tag);
-    }
-}
+    // Coroutine to regenerate dots periodically
 
     private IEnumerator BlueMoonDotRegenerationRoutine()
     {
         while (true)
         {
+            // Wait for the regeneration interval
+
             yield return new WaitForSeconds(dotRegenerationInterval);
+            // Trigger the dot regeneration logic
+            // Creates new dots during the regeneration cycle
+
             MakeNewDotsOnceInABlueMoon();
         }
     }
@@ -348,23 +374,31 @@ public class DotGameController : Controller
         // Debug.Log("Creating new dots...");
 
         int currentDotCount = dots.Count;
+        // Create new dots to be added to the game
+
         for (int i = 0; i < dotsToRegenerate; i++)
         {
             CreateDot(currentDotCount + i);
         }
+        // Debug.Log($"{dotsToRegenerate} new dots created.");
 
         // Debug.Log($"{dotsToRegenerate} new dots created.");
     }
 
 
+    // Called when a dot is collected and brought to the tree
 
     public void OnTreeCollect()
     {
         totalDotsCollected++;
         controlTreeMaterialValues.barkShown = (float)totalDotsCollected / (float)totalDotsCollectedForCompletion;
 
+        // Check if the win condition has been met
+
         if (totalDotsCollected >= totalDotsCollectedForCompletion)
         {
+            // Called when the level is complete (win state)
+
             OnLevelComplete();
         }
         else
@@ -376,18 +410,19 @@ public class DotGameController : Controller
     {
         if (isLevelComplete) return; // Ensure this runs only once
         isLevelComplete = true;
-
         print("LEVEL COMPLETE");
         // audioPlayer.Play(onLevelCompleteClip);
+        // Trigger the end of the level logic (visual and audio feedback)
+
         controlTreeMaterialValues.flowersShown = 1;
-
-
         // Start coroutine to fade to black after the sound finishes - I started setting this up but didn't finish!
         // StartCoroutine(FadeToBlack(onLevelCompleteClip.length));
     }
 
 
     //  I started setting this up but didn't finish!
+    // Coroutine for fading the screen to black after level completion (not fully implemented)
+
     private IEnumerator FadeToBlack(float delay)
     {
         yield return new WaitForSeconds(delay); // Wait for the sound to finish

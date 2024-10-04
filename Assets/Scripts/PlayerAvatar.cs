@@ -14,6 +14,9 @@ public class PlayerAvatar : MonoBehaviour
     [Tooltip("Unique identifier for the player.")]
     public int id;
 
+    [Tooltip("The amount by which the player grows for each dot collected.")]
+    public float sizeIncrement = 3f; // Define a new size increment.
+
     [Tooltip("Number of dots collected by the player.")]
     public int numDotsCollected;
 
@@ -90,6 +93,10 @@ public class PlayerAvatar : MonoBehaviour
 
     public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
     {
+        Debug.Log($"[DEBUG] controller.startSize = {controller.startSize}");
+
+        numDotsCollected++;  // Increment the number of dots collected by this player
+
         if (chargeRingOn)
         {
             chargedRing.enabled = true;
@@ -100,10 +107,25 @@ public class PlayerAvatar : MonoBehaviour
             maxRing.enabled = true;
         }
 
-        numDotsCollected++;
+        // Calculate the new scale based on the number of dots collected and the size increment
+        float newScale = Mathf.Clamp(controller.startSize + numDotsCollected * sizeIncrement, controller.startSize * 0.5f, controller.startSize * 2.5f); // Adjust the max limit
+
+        // Apply the new scale to the player
+        transform.localScale = Vector3.one * newScale;
+
+        // Log the player's new scale for debugging
+        Debug.Log($"[DOT COLLECTED] Player {id}: New Scale = {transform.localScale}");
     }
+
+
+
+
+
+
     public void Reset()
     {
+        // Debug.Log($"[RESET] Player {id}: Resetting. Dots before reset: {numDotsCollected}, Scale before reset: {transform.localScale}");
+
         // Reset the number of dots collected
         numDotsCollected = 0;
 
@@ -114,12 +136,14 @@ public class PlayerAvatar : MonoBehaviour
 
         // Reset the player's size
         transform.localScale = Vector3.one * controller.startSize; // Assuming startSize is your default size
+                                                                   // Debug.Log($"[RESET] Player {id}: Reset complete. Dots now: {numDotsCollected}, Scale after reset: {transform.localScale}");
+
     }
 
 
     public void OnTriggerEnter(Collider collider)
     {
-        controller.OnPlayerTrigger(this, collider.gameObject);
+        controller.OnPlayerCollideWithDot(this, collider.gameObject);
     }
 
     public void Update()
@@ -146,7 +170,7 @@ public class PlayerAvatar : MonoBehaviour
 
                 if (distance < collisionThreshold)
                 {
-                    controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
+                    controller.OnPlayersCollided(this, controller.playerAvatars[i]);
                 }
             }
         }
