@@ -56,6 +56,8 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class Controller : MonoBehaviour
 {
@@ -120,7 +122,7 @@ public class Controller : MonoBehaviour
     public float playerLerpSpeed;
 
     [Tooltip("Time to wait until fading out player.")]
-    public float Time2Wait4PlayerFadeOut = 0.3f;
+    public float Time2Wait4PlayerFadeOut;
 
     [Tooltip("Speed for player fade-in.")]
     public float playerFadeInSpeed;
@@ -136,6 +138,9 @@ public class Controller : MonoBehaviour
 
     [Tooltip("List of active player GameObjects.")]
     public List<PlayerAvatar> activePlayers;
+
+    public bool displayPlayerIDText = false; // Toggle for showing/hiding the text
+
 
     [Header("Stationary Player Logic")]
     [Tooltip("Minimum scale factor to shrink a player down to when stationary.")]
@@ -210,13 +215,15 @@ public class Controller : MonoBehaviour
 
                 // Smoothly move player to the new target position
                 players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
+                Debug.Log($"[POSITION UPDATE] Player {playerID} moved to {players[id].transform.position}.");
+
 
                 // Check if the sound needs to be updated based on position change
                 if (Vector3.Distance(players[id].transform.position, fPos) > 0.05f) // 0.05f as a significant threshold
                 {
                     string soundID = GetSceneSpecificSoundID(playerID);
                     soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
-                    Debug.Log($"[DEBUG] xxx Sending sound for Player ID {playerID}, Index {id}, Position {players[id].transform.position}");
+                    Debug.Log($"[SOUND UPDATE] Player {playerID}, Position {players[id].transform.position}");
 
                 }
             }
@@ -233,14 +240,14 @@ public class Controller : MonoBehaviour
         {
             // Return playerID with "WithMePlayerSound"
             string id = $"p{playerID}WithMePlayerSound";
-            Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
+            // Debug.Log($"Generated sound ID: {id}");  // Log the generated ID
             return id;
         }
         else
         {
             // Return default sound ID
             string defaultID = $"p{playerID}";
-            Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
+            // Debug.Log($"Generated default sound ID: {defaultID}");  // Log the default ID
             return defaultID;
         }
     }
@@ -345,27 +352,49 @@ public class Controller : MonoBehaviour
 
 
     // Method to handle shrinking, silencing, and deactivating a player
-    private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
+   private void ShrinkSilenceAndDeactivatePlayer(int playerIndex)
+{
+    float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
+
+    // Start shrinking and fading after Time2Wait4PlayerFadeOut
+    if (timeSinceLastSeen >= Time2Wait4PlayerFadeOut)
     {
-        // Gradually shrink the player's scale
+        // Shrink the player's scale and fade out the player gradually
         playerSeenScaler[playerIndex] = Mathf.Lerp(playerSeenScaler[playerIndex], minPlayerScale, playerFadeOutSpeed * Time.deltaTime);
 
-        // If the player is shrunk below the minimum scale, deactivate it
-        if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)  // Adding a small epsilon for float precision
+        // Disable the collider after 1 second of inactivity
+        if (timeSinceLastSeen >= 1.0f)
+        {
+            Collider playerCollider = players[playerIndex].GetComponent<Collider>();
+            if (playerCollider != null && playerCollider.enabled)
+            {
+                playerCollider.enabled = false;
+                Debug.Log($"[INFO] Collider for Player {playerIDS[playerIndex]} disabled after 1 second.");
+            }
+        }
+
+        // If the player shrinks below the minimum scale, deactivate it
+        if (playerSeenScaler[playerIndex] <= minPlayerScale + 0.001f)
         {
             if (players[playerIndex].activeSelf)
             {
-
-                players[playerIndex].SetActive(false);  // Deactivate the player
-                StopPlayerSound(playerIndex);  // Stop the player's sound
-                Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
+                players[playerIndex].SetActive(false);
+                StopPlayerSound(playerIndex);
+                Debug.Log($"[DEACTIVATION] Player {playerIDS[playerIndex]} has been deactivated and silenced.");
             }
         }
         else
         {
-            FadePlayerOut(playerIndex);  // Continue fading the player out
+            // Apply gradual fade out
+            FadePlayerOut(playerIndex); // Continue fading the player out
+            Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
         }
+
+        // Apply scaling to shrink the player
+        ScalePlayer(playerIndex);
     }
+}
+
 
 
     public virtual Vector3 GetScale(int i)
@@ -380,6 +409,8 @@ public class Controller : MonoBehaviour
             Debug.LogError($"[ERROR] Player with ID {playerID} already exists.");
             return;
         }
+
+
 
         GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
         player.transform.position = getFinalPosition(player.transform.position);
@@ -404,8 +435,26 @@ public class Controller : MonoBehaviour
         playerAvatar.Reset();
         playerStationaryTimes[playerID] = 0f;
 
+        Debug.Log($"[CREATION] Player {playerID} created at position {player.transform.position}.");
+
+        TextMeshPro tmp = player.GetComponentInChildren<TextMeshPro>();
+        if (tmp != null)
+        {
+            if (displayPlayerIDText)
+            {
+                // Set the player ID text for debugging purposes
+                tmp.text = $"ID: {playerID}";
+                tmp.enabled = true;  // Ensure it's visible
+            }
+            else
+            {
+                tmp.enabled = false;  // Hide the text if debugging is off
+            }
+        }
+
+
         StartPlayerSound(players.Count - 1);  // Start sound for the new player
-        Debug.Log($"[CONFIRMED] Player {playerID} created at position {player.transform.position}.");
+        Debug.Log($"[CONFIRMED] Player {playerID} initialized and sound started.");
     }
 
 
@@ -521,7 +570,7 @@ public class Controller : MonoBehaviour
         // playerSoundStates = new List<bool>();
         activePlayers = new List<PlayerAvatar>();
 
-        Debug.Log("[INFO] Common setup for player lists completed.");
+        // Debug.Log("[INFO] Common setup for player lists completed.");
     }
 
     public virtual void SetUp()
@@ -530,6 +579,6 @@ public class Controller : MonoBehaviour
         _SetUp();
 
         // This method can be overridden by subclasses for additional setup logic
-        Debug.Log("[INFO] Base SetUp called.");
+        // Debug.Log("[INFO] Base SetUp called.");
     }
 }

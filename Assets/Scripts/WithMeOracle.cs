@@ -165,17 +165,17 @@ public class DotGameController : Controller
 
                 if (isBlockedByNoGoZone)
                 {
-                    Debug.Log($"Dot {id} placement blocked by {hit.collider.name} at position {randomPos}.");
+                    // Debug.Log($"Dot {id} placement blocked by {hit.collider.name} at position {randomPos}.");
                 }
                 else
                 {
-                    Debug.Log($"Ray hit {hit.collider.name} but not a forbidden zone.");
+                    // Debug.Log($"Ray hit {hit.collider.name} but not a forbidden zone.");
                 }
             }
             else
             {
                 isBlockedByNoGoZone = false; // No collision, it's a valid position
-                Debug.Log($"No hit for dot {id} at position {randomPos}.");
+                // Debug.Log($"No hit for dot {id} at position {randomPos}.");
             }
 
 
@@ -191,7 +191,7 @@ public class DotGameController : Controller
         Dot dotAvatar = dot.GetComponent<Dot>();
         if (dotAvatar == null)
         {
-            Debug.LogError("Dot component missing from dot prefab!");
+            // Debug.LogError("Dot component missing from dot prefab!");
             return;
         }
 
@@ -220,13 +220,13 @@ public class DotGameController : Controller
 
 
     {
-        Debug.Log("[INFO] DotGameController SetUp called.");
+        // Debug.Log("[INFO] DotGameController SetUp called.");
 
         // First, run the common setup logic
         base.SetUp();
 
         // Then, run the scene-specific setup logic for the dots
-        Debug.Log("[INFO] DotGameController specific setup called.");
+        // Debug.Log("[INFO] DotGameController specific setup called.");
 
         // Initialize dots list
         dots = new List<Transform>();
@@ -240,7 +240,7 @@ public class DotGameController : Controller
         dotRegenerationTimer = dotRegenerationInterval;
         StartCoroutine(BlueMoonDotRegenerationRoutine());
 
-        Debug.Log("[INFO] DotGameController setup completed.");
+        // Debug.Log("[INFO] DotGameController setup completed.");
     }
 
 
@@ -292,7 +292,7 @@ public class DotGameController : Controller
         string soundID = $"p{player.id}EffectsWithMePlayerCollision";
         Vector3 pointPosition = player.transform.position;
         soundEventSender.SendOneShotSound(soundID, pointPosition);
-        Debug.Log($"Sent collision sound for player {player.id} at position {pointPosition}.");
+        // Debug.Log($"Sent collision sound for player {player.id} at position {pointPosition}.");
     }
 
     public override void OnPlayerTrigger(PlayerAvatar player, GameObject collider)
@@ -332,7 +332,7 @@ public class DotGameController : Controller
 
                 playerCollectDotParticleSystem.transform.position = collider.transform.position;
                 playerCollectDotParticleSystem.Play();
-                Debug.Log($"Sending OSC message to play point sound: {soundID}");
+                // Debug.Log($"Sending OSC message to play point sound: {soundID}");
 
                 // dots[index].gameObject.SetActive(false);
                 // dots[index].position = dotOriginalPositions[index];
@@ -357,7 +357,7 @@ public class DotGameController : Controller
 
     private void MakeNewDotsOnceInABlueMoon()
     {
-        Debug.Log("Creating new dots...");
+        // Debug.Log("Creating new dots...");
 
         int currentDotCount = dots.Count;
         for (int i = 0; i < dotsToRegenerate; i++)
@@ -365,7 +365,7 @@ public class DotGameController : Controller
             CreateDot(currentDotCount + i);
         }
 
-        Debug.Log($"{dotsToRegenerate} new dots created.");
+        // Debug.Log($"{dotsToRegenerate} new dots created.");
     }
 
 
@@ -393,7 +393,7 @@ public class DotGameController : Controller
 
 
         // Start coroutine to fade to black after the sound finishes - I started setting this up but didn't finish!
-        StartCoroutine(FadeToBlack(onLevelCompleteClip.length));
+        // StartCoroutine(FadeToBlack(onLevelCompleteClip.length));
     }
 
 

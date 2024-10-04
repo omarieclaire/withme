@@ -49,6 +49,7 @@ MonoBehaviour:
   cameraResolution: 640
   sphereSize: 10
   maxDegrees: 218.9
+  minY: 0
   pushTowardsBottom: 0.5
   startSize: 1
   verticalValue: 1
@@ -64,12 +65,13 @@ MonoBehaviour:
   playerPrefab: {fileID: 0}
   playerHolder: {fileID: 2884566870493833324}
   playerLerpSpeed: 1
-  Time2Wait4PlayerFadeOut: 0.3
-  playerFadeInSpeed: 0.1
-  playerFadeOutSpeed: 0.03
+  Time2Wait4PlayerFadeOut: 0.33
+  playerFadeInSpeed: 0.333
+  playerFadeOutSpeed: 0.43
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
+  displayPlayerIDText: 0
   minPlayerScale: 0.01
   removePlayerAfterStationaryTime: 300
   enablePlayerReassignment: 1
