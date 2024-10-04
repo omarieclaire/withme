@@ -553,7 +553,7 @@ public virtual Vector3 GetScale(int playerIndex)
             ReactivatePlayer(playerIndex);  // Player fades in and scales up when a message is received
 
         }
-            Debug.Log($"[ACTIVITY HANDLING] Player {playerIndex}: Final state after activity handling. Scale: {players[playerIndex].transform.localScale}");
+            // Debug.Log($"[ACTIVITY HANDLING] Player {playerIndex}: Final state after activity handling. Scale: {players[playerIndex].transform.localScale}");
 
 
     }
@@ -640,7 +640,7 @@ public virtual Vector3 GetScale(int playerIndex)
     {
         if (playerIDS.Contains(playerID))
         {
-            Debug.LogError($"[ERROR] Player with ID {playerID} already exists.");
+            // Debug.LogError($"[ERROR] Player with ID {playerID} already exists.");
             return;
         }
 

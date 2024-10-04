@@ -132,7 +132,7 @@ public class DotGameController : Controller
         if (noGoZoneManager == null || noGoZoneManager.doorCollider == null ||
     noGoZoneManager.soundBoothCollider == null || noGoZoneManager.stageCollider == null)
         {
-            Debug.LogError("NoGoZoneManager or one of its colliders is not assigned!");
+            // Debug.LogError("NoGoZoneManager or one of its colliders is not assigned!");
             return;
         }
 
@@ -181,7 +181,7 @@ public class DotGameController : Controller
         // Ensure the NoGoZoneManager is set
         if (noGoZoneManager == null)
         {
-            Debug.LogWarning("[WARNING] NoGoZoneManager is not assigned. Dot placement may be incorrect.");
+            // Debug.LogWarning("[WARNING] NoGoZoneManager is not assigned. Dot placement may be incorrect.");
         }
 
         // Assign dot properties
@@ -278,12 +278,12 @@ public class DotGameController : Controller
             }
         }
 
-        Debug.Log($"[ooo About to enter RESET] Player ids are {p1} and {p2}: controller startSize: {startSize}");
+        // Debug.Log($"[ooo About to enter RESET] Player ids are {p1} and {p2}: controller startSize: {startSize}");
 
         p1.Reset();
-        Debug.Log($"[POST RESET] Player {p1.id}: Scale after reset: {p1.transform.localScale}");
+        // Debug.Log($"[POST RESET] Player {p1.id}: Scale after reset: {p1.transform.localScale}");
         p2.Reset();
-        Debug.Log($"[POST RESET] Player {p2.id}: Scale after reset: {p2.transform.localScale}");
+        // Debug.Log($"[POST RESET] Player {p2.id}: Scale after reset: {p2.transform.localScale}");
 
 
 

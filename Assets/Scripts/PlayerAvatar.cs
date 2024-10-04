@@ -89,7 +89,7 @@ public class PlayerAvatar : MonoBehaviour
     }
     public void OnDotCollect(bool chargeRingOn, bool maxRingOn)
     {
-        Debug.Log($"[DOT COLLECT] Player {id}: chargeRingOn = {chargeRingOn}, maxRingOn = {maxRingOn}");
+        // Debug.Log($"[DOT COLLECT] Player {id}: chargeRingOn = {chargeRingOn}, maxRingOn = {maxRingOn}");
 
         if (chargeRingOn)
         {
@@ -104,7 +104,7 @@ public class PlayerAvatar : MonoBehaviour
         numDotsCollected++;
         transform.localScale = controller.GetScale(id);
 
-        Debug.Log($"[DOT COLLECTED] Player {id}: New Scale = {transform.localScale}, Dots Collected: {numDotsCollected}");
+        // Debug.Log($"[DOT COLLECTED] Player {id}: New Scale = {transform.localScale}, Dots Collected: {numDotsCollected}");
     }
 
 
@@ -113,21 +113,21 @@ public void Reset()
 {
     // Resetting player stats
     numDotsCollected = 0;
-    Debug.Log($"[RESET] Player {id}: Resetting numDotsCollected to 0.");
+    // Debug.Log($"[RESET] Player {id}: Resetting numDotsCollected to 0.");
 
     // Resetting ring states
     maxRing.enabled = false;
     chargedRing.enabled = false;
     regularRing.enabled = true;
-    Debug.Log($"[RESET] Player {id}: Ring states reset. maxRing: {maxRing.enabled}, chargedRing: {chargedRing.enabled}, regularRing: {regularRing.enabled}");
+    // Debug.Log($"[RESET] Player {id}: Ring states reset. maxRing: {maxRing.enabled}, chargedRing: {chargedRing.enabled}, regularRing: {regularRing.enabled}");
 
     // Resetting player scale
-    Debug.Log($"[RESET] Player {id}: Resetting scale to original size. Original scale: {controller.startSize}");
+    // Debug.Log($"[RESET] Player {id}: Resetting scale to original size. Original scale: {controller.startSize}");
     transform.localScale = Vector3.one * controller.startSize;
-    Debug.Log($"[RESET COMPLETE] Player {id}: Scale after reset: {transform.localScale}");
+    // Debug.Log($"[RESET COMPLETE] Player {id}: Scale after reset: {transform.localScale}");
 
     // Final confirmation of reset
-    Debug.Log($"[RESET COMPLETE] Player {id}: Reset to original size. Final Scale: {transform.localScale}");
+    // Debug.Log($"[RESET COMPLETE] Player {id}: Reset to original size. Final Scale: {transform.localScale}");
 }
 
 
