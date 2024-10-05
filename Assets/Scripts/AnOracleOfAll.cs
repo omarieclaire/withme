@@ -168,8 +168,12 @@ public class Controller : MonoBehaviour
     [Tooltip("SoundEventSender for sending sound events based on player actions.")]
     public SoundEventSender soundEventSender;
 
-    public static bool enableOldSoundSystem = true;
+    // public static bool enableOldSoundSystem = true;
     public static bool enableNewSoundSystem = true;
+
+
+    public static bool enableOldSoundSystem = false;
+    // public static bool enableNewSoundSystem = false;
 
 
 
@@ -644,7 +648,7 @@ public class Controller : MonoBehaviour
         playerAvatar.Reset();
         playerStationaryTimes[playerID] = 0f;
 
-        Debug.Log($"[CREATION] Player {playerID} created at position {player.transform.position}.");
+        // Debug.Log($"[CREATION] Player {playerID} created at position {player.transform.position}.");
 
         TextMeshPro tmp = player.GetComponentInChildren<TextMeshPro>();
         if (tmp != null)

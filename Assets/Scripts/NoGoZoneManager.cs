@@ -48,7 +48,7 @@ public class NoGoZoneManager : MonoBehaviour
     {
         if (controller == null)
         {
-            Debug.LogError("Controller reference is missing. Cannot adjust no-go zones based on sphere size.");
+            // Debug.LogError("Controller reference is missing. Cannot adjust no-go zones based on sphere size.");
             return;
         }
 
@@ -60,7 +60,7 @@ public class NoGoZoneManager : MonoBehaviour
         {
             doorCollider.transform.localScale = originalDoorScale * scaleFactor;
             doorCollider.transform.position = originalDoorPosition * scaleFactor;
-            Debug.Log($"Door scaled and moved with scale factor {scaleFactor}. New position: {doorCollider.transform.position}");
+            // Debug.Log($"Door scaled and moved with scale factor {scaleFactor}. New position: {doorCollider.transform.position}");
         }
 
         // Scale and move the soundbooth collider
@@ -68,7 +68,7 @@ public class NoGoZoneManager : MonoBehaviour
         {
             soundBoothCollider.transform.localScale = originalSoundBoothScale * scaleFactor;
             soundBoothCollider.transform.position = originalSoundBoothPosition * scaleFactor;
-            Debug.Log($"SoundBooth scaled and moved with scale factor {scaleFactor}. New position: {soundBoothCollider.transform.position}");
+            // Debug.Log($"SoundBooth scaled and moved with scale factor {scaleFactor}. New position: {soundBoothCollider.transform.position}");
         }
 
         // Scale and move the stage collider
@@ -76,7 +76,7 @@ public class NoGoZoneManager : MonoBehaviour
         {
             stageCollider.transform.localScale = originalStageScale * scaleFactor;
             stageCollider.transform.position = originalStagePosition * scaleFactor;
-            Debug.Log($"Stage scaled and moved with scale factor {scaleFactor}. New position: {stageCollider.transform.position}");
+            // Debug.Log($"Stage scaled and moved with scale factor {scaleFactor}. New position: {stageCollider.transform.position}");
         }
     }
 
@@ -85,29 +85,29 @@ public class NoGoZoneManager : MonoBehaviour
     {
         if (position == null)
         {
-            Debug.LogError("Position is null! Unable to check no-go zones.");
+            // Debug.LogError("Position is null! Unable to check no-go zones.");
             return false;
         }
 
         if (doorCollider != null && doorCollider.bounds.Contains(position))
         {
-            Debug.Log("Position is inside the Door no-go zone.");
+            // Debug.Log("Position is inside the Door no-go zone.");
             return true;
         }
 
         if (soundBoothCollider != null && soundBoothCollider.bounds.Contains(position))
         {
-            Debug.Log("Position is inside the SoundBooth no-go zone.");
+            // Debug.Log("Position is inside the SoundBooth no-go zone.");
             return true;
         }
 
         if (stageCollider != null && stageCollider.bounds.Contains(position))
         {
-            Debug.Log("Position is inside the Stage no-go zone.");
+            // Debug.Log("Position is inside the Stage no-go zone.");
             return true;
         }
 
-        Debug.Log("Position is not inside any no-go zones.");
+        // Debug.Log("Position is not inside any no-go zones.");
         return false;
     }
 }

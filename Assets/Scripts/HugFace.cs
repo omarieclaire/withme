@@ -88,7 +88,7 @@ public class HugFace : MonoBehaviour
 
     public void OnFullComplete()
     {
-        Debug.Log($"{name} - Full completion of HugFace.");
+        // Debug.Log($"{name} - Full completion of HugFace.");
     }
 
     public void WhileOutside()
@@ -192,7 +192,7 @@ public class HugFace : MonoBehaviour
             }
             if (Controller.enableNewSoundSystem)
             {
-                PlayHugSound(player, "FlipSound");
+                // PlayHugSound(player, "FlipSound");
                 PlayHugSound(player, "SongSound");
             }
         }
@@ -219,7 +219,7 @@ public class HugFace : MonoBehaviour
             }
             if (Controller.enableNewSoundSystem)
             {
-                PlayHugSound(player, "Sigh");
+                // PlayHugSound(player, "Sigh");
             }
 
             hug.HUG(this, smileID);

@@ -141,76 +141,76 @@ public class Hug : MonoBehaviour
     }
 
     private void PositionFaces(HugFace face1, HugFace face2, float minDistance)
-{
-    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
-
-    Vector3? position1 = GetValidPosition(existingFaces, minDistance);
-    if (!position1.HasValue)
     {
-        Debug.LogError("Failed to position first face. Using fallback position.");
-        position1 = Vector3.up; // Fallback position
-    }
+        List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
-    existingFaces.Add(face1);
-
-    Vector3? position2 = GetValidPosition(existingFaces, minDistance);
-    if (!position2.HasValue)
-    {
-        Debug.LogError("Failed to position second face. Using fallback position.");
-        position2 = -Vector3.up; // Fallback position
-    }
-
-    face1.transform.position = position1.Value;
-    face2.transform.position = position2.Value;
-
-    listOfHugFaceObjects.Add(face1);
-    listOfHugFaceObjects.Add(face2);
-}
-private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
-{
-    foreach (var face in existingFaces)
-    {
-        if (Vector3.Distance(pos, face.transform.position) < minDistance)
+        Vector3? position1 = GetValidPosition(existingFaces, minDistance);
+        if (!position1.HasValue)
         {
-            return true;
+            Debug.LogError("Failed to position first face. Using fallback position.");
+            position1 = Vector3.up; // Fallback position
         }
+
+        existingFaces.Add(face1);
+
+        Vector3? position2 = GetValidPosition(existingFaces, minDistance);
+        if (!position2.HasValue)
+        {
+            Debug.LogError("Failed to position second face. Using fallback position.");
+            position2 = -Vector3.up; // Fallback position
+        }
+
+        face1.transform.position = position1.Value;
+        face2.transform.position = position2.Value;
+
+        listOfHugFaceObjects.Add(face1);
+        listOfHugFaceObjects.Add(face2);
     }
-    return false;
-}
+    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
+    {
+        foreach (var face in existingFaces)
+        {
+            if (Vector3.Distance(pos, face.transform.position) < minDistance)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
-{
-    const int maxAttempts = 1000; // Increase max attempts
-    for (int attempts = 0; attempts < maxAttempts; attempts++)
     {
-        Vector3 randomPos = GetRandomPosition();
-        if (!CheckIfBlocked(randomPos) && !IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
+        const int maxAttempts = 1000; // Increase max attempts
+        for (int attempts = 0; attempts < maxAttempts; attempts++)
         {
-            return randomPos;
+            Vector3 randomPos = GetRandomPosition();
+            if (!CheckIfBlocked(randomPos) && !IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
+            {
+                return randomPos;
+            }
         }
+        Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
+        return null;
     }
-    Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
-    return null;
-}
-private Vector3 GetRandomPosition()
-{
-    // Use a uniform distribution on a sphere surface
-    Vector3 randomDir = Random.onUnitSphere;
-    float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
-    Vector3 randomPos = randomDir * randomDistance;
-    return controller.getFinalPosition(randomPos);
-}
-
-   private bool CheckIfBlocked(Vector3 pos)
-{
-    Ray ray = new Ray(Vector3.zero, pos.normalized);
-    if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
+    private Vector3 GetRandomPosition()
     {
-        return hit.collider == noGoZoneManager.doorCollider ||
-               hit.collider == noGoZoneManager.soundBoothCollider ||
-               hit.collider == noGoZoneManager.stageCollider;
+        // Use a uniform distribution on a sphere surface
+        Vector3 randomDir = Random.onUnitSphere;
+        float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
+        Vector3 randomPos = randomDir * randomDistance;
+        return controller.getFinalPosition(randomPos);
     }
-    return false;
-}
+
+    private bool CheckIfBlocked(Vector3 pos)
+    {
+        Ray ray = new Ray(Vector3.zero, pos.normalized);
+        if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
+        {
+            return hit.collider == noGoZoneManager.doorCollider ||
+                   hit.collider == noGoZoneManager.soundBoothCollider ||
+                   hit.collider == noGoZoneManager.stageCollider;
+        }
+        return false;
+    }
     private void AddFacesToList(HugFace face1, HugFace face2)
     {
         AddFaceToList(face1);

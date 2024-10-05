@@ -288,6 +288,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 660355876}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1001 &272408607
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1078209785250455087, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_Name
+      value: HugMatchParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1078209785250455087, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.2781229
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.7187753
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.1023846
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290638700551644002, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
 --- !u!114 &315135604 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7251996025533612479, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
@@ -299,6 +360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464088183d2a1484ab8fb64e356c9f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &617696429 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7285958529485263684, guid: b0a865ca6b60a433ea8568a5414ff375, type: 3}
+  m_PrefabInstance: {fileID: 272408607}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &624508765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -428,6 +494,7 @@ MonoBehaviour:
   preDiscovered: {fileID: 169225780}
   discovered: {fileID: 1815985053}
   finished: {fileID: 964920484}
+  matchParticlesPrefab: {fileID: 0}
   hugFaceSong: {fileID: 0}
   onFlipClip: {fileID: 8300000, guid: 42c276826c5bc3b40a4cdec8686d5b91, type: 3}
   SighClip: {fileID: 8300000, guid: 5cd3d09944e793c47b5d8e47fa3a3398, type: 3}
@@ -774,6 +841,10 @@ PrefabInstance:
     - target: {fileID: 6341471095657089676, guid: 56a3e997b30c10245af808e1c7d0e9b4, type: 3}
       propertyPath: m_Name
       value: Major ParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 6341471095657089676, guid: 56a3e997b30c10245af808e1c7d0e9b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1423,9 +1494,10 @@ MonoBehaviour:
   noGoZoneManager: {fileID: 838548344}
   controller: {fileID: 1055734400}
   hugFacePrefab: {fileID: 660355872}
+  matchParticlesPrefab: {fileID: 617696429}
   connectionPrefab: {fileID: 931979819}
   hugFaceSize: 1
-  activationRadius: 3.55
+  activationRadius: 4.67
   howFastWeHug: 0.01
   firstPairDelay: 15
   slowPairDelay: 10
@@ -2098,6 +2170,7 @@ SceneRoots:
   - {fileID: 660355876}
   - {fileID: 931979821}
   - {fileID: 889365377}
+  - {fileID: 272408607}
   - {fileID: 758316352}
   - {fileID: 1353191221}
   - {fileID: 1427088142}

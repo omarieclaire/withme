@@ -332,19 +332,21 @@ public class DotGameController : Controller
                 dotAvatars[index].dotCollector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
-
-
                 player.transform.localScale = GetScale(player.id);
 
-                if (Controller.enableNewSoundSystem)
+                if (Controller.enableOldSoundSystem && onDotCollectClip != null)
+                {
+                    audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
 
+
+                }
+                if (Controller.enableNewSoundSystem)
                 {
                     string soundID = $"p{player.id}EffectsWithMePointCollision";
                     Vector3 pointPosition = player.transform.position;
                     soundEventSender.SendOneShotSound(soundID, pointPosition);
-
                 }
+
                 playerCollectDotParticleSystem.transform.position = collider.transform.position;
                 playerCollectDotParticleSystem.Play();
 
