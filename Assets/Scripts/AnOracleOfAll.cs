@@ -432,7 +432,7 @@ public class Controller : MonoBehaviour
         if (enableNewSoundSystem)
         {
             string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+            // soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
 
         }
 
@@ -544,7 +544,7 @@ public class Controller : MonoBehaviour
 
         if (enableNewSoundSystem)
         {
-            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+            // soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
 
         }
 

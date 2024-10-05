@@ -175,7 +175,7 @@ public class HugFace : MonoBehaviour
     {
         string soundID = $"p{player.id}EffectsHugFace{soundType}";
         Vector3 pointPosition = player.transform.position;
-        Debug.Log($"Playing hug {soundType.ToLower()} sound: {soundID} at {pointPosition}");
+        Debug.Log($"Step 1: Playing hug {soundType.ToLower()} sound: {soundID} at {pointPosition}");
         soundEventSender.SendOneShotSound(soundID, pointPosition);
     }
 

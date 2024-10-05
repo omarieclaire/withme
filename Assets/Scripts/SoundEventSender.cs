@@ -71,7 +71,7 @@ public class SoundEventSender : MonoBehaviour
     // Method to send one-shot sound events without tracking them in the dictionary
     public void SendOneShotSound(string soundID, Vector3? position)
 {
-    Debug.Log($"[SendOneShotSound] Entering method. SoundID: {soundID}, Position: {(position.HasValue ? position.Value.ToString() : "null")}");
+    Debug.Log($"[SendOneShotSound] Step 2: Entering method. SoundID: {soundID}, Position: {(position.HasValue ? position.Value.ToString() : "null")}");
 
     try
     {
@@ -93,7 +93,7 @@ public class SoundEventSender : MonoBehaviour
 
         Debug.Log($"[SendOneShotSound] Attempting to send OSC message...");
         SafeSend(message);
-        Debug.Log($"[SendOneShotSound] Successfully sent OSC message to TouchDesigner: {oscAddress}, {soundID}");
+        Debug.Log($"[SendOneShotSound] Step 3 Successfully sent OSC message to TouchDesigner: {oscAddress}, {soundID}");
     }
     catch (System.Exception e)
     {
