@@ -111,35 +111,58 @@ public class Hug : MonoBehaviour
     }
 
     private void PositionFaces(HugFace face1, HugFace face2, float minDistance)
+{
+    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects); // Copy existing faces
+
+    Vector3 position1 = GetValidPosition(existingFaces, minDistance);
+    existingFaces.Add(face1); // Add face1 to existing faces for checking face2 position
+
+    Vector3 position2 = GetValidPosition(existingFaces, minDistance);
+
+    face1.transform.position = position1;
+    face2.transform.position = position2;
+
+    // Add new faces to the list of existing faces
+    listOfHugFaceObjects.Add(face1);
+    listOfHugFaceObjects.Add(face2);
+}
+
+    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
+{
+    foreach (var face in existingFaces)
     {
-        const int MAX_RETRIES = 10;
-        Vector3 randomPos1 = GetValidPosition(MAX_RETRIES);
-        Vector3 randomPos2;
-        int retries = 0;
-
-        do
+        if (Vector3.Distance(pos, face.transform.position) < minDistance)
         {
-            randomPos2 = GetValidPosition(MAX_RETRIES);
-            retries++;
-            if (retries > MAX_RETRIES) break;
-        } while (Vector3.Distance(randomPos1, randomPos2) < minDistance);
-
-        face1.transform.position = randomPos1;
-        face2.transform.position = randomPos2;
+            return true;
+        }
     }
+    return false;
+}
 
-    private Vector3 GetValidPosition(int maxRetries)
+    private Vector3 GetValidPosition(List<HugFace> existingFaces, float minDistance)
+{
+    Vector3 randomPos;
+    bool isValid;
+    int maxAttempts = 100; // Prevent infinite loop
+    int attempts = 0;
+
+    do
     {
-        Vector3 randomPos;
-        int retries = 0;
-        do
+        randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
+        randomPos = controller.getFinalPosition(randomPos);
+
+        isValid = !CheckIfBlocked(randomPos) && !IsOverlappingExistingFaces(randomPos, existingFaces, minDistance);
+
+        attempts++;
+        if (attempts >= maxAttempts)
         {
-            randomPos = GetRandomPosition();
-            retries++;
-            if (retries > maxRetries) break;
-        } while (CheckIfBlocked(randomPos));
-        return randomPos;
-    }
+            Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts. Using last generated position.");
+            break;
+        }
+    } while (!isValid);
+
+    return randomPos;
+}
 
     private Vector3 GetRandomPosition()
     {
@@ -147,16 +170,16 @@ public class Hug : MonoBehaviour
     }
 
     private bool CheckIfBlocked(Vector3 pos)
+{
+    Ray ray = new Ray(Vector3.zero, pos.normalized);
+    if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
     {
-        Ray ray = new Ray(Vector3.zero, pos.normalized);
-        if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
-        {
-            return hit.collider == noGoZoneManager.doorCollider ||
-                   hit.collider == noGoZoneManager.soundBoothCollider ||
-                   hit.collider == noGoZoneManager.stageCollider;
-        }
-        return false;
+        return hit.collider == noGoZoneManager.doorCollider ||
+               hit.collider == noGoZoneManager.soundBoothCollider ||
+               hit.collider == noGoZoneManager.stageCollider;
     }
+    return false;
+}
 
     private void AddFacesToList(HugFace face1, HugFace face2)
     {

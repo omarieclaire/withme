@@ -144,8 +144,10 @@ public void WhileInside(PlayerAvatar player, HugFace face)
 
     private void HandleFirstFlip(PlayerAvatar player)
     {
+
         if (!soundsPlayed && Controller.enableOldSoundSystem && hugFaceSong != null)
         {
+            audioPlayer.Play(SighClip);
             audioPlayer.Play(hugFaceSong);
             soundsPlayed = true;
         }
@@ -168,7 +170,9 @@ public void WhileInside(PlayerAvatar player, HugFace face)
         {
             if (Controller.enableOldSoundSystem && SighClip != null)
             {
-                audioPlayer.Play(SighClip);
+                Debug.Log("ttt SighClip sound");
+
+                // audioPlayer.Play(SighClip);
             }
 
             hug.HUG(this, smileID);
