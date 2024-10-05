@@ -65,9 +65,9 @@ public class HugFace : MonoBehaviour
         discovered.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
         finished.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
 
-        preDiscovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.neutralTexture);
-        discovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.trueTextures[smileID]);
-        finished.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.finalTexture);
+        preDiscovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.pensNeutralFace);
+        discovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.pensTrueFaces[smileID]);
+        finished.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.pensPostHugFace);
 
         // Debug.Log($"{name} - OnEnable: Textures and colors set for different face states.");
     }
@@ -222,33 +222,60 @@ public class HugFace : MonoBehaviour
         }
     }
 
-    public void WhileFinished()
-    {
-        // Show the finished state visually
-        discovered.SetActive(false);
-        preDiscovered.SetActive(false);
-        finished.SetActive(true);
+    // public void WhileFinished()
+    // {
+    //     // Show the finished state visually
+    //     discovered.SetActive(false);
+    //     preDiscovered.SetActive(false);
+    //     finished.SetActive(true);
 
-        // Calculate an average position based on all partners to adjust the final position
-        Vector3 averagePosition = Vector3.zero;
-        int totalCounted = 0;
-        for (int i = 0; i < partners.Count; i++)
-        {
-            if (partners[i].transform.position != transform.position)
-            {
-                totalCounted++;
-                averagePosition += partners[i].transform.position;
-            }
-        }
+    //     // Calculate an average position based on all partners to adjust the final position
+    //     Vector3 averagePosition = Vector3.zero;
+    //     int totalCounted = 0;
+    //     for (int i = 0; i < partners.Count; i++)
+    //     {
+    //         if (partners[i].transform.position != transform.position)
+    //         {
+    //             totalCounted++;
+    //             averagePosition += partners[i].transform.position;
+    //         }
+    //     }
 
-        // Smoothly move to the average position
-        if (totalCounted > 0)
-        {
-            averagePosition /= totalCounted;
-            transform.position = Vector3.Lerp(transform.position, averagePosition, hug.hugSpeed);
-            // Debug.Log($"{name} - Moving to average position: {averagePosition}");
-        }
-    }
+    //     // Smoothly move to the average position
+    //     if (totalCounted > 0)
+    //     {
+    //         averagePosition /= totalCounted;
+    //         transform.position = Vector3.Lerp(transform.position, averagePosition, hug.howFastWeHug);
+    //         // Debug.Log($"{name} - Moving to average position: {averagePosition}");
+    //     }
+    // }
+
+ public void WhileFinished()
+{
+    // Show the finished state visually
+    discovered.SetActive(false);
+    preDiscovered.SetActive(false);
+    finished.SetActive(true);
+
+    // Define the top of the dome (you can adjust the y-value based on your dome's height)
+    Vector3 topOfDomePosition = new Vector3(0, 1.3f, 0);  // Assuming the top is at (0, 1, 0). Adjust the y-value based on dome size.
+
+    // Add a small random offset to the final position to avoid overlap
+    float offsetRange = 0.01f;  // Adjust the range of the offset as needed
+    Vector3 randomOffset = new Vector3(Random.Range(-offsetRange, offsetRange), 0, Random.Range(-offsetRange, offsetRange));
+
+    // Apply the random offset to the top position
+    Vector3 finalPosition = topOfDomePosition + randomOffset;
+
+    // Smoothly move the face towards the final position with the offset
+    transform.position = Vector3.Lerp(transform.position, finalPosition, hug.howFastWeHug);
+
+    // Optionally, make the face look at the center of the dome during the movement
+    transform.LookAt(Vector3.zero);
+
+    // Debug.Log($"{name} - Moving to top of the dome at position: {finalPosition}");
+}
+
 
     private void ApplyTexture(Texture texture)
     {
