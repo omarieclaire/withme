@@ -430,7 +430,6 @@ MonoBehaviour:
   finished: {fileID: 964920484}
   hugFaceSong: {fileID: 0}
   onFlipClip: {fileID: 8300000, guid: 42c276826c5bc3b40a4cdec8686d5b91, type: 3}
-  SongSoundClip: {fileID: 8300000, guid: 0348a5bbe0ed0425baaedff9cfe3db62, type: 3}
   SighClip: {fileID: 8300000, guid: 5cd3d09944e793c47b5d8e47fa3a3398, type: 3}
   partners: []
   smileID: 0
@@ -781,11 +780,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a3e997b30c10245af808e1c7d0e9b4, type: 3}
---- !u!198 &889365378 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1634946191552683670, guid: 56a3e997b30c10245af808e1c7d0e9b4, type: 3}
-  m_PrefabInstance: {fileID: 889365377}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931979819
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,23 +1445,25 @@ MonoBehaviour:
   pensNeutralFace: {fileID: 2800000, guid: aabd6953a184c4212b4e3fc0d5445d39, type: 3}
   pensPostHugFace: {fileID: 2800000, guid: cdd65b57f8b984acaaeb6285f0416adb, type: 3}
   specialHugFaceSongs:
-  - {fileID: 8300000, guid: 5988116898d47b14fa7a888f3acceed7, type: 3}
-  - {fileID: 8300000, guid: b7c22b8cb7ab0314d9aa96f350cec43f, type: 3}
-  - {fileID: 8300000, guid: 03122f3a30ff79b4d916857afe6189f2, type: 3}
+  - {fileID: 8300000, guid: 9327cf64aa0ba4ef3a80c923ed52f0dc, type: 3}
+  - {fileID: 8300000, guid: 5b4c69aa592dd4262a7a53a505e68325, type: 3}
+  - {fileID: 8300000, guid: f54f84b1cf7924ddeba0ebd5426323b3, type: 3}
   - {fileID: 8300000, guid: 209b0ce2b23170d45a1742bea3942128, type: 3}
   - {fileID: 8300000, guid: 8f1ff9cd95f37a74eab0c41be1e09665, type: 3}
   - {fileID: 8300000, guid: cc208d3c9dee33341ab1be4389847a59, type: 3}
   - {fileID: 8300000, guid: 3e1a1d0cc49e212488db85f967a0d077, type: 3}
   - {fileID: 8300000, guid: 1540ea46a983e6742a467fd4721f66cc, type: 3}
   - {fileID: 8300000, guid: 603018f1c242d37479d02fd1dbb19282, type: 3}
-  - {fileID: 8300000, guid: c2732b076b72bd0489fb29a4de297bfa, type: 3}
-  - {fileID: 8300000, guid: 14843ea9d9cda9441acf697ab70c44c8, type: 3}
+  - {fileID: 8300000, guid: 79c0af12725ff45e1a0b653350e88ec4, type: 3}
+  - {fileID: 8300000, guid: e1354967b522b40beb1f04e797e827b9, type: 3}
   onHugClip: {fileID: 8300000, guid: fbe07c972808f224aa1ef87af8dbe1ed, type: 3}
   winSound: {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
-  winParticleSystem: {fileID: 889365378}
+  winParticleSystem: {fileID: 259746076705479648, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
   listOfHugFaceObjects: []
   listOfCompletedHugFaces: []
-  player: {fileID: 624508766}
+  soundEventSender: {fileID: 1391619008}
+  audioPlayer: {fileID: 624508766}
+  spawnFacesClip: {fileID: 8300000, guid: 71f5db3376328914a9cc160dfd73d3d9, type: 3}
 --- !u!4 &1395838880
 Transform:
   m_ObjectHideFlags: 0

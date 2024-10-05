@@ -10,12 +10,14 @@ public class Hug : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject hugFacePrefab;
+    public ParticleSystem matchParticlesPrefab;
+
     public GameObject connectionPrefab;
 
     [Header("HugFace Settings")]
     public float hugFaceSize = 1f;
     public float activationRadius = 2f;
-    
+
     [Header("Game Settings")]
     public const int MAX_HUG_FACES = 20;
     public float howFastWeHug = 0.01f;
@@ -45,8 +47,11 @@ public class Hug : MonoBehaviour
     private float currentRoundDelay;
     private bool isSpawningPairs = false;
     private Dictionary<PlayerAvatar, HugFace> currentInteractingFaces = new Dictionary<PlayerAvatar, HugFace>();
+    public SoundEventSender soundEventSender;
 
-    public AudioPlayer player;
+    public AudioPlayer audioPlayer;
+    public AudioClip spawnFacesClip;
+
 
     private void Start()
     {
@@ -64,6 +69,14 @@ public class Hug : MonoBehaviour
             }
         }
         listOfHugFaceObjects.Clear();
+    }
+
+
+    private void PlaySound(PlayerAvatar player, string soundType)
+    {
+        string soundID = soundType;
+        Vector3 randomPosition = new Vector3(0, 0, 0);
+        soundEventSender.SendOneShotSound(soundID, randomPosition);
     }
 
     private void SpawnPairs(int numberOfPairs)
@@ -89,6 +102,22 @@ public class Hug : MonoBehaviour
             AddFacesToList(face1, face2);
 
             totalHugFaces += 2;
+
+            if (Controller.enableOldSoundSystem && spawnFacesClip != null)
+            {
+                // audioPlayer.Play(spawnFacesClip);
+
+            }
+            if (Controller.enableNewSoundSystem)
+            {
+                // not using face1, just sending it to 0 0 0
+                // reusing a sound
+                // PlayHugSound(face1, "MimicShapeNewShapeGen");
+                // PlayHugSound(face2, "MimicShapeNewShapeGen");
+
+            }
+
+
         }
 
         ActivateAllFaces();
@@ -101,6 +130,7 @@ public class Hug : MonoBehaviour
         face.color = color;
         face.smileID = smileID;
         face.hugFaceSong = specialHugFaceSongs[soundIndex];
+        face.matchParticlesPrefab = matchParticlesPrefab; // Set the particle prefab
         return face;
     }
 
@@ -112,22 +142,31 @@ public class Hug : MonoBehaviour
 
     private void PositionFaces(HugFace face1, HugFace face2, float minDistance)
 {
-    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects); // Copy existing faces
+    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
-    Vector3 position1 = GetValidPosition(existingFaces, minDistance);
-    existingFaces.Add(face1); // Add face1 to existing faces for checking face2 position
+    Vector3? position1 = GetValidPosition(existingFaces, minDistance);
+    if (!position1.HasValue)
+    {
+        Debug.LogError("Failed to position first face. Using fallback position.");
+        position1 = Vector3.up; // Fallback position
+    }
 
-    Vector3 position2 = GetValidPosition(existingFaces, minDistance);
+    existingFaces.Add(face1);
 
-    face1.transform.position = position1;
-    face2.transform.position = position2;
+    Vector3? position2 = GetValidPosition(existingFaces, minDistance);
+    if (!position2.HasValue)
+    {
+        Debug.LogError("Failed to position second face. Using fallback position.");
+        position2 = -Vector3.up; // Fallback position
+    }
 
-    // Add new faces to the list of existing faces
+    face1.transform.position = position1.Value;
+    face2.transform.position = position2.Value;
+
     listOfHugFaceObjects.Add(face1);
     listOfHugFaceObjects.Add(face2);
 }
-
-    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
+private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
 {
     foreach (var face in existingFaces)
     {
@@ -138,38 +177,30 @@ public class Hug : MonoBehaviour
     }
     return false;
 }
-
-    private Vector3 GetValidPosition(List<HugFace> existingFaces, float minDistance)
+    private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
 {
-    Vector3 randomPos;
-    bool isValid;
-    int maxAttempts = 100; // Prevent infinite loop
-    int attempts = 0;
-
-    do
+    const int maxAttempts = 1000; // Increase max attempts
+    for (int attempts = 0; attempts < maxAttempts; attempts++)
     {
-        randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
-        randomPos = controller.getFinalPosition(randomPos);
-
-        isValid = !CheckIfBlocked(randomPos) && !IsOverlappingExistingFaces(randomPos, existingFaces, minDistance);
-
-        attempts++;
-        if (attempts >= maxAttempts)
+        Vector3 randomPos = GetRandomPosition();
+        if (!CheckIfBlocked(randomPos) && !IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
         {
-            Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts. Using last generated position.");
-            break;
+            return randomPos;
         }
-    } while (!isValid);
-
-    return randomPos;
+    }
+    Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
+    return null;
+}
+private Vector3 GetRandomPosition()
+{
+    // Use a uniform distribution on a sphere surface
+    Vector3 randomDir = Random.onUnitSphere;
+    float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
+    Vector3 randomPos = randomDir * randomDistance;
+    return controller.getFinalPosition(randomPos);
 }
 
-    private Vector3 GetRandomPosition()
-    {
-        return controller.getFinalPosition(new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f)));
-    }
-
-    private bool CheckIfBlocked(Vector3 pos)
+   private bool CheckIfBlocked(Vector3 pos)
 {
     Ray ray = new Ray(Vector3.zero, pos.normalized);
     if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
@@ -180,7 +211,6 @@ public class Hug : MonoBehaviour
     }
     return false;
 }
-
     private void AddFacesToList(HugFace face1, HugFace face2)
     {
         AddFaceToList(face1);
@@ -260,12 +290,16 @@ public class Hug : MonoBehaviour
         {
             partner.fullComplete = true;
             partner.OnFullComplete();
+            partner.PlayMatchParticles();
+
         }
 
         hugFace.fullComplete = true;
         hugFace.OnFullComplete();
+        hugFace.PlayMatchParticles();
 
-        player.Play(onHugClip);
+
+        // audioPlayer.Play(onHugClip);
 
         completedPairs++;
 
@@ -304,9 +338,15 @@ public class Hug : MonoBehaviour
         Debug.Log("Game Over! You win!");
         gameIsOver = true;
 
-        if (player != null && winSound != null)
+
+        if (Controller.enableOldSoundSystem && winSound != null)
         {
-            player.Play(winSound);
+            audioPlayer.Play(winSound);
+
+        }
+        if (Controller.enableNewSoundSystem)
+        {
+            // PlayHugSound(player, "Sigh");
         }
 
         if (winParticleSystem != null)

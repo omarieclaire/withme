@@ -16,10 +16,15 @@ public class HugFace : MonoBehaviour
     public GameObject discovered;
     public GameObject finished;
 
+    [Header("Effects")]
+    public ParticleSystem matchParticlesPrefab;
+    private ParticleSystem instantiatedParticles; 
+
+
+
     [Header("Audio")]
     public AudioClip hugFaceSong;
     public AudioClip onFlipClip;
-    public AudioClip SongSoundClip;
     public AudioClip SighClip;
 
     [Header("Properties")]
@@ -38,6 +43,8 @@ public class HugFace : MonoBehaviour
     private void Start()
     {
         OnEnable();
+                SetupParticles();
+
     }
 
     public void OnEnable()
@@ -51,7 +58,7 @@ public class HugFace : MonoBehaviour
         SetAllStatesInactive();
     }
 
-public void WhileInside(PlayerAvatar player, HugFace face)
+    public void WhileInside(PlayerAvatar player, HugFace face)
     {
         if (fullComplete) return;
 
@@ -61,7 +68,7 @@ public void WhileInside(PlayerAvatar player, HugFace face)
         }
 
         UpdateVisualState();
-        CheckForFullHug();
+        CheckForFullHug(player);
     }
 
     public void Update()
@@ -103,6 +110,28 @@ public void WhileInside(PlayerAvatar player, HugFace face)
         }
     }
 
+    private void SetupParticles()
+    {
+        if (matchParticlesPrefab != null && instantiatedParticles == null)
+        {
+            instantiatedParticles = Instantiate(matchParticlesPrefab, transform.position, Quaternion.identity, transform);
+            instantiatedParticles.Stop(); // Ensure it's not playing by default
+        }
+    }
+
+    public void PlayMatchParticles()
+    {
+        if (instantiatedParticles != null)
+        {
+            instantiatedParticles.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Match particles not set up for " + gameObject.name);
+        }
+    }
+
+
     private void ResetFaceState()
     {
         state = 0;
@@ -142,16 +171,31 @@ public void WhileInside(PlayerAvatar player, HugFace face)
         finished.SetActive(false);
     }
 
+    private void PlayHugSound(PlayerAvatar player, string soundType)
+    {
+        string soundID = $"p{player.id}EffectsHugFace{soundType}";
+        Vector3 pointPosition = player.transform.position;
+        Debug.Log($"Playing hug {soundType.ToLower()} sound: {soundID} at {pointPosition}");
+        soundEventSender.SendOneShotSound(soundID, pointPosition);
+    }
+
     private void HandleFirstFlip(PlayerAvatar player)
     {
 
-        if (!soundsPlayed && Controller.enableOldSoundSystem && hugFaceSong != null)
+        if (!soundsPlayed)
         {
-            audioPlayer.Play(SighClip);
-            audioPlayer.Play(hugFaceSong);
-            soundsPlayed = true;
+            if (Controller.enableOldSoundSystem && hugFaceSong != null && onFlipClip != null)
+            {
+                audioPlayer.Play(onFlipClip);
+                audioPlayer.Play(hugFaceSong);
+                soundsPlayed = true;
+            }
+            if (Controller.enableNewSoundSystem)
+            {
+                PlayHugSound(player, "FlipSound");
+                PlayHugSound(player, "SongSound");
+            }
         }
-
         flipped = true;
         wasFlipped = true;
         inside = true;
@@ -164,15 +208,18 @@ public void WhileInside(PlayerAvatar player, HugFace face)
         finished.SetActive(false);
     }
 
-    private void CheckForFullHug()
+    private void CheckForFullHug(PlayerAvatar player)
     {
         if (partners.TrueForAll(partner => partner.inside))
         {
             if (Controller.enableOldSoundSystem && SighClip != null)
             {
-                Debug.Log("ttt SighClip sound");
+                audioPlayer.Play(SighClip);
 
-                // audioPlayer.Play(SighClip);
+            }
+            if (Controller.enableNewSoundSystem)
+            {
+                PlayHugSound(player, "Sigh");
             }
 
             hug.HUG(this, smileID);
@@ -181,7 +228,7 @@ public void WhileInside(PlayerAvatar player, HugFace face)
     }
 
 
-private void ResetToNeutralState()
+    private void ResetToNeutralState()
     {
         discovered.SetActive(false);
         preDiscovered.SetActive(true);
