@@ -1497,7 +1497,7 @@ MonoBehaviour:
   matchParticlesPrefab: {fileID: 617696429}
   connectionPrefab: {fileID: 931979819}
   hugFaceSize: 1
-  activationRadius: 4.67
+  activationRadius: 1.82
   howFastWeHug: 0.01
   firstPairDelay: 15
   slowPairDelay: 10
