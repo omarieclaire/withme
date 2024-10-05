@@ -37,9 +37,6 @@ public class Hug : MonoBehaviour
 
     public float howFastWeHug = .01f;
 
-     public   int soundIndex = 0;
-
-
     public AudioClip onHugClip;
     public AudioClip winSound;
     public ParticleSystem winParticleSystem;
@@ -87,31 +84,67 @@ public class Hug : MonoBehaviour
     Debug.Log($"Pairs to spawn this round: {pairsToSpawn}");  // Logging to track the number of pairs being spawned
 
     // If no pairs need to be spawned or active face limit reached, return
-    if (pairsToSpawn <= 0) 
+    if (pairsToSpawn <= 0)
     {
         Debug.Log("No more pairs needed to spawn.");  // Log if no pairs need to be spawned
         return;
     }
 
-
+    // Shared values for each pair
     for (int i = 0; i < pairsToSpawn; i++)
     {
         Color randomColor = GenerateRandomColor();
 
-        HugFace face1 = CreateHugFace(totalHugFaces, randomColor, ref soundIndex);
-        HugFace face2 = CreateHugFace(totalHugFaces, randomColor, ref soundIndex);
+        // Use the same smileID and soundIndex for both faces in the pair
+        int smileID = totalHugFaces / 2;  // Ensure that both faces in a pair get the same smileID
+        int soundIndex = totalHugFaces / 2;  // Use soundIndex tied to the pair
 
-        AssignPartners(face1, face2);  // Ensure pairing
+        if (soundIndex >= specialHugFaceSongs.Count)
+        {
+            soundIndex = 0;  // Reset if soundIndex exceeds the available songs
+        }
+
+        // Log to check assignments
+        Debug.Log($"Creating pair with smileID: {smileID}, soundIndex: {soundIndex}");
+
+        // Create both faces in the pair with the same properties
+        HugFace face1 = CreateHugFace(smileID, randomColor, soundIndex);
+        HugFace face2 = CreateHugFace(smileID, randomColor, soundIndex);
+
+        // Ensure they are partners
+        AssignPartners(face1, face2);
+
+        // Position the two faces
         PositionFaces(face1, face2, 0.75f);  // Adjust minDistance if needed
-        AddFacesToList(face1, face2);  // Add faces to the list
 
-        totalHugFaces += 2;  // Increment total HugFaces count
-        Debug.Log($"Total HugFaces after spawning: {totalHugFaces}");  // Log after spawning each pair
+        // Add both faces to the list of HugFaces
+        AddFacesToList(face1, face2);
+
+        totalHugFaces += 2;  // Increment totalHugFaces count by 2 after creating the pair
+        Debug.Log($"Total HugFaces after spawning: {totalHugFaces}");
     }
 
     ActivateAllFaces();  // Enable all HugFaces
     isSpawningPairs = false;  // Reset flag
 }
+
+private HugFace CreateHugFace(int smileID, Color color, int soundIndex)
+{
+    HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
+
+    // Assign the color, smileID, and song to this face
+    face.color = color;
+    face.smileID = smileID;
+
+    // Assign the same song for both faces in a pair
+    if (soundIndex < specialHugFaceSongs.Count)
+    {
+        face.hugFaceSong = specialHugFaceSongs[soundIndex];
+    }
+
+    return face;
+}
+
 
 
     private Color GenerateRandomColor()
@@ -119,19 +152,7 @@ public class Hug : MonoBehaviour
         return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);  // Random color
     }
 
-    private HugFace CreateHugFace(int smileID, Color color, ref int soundIndex)
-    {
-        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
-
-        if (soundIndex < specialHugFaceSongs.Count)
-        {
-            face.hugFaceSong = specialHugFaceSongs[soundIndex];  // Assign sound to both faces
-        }
-        soundIndex++;
-        face.smileID = smileID;
-        face.color = color;
-        return face;
-    }
+    
 
     private void AssignPartners(HugFace face1, HugFace face2)
     {

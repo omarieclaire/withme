@@ -1431,18 +1431,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noGoZoneManager: {fileID: 838548344}
-  hugFacePrefab: {fileID: 0}
-  hugFaceSize: 0
+  hugFacePrefab: {fileID: 660355872}
+  hugFaceSize: 1
   listOfHugFaceObjects: []
   controller: {fileID: 1055734400}
-  activationRadius: 12.81
+  activationRadius: 7.96
   connectionPrefab: {fileID: 931979819}
-  connections: []
   listOfCompletedHugFaces: []
   pensTrueFaces:
   - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
   - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
   - {fileID: 2800000, guid: 055500f02589f43f8b203acbb3f9e2fb, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
   - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
   pensNeutralFace: {fileID: 2800000, guid: aabd6953a184c4212b4e3fc0d5445d39, type: 3}
   pensPostHugFace: {fileID: 2800000, guid: cdd65b57f8b984acaaeb6285f0416adb, type: 3}
@@ -1451,11 +1457,23 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1540ea46a983e6742a467fd4721f66cc, type: 3}
   - {fileID: 8300000, guid: 603018f1c242d37479d02fd1dbb19282, type: 3}
   - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  - {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
   numColors: 1
   howFastWeHug: 0.01
+  soundIndex: 0
   onHugClip: {fileID: 8300000, guid: fbe07c972808f224aa1ef87af8dbe1ed, type: 3}
-  onHugParticleSystem: {fileID: 889365378}
+  winSound: {fileID: 8300000, guid: 735c99d91092f4ac1a93662a59e098d3, type: 3}
+  winParticleSystem: {fileID: 889365378}
   player: {fileID: 624508766}
+  firstPairDelay: 15
+  slowPairDelay: 10
+  minimumRoundDelay: 3
 --- !u!4 &1395838880
 Transform:
   m_ObjectHideFlags: 0
