@@ -184,7 +184,7 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
         }
         else
         {
-            // Debug.LogWarning($"Trying to update position for sound {soundID}, but it was not found in active continuous sounds.");
+            Debug.LogWarning($"Trying to update position for sound {soundID}, but it was not found in active continuous sounds.");
         }
     }
 

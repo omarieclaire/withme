@@ -168,12 +168,12 @@ public class Controller : MonoBehaviour
     [Tooltip("SoundEventSender for sending sound events based on player actions.")]
     public SoundEventSender soundEventSender;
 
-    // public static bool enableOldSoundSystem = true;
-    public static bool enableNewSoundSystem = true;
+    public static bool enableOldSoundSystem = true;
+    // public static bool enableNewSoundSystem = true;
 
 
-    public static bool enableOldSoundSystem = false;
-    // public static bool enableNewSoundSystem = false;
+    // public static bool enableOldSoundSystem = false;
+    public static bool enableNewSoundSystem = false;
 
 
 

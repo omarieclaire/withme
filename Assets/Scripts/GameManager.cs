@@ -16,6 +16,13 @@ public class GameManager : MonoBehaviour
     private Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f);
 
     public SoundEventSender soundEventSender;
+    public AudioSource BGMusicSource;
+    public AudioClip BGMusicClip;
+    public AudioClip timeoutClip;
+    public AudioClip winGameClip;
+
+
+
 
     public string timeoutSoundID = "timeoutSound";
     public string winGameSoundID = "winGameSound";
@@ -27,24 +34,33 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Debug.Log("[INFO] GameManager started. Looking for Main Controller...");
+
+
 
         if (TheOracleOfAll != null)
         {
             controller = TheOracleOfAll.GetComponent<Controller>();
         }
-        else
-        {
-            // Debug.LogError("[ERROR] Main Controller GameObject not found.");
-        }
 
-        if (controller == null)
-        {
-            // Debug.LogError("[ERROR] No Controller component found on Main Controller GameObject.");
-        }
         else
         {
-            // Debug.Log("[INFO] Starting background music.");
+            Debug.Log("[INFO] Starting background music.");
+
+            if (Controller.enableOldSoundSystem)
+            {
+                if (BGMusicSource != null && BGMusicClip != null)
+                {
+                    BGMusicSource.clip = BGMusicClip;
+                    BGMusicSource.loop = true; // Ensure the clip loops
+                    BGMusicSource.Play(); // Play the background music
+                }
+                else
+                {
+                    Debug.LogError("AudioSource or BGMusicClip is missing.");
+                }
+
+            }
+
             StartCoroutine(TryStartBackgroundMusicWithRetries());
         }
 
@@ -103,7 +119,7 @@ public class GameManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
         string soundID = $"{sceneName}BGMusic";
-        // Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
+        Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
         return soundID;
     }
 
@@ -154,9 +170,11 @@ public class GameManager : MonoBehaviour
             {
                 if (Controller.enableNewSoundSystem)
                 {
+                    Debug.Log("sendng bg to soundeventsender");
                     Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);
                     soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
                 }
+
 
             }
 
@@ -165,11 +183,11 @@ public class GameManager : MonoBehaviour
 
         if (attempts >= retryCount)
         {
-            // Debug.Log("[INFO] Background music send attempts exhausted. Stopping further retries.");
+            Debug.Log("[INFO] Background music send attempts exhausted. Stopping further retries.");
         }
         else
         {
-            // Debug.Log("[INFO] Background music successfully sent within retry limit.");
+            Debug.Log("[INFO] Background music successfully sent within retry limit.");
             musicPlayed = true;
         }
     }
