@@ -13,16 +13,16 @@ public class GameManager : MonoBehaviour
     private bool gameEnded = false;
     private Controller controller;
     private bool musicPlayed = false;
-     private  Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f); 
+    private Vector3 defaultSoundPosition = new Vector3(1f, 1f, 0.01f);
 
     public SoundEventSender soundEventSender;
 
-    public string timeoutSoundID = "timeoutSound"; 
-    public string winGameSoundID = "winGameSound"; 
+    public string timeoutSoundID = "timeoutSound";
+    public string winGameSoundID = "winGameSound";
     private bool winConditionMet = false;
 
     // List of all player sound IDs (can be dynamic based on your needs)
-    private string[] playerSoundIDs = { "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10"  
+    private string[] playerSoundIDs = { "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10"
     };
 
     void Start()
@@ -63,47 +63,39 @@ public class GameManager : MonoBehaviour
 
     public void StopBackgroundMusic()
     {
-        string soundID = GetSoundIDForCurrentScene();  
+        string soundID = GetSoundIDForCurrentScene();
         if (soundEventSender != null)
         {
-            soundEventSender.StopContinuousSound(soundID, defaultSoundPosition);
-            // Debug.Log($"[INFO] Stopped background music: {soundID}");
-        }
-        else
-        {
-            // Debug.LogError("[ERROR] No soundEventSender available to stop background music.");
+            if (Controller.enableNewSoundSystem)
+            {
+                soundEventSender.StopContinuousSound(soundID, defaultSoundPosition);
+
+            }
+
         }
     }
 
     private void StopAllPlayerSounds()
-{
-    if (soundEventSender != null)
     {
-        soundEventSender.StopContinuousSound("p0", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p1", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p2", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p3", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p4", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p5", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p6", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p7", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p8", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p9", defaultSoundPosition);
-        soundEventSender.StopContinuousSound("p10", defaultSoundPosition);
+        if (soundEventSender != null)
+        {
+            if (Controller.enableNewSoundSystem)
+            {
+                soundEventSender.StopContinuousSound("p0", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p1", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p2", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p3", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p4", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p5", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p6", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p7", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p8", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p9", defaultSoundPosition);
+                soundEventSender.StopContinuousSound("p10", defaultSoundPosition);
+            }
+        }
 
-
-        // foreach (string playerSoundID in playerSoundIDs)
-        // {
-        //     Debug.Log($"[DEBUG] Attempting to stop player sound: {playerSoundID}");
-        //     soundEventSender.StopContinuousSound(playerSoundID);
-        //     Debug.Log($"[INFO] Stopped player sound: {playerSoundID}");
-        // }
     }
-    else
-    {
-        // Debug.LogError("[ERROR] No soundEventSender available to stop player sounds.");
-    }
-}
 
 
     string GetSoundIDForCurrentScene()
@@ -151,7 +143,7 @@ public class GameManager : MonoBehaviour
     IEnumerator TryStartBackgroundMusicWithRetries()
     {
         int attempts = 0;
-        string soundID = GetSoundIDForCurrentScene();  
+        string soundID = GetSoundIDForCurrentScene();
 
         while (attempts < retryCount && !musicPlayed)
         {
@@ -160,16 +152,15 @@ public class GameManager : MonoBehaviour
 
             if (soundEventSender != null)
             {
-                Vector3 musicPosition = new Vector3(1f, 1f, 0.01f); 
-                soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
-                // Debug.Log($"Sending music data to soundEventSender.SendOrUpdateContinuousSound: {soundID} {musicPosition}");
-            }
-            else
-            {
-                // Debug.LogError("[ERROR] No soundEventSender available to send background music.");
+                if (Controller.enableNewSoundSystem)
+                {
+                    Vector3 musicPosition = new Vector3(1f, 1f, 0.01f);
+                    soundEventSender.SendOrUpdateContinuousSound(soundID, musicPosition);
+                }
+
             }
 
-            yield return new WaitForSeconds(retryDelay);  
+            yield return new WaitForSeconds(retryDelay);
         }
 
         if (attempts >= retryCount)
@@ -179,7 +170,7 @@ public class GameManager : MonoBehaviour
         else
         {
             // Debug.Log("[INFO] Background music successfully sent within retry limit.");
-            musicPlayed = true;  
+            musicPlayed = true;
         }
     }
 
@@ -187,13 +178,12 @@ public class GameManager : MonoBehaviour
     {
         if (controller != null)
         {
-            // Debug.Log("[INFO] Stopping background music.");
             StopBackgroundMusic();
         }
 
         gameEnded = true;
         // Debug.Log("Game Over! Moving to the next scene in " + waitTime + " seconds.");
-        Invoke("LoadNextScene", waitTime); 
+        Invoke("LoadNextScene", waitTime);
     }
 
     void LoadNextScene()
@@ -216,27 +206,27 @@ public class GameManager : MonoBehaviour
     {
         if (soundEventSender != null)
         {
-            Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
-            soundEventSender.SendOrUpdateContinuousSound(timeoutSoundID, soundPosition);
-            // Debug.Log($"[INFO] Playing timeout sound: {timeoutSoundID}");
+            if (Controller.enableNewSoundSystem)
+            {
+                Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
+                soundEventSender.SendOrUpdateContinuousSound(timeoutSoundID, soundPosition);
+            }
+
+
         }
-        else
-        {
-            // Debug.LogError("[ERROR] No soundEventSender available for timeout sound.");
-        }
+
     }
 
     void PlayWinGameSound()
     {
         if (soundEventSender != null)
         {
-            Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
-            soundEventSender.SendOrUpdateContinuousSound(winGameSoundID, soundPosition);
-            // Debug.Log($"[INFO] Playing win game sound: {winGameSoundID}");
-        }
-        else
-        {
-            // Debug.LogError("[ERROR] No soundEventSender available for win game sound.");
+            if (Controller.enableNewSoundSystem)
+            {
+                Vector3 soundPosition = new Vector3(1f, 1f, 0.01f);
+                soundEventSender.SendOrUpdateContinuousSound(winGameSoundID, soundPosition);
+            }
+
         }
     }
 

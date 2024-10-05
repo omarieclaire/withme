@@ -296,9 +296,13 @@ public class StickTogether : MonoBehaviour
                     playersInside.Add(controller.activePlayers[i].gameObject);
                     // audioPlayer.Play(happySound); // <-- deep for debugging
 
-                    string soundID = $"p{controller.activePlayers[i].GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
-                    Vector3 playerPosition = controller.activePlayers[i].transform.position;
-                    soundEventSender.SendOneShotSound(soundID, playerPosition);
+                    if (Controller.enableNewSoundSystem)
+
+                    {
+                        string soundID = $"p{controller.activePlayers[i].GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
+                        Vector3 playerPosition = controller.activePlayers[i].transform.position;
+                        soundEventSender.SendOneShotSound(soundID, playerPosition);
+                    }
                 }
 
                 totalInsideCircle++;
@@ -324,10 +328,13 @@ public class StickTogether : MonoBehaviour
             if (!majorityInsideStartTheParty)
             {
                 majorityInsideStartTheParty = true;
+                if (Controller.enableNewSoundSystem)
 
-                string soundID = "StickTogetherBeat";
-                Vector3 centerOfCollectionArea = transform.position;
-                soundEventSender.SendOrUpdateContinuousSound(soundID, centerOfCollectionArea);
+                {
+                    string soundID = "StickTogetherBeat";
+                    Vector3 centerOfCollectionArea = transform.position;
+                    soundEventSender.SendOrUpdateContinuousSound(soundID, centerOfCollectionArea);
+                }
             }
             timer += Time.deltaTime;
         }

@@ -10,8 +10,10 @@ public class PlayOnCollision : MonoBehaviour
 
     public AudioClip clip;
 
+    public Controller controller;
 
-    public SoundEventSender soundEventSender;  
+
+    public SoundEventSender soundEventSender;
 
     public bool die;
     public bool changeColor;
@@ -55,41 +57,41 @@ public class PlayOnCollision : MonoBehaviour
 
     private bool hasCollided = false;  // Add this flag to prevent multiple triggers
 
-void OnCollisionEnter(Collision collision)
-{
-    if (hasCollided) return;  // Prevent re-triggering the collision logic
-    hasCollided = true;  // Set the flag when collision happens
-
-    GameObject thisObject = gameObject;  // This is the object the script is attached to (FlorpTarget or FlorpSpike)
-    GameObject otherObject = collision.gameObject;  // This is the FLORP object colliding with it
-
-    if (otherObject.tag == "FLORP")
+    void OnCollisionEnter(Collision collision)
     {
-        // Shrink this object (FlorpTarget or FlorpSpike)
-        ShrinkOtherObject(thisObject);
-        PlayParticleEffect(collision, thisObject);
-        
-        // PlayOldAudioClip(thisObject); // <-- keep old audio for debugging
-        SendAudioSounds(thisObject, otherObject);
+        if (hasCollided) return;  // Prevent re-triggering the collision logic
+        hasCollided = true;  // Set the flag when collision happens
 
+        GameObject thisObject = gameObject;  // This is the object the script is attached to (FlorpTarget or FlorpSpike)
+        GameObject otherObject = collision.gameObject;  // This is the FLORP object colliding with it
 
-        if (die)
+        if (otherObject.tag == "FLORP")
         {
-            Destroy(thisObject);
-        }
+            // Shrink this object (FlorpTarget or FlorpSpike)
+            ShrinkOtherObject(thisObject);
+            PlayParticleEffect(collision, thisObject);
 
-        if (changeColorOnHit)
-        {
-            UpdateColor();
-        }
+            // PlayOldAudioClip(thisObject); // <-- keep old audio for debugging
+            SendAudioSounds(thisObject, otherObject);
 
-        // Handle following logic
-        if (followOnColliderTarget || followOnColliderSpike)
-        {
-            HandleFollowOnCollider(collision, followOnColliderTarget);
+
+            if (die)
+            {
+                Destroy(thisObject);
+            }
+
+            if (changeColorOnHit)
+            {
+                UpdateColor();
+            }
+
+            // Handle following logic
+            if (followOnColliderTarget || followOnColliderSpike)
+            {
+                HandleFollowOnCollider(collision, followOnColliderTarget);
+            }
         }
     }
-}
 
     private void ShrinkOtherObject(GameObject obj)
     {
@@ -172,9 +174,12 @@ void OnCollisionEnter(Collision collision)
         {
             // audioPlayer.Play(growSuccessClip);
 
-            
-            soundID = $"p{player.GetInstanceID()}EffectsSharePoint";  // I'm using player's spat channel because I don't want to manage distributing spike locations for spat
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
+            if (Controller.enableNewSoundSystem)
+
+            {
+                soundID = $"p{player.GetInstanceID()}EffectsSharePoint";  // I'm using player's spat channel because I don't want to manage distributing spike locations for spat
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
         }
         else if (targetOrSpike.name.Contains("FlorpSpike"))
         {
@@ -187,9 +192,11 @@ void OnCollisionEnter(Collision collision)
             //     print("AUDS");
             //     audioPlayer.Play(clip);
             // }
-            
-            soundID = $"p{player.GetInstanceID()}EffectsShareSpikes";  
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
+            if (Controller.enableNewSoundSystem)
+            {
+                soundID = $"p{player.GetInstanceID()}EffectsShareSpikes";
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
         }
     }
 

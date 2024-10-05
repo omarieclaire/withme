@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7e3c54cab5b440386d737b2406f79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noGoZoneManager: {fileID: 0}
+  noGoZoneManager: {fileID: 864553298}
   targetPrefab: {fileID: 1196994872}
   spikePrefab: {fileID: 0}
   numTargets: 30
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d66d656fa7a2490c9d568738381fe66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noGoZoneManager: {fileID: 0}
+  noGoZoneManager: {fileID: 864553298}
   controller: {fileID: 1265113568}
   florps: []
   florpPrefab: {fileID: 2049855977}
@@ -510,6 +510,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+--- !u!114 &864553298 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+  m_PrefabInstance: {fileID: 864553297}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb63b8bfb34fc4f3a9393d23f590fa6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &866355556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -745,6 +756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 2119574657}
   clip: {fileID: 8300000, guid: 85684cab07df146d3be87dac114f3033, type: 3}
+  controller: {fileID: 1265113568}
   soundEventSender: {fileID: 278078152}
   die: 0
   changeColor: 0

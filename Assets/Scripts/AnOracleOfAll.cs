@@ -168,6 +168,8 @@ public class Controller : MonoBehaviour
     [Tooltip("SoundEventSender for sending sound events based on player actions.")]
     public SoundEventSender soundEventSender;
 
+    public static bool enableOldSoundSystem = false;
+    public static bool enableNewSoundSystem = true;
 
 
 
@@ -177,7 +179,10 @@ public class Controller : MonoBehaviour
 
         SetUp();
 
+        Debug.Log("New Sound System Enabled: " + Controller.enableNewSoundSystem);
+        Debug.Log("Old Sound System Enabled: " + Controller.enableOldSoundSystem);
     }
+
 
 
 
@@ -267,24 +272,19 @@ public class Controller : MonoBehaviour
 
                 players[id].transform.position = Vector3.Lerp(players[id].transform.position, playerTargetPositions[id], playerLerpSpeed);
 
-                // Debug.Log($"[POSITION UPDATE] Player {playerID} moved to {players[id].transform.position}.");
-
-
-
-
 
                 // Check if the sound needs to be updated based on position change
 
                 if (Vector3.Distance(players[id].transform.position, fPos) > 0.05f) // 0.05f as a significant threshold
 
                 {
+                    if (enableNewSoundSystem)
+                    {
+                        string soundID = GetSceneSpecificSoundID(playerID);
 
-                    string soundID = GetSceneSpecificSoundID(playerID);
+                        soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
 
-                    soundEventSender.SendOrUpdateContinuousSound(soundID, players[id].transform.position);
-
-                    // Debug.Log($"[SOUND UPDATE] Player {playerID}, Position {players[id].transform.position}");
-
+                    }
 
 
                 }
@@ -391,8 +391,6 @@ public class Controller : MonoBehaviour
 
                 StopPlayerSound(playerIndex);
 
-                // Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been hidden due to low visibility.");
-
             }
 
         }
@@ -409,8 +407,6 @@ public class Controller : MonoBehaviour
 
                 StartPlayerSound(playerIndex);
 
-                // Debug.Log($"[CONFIRMED] Player {playerIDS[playerIndex]} has been shown as visibility increased.");
-
             }
 
         }
@@ -422,24 +418,20 @@ public class Controller : MonoBehaviour
     private void StartPlayerSound(int playerIndex)
 
     {
-
         if (soundEventSender == null)
 
         {
-
-            // Debug.LogError("[ERROR] soundEventSender is not assigned.");
-
             return;
 
         }
 
+        if (enableNewSoundSystem)
+        {
+            string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
 
+        }
 
-        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-
-        // string soundID = $"p{playerIDS[playerIndex]}";
-
-        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
 
     }
 
@@ -451,53 +443,31 @@ public class Controller : MonoBehaviour
 
     {
 
+        if (enableNewSoundSystem)
+        {
+            string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
+            soundEventSender.StopContinuousSound(soundID, players[playerIndex].transform.position);  // Stop sound if it's active
 
-
-        // string soundID = $"p{playerIDS[playerIndex]}";
-
-
-
-        // // Ask SoundEventSender if the sound is active
-
-        // if (soundEventSender.IsSoundActive(soundID))
-
-        // {
-
-        string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
-
-        soundEventSender.StopContinuousSound(soundID, players[playerIndex].transform.position);  // Stop sound if it's active
-
-        // Debug.Log($"[INFO] Sound {soundID} stopped successfully.");
-
-        // }
-
-        // else
-
-        // {
-
-        //     Debug.LogWarning($"Sound {soundID} is not active, so it cannot be stopped.");
-
-        // }
-
+        }
     }
 
 
     // Calls GetGameSpecificScale to handle both general player scaling (e.g., visibility via playerSeenScaler)
-// and game-specific scaling.
-public virtual Vector3 GetScale(int playerIndex)
-{
-    // Call a new virtual method for game-specific scaling, with a default implementation.
-    Vector3 gameSpecificScale = GetGameSpecificScale(playerIndex);
-    
-    // Calculate final scale by multiplying game-specific scaling with playerSeenScaler.
-    Vector3 finalScale = gameSpecificScale * playerSeenScaler[playerIndex];
+    // and game-specific scaling.
+    public virtual Vector3 GetScale(int playerIndex)
+    {
+        // Call a new virtual method for game-specific scaling, with a default implementation.
+        Vector3 gameSpecificScale = GetGameSpecificScale(playerIndex);
 
-    // Debug log for tracking the calculated scale values.
-    Debug.Log($"[SCALE CALCULATION] Player {playerIndex}: gameSpecificScale = {gameSpecificScale}, playerSeenScaler = {playerSeenScaler[playerIndex]}, finalScale = {finalScale}");
+        // Calculate final scale by multiplying game-specific scaling with playerSeenScaler.
+        Vector3 finalScale = gameSpecificScale * playerSeenScaler[playerIndex];
 
-    // Return the calculated final scale.
-    return finalScale;
-}
+        // Debug log for tracking the calculated scale values.
+        // Debug.Log($"[SCALE CALCULATION] Player {playerIndex}: gameSpecificScale = {gameSpecificScale}, playerSeenScaler = {playerSeenScaler[playerIndex]}, finalScale = {finalScale}");
+
+        // Return the calculated final scale.
+        return finalScale;
+    }
 
 
     // Virtual method to be overridden in game controllers like DotGameController.
@@ -513,15 +483,15 @@ public virtual Vector3 GetScale(int playerIndex)
     // and game-specific scaling. 
 
     public void ScalePlayer(int playerIndex)
-{
-    Vector3 newScale = GetScale(playerIndex);
-    Debug.Log($"[SCALE APPLY] Player {playerIndex}: Before scale applied. Calculated scale: {newScale}");
+    {
+        Vector3 newScale = GetScale(playerIndex);
+        // Debug.Log($"[SCALE APPLY] Player {playerIndex}: Before scale applied. Calculated scale: {newScale}");
 
-    // Apply the scale
-    players[playerIndex].transform.localScale = newScale;
+        // Apply the scale
+        players[playerIndex].transform.localScale = newScale;
 
-    Debug.Log($"[SCALE APPLY] Player {playerIndex}: After scale applied. Final scale: {players[playerIndex].transform.localScale}");
-}
+        // Debug.Log($"[SCALE APPLY] Player {playerIndex}: After scale applied. Final scale: {players[playerIndex].transform.localScale}");
+    }
 
 
 
@@ -533,7 +503,7 @@ public virtual Vector3 GetScale(int playerIndex)
 
         float timeSinceLastSeen = Time.time - playerLastSeenTimestamp[playerIndex];
 
-            // Debug.Log($"[PLAYER ACTIVITY] Player {playerIndex}: Time since last seen = {timeSinceLastSeen[playerIndex]}");
+        // Debug.Log($"[PLAYER ACTIVITY] Player {playerIndex}: Time since last seen = {timeSinceLastSeen[playerIndex]}");
 
 
         // Shrink and deactivate the player if it has been inactive for too long
@@ -553,7 +523,7 @@ public virtual Vector3 GetScale(int playerIndex)
             ReactivatePlayer(playerIndex);  // Player fades in and scales up when a message is received
 
         }
-            // Debug.Log($"[ACTIVITY HANDLING] Player {playerIndex}: Final state after activity handling. Scale: {players[playerIndex].transform.localScale}");
+        // Debug.Log($"[ACTIVITY HANDLING] Player {playerIndex}: Final state after activity handling. Scale: {players[playerIndex].transform.localScale}");
 
 
     }
@@ -568,7 +538,12 @@ public virtual Vector3 GetScale(int playerIndex)
 
         string soundID = GetSceneSpecificSoundID(playerIDS[playerIndex]);
 
-        soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+        if (enableNewSoundSystem)
+        {
+            soundEventSender.SendOrUpdateContinuousSound(soundID, players[playerIndex].transform.position);
+
+        }
+
 
 
 
@@ -619,7 +594,7 @@ public virtual Vector3 GetScale(int playerIndex)
             {
                 // Apply gradual fade out
                 FadePlayerOut(playerIndex); // Continue fading the player out
-                // Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
+                                            // Debug.Log($"[FADE OUT] Player {playerIDS[playerIndex]} is fading out.");
             }
 
             // Apply scaling to shrink the player

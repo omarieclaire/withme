@@ -14,8 +14,8 @@ public class Dot : MonoBehaviour
     public Vector2 randomDirection;
     public Vector3 targetPosition;
 
-        // how much we spread out the collected dots
-    public float collectedDotsSpreadRadius = 0.01f; // Radius for spreading dots around the tree when collected
+    // how much we spread out the collected dots
+    public float collectedDotsSpreadRadius = 0.05f; // Radius for spreading dots around the tree when collected
 
     private Transform _transform; // Cached reference to this dot's transform for efficiency
     public bool dotMovesTowardsTree; // Flag indicating if the dot is moving toward the tree (when collected)
@@ -38,6 +38,9 @@ public class Dot : MonoBehaviour
     {
         if (collider.gameObject.name == "Tree" && !dotIsAtTree)
         {
+            // GetComponent<Renderer>().material.color = Color.white; // Change the dot's color to red
+            transform.localScale *= 0.55f; // Reduce the size of the dot to 25% of its original size
+
             controller.OnTreeCollect(); // Notify the controller that a dot has reached the tree
             transform.position = collider.transform.position; // Set dot's position to the tree's position
             OnTreeFed(); // Mark the dot as being fed to the tree
@@ -115,35 +118,36 @@ public class Dot : MonoBehaviour
 
     // Mark the dot as fed to the tree, apply a spread effect
 
-     public void OnTreeFed()
+    public void OnTreeFed()
     {
-        dotIsAtTree = true; // Mark the dot as at the tree
-        collectedDot = false; // The dot is no longer collected by a player
-        dotCollector = null; // Clear the collector reference
-        dotMovesTowardsTree = false; // The dot is no longer moving toward the tree
-        dotVelocity = Vector3.zero; // Stop the dot's movement
+        dotIsAtTree = true;
+        collectedDot = false;
+        dotCollector = null;
+        dotMovesTowardsTree = false;
+        dotVelocity = Vector3.zero;
 
-        // Calculate a random position to spread the dot around the tree
-        Vector2 randomOffset = Random.insideUnitCircle * collectedDotsSpreadRadius; // Randomly spread around the tree
-        float yOffset = Random.Range(0.1f, 0.5f); // Add some variation in height for the spread
+        // Fixed Y position for visibility
+        float fixedYOffset = -1.0f; // Fixed height above the ground
 
-        Vector3 spreadPosition = controller.tree.position + new Vector3(randomOffset.x, yOffset, randomOffset.y); // New position with a slight offset from the tree
+        // Spiral calculation: increasing angle and radius
+        float angle = dotId * Mathf.PI / 6; // Increase angle for smoother spiral
+        float radius = 0.002f * dotId; // Increase radius slightly for visible spacing between dots
 
-        // Ensure the spread doesn't exceed a maximum distance from the tree
-        float maxSpreadDistance = 0.5f; // Maximum spread distance from the tree
-        Vector3 offsetFromTree = spreadPosition - controller.tree.position;
+        // Calculate X and Z using the angle and increasing radius
+        float xOffset = radius * Mathf.Cos(angle);
+        float zOffset = radius * Mathf.Sin(angle);
 
-        // Clamp the position to the maximum spread distance
-        if (offsetFromTree.magnitude > maxSpreadDistance)
-        {
-            spreadPosition = controller.tree.position + offsetFromTree.normalized * maxSpreadDistance;
-        }
+        // Set the new position with the spiral X, Z, and fixed Y
+        Vector3 spreadPosition = controller.tree.position + new Vector3(xOffset, fixedYOffset, zOffset);
 
-        transform.position = spreadPosition; // Set the dot's new spread position around the tree
+        transform.position = spreadPosition; // Set the dot's position
 
         if (lineRenderer != null)
         {
-            lineRenderer.positionCount = 0; // Disable the LineRenderer once the dot is at the tree
+            lineRenderer.positionCount = 0; // Disable the LineRenderer
         }
     }
+
+
+
 }

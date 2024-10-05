@@ -389,7 +389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &660355876
 Transform:
   m_ObjectHideFlags: 0
@@ -420,22 +420,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8976b02da788e4ea03f5a42416945c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noGoZoneManager: {fileID: 0}
+  noGoZoneManager: {fileID: 838548344}
+  controller: {fileID: 1055734400}
   hug: {fileID: 1395838879}
   partners: []
   smileID: 0
   state: 0
+  hugFaceSong: {fileID: 0}
   soundEventSender: {fileID: 1391619008}
-  player: {fileID: 624508766}
+  audioPlayer: {fileID: 624508766}
   onFlipClip: {fileID: 8300000, guid: 42c276826c5bc3b40a4cdec8686d5b91, type: 3}
-  SongSoundClip: {fileID: 0}
-  SighClip: {fileID: 0}
+  SongSoundClip: {fileID: 8300000, guid: 0348a5bbe0ed0425baaedff9cfe3db62, type: 3}
+  SighClip: {fileID: 8300000, guid: 5cd3d09944e793c47b5d8e47fa3a3398, type: 3}
   preDiscovered: {fileID: 169225780}
   discovered: {fileID: 1815985053}
   finished: {fileID: 964920484}
   fullComplete: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   inside: 0
+  flipped: 0
   lineRenderer: {fileID: 0}
 --- !u!120 &660355878
 LineRenderer:
@@ -714,6 +717,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+--- !u!114 &838548344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+  m_PrefabInstance: {fileID: 838548343}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb63b8bfb34fc4f3a9393d23f590fa6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &889365377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1416,29 +1430,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504a7ae99eff10d4682ec06cab3de667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noGoZoneManager: {fileID: 0}
+  noGoZoneManager: {fileID: 838548344}
   facePrefab: {fileID: 660355872}
-  faceSize: 0.7
-  faceVerticality: 0
+  faceSize: 5
   faces: []
   controller: {fileID: 1055734400}
-  activationRadius: 2.45
+  activationRadius: 12.81
   connectionPrefab: {fileID: 931979819}
   connections: []
   smilesDiscovered: 
   completedFaces: []
-  numFacesPerGroup: 2
+  trueTextures:
+  - {fileID: 2800000, guid: aabd6953a184c4212b4e3fc0d5445d39, type: 3}
+  - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
+  - {fileID: 2800000, guid: 055500f02589f43f8b203acbb3f9e2fb, type: 3}
+  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
+  neutralTexture: {fileID: 2800000, guid: aabd6953a184c4212b4e3fc0d5445d39, type: 3}
+  finalTexture: {fileID: 2800000, guid: cdd65b57f8b984acaaeb6285f0416adb, type: 3}
+  hugFaceSounds:
+  - {fileID: 8300000, guid: 838d26c6d27fe4c54aad31568ec599d6, type: 3}
+  - {fileID: 8300000, guid: a70c49499cb70c24d92b7f7b23ef300c, type: 3}
+  - {fileID: 8300000, guid: 0bf80d3970e999a4d9d468f958d9bedb, type: 3}
+  - {fileID: 8300000, guid: 1540ea46a983e6742a467fd4721f66cc, type: 3}
+  - {fileID: 8300000, guid: 603018f1c242d37479d02fd1dbb19282, type: 3}
+  numFacesPerGroup: 0
   numColors: 1
   hugSpeed: 0.01
   onHugClip: {fileID: 8300000, guid: fbe07c972808f224aa1ef87af8dbe1ed, type: 3}
   onHugParticleSystem: {fileID: 889365378}
   player: {fileID: 624508766}
-  trueTextures:
-  - {fileID: 2800000, guid: aabd6953a184c4212b4e3fc0d5445d39, type: 3}
-  - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
-  - {fileID: 2800000, guid: 055500f02589f43f8b203acbb3f9e2fb, type: 3}
-  neutralTexture: {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  finalTexture: {fileID: 2800000, guid: cdd65b57f8b984acaaeb6285f0416adb, type: 3}
 --- !u!4 &1395838880
 Transform:
   m_ObjectHideFlags: 0

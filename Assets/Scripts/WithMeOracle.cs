@@ -328,27 +328,25 @@ public class DotGameController : Controller
                     return;
                 }
 
-                // Debug.Log($"[DOT PROCESSING] Player {playerIndex}: Processing collected dot. Total dots collected: {numDotsCollected}");
-
                 dotAvatars[index].collectedDot = true;
                 dotAvatars[index].dotCollector = player.transform;
                 player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
 
-                // Debug.Log($"[DOT PROCESSING COMPLETE] Player {playerIndex}: Processing complete. Current scale: {players[playerIndex].transform.localScale}");
-
-                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
+                audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
 
 
                 player.transform.localScale = GetScale(player.id);
 
+                if (Controller.enableNewSoundSystem)
 
-                string soundID = $"p{player.id}EffectsWithMePointCollision";
-                Vector3 pointPosition = player.transform.position;
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                {
+                    string soundID = $"p{player.id}EffectsWithMePointCollision";
+                    Vector3 pointPosition = player.transform.position;
+                    soundEventSender.SendOneShotSound(soundID, pointPosition);
 
+                }
                 playerCollectDotParticleSystem.transform.position = collider.transform.position;
                 playerCollectDotParticleSystem.Play();
-                // Debug.Log($"Sending OSC message to play point sound: {soundID}");
 
                 // dots[index].gameObject.SetActive(false);
                 // dots[index].position = dotOriginalPositions[index];

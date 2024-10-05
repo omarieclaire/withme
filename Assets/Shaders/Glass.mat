@@ -2,22 +2,33 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Glass
   m_Shader: {fileID: 4800000, guid: 2c533a97b0aef44418c4a78308341f8e, type: 3}
-  m_ShaderKeywords: _APPLYNORMALMAPPING_ON _CAUSTICS_ON _COMPUTEDIRECTIONALLIGHT_ON
-    _FOAM3DLIGHTING_ON _FOAM_ON _PROJECTION_BOTH _SUBSURFACESCATTERING_ON _SUBSURFACESHALLOWCOLOUR_ON
-    _TRANSPARENCY_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _APPLYNORMALMAPPING_ON
+  - _CAUSTICS_ON
+  - _COMPUTEDIRECTIONALLIGHT_ON
+  - _FOAM3DLIGHTING_ON
+  - _FOAM_ON
+  - _PROJECTION_BOTH
+  - _SUBSURFACESCATTERING_ON
+  - _SUBSURFACESHALLOWCOLOUR_ON
+  - _TRANSPARENCY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -133,6 +144,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _ApplyNormalMapping: 1
     - _BumpAmt: 128
@@ -276,3 +288,4 @@ Material:
     - _SubSurfaceShallowColShadow: {r: 0.144, g: 0.226, b: 0.212, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _TriplanarMultiplier: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

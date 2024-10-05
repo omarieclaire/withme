@@ -6,15 +6,12 @@ public class Hug : MonoBehaviour
 {
     public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
 
-
     [Tooltip("Prefab used to instantiate faces.")]
     public GameObject facePrefab;
 
     [Tooltip("Size of each face.")]
     public float faceSize;
 
-    [Tooltip("Vertical alignment factor for the faces.")]
-    public float faceVerticality;
 
     [Tooltip("List of all HugFace objects in the game.")]
     public List<HugFace> faces;
@@ -36,125 +33,202 @@ public class Hug : MonoBehaviour
 
     [Tooltip("List of HugFace objects that have completed the hug.")]
     public List<HugFace> completedFaces;
-    public int numFacesPerGroup;
 
+    [Tooltip("number textures, which also is total number of faces")]
+    public List<Texture> trueTextures;
+    public Texture neutralTexture;
+
+    public Texture finalTexture;
+
+    [Tooltip("List of special sounds for each HugFace pair.")]
+    public List<AudioClip> hugFaceSounds;  // List of unique sounds for HugFace pairs
+
+    public int numFacesPerGroup;
     public int numColors;
 
-
     public float hugSpeed = .01f;
+
+
+    public AudioClip onHugClip;
+    public ParticleSystem onHugParticleSystem;
+
+    public AudioPlayer player;
+
+
+
     private void Start()
     {
+        // Debug.Log("Hug - Start: Hug initialization complete.");
     }
 
     public void OnEnable()
+{
+    // Debug.Log("Hug - OnEnable: Initializing and resetting faces.");
+
+    // Clear any previously existing faces
+    while (faces.Count > 0)
     {
-        Debug.Log("Hug - OnEnable: Initializing and resetting faces.");
+        HugFace face = faces[0];
+        faces.RemoveAt(0);
+        Destroy(face.gameObject);
+        // Debug.Log($"Hug - OnEnable: Destroyed face {face.name}.");
+    }
 
-        while (faces.Count > 0)
+    faces.Clear();  // Ensure the faces list is empty before adding new faces
+
+    int soundIndex = 0;  // Tracks the sound index for unique sounds
+
+    // Loop through textures to create face pairs
+    for (int i = 0; i < trueTextures.Count; i++)
+    {
+        for (int k = 0; k < numColors; k++)
         {
-            HugFace face = faces[0];
-            faces.RemoveAt(0);
-            Destroy(face.gameObject);
-            Debug.Log($"Hug - OnEnable: Destroyed face {face.name}.");
-        }
+            // Generate a random color for each face pair
+            Color c = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
 
-        faces.Clear();
+            // Create only two faces per group to ensure one-to-one matching
+            List<HugFace> partners = new List<HugFace>();
 
-        for (int i = 0; i < trueTextures.Count; i++)
-        {
-            for (int k = 0; k < numColors; k++)
+            // Instantiate the two faces that will form a pair
+            HugFace face1 = Instantiate(facePrefab).GetComponent<HugFace>();
+            HugFace face2 = Instantiate(facePrefab).GetComponent<HugFace>();
+
+            // Assign a unique sound to both faces in the pair (ensuring they get the same sound)
+            if (soundIndex < hugFaceSounds.Count)
             {
-                Color c = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
-
-                List<HugFace> partners = new List<HugFace>();
-                for (int j = 0; j < numFacesPerGroup; j++)
-                {
-                    HugFace face1 = Instantiate(facePrefab).GetComponent<HugFace>();
-                    Vector3 randomPos;
-                    bool isBlockedByNoGoZone;
-                    int retryCount = 0;
-
-                    // Loop to ensure that the face is not placed in a forbidden zone or blocked by a no-go zone
-                    do
-                    {
-                        randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
-                        randomPos = controller.getFinalPosition(randomPos);  // Get final mapped position
-
-                        // Cast a ray from the center of the dome to the random face position
-                        Ray ray = new Ray(Vector3.zero, randomPos.normalized); // Ensure direction is normalized
-                        RaycastHit hit;
-
-                        // Perform raycast to check if anything is between the center and the random position
-                        if (Physics.Raycast(ray, out hit, randomPos.magnitude))
-                        {
-                            // Check if the ray hits a forbidden zone
-                            isBlockedByNoGoZone = hit.collider == noGoZoneManager.doorCollider ||
-                                                  hit.collider == noGoZoneManager.soundBoothCollider ||
-                                                  hit.collider == noGoZoneManager.stageCollider;
-
-                            if (isBlockedByNoGoZone)
-                            {
-                                Debug.Log($"Face placement blocked by {hit.collider.name} at position {randomPos}.");
-                            }
-                            else
-                            {
-                                Debug.Log($"Ray hit {hit.collider.name} but not a forbidden zone.");
-                            }
-                        }
-                        else
-                        {
-                            isBlockedByNoGoZone = false; // No collision, it's a valid position
-                            Debug.Log($"No hit for face at position {randomPos}.");
-                        }
-
-                        retryCount++;
-                        if (retryCount > 10) // Safety limit to prevent infinite loops
-                        {
-                            Debug.LogWarning($"[WARNING] Failed to generate a valid position for face after 10 tries. Using last position: {randomPos}");
-                            break;
-                        }
-
-                    } while (isBlockedByNoGoZone);  // Repeat if the position is blocked by a forbidden zone
-
-                    face1.transform.position = randomPos; // Set final valid position
-                    face1.transform.localScale = Vector3.one * faceSize * 2;
-                    face1.transform.parent = transform;
-                    face1.color = c;
-
-                    face1.hug = this;
-                    face1.smileID = i;
-                    faces.Add(face1);
-                    partners.Add(face1);
-                }
-
-                for (int j = 0; j < partners.Count; j++)
-                {
-                    partners[j].partners = partners;
-                }
+                AudioClip pairSound = hugFaceSounds[soundIndex]; // Store the sound to assign to both faces
+                face1.hugFaceSong = pairSound;
+                face2.hugFaceSong = pairSound;
+                // Debug.Log($"Hug - OnEnable: Assigned sound to face pair, sound index {soundIndex}.");
             }
-        }
+            else
+            {
+                // Debug.LogWarning("Not enough sounds provided for each HugFace pair.");
+            }
 
-        for (int i = 0; i < faces.Count; i++)
-        {
-            print("SACTIVATE");
-            faces[i].gameObject.SetActive(true);
+            // Increment soundIndex for the next pair
+            soundIndex++;
+
+            // Assign a unique smileID (True face) to the pair
+            face1.smileID = i;
+            face2.smileID = i;
+
+            // Set the same random color for both faces in the pair
+            face1.color = c;
+            face2.color = c;
+
+            // Assign each other as partners
+            face1.partners = new List<HugFace> { face2 };
+            face2.partners = new List<HugFace> { face1 };
+
+            // Generate random positions while avoiding no-go zones
+            Vector3 randomPos1, randomPos2;
+            bool isBlockedByNoGoZone1, isBlockedByNoGoZone2;
+            int retryCount1 = 0, retryCount2 = 0;
+
+            // Position face1 while avoiding no-go zones
+            do
+            {
+                randomPos1 = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
+                randomPos1 = controller.getFinalPosition(randomPos1);  // Get final mapped position
+
+                Ray ray1 = new Ray(Vector3.zero, randomPos1.normalized);  // Ensure direction is normalized
+                RaycastHit hit1;
+
+                if (Physics.Raycast(ray1, out hit1, randomPos1.magnitude))
+                {
+                    isBlockedByNoGoZone1 = hit1.collider == noGoZoneManager.doorCollider ||
+                                           hit1.collider == noGoZoneManager.soundBoothCollider ||
+                                           hit1.collider == noGoZoneManager.stageCollider;
+                    if (isBlockedByNoGoZone1)
+                    {
+                        // Debug.Log($"Hug - OnEnable: Face placement blocked by no-go zone at position {randomPos1}. Retrying...");
+                    }
+                }
+                else
+                {
+                    isBlockedByNoGoZone1 = false;
+                }
+
+                retryCount1++;
+                if (retryCount1 > 10) break;  // Safety limit to prevent infinite loops
+            } while (isBlockedByNoGoZone1);
+
+            // Position face2 while avoiding no-go zones
+            do
+            {
+                randomPos2 = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
+                randomPos2 = controller.getFinalPosition(randomPos2);  // Get final mapped position
+
+                Ray ray2 = new Ray(Vector3.zero, randomPos2.normalized);  // Ensure direction is normalized
+                RaycastHit hit2;
+
+                if (Physics.Raycast(ray2, out hit2, randomPos2.magnitude))
+                {
+                    isBlockedByNoGoZone2 = hit2.collider == noGoZoneManager.doorCollider ||
+                                           hit2.collider == noGoZoneManager.soundBoothCollider ||
+                                           hit2.collider == noGoZoneManager.stageCollider;
+                    if (isBlockedByNoGoZone2)
+                    {
+                        // Debug.Log($"Hug - OnEnable: Face placement blocked by no-go zone at position {randomPos2}. Retrying...");
+                    }
+                }
+                else
+                {
+                    isBlockedByNoGoZone2 = false;
+                }
+
+                retryCount2++;
+                if (retryCount2 > 10) break;  // Safety limit to prevent infinite loops
+            } while (isBlockedByNoGoZone2);
+
+            // Set final positions and add the HugFaces to the list
+            face1.transform.position = randomPos1;
+            face1.transform.localScale = Vector3.one * faceSize * 2;  // Set the size of the HugFace
+            face1.transform.parent = transform;  // Set this Hug object as the parent of the face
+            face1.color = c;  // Set the random color for the HugFace
+            face1.hug = this;  // Assign this Hug instance to the HugFace
+            face1.smileID = i;  // Assign a smileID for the textures
+            faces.Add(face1);  // Add the face to the list of faces
+            partners.Add(face1);  // Add the face to the partners list
+
+            face2.transform.position = randomPos2;
+            face2.transform.localScale = Vector3.one * faceSize * 2;  // Set the size of the HugFace
+            face2.transform.parent = transform;  // Set this Hug object as the parent of the face
+            face2.color = c;  // Set the random color for the HugFace
+            face2.hug = this;  // Assign this Hug instance to the HugFace
+            face2.smileID = i;  // Assign a smileID for the textures
+            faces.Add(face2);  // Add the face to the list of faces
+            partners.Add(face2);  // Add the face to the partners list
         }
     }
+
+    // Activate all faces
+    for (int i = 0; i < faces.Count; i++)
+    {
+        // Debug.Log($"Hug - OnEnable: Activating face {faces[i].name}.");
+        faces[i].gameObject.SetActive(true);
+    }
+}
+
 
 
     public void Update()
     {
-
+        // Handle faces that are outside the hug zone
         for (int j = 0; j < faces.Count; j++)
         {
-            faces[j].WhileOutside();
+            faces[j].WhileOutside();  // Reset faces that are not currently being interacted with
         }
 
+        // Check for player interactions with HugFaces
         for (int i = 0; i < controller.activePlayers.Count; i++)
         {
-            controller.activePlayers[i].GetComponent<LineRenderer>().enabled = false;
+            controller.activePlayers[i].GetComponent<LineRenderer>().enabled = false;  // Disable line renderer for players
             int closestFaceID = -1;
-            float closestFaceDistance = 1000000;
+            float closestFaceDistance = 1000000;  // Set an initially large distance
+
+            // Find the closest face to the player
             for (int j = 0; j < faces.Count; j++)
             {
                 float distance = Vector3.Distance(controller.activePlayers[i].transform.position, faces[j].transform.position);
@@ -165,60 +239,40 @@ public class Hug : MonoBehaviour
                 }
             }
 
+            // If a face is close enough, trigger interaction
             if (closestFaceDistance < activationRadius)
             {
-                faces[closestFaceID].WhileInside(controller.activePlayers[i]);
-                //                Debug.Log($"Hug - Update: Player {i} activated face {faces[closestFaceID].name} at distance {closestFaceDistance}.");
+                faces[closestFaceID].WhileInside(controller.activePlayers[i], faces[closestFaceID]);
+                // Debug.Log($"Hug - Update: Player {i} activated face {faces[closestFaceID].name} at distance {closestFaceDistance}.");
             }
+
         }
 
+        // Handle completed HugFaces
         if (completedFaces != null)
         {
             for (int i = 0; i < completedFaces.Count; i++)
             {
-                completedFaces[i].WhileFinished();
-                // Debug.Log($"Hug - Update: Face {completedFaces[i].name} in completedFaces set to finished.");
+                completedFaces[i].WhileFinished();  // Mark finished faces
+                // Debug.Log($"Hug - Update: Completed face {completedFaces[i].name} set to finished.");
             }
         }
     }
-
-
-    public AudioClip onHugClip;
-    public ParticleSystem onHugParticleSystem;
-
-    public AudioPlayer player;
-
-
     public void HUG(HugFace hugFace, int smileID)
     {
-
+        // Mark all partners of the given HugFace as fully completed
         for (int i = 0; i < hugFace.partners.Count; i++)
         {
             HugFace hf = hugFace.partners[i];
-
             hf.fullComplete = true;
-            hf.OnFullComplete();
-
-
+            hf.OnFullComplete();  // Trigger the full complete state
+            // Debug.Log($"Hug - HUG: Marked HugFace {hf.name} as fully complete.");
         }
 
-        //onHugParticleSystem.transform.position = hugFace.transform.position;
-        //onHugParticleSystem.Play();
+        // Play a particle effect and sound for the hug event (currently commented out)
+        // onHugParticleSystem.transform.position = hugFace.transform.position;
+        // onHugParticleSystem.Play();
         player.Play(onHugClip);
-
-
+        // Debug.Log($"Hug - HUG: Hug event completed, played sound and particle effect for {hugFace.name}.");
     }
-
-
-
-    [Tooltip("number textures, which also is total number of faces")]
-    public List<Texture> trueTextures;
-    public Texture neutralTexture;
-
-    public Texture finalTexture;
-
-
-
 }
-
-

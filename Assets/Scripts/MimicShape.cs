@@ -179,9 +179,14 @@ public class MimicShape : MonoBehaviour
         // Play New Constellation Sound via SoundEventSender
         if (soundEventSender != null)
         {
-            string soundID = "MimicShapeNewShapeGen";
-            Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-            soundEventSender.SendOneShotSound(soundID, pointPosition);
+            if (Controller.enableNewSoundSystem)
+
+            {
+
+                string soundID = "MimicShapeNewShapeGen";
+                Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
         }
         else
         {
@@ -236,18 +241,26 @@ public class MimicShape : MonoBehaviour
         {
             if (!isTickingPlaying && soundEventSender != null)
             {
-                string soundID = "MimicShapeTick";
-                soundEventSender.SendOrUpdateContinuousSound(soundID, transform.position);
-                isTickingPlaying = true;
+                if (Controller.enableNewSoundSystem)
+
+                {
+                    string soundID = "MimicShapeTick";
+                    soundEventSender.SendOrUpdateContinuousSound(soundID, transform.position);
+                    isTickingPlaying = true;
+                }
             }
         }
         else
         {
             if (isTickingPlaying && soundEventSender != null)
             {
-                string soundID = "MimicShapeTick";
-                soundEventSender.StopContinuousSound(soundID, transform.position);
-                isTickingPlaying = false;
+                if (Controller.enableNewSoundSystem)
+
+                {
+                    string soundID = "MimicShapeTick";
+                    soundEventSender.StopContinuousSound(soundID, transform.position);
+                    isTickingPlaying = false;
+                }
             }
         }
 
@@ -256,15 +269,23 @@ public class MimicShape : MonoBehaviour
         {
             if (isTickingPlaying && soundEventSender != null)
             {
-                string soundID = "MimicShapeTick";
-                soundEventSender.StopContinuousSound(soundID, transform.position);
-                isTickingPlaying = false;
+                if (Controller.enableNewSoundSystem)
+
+                {
+                    string soundID = "MimicShapeTick";
+                    soundEventSender.StopContinuousSound(soundID, transform.position);
+                    isTickingPlaying = false;
+                }
             }
 
             if (soundEventSender != null)
             {
-                string timeoutSoundID = "MimicShapeTimeout";
-                soundEventSender.SendOneShotSound(timeoutSoundID, transform.position);
+                if (Controller.enableNewSoundSystem)
+
+                {
+                    string timeoutSoundID = "MimicShapeTimeout";
+                    soundEventSender.SendOneShotSound(timeoutSoundID, transform.position);
+                }
             }
 
             lastTimeChange = Time.time;
@@ -299,8 +320,12 @@ public class MimicShape : MonoBehaviour
                     {
                         if (soundEventSender != null)
                         {
-                            string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
-                            soundEventSender.SendOneShotSound(soundID, player.transform.position);
+                            if (Controller.enableNewSoundSystem)
+
+                            {
+                                string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
+                                soundEventSender.SendOneShotSound(soundID, player.transform.position);
+                            }
                         }
                     }
                 }
@@ -340,16 +365,24 @@ public class MimicShape : MonoBehaviour
             {
                 if (soundEventSender != null)
                 {
-                    string soundID = "MimicShapeLeave";
-                    soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+                    if (Controller.enableNewSoundSystem)
+
+                    {
+                        string soundID = "MimicShapeLeave";
+                        soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+                    }
                 }
             }
             else
             {
                 if (soundEventSender != null)
                 {
-                    string soundID = "MimicShapeEnter";
-                    soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+                    if (Controller.enableNewSoundSystem)
+
+                    {
+                        string soundID = "MimicShapeEnter";
+                        soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+                    }
                 }
             }
         }
@@ -365,8 +398,12 @@ public class MimicShape : MonoBehaviour
     {
         if (soundEventSender != null)
         {
-            string soundID = "MimicShapeMatch";
-            soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+            if (Controller.enableNewSoundSystem)
+
+            {
+                string soundID = "MimicShapeMatch";
+                soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
+            }
         }
 
         if (onShapeCompleteParticles != null)
