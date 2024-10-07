@@ -18,7 +18,7 @@ public class HugFace : MonoBehaviour
 
     [Header("Effects")]
     public ParticleSystem matchParticlesPrefab;
-    private ParticleSystem instantiatedParticles; 
+    private ParticleSystem instantiatedParticles;
 
 
 
@@ -35,6 +35,9 @@ public class HugFace : MonoBehaviour
     public Color color;
     public bool fullComplete;
 
+
+    
+
     private bool wasFlipped = false;
     private bool soundsPlayed = false;
     private int state;
@@ -45,7 +48,7 @@ public class HugFace : MonoBehaviour
     private void Start()
     {
         OnEnable();
-                SetupParticles();
+        SetupParticles();
 
     }
 
@@ -218,17 +221,17 @@ public class HugFace : MonoBehaviour
         {
             if (Controller.enableOldSoundSystem)
             {
-if (HugFaceSighClips.Count > 0)
-{
-    int randomIndex = Random.Range(0, HugFaceSighClips.Count);
-    AudioClip selectedSighClip = HugFaceSighClips[randomIndex];
-    Debug.Log($"Playing random sigh clip: {selectedSighClip.name}");
-    audioPlayer.Play(selectedSighClip);
-}
-else
-{
-    Debug.LogWarning("No sigh clips available to play.");
-}
+                if (HugFaceSighClips.Count > 0)
+                {
+                    int randomIndex = Random.Range(0, HugFaceSighClips.Count);
+                    AudioClip selectedSighClip = HugFaceSighClips[randomIndex];
+                    Debug.Log($"Playing random sigh clip: {selectedSighClip.name}");
+                    audioPlayer.Play(selectedSighClip);
+                }
+                else
+                {
+                    Debug.LogWarning("No sigh clips available to play.");
+                }
 
             }
             if (Controller.enableNewSoundSystem)
@@ -266,14 +269,32 @@ else
 
     private void MoveToTopOfDome()
     {
+        // Get the current x and z positions of the hugface
+        float currentX = transform.position.x;
+        float currentZ = transform.position.z;
+
+        // Define  threshold value for both x and z
+        float threshold = 0.3f; 
+
+        // If both x and z are less than the threshold, stop moving (return early)
+        if (Mathf.Abs(currentX) < threshold && Mathf.Abs(currentZ) < threshold)
+        {
+            return;
+        }
+
+        // Continue with movement if the x and z are above the threshold
         Vector3 topOfDomePosition = new Vector3(0, 1.3f, 0);
         float offsetRange = 0.01f;
         Vector3 randomOffset = new Vector3(Random.Range(-offsetRange, offsetRange), 0, Random.Range(-offsetRange, offsetRange));
         Vector3 finalPosition = topOfDomePosition + randomOffset;
 
+        // Lerp towards the final position
         transform.position = Vector3.Lerp(transform.position, finalPosition, hug.howFastWeHug);
+
+        // Make the object face the center (Vector3.zero)
         transform.LookAt(Vector3.zero);
     }
+
 }
 
 

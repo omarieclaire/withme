@@ -186,16 +186,16 @@ public class Flock : MonoBehaviour
         }
     }
 
-  private void OnTriggerEnter(Collider other)
-{
-    Fish fish = other.GetComponent<Fish>();
-    if (fish != null && !fishCollisionStatus.ContainsKey(fish))
-    {
-        Debug.Log("Fish entered the portal: " + fish.name); // Debug message for collision detection
-        fishCollisionStatus[fish] = true; // Mark the fish as collided
-        TriggerportalColliderEffect(fish);
-    }
-}
+//   private void OnTriggerEnter(Collider other)
+// {
+//     Fish fish = other.GetComponent<Fish>();
+//     if (fish != null && !fishCollisionStatus.ContainsKey(fish))
+//     {
+//         Debug.Log("Fish entered the portal: " + fish.name); // Debug message for collision detection
+//         fishCollisionStatus[fish] = true; // Mark the fish as collided
+//         TriggerportalColliderEffect(fish);
+//     }
+// }
 
 
     // Method to trigger particle effects and handle fish disappearance

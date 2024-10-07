@@ -298,7 +298,7 @@ public class Hug : MonoBehaviour
             Debug.Log($"{onHugClip} - plaing redundant clip.");
 
             audioPlayer.Play(onHugClip);
-            
+
         }
         if (Controller.enableNewSoundSystem)
         {
@@ -320,7 +320,16 @@ public class Hug : MonoBehaviour
     {
         while (!gameIsOver && totalHugFaces < MAX_HUG_FACES)
         {
-            SpawnPairs(currentPairCount);
+            // Spawn fewer pairs
+            int pairsToSpawn = Mathf.Min(currentPairCount, MAX_HUG_FACES - totalHugFaces);
+
+            // Reduce number of pairs spawned in the first round
+            if (totalHugFaces == 0)
+            {
+                pairsToSpawn = Mathf.Clamp(pairsToSpawn, 1, 2); // Spawn at most 2 pairs at the start
+            }
+
+            SpawnPairs(pairsToSpawn);
 
             if (currentPairCount == 1)
             {
@@ -339,6 +348,7 @@ public class Hug : MonoBehaviour
             currentPairCount++;
         }
     }
+
 
     private void GameOver()
     {
