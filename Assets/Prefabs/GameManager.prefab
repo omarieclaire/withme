@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3160918365536298541}
   - component: {fileID: 6220094444521858188}
+  - component: {fileID: 1375164640719608508}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -29,7 +30,8 @@ Transform:
   m_LocalPosition: {x: -5.906593, y: -0.24579674, z: -8.0654745}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1818284237175757596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6220094444521858188
@@ -44,8 +46,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ccb66a9dbf37487db981618293b6c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TheOracleOfAll: {fileID: 0}
   gameDuration: 1000
-  waitTime: 20
-  retryCount: 3
+  waitTime: 2
+  retryCount: 1
   retryDelay: 0.5
+  dotGameController: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+  sphereObject: {fileID: 0}
+  sphereMaterial: {fileID: 0}
+  audioPlayer: {fileID: 0}
   soundEventSender: {fileID: 0}
+  BGMusicSource: {fileID: 0}
+  BGMusicClip: {fileID: 0}
+  timeoutClip: {fileID: 8300000, guid: 77d195940dac145238d8c01564283825, type: 3}
+  winGameClip: {fileID: 8300000, guid: 659bde87caf6a47fcb0489fe8177acc1, type: 3}
+  timeoutSoundID: timeoutSound
+  winGameSoundID: winGameSound
+  isMusicMuted: 1
+--- !u!114 &1375164640719608508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4836883292527609003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c29f25483314e5fb597d8ff3bf6c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skyboxMaterial: {fileID: 0}
+  SunPosition: {x: 0, y: -1, z: 0}
+  SunHue: 0
+  sunIntensity: 1
+  sunHueSize: 0.1
+  auroraIntensity: 1
+  auroraSpeed: 1
+  auroraHueStart: 0
+  auroraHueSize: 1
+  auroraHorizonImportance: 0.1
+  auroraNoiseSize: 1
+  auroraVibrantness: 1
+--- !u!1 &5917898217297356603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1818284237175757596}
+  - component: {fileID: 4708255211290454639}
+  m_Layer: 0
+  m_Name: DomeMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1818284237175757596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917898217297356603}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3160918365536298541}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4708255211290454639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917898217297356603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82c4f003b27b34c91aa9bc8f2c2c82c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeMaterial: {fileID: 2100000, guid: 1d91d65aea58b49d881f7a2e598dca3f, type: 2}

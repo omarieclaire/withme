@@ -1,174 +1,279 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class HugFace : MonoBehaviour
 {
+    [Header("References")]
+    public NoGoZoneManager noGoZoneManager;
+    public Controller controller;
     public Hug hug;
-    public List<HugFace> partners;
-    public int smileID;
-    public int state;
+    public SoundEventSender soundEventSender;
+    public AudioPlayer audioPlayer;
 
+    [Header("Face States")]
     public GameObject preDiscovered;
     public GameObject discovered;
     public GameObject finished;
 
+    [Header("Effects")]
+    public ParticleSystem matchParticlesPrefab;
+    private ParticleSystem instantiatedParticles; 
+
+
+
+    [Header("Audio")]
+    public AudioClip HugFaceSongSoundClip;
+    public AudioClip HugFaceFlipSoundClip;
+    // public AudioClip HugFaceSighClip;
+    public List<AudioClip> HugFaceSighClips;
+
+
+    [Header("Properties")]
+    public List<HugFace> partners;
+    public int smileID;
+    public Color color;
     public bool fullComplete;
 
-    public Color color;
+    private bool wasFlipped = false;
+    private bool soundsPlayed = false;
+    private int state;
+    private bool inside;
+    private bool flipped;
+    private Renderer faceRenderer;
 
-
-    private Renderer renderer;
-
-    public bool inside;
-
-    public LineRenderer lineRenderer;
-
-
-    void Start()
+    private void Start()
     {
-        renderer = GetComponent<Renderer>();
-        Debug.Log($"{name} - Start: Initial neutral texture applied.");
         OnEnable();
+                SetupParticles();
+
     }
 
     public void OnEnable()
     {
-        state = 0;
-        preDiscovered.SetActive(true);
-        discovered.SetActive(false);
-        finished.SetActive(false);
-
-        preDiscovered.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
-        discovered.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
-        finished.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
-
-
-        preDiscovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.neutralTexture);
-        discovered.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.trueTextures[smileID]);
-        finished.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", hug.finalTexture);
-
-        Debug.Log($"{name} - OnEnable: State set to {state}, preDiscovered active, discovered inactive.");
+        ResetFaceState();
+        ApplyTextures();
     }
 
     public void OnDisable()
     {
-        preDiscovered.SetActive(false);
-        discovered.SetActive(false);
-        finished.SetActive(false);
-        Debug.Log($"{name} - OnDisable: preDiscovered, discovered, and finished set to inactive.");
+        SetAllStatesInactive();
     }
 
-    public void WhileInside(PlayerAvatar player)
+    public void WhileInside(PlayerAvatar player, HugFace face)
     {
-        discovered.SetActive(true);
-        preDiscovered.SetActive(false);
-        finished.SetActive(false);
-        inside = true;
+        if (fullComplete) return;
 
-
-
-        bool allInside = true;
-
-        if (fullComplete == false)
+        if (!wasFlipped && !flipped)
         {
-
-            LineRenderer lr = player.gameObject.GetComponent<LineRenderer>();
-            lr.SetPosition(0, player.transform.position);
-            lr.SetPosition(1, transform.position);
-            lr.enabled = true;
-
-
-            for (int i = 0; i < partners.Count; i++)
-            {
-                if (!partners[i].inside)
-                {
-                    allInside = false;
-                    break;
-                }
-            }
-
-
-            if (allInside)
-            {
-
-                hug.HUG(this, smileID);// 
-
-            }
+            HandleFirstFlip(player);
         }
 
-
+        UpdateVisualState();
+        CheckForFullHug(player);
     }
 
     public void Update()
     {
         transform.LookAt(Vector3.zero);
+
         if (fullComplete)
         {
             WhileFinished();
         }
 
+        if (flipped && preDiscovered.activeSelf)
+        {
+            WhileOutside();
+        }
     }
 
     public void OnFullComplete()
     {
-        print("YAY");
+        // Debug.Log($"{name} - Full completion of HugFace.");
     }
+
     public void WhileOutside()
+    {
+        ResetToNeutralState();
+    }
+
+    public void WhileFinished()
+    {
+        SetFinishedStateActive();
+        MoveToTopOfDome();
+    }
+
+    public void ApplyColor(Color newColor)
+    {
+        if (faceRenderer != null && faceRenderer.material != null)
+        {
+            faceRenderer.material.color = newColor;
+        }
+    }
+
+    private void SetupParticles()
+    {
+        if (matchParticlesPrefab != null && instantiatedParticles == null)
+        {
+            instantiatedParticles = Instantiate(matchParticlesPrefab, transform.position, Quaternion.identity, transform);
+            instantiatedParticles.Stop(); // Ensure it's not playing by default
+        }
+    }
+
+    public void PlayMatchParticles()
+    {
+        if (instantiatedParticles != null)
+        {
+            instantiatedParticles.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Match particles not set up for " + gameObject.name);
+        }
+    }
+
+
+    private void ResetFaceState()
+    {
+        state = 0;
+        flipped = false;
+        preDiscovered.SetActive(true);
+        discovered.SetActive(false);
+        finished.SetActive(false);
+    }
+
+    private void ApplyTextures()
+    {
+        ApplyTextureToState(preDiscovered, hug.pensNeutralFace, Color.white);
+        ApplyTextureToState(discovered, GetDiscoveredTexture(), color);
+        ApplyTextureToState(finished, hug.pensPostHugFace, color);
+    }
+
+    private void ApplyTextureToState(GameObject stateObject, Texture texture, Color stateColor)
+    {
+        MeshRenderer meshRenderer = stateObject.GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            meshRenderer.material.SetTexture("_MainTex", texture);
+            meshRenderer.material.SetColor("_Color", stateColor);
+        }
+    }
+
+    private Texture GetDiscoveredTexture()
+    {
+        int textureCount = hug.pensTrueFaces.Count;
+        return (smileID >= 0 && smileID < textureCount) ? hug.pensTrueFaces[smileID] : null;
+    }
+
+    private void SetAllStatesInactive()
+    {
+        preDiscovered.SetActive(false);
+        discovered.SetActive(false);
+        finished.SetActive(false);
+    }
+
+    private void PlayHugSound(PlayerAvatar player, string soundType)
+    {
+        string soundID = $"p{player.id}EffectsHugFace{soundType}";
+        Vector3 pointPosition = player.transform.position;
+        Debug.Log($"Step 1: Playing hug {soundType.ToLower()} sound: {soundID} at {pointPosition}");
+        soundEventSender.SendOneShotSound(soundID, pointPosition);
+    }
+
+    private void HandleFirstFlip(PlayerAvatar player)
+    {
+
+        if (!soundsPlayed)
+        {
+            if (Controller.enableOldSoundSystem != null)
+            {
+                audioPlayer.Play(HugFaceFlipSoundClip);
+                audioPlayer.Play(HugFaceSongSoundClip);
+                soundsPlayed = true;
+            }
+            if (Controller.enableNewSoundSystem)
+            {
+                // PlayHugSound(player, "FlipSound");
+                PlayHugSound(player, "SongSound");
+                soundsPlayed = true;
+
+            }
+        }
+        flipped = true;
+        wasFlipped = true;
+        inside = true;
+    }
+
+    private void UpdateVisualState()
+    {
+        discovered.SetActive(true);
+        preDiscovered.SetActive(false);
+        finished.SetActive(false);
+    }
+
+    private void CheckForFullHug(PlayerAvatar player)
+    {
+        if (partners.TrueForAll(partner => partner.inside))
+        {
+            if (Controller.enableOldSoundSystem)
+            {
+if (HugFaceSighClips.Count > 0)
+{
+    int randomIndex = Random.Range(0, HugFaceSighClips.Count);
+    AudioClip selectedSighClip = HugFaceSighClips[randomIndex];
+    Debug.Log($"Playing random sigh clip: {selectedSighClip.name}");
+    audioPlayer.Play(selectedSighClip);
+}
+else
+{
+    Debug.LogWarning("No sigh clips available to play.");
+}
+
+            }
+            if (Controller.enableNewSoundSystem)
+            {
+                // PlayHugSound(player, "Sigh");
+            }
+
+            hug.HUG(this, smileID);
+            partners.ForEach(partner => hug.HUG(partner, partner.smileID));
+        }
+    }
+
+
+    private void ResetToNeutralState()
     {
         discovered.SetActive(false);
         preDiscovered.SetActive(true);
         finished.SetActive(false);
         inside = false;
-        Debug.Log($"{name} - WhileOutside: Inside set to false, preDiscovered active, neutral texture applied.");
+
+        if (flipped)
+        {
+            flipped = false;
+            wasFlipped = false;
+            soundsPlayed = false;
+        }
     }
 
-    public void WhileFinished()
+    private void SetFinishedStateActive()
     {
         discovered.SetActive(false);
         preDiscovered.SetActive(false);
         finished.SetActive(true);
-
-
-        Vector3 averagePosition = Vector3.zero;
-        int totalCounted = 0;
-        for (int i = 0; i < partners.Count; i++)
-        {
-            if (partners[i].transform.position != transform.position)
-            {
-                totalCounted++;
-                averagePosition += partners[i].transform.position;
-            }
-        }
-
-        if (totalCounted > 0)
-        {
-            averagePosition /= totalCounted;
-            transform.position = Vector3.Lerp(transform.position, averagePosition, hug.hugSpeed);
-        }
-
-
-        Debug.Log($"{name} - WhileFinished: Finished state active.");
     }
 
-    private void ApplyTexture(Texture texture)
+    private void MoveToTopOfDome()
     {
-        if (renderer != null && renderer.material != null)
-        {
-            renderer.material.mainTexture = texture;
-            Debug.Log($"{name} - ApplyTexture: Texture {texture.name} applied.");
-        }
+        Vector3 topOfDomePosition = new Vector3(0, 1.3f, 0);
+        float offsetRange = 0.01f;
+        Vector3 randomOffset = new Vector3(Random.Range(-offsetRange, offsetRange), 0, Random.Range(-offsetRange, offsetRange));
+        Vector3 finalPosition = topOfDomePosition + randomOffset;
+
+        transform.position = Vector3.Lerp(transform.position, finalPosition, hug.howFastWeHug);
+        transform.LookAt(Vector3.zero);
     }
-
-    public void ApplyColor(Color color) // Change to public
-    {
-        if (renderer != null && renderer.material != null)
-        {
-            renderer.material.color = color;
-            Debug.Log($"{name} - ApplyColor: Color {color} applied.");
-        }
-    }
-
-
 }
+
+

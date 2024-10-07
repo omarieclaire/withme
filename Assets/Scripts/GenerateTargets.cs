@@ -1,9 +1,12 @@
+// florp
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GenerateTargets : MonoBehaviour
 {
+    public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
+
     public GameObject targetPrefab;
     public GameObject spikePrefab;
 
@@ -86,7 +89,7 @@ public class GenerateTargets : MonoBehaviour
         usedPositions.Add(randomPosition);
     }
 
-    // Function to get a valid random position that does not overlap
+    // Function to get a valid random position that does not overlap or lie in forbidden zones
     private Vector3 GetValidPosition(float objectSize)
     {
         int maxAttempts = 200;  // Increase the number of attempts to find a valid position
@@ -99,6 +102,7 @@ public class GenerateTargets : MonoBehaviour
             randomPosition = new Vector3(Random.Range(-1f, 1f) * xzSpread, 0, Random.Range(-1f, 1f) * xzSpread);
             bool isValid = true;
 
+            // Check if the position is too close to other objects
             foreach (Vector3 usedPos in usedPositions)
             {
                 // Ensure distance between objects is at least objectSize * 1.2 to avoid overlap
@@ -106,6 +110,26 @@ public class GenerateTargets : MonoBehaviour
                 {
                     isValid = false;
                     break;
+                }
+            }
+
+            // Use raycasting to check for forbidden zones
+            if (isValid)
+            {
+                Ray ray = new Ray(Vector3.zero, randomPosition.normalized);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, randomPosition.magnitude))
+                {
+                    // Check if the ray hits a forbidden zone
+                    isValid = !(hit.collider == noGoZoneManager.doorCollider ||
+                                hit.collider == noGoZoneManager.soundBoothCollider ||
+                                hit.collider == noGoZoneManager.stageCollider);
+
+                    if (!isValid)
+                    {
+                        Debug.Log($"Position blocked by {hit.collider.name} at {randomPosition}");
+                    }
                 }
             }
 
@@ -117,7 +141,6 @@ public class GenerateTargets : MonoBehaviour
         // If no valid position found within the max attempts, return Vector3.zero
         return Vector3.zero;
     }
-
     public GameObject Florp;
 
     public ParticleSystem ps;
@@ -141,7 +164,18 @@ public class GenerateTargets : MonoBehaviour
 
         if (done == true && !finished)
         {
-            audioPlayer.Play(clip);
+            if (Controller.enableOldSoundSystem && clip != null)
+                {
+                    audioPlayer.Play(clip);
+
+                }
+                if (Controller.enableNewSoundSystem)
+                {
+                    // string soundID = $"p{player.id}EffectsWithMePointCollision";
+                    // Vector3 pointPosition = player.transform.position;
+                    // soundEventSender.SendOneShotSound(soundID, pointPosition);
+                }
+
             ps.transform.position = Florp.transform.position;
             ps.Play();
             finished = true;

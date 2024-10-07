@@ -27,7 +27,7 @@ public class SoundEventSender : MonoBehaviour
         // Check if the Transmitter is assigned, log an error if it's missing
         if (Transmitter == null)
         {
-            Debug.LogError("Transmitter is not assigned in the SoundEventSender script.");
+            // Debug.LogError("Transmitter is not assigned in the SoundEventSender script.");
         }
     }
 
@@ -53,7 +53,7 @@ public class SoundEventSender : MonoBehaviour
     {
         if (enableDebugLogging)
         {
-            Debug.Log(message);
+            // Debug.Log(message);
         }
     }
 
@@ -70,48 +70,54 @@ public class SoundEventSender : MonoBehaviour
 
     // Method to send one-shot sound events without tracking them in the dictionary
     public void SendOneShotSound(string soundID, Vector3? position)
+{
+    Debug.Log($"[SendOneShotSound] Step 2: Entering method. SoundID: {soundID}, Position: {(position.HasValue ? position.Value.ToString() : "null")}");
+
+    try
     {
-        // Create OSC message
         string oscAddress = "/sound/play";
         OSCMessage message = new OSCMessage(oscAddress);
+        Debug.Log($"[SendOneShotSound] Created OSC message with address: {oscAddress}");
 
-        // If position is available, convert and add the spatial attributes to the message
         if (position.HasValue)
         {
             SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
+            Debug.Log($"[SendOneShotSound] Calculated sound position. Azimuth: {soundPos.Azimuth}, Elevation: {soundPos.Elevation}, Radius: {soundPos.Radius}");
             AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
         }
         else
         {
-            LogMessage($"No position provided for sound {soundID}. Skipping spatial data.");
-            AddOSCValues(message, 0, 0, 0, soundID);  // Default values for spatial data
+            Debug.Log($"[SendOneShotSound] No position provided for sound {soundID}. Using default spatial data.");
+            AddOSCValues(message, 0, 0, 0, soundID);
         }
 
-        // Send the message using the Transmitter
+        Debug.Log($"[SendOneShotSound] Attempting to send OSC message...");
         SafeSend(message);
-        LogMessage($"Sending one-shot OSC message to TouchDesigner: {oscAddress}, {soundID}");
+        Debug.Log($"[SendOneShotSound] Step 3 Successfully sent OSC message to TouchDesigner: {oscAddress}, {soundID}");
     }
+    catch (System.Exception e)
+    {
+        Debug.LogError($"[SendOneShotSound] Error occurred: {e.Message}\nStack Trace: {e.StackTrace}");
+    }
+}
 
 
-   // Method to send or update continuous sound events
+    // Method to send or update continuous sound events
 public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 {
-    Debug.Log($"{soundID} we have entered SendOrUpdateContinuousSound ");
     if (position.HasValue)
     {
-            Debug.Log($"{soundID} we have a position");
-
         // Check if the sound is already active
         if (IsSoundActive(soundID))
         {
-            Debug.Log($"{soundID} sound is active so we'll UpdateContinuousSound");
-
             // Update the existing continuous sound's position
             UpdateContinuousSound(soundID, position.Value);
         }
         else
         {
-            Debug.Log($"{soundID} sound is NOT active so we'll send SendNewContinuousSound");
+            // Debug.Log("music? sound is NOT active so we'll send SendNewContinuousSound");
+            // Debug.LogWarning($"music? sound is NOT active so we'll send SendNewContinuousSound for {soundID}.");
+
 
             // Send the initial continuous sound event (position may be null for background music)
             SendNewContinuousSound(soundID, position);
@@ -119,7 +125,7 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
     }
     else
     {
-        Debug.LogWarning($"Position for {soundID} not available.");
+        // Debug.LogWarning($"Position for {soundID} not available.");
     }
 }
 
@@ -132,14 +138,14 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
 
         if (position.HasValue)
         {
-            Debug.Log($"{soundID} we're in SendNewContinuousSound and position has valu");
+            // Debug.Log("music? we're in SendNewContinuousSound and position has value");
             // For sounds with spatial data
             SoundPosition soundPos = new SoundPosition(position.Value, sphereSize);
             AddOSCValues(message, soundPos.Azimuth, soundPos.Elevation, soundPos.Radius, soundID);
         }
         else
         {
-            Debug.Log($"{soundID} we're in SendNewContinuousSound and position has not been provided");
+            // Debug.Log("music? we're in SendNewContinuousSound and position has not been provided");
             // If no position is provided, send a default or static value for non-spatial sounds
             AddOSCValues(message, 0, 0, 0, soundID);  // Default values
         }
@@ -183,12 +189,12 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
     }
 
     // Method to stop a continuous sound using its sound ID
-    public void StopContinuousSound(string soundID)
+    public void StopContinuousSound(string soundID, Vector3? position)
     {
         // Check if the sound ID exists in the active continuous sounds dictionary
         if (!activeContinuousSounds.ContainsKey(soundID))
         {
-            Debug.LogWarning($"Trying to stop sound {soundID}, but it was not found in active continuous sounds.");
+            // Debug.LogWarning($"background ? Trying to stop sound {soundID}, but it was not found in active continuous sounds.");
             return;
         }
 
@@ -197,11 +203,11 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
         stopMessage.AddValue(OSCValue.String(soundID));  // Use soundID to stop the correct sound
 
         // Send the stop message
-        SafeSend(stopMessage);
+        // SafeSend(stopMessage);
 
         // Remove the sound from the active continuous sounds dictionary
         activeContinuousSounds.Remove(soundID);
-        LogMessage($"Stopped and removed continuous sound {soundID}.");
+        LogMessage($"background ? Stopped and removed continuous sound {soundID}.");
     }
 
     // Method to safely send an OSC message and handle potential exceptions
@@ -211,12 +217,12 @@ public void SendOrUpdateContinuousSound(string soundID, Vector3? position)
         {
             // Attempt to send the message using the Transmitter
             Transmitter.Send(message);
-            LogMessage($"Successfully sent OSC message: {SerializeOSCMessage(message)}");
+            // LogMessage($"Successfully sent OSC message: {SerializeOSCMessage(message)}");
         }
         catch (System.Exception ex)
         {
             // Log an error if the message fails to send
-            Debug.LogError($"Failed to send OSC message: {ex.Message}");
+            // Debug.LogError($"Failed to send OSC message: {ex.Message}");
         }
     }
 

@@ -30,7 +30,7 @@
 //         float yOffset = Mathf.Sin(Time.time * breathingSpeed) * breathingAmplitude;
 //         transform.position = initialPosition + new Vector3(0, yOffset, 0);
 
-//         // Slow rotation
-//         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+//         // Rotate around the target's own local Y-axis
+//         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
 //     }
 // }

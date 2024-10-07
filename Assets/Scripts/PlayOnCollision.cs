@@ -1,3 +1,5 @@
+// using for buddy
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +7,13 @@ using UnityEngine;
 public class PlayOnCollision : MonoBehaviour
 {
     public AudioPlayer audioPlayer;
+
+    public AudioClip clip;
+
+    public Controller controller;
+
+
+    public SoundEventSender soundEventSender;
 
     public bool die;
     public bool changeColor;
@@ -19,14 +28,14 @@ public class PlayOnCollision : MonoBehaviour
     public float growSizePerHit;
     public float shrinkSizePerHit;
 
-        public ParticleSystem growParticles;
+    public ParticleSystem growParticles;
 
-    public ParticleSystem spikeParticles;  
+    public ParticleSystem spikeParticles;
 
     public ParticleSystem winGameParticles;
     public AudioClip growSuccessClip;
-    public AudioClip spikeClip; 
-        public AudioClip growClip;
+    public AudioClip spikeClip;
+    public AudioClip growClip;
 
 
     public bool changeColorOnHit;
@@ -46,22 +55,25 @@ public class PlayOnCollision : MonoBehaviour
     public float dampening;
     public Vector3 vel;
 
+    private bool hasCollided = false;  // Add this flag to prevent multiple triggers
+
     void OnCollisionEnter(Collision collision)
     {
-        GameObject thisObject = gameObject;  // This is the object the script is attached to (FlorpTarget or FlorpSpike)
-        GameObject otherObject = collision.gameObject;  // This is the object colliding with it (Florp)
+        if (hasCollided) return;  // Prevent re-triggering the collision logic
+        hasCollided = true;  // Set the flag when collision happens
 
-        // Debug.Log("This object: " + thisObject.name);
-        // examples: 
-        // This object: FlorpTarget(Clone)
-        // This object: FlorpSpike(Clone)
+        GameObject thisObject = gameObject;  // This is the object the script is attached to (FlorpTarget or FlorpSpike)
+        GameObject otherObject = collision.gameObject;  // This is the FLORP object colliding with it
 
         if (otherObject.tag == "FLORP")
         {
             // Shrink this object (FlorpTarget or FlorpSpike)
             ShrinkOtherObject(thisObject);
             PlayParticleEffect(collision, thisObject);
-            PlayAudioClip(thisObject);
+
+            // PlayOldAudioClip(thisObject); // <-- keep old audio for debugging
+            SendAudioSounds(thisObject, otherObject);
+
 
             if (die)
             {
@@ -81,8 +93,6 @@ public class PlayOnCollision : MonoBehaviour
         }
     }
 
-
-
     private void ShrinkOtherObject(GameObject obj)
     {
         // Shrink the object by a factor of 0.1 (10% of its current size) until a minimum scale is reached
@@ -94,77 +104,138 @@ public class PlayOnCollision : MonoBehaviour
     }
 
 
-private void PlayParticleEffect(Collision collision, GameObject thisObject)
-{
-    Debug.Log("PlayParticleEffect triggered for: " + thisObject.name);
-
-    // Check the type of object and play corresponding particle effects
-    if (thisObject.name.Contains("FlorpTarget"))
+    private void PlayParticleEffect(Collision collision, GameObject thisObject)
     {
-        if (growParticles != null) 
+        Debug.Log("PlayParticleEffect triggered for: " + thisObject.name);
+
+        // Check the type of object and play corresponding particle effects
+        if (thisObject.name.Contains("FlorpTarget"))
         {
-            Debug.Log("Playing grow particles for FlorpTarget");
-            growParticles.transform.position = collision.contacts[0].point;  // Use collision point for accuracy
-            growParticles.Play();
+            if (growParticles != null)
+            {
+                Debug.Log("Playing grow particles for FlorpTarget");
+                growParticles.transform.position = collision.contacts[0].point;  // Use collision point for accuracy
+                growParticles.Play();
+            }
+            else
+            {
+                Debug.LogError("growParticles not assigned!");
+            }
+        }
+        else if (thisObject.name.Contains("FlorpSpike"))
+        {
+            if (spikeParticles != null)  // Use the spike-specific particle system
+            {
+                Debug.Log("Playing spike particles for FlorpSpike");
+                spikeParticles.transform.position = collision.contacts[0].point;
+                spikeParticles.Play();
+            }
+            else
+            {
+                Debug.LogError("spikeParticles not assigned!");
+            }
         }
         else
         {
-            Debug.LogError("growParticles not assigned!");
+            Debug.LogWarning("Object is neither FlorpTarget nor FlorpSpike. Check object names.");
         }
     }
-    else if (thisObject.name.Contains("FlorpSpike"))
-    {
-        if (spikeParticles != null)  // Use the spike-specific particle system
-        {
-            Debug.Log("Playing spike particles for FlorpSpike");
-            spikeParticles.transform.position = collision.contacts[0].point;
-            spikeParticles.Play();
-        }
-        else
-        {
-            Debug.LogError("spikeParticles not assigned!");
-        }
-    }
-    else
-    {
-        Debug.LogWarning("Object is neither FlorpTarget nor FlorpSpike. Check object names.");
-    }
-}
 
 
 
-private void PlayAudioClip(GameObject thisObject)
-{
-    // Play different audio clips based on the object type
-    if (thisObject.name.Contains("FlorpTarget"))
-    {
-        if (audioPlayer != null && growSuccessClip != null) 
-        {
-            float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
-            audioPlayer.Play(growSuccessClip, fPitch);  // Play success clip for FlorpTarget
-        }
-    }
-    else if (thisObject.name.Contains("FlorpSpike"))
-    {
-        if (audioPlayer != null && spikeClip != null) 
-        {
-            float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
-            audioPlayer.Play(spikeClip, fPitch);  // Play spike clip for FlorpSpike
-        }
-    }
-}
+    // private void PlayOldAudioClip(GameObject thisObject) // <--- keep for debugging
+    // {
+    //     // Play different audio clips based on the object type
+    //     if (thisObject.name.Contains("FlorpTarget"))
+    //     {
+    //         if (audioPlayer != null && growSuccessClip != null)
+    //         {
+    //             float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
+    //             audioPlayer.Play(growSuccessClip, fPitch);  // Play success clip for FlorpTarget
+    //         }
+    //     }
+    //     else if (thisObject.name.Contains("FlorpSpike"))
+    //     {
+    //         if (audioPlayer != null && spikeClip != null)
+    //         {
+    //             float fPitch = 1.0f + Random.Range(-randomizePitch, randomizePitch);
+    //             audioPlayer.Play(spikeClip, fPitch);  // Play spike clip for FlorpSpike
+    //         }
+    //     }
+    // }
 
-// haven't tested this!
+
+    private void SendAudioSounds(GameObject targetOrSpike, GameObject player)
+    {
+        string soundID;
+        Vector3 pointPosition = targetOrSpike.transform.position;  // Position of the FLORP (colliding object)
+
+        if (targetOrSpike.name.Contains("FlorpTarget"))
+        {
+
+            if (Controller.enableOldSoundSystem && growSuccessClip != null)
+            {
+                audioPlayer.Play(growSuccessClip);
+            }
+
+            if (Controller.enableNewSoundSystem)
+
+            {
+                soundID = $"p{player.GetInstanceID()}EffectsSharePoint";  // I'm using player's spat channel because I don't want to manage distributing spike locations for spat
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
+        }
+        else if (targetOrSpike.name.Contains("FlorpSpike"))
+        {
+
+            if (Controller.enableOldSoundSystem && clip != null)
+            {
+                float fPitch = 1.0f;
+                fPitch += Random.Range(-randomizePitch, randomizePitch);
+                audioPlayer.Play(clip, fPitch);
+
+                if (audioPlayer == null && clip != null)
+                {
+                    print("AUDS");
+                    audioPlayer.Play(clip);
+                }
+
+
+            }
+
+            if (Controller.enableNewSoundSystem)
+            {
+                soundID = $"p{player.GetInstanceID()}EffectsShareSpikes";
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
+        }
+    }
+
+    // haven't tested this!
     private void ResetGrowth()
     {
         // Handle growth reset when max size is reached
         // winGameParticles.Play();
-        audioPlayer.Play(growSuccessClip);
+
+        if (Controller.enableOldSoundSystem && growSuccessClip != null)
+        {
+            audioPlayer.Play(growSuccessClip);
+
+
+        }
+        if (Controller.enableNewSoundSystem)
+        {
+            // string soundID = $"p{player.id}EffectsWithMePointCollision";
+            // Vector3 pointPosition = player.transform.position;
+            // soundEventSender.SendOneShotSound(soundID, pointPosition);
+        }
+
+
         currentHue = startHue;
     }
 
 
-// haven't tested this!
+    // haven't tested this!
     private void UpdateColor()
     {
         // Increment the hue by the specified amount and wrap around if necessary
@@ -193,10 +264,10 @@ private void PlayAudioClip(GameObject thisObject)
 
         collision.gameObject.transform.localScale += Vector3.one * scaleChange;
 
-// haven't tested this --> Disable the collider to prevent further collisions
+        // haven't tested this --> Disable the collider to prevent further collisions
         GetComponent<SphereCollider>().enabled = false;
 
-// haven't tested this --> If the object has grown beyond the maximum size, reset its growth
+        // haven't tested this --> If the object has grown beyond the maximum size, reset its growth
         if (transform.localScale.x >= maxSize)
         {
             ResetGrowth();
@@ -211,7 +282,7 @@ private void PlayAudioClip(GameObject thisObject)
 
     void Update()
     {
-       // haven't tested this --> If following a transform, apply force and update positions
+        // haven't tested this --> If following a transform, apply force and update positions
         if (followTransform != null)
         {
             Vector3 force = (followTransform.position - transform.position + randomDir(collideTime)) * followForce;

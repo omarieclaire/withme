@@ -1,19 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
 
-public class Fish : MonoBehaviour
-{
-
-    public Flock flock;
-
-    public LineRenderer attractLR;
-    public LineRenderer repelLR;
-
-    public void OnTriggerEnter(Collider other)
-    {
-        flock.OnFishEnter(this, other);
-    }
-
-
-}
+// public class Fish : MonoBehaviour
+// {
+//     public bool hasCollided = false; // Track if fish has collided
+// }

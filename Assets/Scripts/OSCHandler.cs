@@ -1,3 +1,11 @@
+// Handles OSC messages to track the positions of players. 
+// Listens for incoming blob position data via the OSC protocol, processes the data by parsing the message 
+// to extract player IDs and coordinates, and stores incomplete positions until both x and y coordinates are 
+// received. Once a complete position is available, it queues the player position message for processing. 
+// The Update method dequeues messages and updates the player's position in the game, notifying the game 
+// controller of the player's new position or creation. It also manages player data, including tracking the 
+// last time a message was received for each player
+
 using System.Collections.Concurrent;  // Provides thread-safe collection classes like ConcurrentQueue
 using System.Collections.Generic;      // Provides generic collection types like Dictionary and HashSet
 using UnityEngine;                     // Core Unity engine classes for game development
@@ -12,19 +20,19 @@ public class OSCHandler : MonoBehaviour
     public OSCReceiver Receiver;  // OSC Receiver to handle incoming messages
 
     [Header("Receiver UI Settings")]
-    public float timeToWaitForMissingPlayers = 0.5f;  // Time to wait before deactivating inactive players
-
     public Text ReceiverTextBlob;  // UI element to display information about blobs
 
     private const string _blobAddress = "/livepose/blobs/0/*/center*";  // OSC address to listen for blob center positions
 
     public Controller controller;  // Reference to the game controller that handles player actions
 
-    private HashSet<int> activePlayerIds = new HashSet<int>();  // Set of currently active player IDs
+    // private HashSet<int> activePlayerIds = new HashSet<int>();  // Set of currently active player IDs
     private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();  // Queue to store incoming player position messages
     private Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();  // Dictionary to store player data, keyed by player ID
 
     private Dictionary<int, Vector2> incompletePositions = new Dictionary<int, Vector2>();  // Dictionary to store incomplete position data (x or y not yet received)
+
+    private double inactivityThreshold = 5.0;  // Threshold for player inactivity (5 seconds)
 
     private void Start()
     {
@@ -42,63 +50,63 @@ public class OSCHandler : MonoBehaviour
             Debug.LogError("OSCReceiver is not assigned!");  // Error if no receiver is assigned
         }
     }
-private void Update()
-{
-    double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
-    
-    // Process all messages in the queue
-    while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
+    private void Update()
     {
-        if (debug)
-        {
-            Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
-        }
+        double currentTime = Time.unscaledTimeAsDouble;  // Get the current time without scaling (unaffected by game speed)
 
-        int playerId = msg.PlayerId;
-        Vector2 blobPosition = msg.BlobPosition;
-
-        // Log before attempting to get or create player data
-        if (debug)
-        {
-            Debug.Log($"[DEBUG] Attempting to get or create player data for Player ID: {playerId}");
-        }
-
-        // Attempt to get or create the player data
-        PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
-
-        // Check if playerData is null (though it should not be, add extra logging for safety)
-        if (playerData == null)
-        {
-            Debug.LogError($"[ERROR] PlayerData is null for Player ID: {playerId}. Cannot proceed.");
-            continue;  // Skip this iteration if playerData is null
-        }
-
-        // Log before updating the player's timestamp
-        if (debug)
-        {
-            Debug.Log($"[DEBUG] Updating last OSC timestamp for Player ID: {playerId} to {currentTime}");
-        }
-
-        // Update the player's last message timestamp
-        playerData.LastOSCTimeStamp = currentTime;
-
-        // Log before calling the controller method to update player position
-        if (controller == null)
-        {
-            Debug.LogError($"[ERROR] Controller is null, cannot update player position for Player ID: {playerId}");
-        }
-        else
+        // Process all messages in the queue
+        while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
         {
             if (debug)
             {
-                Debug.Log($"[DEBUG] Calling OnPlayerPositionUpdate for Player ID: {playerId}, Blob Position: {blobPosition}");
+                Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
             }
 
-            // Notify the controller about the player's new position
-            controller.OnPlayerPositionUpdate(playerId, blobPosition);
+            int playerId = msg.PlayerId;
+            Vector2 blobPosition = msg.BlobPosition;
+
+            // Log before attempting to get or create player data
+            if (debug)
+            {
+                Debug.Log($"[DEBUG] Attempting to get or create player data for Player ID: {playerId}");
+            }
+
+            // Attempt to get or create the player data
+            PlayerData playerData = GetOrCreatePlayer(playerId, currentTime);
+
+            // Check if playerData is null (though it should not be, add extra logging for safety)
+            if (playerData == null)
+            {
+                Debug.LogError($"[ERROR] PlayerData is null for Player ID: {playerId}. Cannot proceed.");
+                continue;  // Skip this iteration if playerData is null
+            }
+
+            // Log before updating the player's timestamp
+            if (debug)
+            {
+                Debug.Log($"[DEBUG] Updating last OSC timestamp for Player ID: {playerId} to {currentTime}");
+            }
+
+            // Update the player's last message timestamp
+            playerData.LastOSCTimeStamp = currentTime;
+
+            // Log before calling the controller method to update player position
+            if (controller == null)
+            {
+                Debug.LogError($"[ERROR] Controller is null, cannot update player position for Player ID: {playerId}");
+            }
+            else
+            {
+                if (debug)
+                {
+                    Debug.Log($"[DEBUG] Calling OnPlayerPositionUpdate for Player ID: {playerId}, Blob Position: {blobPosition}");
+                }
+
+                // Notify the controller about the player's new position
+                controller.OnPlayerPositionUpdate(playerId, blobPosition);
+            }
         }
     }
-}
 
 
     private PlayerData GetOrCreatePlayer(int playerId, double oscTime)
