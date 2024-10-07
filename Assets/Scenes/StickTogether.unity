@@ -1332,6 +1332,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 2039369492}
+    - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: BGMusicClip
       value: 
       objectReference: {fileID: 8300000, guid: 2203b21b9a8924995a83bc4ddd5ef408, type: 3}
@@ -1339,6 +1343,10 @@ PrefabInstance:
       propertyPath: audioPlayer
       value: 
       objectReference: {fileID: 581040364}
+    - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+      propertyPath: gameDuration
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
       value: 
@@ -1456,6 +1464,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2033076562337935756, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _localPort
+      value: 12000
+      objectReference: {fileID: 0}
     - target: {fileID: 5275306340362764313, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1799,7 +1811,7 @@ MonoBehaviour:
   noGoZoneManager: {fileID: 1792845380}
   controller: {fileID: 2039369492}
   soundEventSender: {fileID: 467197940}
-  radiusForCollection: 8
+  radiusForCollection: 3.26
   collectionRepresentation: {fileID: 0}
   connections: []
   connectionPrefab: {fileID: 558958222}
@@ -1813,7 +1825,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  domeRadius: 20
+  domeRadius: 10
   tempDomeVisual: {fileID: 0}
   happySound: {fileID: 8300000, guid: e09b4e14b1206412093224a1e475700e, type: 3}
   sadSound: {fileID: 8300000, guid: 3fec4c5e5f2014b3da1855a313071ebf, type: 3}

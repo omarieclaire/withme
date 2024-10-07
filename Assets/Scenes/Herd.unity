@@ -458,7 +458,7 @@ MonoBehaviour:
   disappearTime: 1.8
   noGoZoneManager: {fileID: 309747180}
   numFish: 10
-  fishSize: 0.11
+  fishSize: 0.09
   fishPrefab: {fileID: 1874753122}
   fishes: []
   velocities:
@@ -1652,7 +1652,7 @@ PrefabInstance:
       objectReference: {fileID: 622670484}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 200
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted
@@ -2198,11 +2198,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8cb6ad247e4d42359be6beae75933b6, type: 3}
---- !u!64 &1478162569 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 3651573405668302736, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
-  m_PrefabInstance: {fileID: 1896879956}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1535590270 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7555854919124370257, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
@@ -2222,6 +2217,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2033076562337935756, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _localPort
+      value: 12001
+      objectReference: {fileID: 0}
     - target: {fileID: 5275306340362764313, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2816,8 +2815,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 16.2304, y: 17.656878, z: -14.173349}
-  m_LocalScale: {x: 1, y: 0.34, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.034, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 464477998}
   - {fileID: 11810219}
@@ -2908,7 +2907,7 @@ PrefabInstance:
     - target: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
       propertyPath: floorCollider
       value: 
-      objectReference: {fileID: 1478162569}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
