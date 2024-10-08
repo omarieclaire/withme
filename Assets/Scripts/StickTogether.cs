@@ -36,6 +36,29 @@ public class StickTogether : MonoBehaviour
     [Tooltip("The minimum allowed Y position (bottom of the dome) to prevent the collection area from going underground.")]
     public float bottomOfDome = 0f;
 
+
+
+
+
+
+
+// new 
+[Tooltip("Reference to the floor GameObject")]
+    public GameObject floor;
+
+    [Tooltip("Minimum distance to keep from the floor")]
+    public float minDistanceFromFloor = 1f;
+
+    // private float domeRadius;
+
+
+
+
+
+
+
+
+
     [Tooltip("Offset for the movement of the collection area.")]
     public Vector3 movementOffset;
 
@@ -43,10 +66,8 @@ public class StickTogether : MonoBehaviour
     public Vector3[] bezierControlPoints = new Vector3[4];
 
     [Tooltip("Radius of the dome.")]
-    public float domeRadius = 20;  // Adjust the dome radius as needed
+    private float domeRadius;  
 
-    [Tooltip("Temporary visual representation of the dome (for testing purposes).")]
-    public GameObject tempDomeVisual;  // Assign a sphere or dome mesh for testing
 
     [Header("Audio Info")]
     public AudioClip happySound;
@@ -73,6 +94,27 @@ public class StickTogether : MonoBehaviour
         InitializeConnections();      // Call this to initialize connections
         InitializeTimerDisplay();     // Call this to initialize timer display
         InitializeBezierControlPoints(); // Call this to initialize Bezier control points
+   // Get the dome radius from the Controller
+        Controller controller = FindObjectOfType<Controller>();
+        if (controller != null)
+        {
+            domeRadius = controller.sphereSize;
+        }
+        else
+        {
+            Debug.LogError("Controller not found in the scene!");
+        }
+
+        // Set bottomOfDome based on the floor's position
+        if (floor != null)
+        {
+            bottomOfDome = floor.transform.position.y + minDistanceFromFloor;
+        }
+        else
+        {
+            Debug.LogWarning("Floor object not assigned!");
+        }
+   
     }
 
     // Initialize Bezier control points
@@ -120,56 +162,138 @@ public class StickTogether : MonoBehaviour
         CheckIntersectionWithDome();
     }
 
-    void UpdateCollectionAreaPosition()
+    /// <summary>
+/// Updates the position of the collection area, ensuring it stays within the dome and avoids no-go zones.
+/// </summary>
+void UpdateCollectionAreaPosition()
+{
+    // Update the collection area size
+    UpdateCollectionAreaSize();
+
+    Vector3 position;
+    bool isBlockedByNoGoZone;
+
+    do
     {
-        // Make the collection area a sphere that grows/shrinks based on the radiusForCollection
-        transform.localScale = new Vector3(radiusForCollection * 2, radiusForCollection * 2, radiusForCollection * 2);
+        // Calculate new position and project it onto the dome surface
+        position = CalculateNewPosition();
+        Vector3 projectedPosition = ProjectOntoDomeSurface(position);
 
-        Vector3 position;
-        bool isBlockedByNoGoZone;
+        // Adjust for minimum floor distance
+        projectedPosition = AdjustForFloorDistance(projectedPosition);
 
-        // Loop to ensure the collection area is not placed in forbidden zones
-        do
+        // Check for collisions with no-go zones
+        isBlockedByNoGoZone = CheckNoGoZoneCollision(projectedPosition);
+
+        if (isBlockedByNoGoZone)
         {
-            // Calculate the new position for the collection area using a wavy motion/sine wave
-            position = new Vector3(
-                Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
-                Mathf.Sin(Time.time * movementSpeed.y) * movementSize.y,
-                Mathf.Sin(Time.time * movementSpeed.z) * movementSize.z
-            ) + movementOffset;
+            Debug.Log($"[DEBUG] Position {projectedPosition} blocked by no-go zone. Recalculating...");
+        }
+    } while (isBlockedByNoGoZone);
 
-            // Ensure the collection area stays outside the dome
-            Vector3 outsidePosition = ProjectOutsideDome(position);
+    // Set the final position
+    SetFinalPosition(position);
+}
 
-            // Cast a ray from the dome center (assumed to be (0,0,0)) to the collection area position
-            Ray ray = new Ray(Vector3.zero, outsidePosition.normalized);
-            RaycastHit hit;
+/// <summary>
+/// Updates the size of the collection area based on the radiusForCollection.
+/// </summary>
+void UpdateCollectionAreaSize()
+{
+    transform.localScale = Vector3.one * (radiusForCollection * 2);
+    Debug.Log($"[DEBUG] Updated collection area size: {transform.localScale}");
+}
 
-            if (Physics.Raycast(ray, out hit, outsidePosition.magnitude))
-            {
-                // Check if the ray hits a forbidden zone
-                isBlockedByNoGoZone = hit.collider == noGoZoneManager.doorCollider ||
-                                      hit.collider == noGoZoneManager.soundBoothCollider ||
-                                      hit.collider == noGoZoneManager.stageCollider;
+/// <summary>
+/// Calculates a new position for the collection area using a wavy motion.
+/// </summary>
+/// <returns>The calculated position.</returns>
+Vector3 CalculateNewPosition()
+{
+    Vector3 newPosition = new Vector3(
+        Mathf.Sin(Time.time * movementSpeed.x) * movementSize.x,
+        Mathf.Sin(Time.time * movementSpeed.y) * movementSize.y,
+        Mathf.Sin(Time.time * movementSpeed.z) * movementSize.z
+    ) + movementOffset;
 
-                if (isBlockedByNoGoZone)
-                {
-                    Debug.Log($"Collection area blocked by {hit.collider.name} at {outsidePosition}.");
-                }
-            }
-            else
-            {
-                isBlockedByNoGoZone = false;  // No collision, it's a valid position
-                Debug.Log($"Collection area is not blocked at position {outsidePosition}.");
-            }
+    Debug.Log($"[DEBUG] Calculated new position: {newPosition}");
+    return newPosition;
+}
 
-        } while (isBlockedByNoGoZone);  // Repeat if the position is blocked by a forbidden zone
+/// <summary>
+/// Projects the given position onto the dome's surface.
+/// </summary>
+/// <param name="position">The position to project.</param>
+/// <returns>The projected position on the dome's surface.</returns>
+Vector3 ProjectOntoDomeSurface(Vector3 position)
+{
+    Vector3 directionFromCenter = position.normalized;
+    Vector3 projectedPosition = directionFromCenter * (domeRadius - radiusForCollection);
+    Debug.Log($"[DEBUG] Projected position onto dome surface: {projectedPosition}");
+    return projectedPosition;
+}
 
-        // Set the final position of the collection area
-        transform.position = controller.getFinalPosition(position);
-        Debug.Log($"[DEBUG] Final position for collection area after dome projection and no-go zone checks: {transform.position}");
+/// <summary>
+/// Adjusts the position to ensure it's above the minimum floor distance.
+/// </summary>
+/// <param name="position">The position to adjust.</param>
+/// <returns>The adjusted position.</returns>
+Vector3 AdjustForFloorDistance(Vector3 position)
+{
+    if (position.y < bottomOfDome)
+    {
+        float xzDistance = new Vector2(position.x, position.z).magnitude;
+        float newY = bottomOfDome;
+        float newXZDistance = Mathf.Sqrt(domeRadius * domeRadius - newY * newY);
+        Vector3 adjustedPosition = new Vector3(
+            position.x * newXZDistance / xzDistance,
+            newY,
+            position.z * newXZDistance / xzDistance
+        );
+        Debug.Log($"[DEBUG] Adjusted position for floor distance: {adjustedPosition}");
+        return adjustedPosition;
+    }
+    return position;
+}
+
+/// <summary>
+/// Checks if the given position collides with any no-go zones.
+/// </summary>
+/// <param name="position">The position to check.</param>
+/// <returns>True if the position is blocked by a no-go zone, false otherwise.</returns>
+bool CheckNoGoZoneCollision(Vector3 position)
+{
+    Ray ray = new Ray(Vector3.zero, position.normalized);
+    RaycastHit hit;
+
+    if (Physics.Raycast(ray, out hit, position.magnitude))
+    {
+        bool isBlocked = hit.collider == noGoZoneManager.doorCollider ||
+                         hit.collider == noGoZoneManager.soundBoothCollider ||
+                         hit.collider == noGoZoneManager.stageCollider;
+
+        if (isBlocked)
+        {
+            Debug.Log($"[DEBUG] Collection area blocked by {hit.collider.name} at {position}.");
+        }
+
+        return isBlocked;
     }
 
+    Debug.Log($"[DEBUG] No collision detected at position: {position}");
+    return false;
+}
+
+/// <summary>
+/// Sets the final position of the collection area.
+/// </summary>
+/// <param name="position">The position to set.</param>
+void SetFinalPosition(Vector3 position)
+{
+    Vector3 finalPosition = controller.getFinalPosition(position);
+    transform.position = finalPosition;
+    Debug.Log($"[DEBUG] Final position set for collection area: {finalPosition}");
+}
 
 
 
@@ -238,11 +362,7 @@ public class StickTogether : MonoBehaviour
             Debug.Log($"[DEBUG] Collection area is inside the dome. Distance: {distanceFromCenter}, Dome radius: {domeRadius}");
         }
 
-        // Visualize the temporary dome for testing purposes
-        if (tempDomeVisual != null)
-        {
-            tempDomeVisual.transform.localScale = new Vector3(domeRadius * 2, domeRadius * 2, domeRadius * 2);
-        }
+       
     }
 
     // Move code for updating timer text
@@ -253,7 +373,9 @@ public class StickTogether : MonoBehaviour
             timerTextMesh.transform.position = transform.position + timerTextOffset;
             float scaleFactor = 7.1f;
             timerTextMesh.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-            timerTextMesh.transform.LookAt(controller.getFinalPosition(Vector3.zero));
+            
+            // Use LookAt to face the center of the dome
+            timerTextMesh.transform.LookAt(Vector3.zero);
             timerTextMesh.transform.Rotate(0, 180, 0); // Flip to correct orientation
         }
     }
