@@ -17,6 +17,7 @@ public class MimicShape : MonoBehaviour
     public List<bool> spheresActive; // List to track the active state of each sphere
     public float sphereSize;
     public Timer timer;
+    public Timer timerPrefab;
 
     public Transform lineRendererHolder;
     public GameObject lineRendererPrefab;
@@ -28,6 +29,13 @@ public class MimicShape : MonoBehaviour
 
     public AudioClip onTickClip;  // Keeping old audio references for fallback or debugging
 
+
+    // References for audio and particle effects
+    public AudioPlayer audio;
+    public AudioClip onShapeCompleteClip;
+    public AudioClip newShapeSetClip;
+    public AudioClip onEnterClip;
+    public AudioClip onLeaveClip;
     private float oTime;
     private float nTime;
 
@@ -81,6 +89,30 @@ public class MimicShape : MonoBehaviour
                 sphere.name = $"Sphere_{i}";
                 spheres.Add(sphere);
                 spheresActive.Add(false);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"[ERROR] Failed to instantiate sphere {i}: {ex.Message}");
+            }
+        }
+
+        for (int i = 0; i < numSpheres; i++)
+        {
+            try
+            {
+                // Instantiate a new sphere and set its properties
+                GameObject sphere = Instantiate(spherePrefab, Vector3.zero, Quaternion.identity);
+                sphere.transform.position = Vector3.zero;
+                sphere.transform.localScale = Vector3.one * sphereSize;
+                sphere.transform.SetParent(transform);
+                sphere.name = $"Sphere_{i}";
+                spheres.Add(sphere);
+                spheresActive.Add(false);
+
+                // Instantiate the timer and set it as a child of the sphere
+                Timer newTimer = Instantiate(timerPrefab, sphere.transform);
+                newTimer.transform.localPosition = Vector3.zero; // Center the timer inside the sphere
+                newTimer.SetHand(0); // Start the timer at 0, or configure it as needed
             }
             catch (System.Exception ex)
             {
@@ -237,66 +269,77 @@ public class MimicShape : MonoBehaviour
         nTime /= timeBetweenChanges;
 
         // Check if it's time to start or continue the ticking sound
+
         if (nTime % tickRate < oTime % tickRate)
         {
-            if (!isTickingPlaying && soundEventSender != null)
+            if (Controller.enableOldSoundSystem)
             {
-                if (Controller.enableNewSoundSystem)
+                // audio.Play(onTickClip, .5f + nTime * .5f);
 
-                {
-                    string soundID = "MimicShapeTick";
-                    soundEventSender.SendOrUpdateContinuousSound(soundID, transform.position);
-                    isTickingPlaying = true;
-                }
             }
         }
-        else
-        {
-            if (isTickingPlaying && soundEventSender != null)
-            {
-                if (Controller.enableNewSoundSystem)
 
-                {
-                    string soundID = "MimicShapeTick";
-                    soundEventSender.StopContinuousSound(soundID, transform.position);
-                    isTickingPlaying = false;
-                }
+
+        // if (Controller.enableNewSoundSystem)
+        // {
+        //  string soundID = "MimicShapeTick";
+        //     soundEventSender.SendOrUpdateContinuousSound(soundID, transform.position);
+        //     isTickingPlaying = true;
+        // }
+        // else
+        // {
+        //     if (isTickingPlaying)
+        //     {
+        //         if (Controller.enableNewSoundSystem)
+        //         {
+        //             string soundID = "MimicShapeTick";
+        //             soundEventSender.StopContinuousSound(soundID, transform.position);
+        //             isTickingPlaying = false;
+        //         }
+        //     }
+        // }
+
+        // Set hand for the central timer 
+
+
+        timer.SetHand(nTime);
+
+        // Now update each sphere's timer as well
+
+
+        for (int i = 0; i < spheres.Count; i++)
+        {
+            Timer sphereTimer = spheres[i].GetComponentInChildren<Timer>();
+            if (sphereTimer != null)
+            {
+                sphereTimer.SetHand(nTime); // Update each sphere's timer
             }
         }
 
         // Check if it's time to change the shape
         if (Time.time - lastTimeChange > timeBetweenChanges)
         {
-            if (isTickingPlaying && soundEventSender != null)
-            {
-                if (Controller.enableNewSoundSystem)
+            // if (isTickingPlaying && soundEventSender != null)
+            // {
+            //     if (Controller.enableNewSoundSystem)
+            //     {
+            //         string soundID = "MimicShapeTick";
+            //         soundEventSender.StopContinuousSound(soundID, transform.position);
+            //         isTickingPlaying = false;
+            //     }
+            // }
 
-                {
-                    string soundID = "MimicShapeTick";
-                    soundEventSender.StopContinuousSound(soundID, transform.position);
-                    isTickingPlaying = false;
-                }
-            }
-
-            if (soundEventSender != null)
-            {
-                if (Controller.enableNewSoundSystem)
-
-                {
-                    string timeoutSoundID = "MimicShapeTimeout";
-                    soundEventSender.SendOneShotSound(timeoutSoundID, transform.position);
-                }
-            }
+            // if (soundEventSender != null)
+            // {
+            //     if (Controller.enableNewSoundSystem)
+            //     {
+            //         string timeoutSoundID = "MimicShapeTimeout";
+            //         soundEventSender.SendOneShotSound(timeoutSoundID, transform.position);
+            //     }
+            // }
 
             lastTimeChange = Time.time;
             NewShapeSet();
-        }
-
-        // Check the activation state of each sphere
-        if (controller == null)
-        {
-            Debug.LogError("[ERROR] Controller reference is missing.");
-            return;
         }
 
         for (int j = 0; j < numSpheres; j++)
@@ -316,33 +359,34 @@ public class MimicShape : MonoBehaviour
                     lr.SetPosition(0, spheres[j].transform.position);
                     lr.SetPosition(1, player.transform.position);
 
-                    if (!spheresActive[j])
-                    {
-                        if (soundEventSender != null)
-                        {
-                            if (Controller.enableNewSoundSystem)
-
-                            {
-                                string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
-                                soundEventSender.SendOneShotSound(soundID, player.transform.position);
-                            }
-                            // if (Controller.enableOldSoundSystem && onDotCollectClip != null)
-                            {
-                                // audioPlayer.Play(onDotCollectClip); // <-- old sound keep for debugging
-
-
-                            }
-
-
-                        }
-                    }
                 }
             }
 
+            // if (!spheresActive[j])
+            // {
+            //     if (soundEventSender != null)
+            //     {
+            //         if (Controller.enableNewSoundSystem)
+
+            //         {
+            //             string soundID = $"p{controller.activePlayers[i].id}EffectsConstellationEntry";
+            //             soundEventSender.SendOneShotSound(soundID, player.transform.position);
+            //         }
+
             if (sphereActive)
             {
+
+
+                Color color = Color.green;
+
                 Renderer rend = spheres[j].GetComponent<Renderer>();
-                rend.material.SetColor("_Color", Color.green);
+                rend.material.SetColor("_Color", color);
+                rend.material.SetColor("_BaseColor", color * .1f);
+                rend.material.SetColor("_ReflectionColor", color);
+                rend.material.SetColor("_CenterOrbColor", color * .1f);
+                rend.material.SetColor("_NoiseColor", color * 2);
+
+
                 spheresActive[j] = true;
             }
             else
@@ -350,8 +394,15 @@ public class MimicShape : MonoBehaviour
                 LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
                 lr.positionCount = 0;
 
+                Color color = Color.yellow;
+
                 Renderer rend = spheres[j].GetComponent<Renderer>();
-                rend.material.SetColor("_Color", Color.red);
+                rend.material.SetColor("_Color", color);
+                rend.material.SetColor("_BaseColor", color * .1f);
+                rend.material.SetColor("_ReflectionColor", color);
+                rend.material.SetColor("_CenterOrbColor", color * .1f);
+                rend.material.SetColor("_NoiseColor", color * 2);
+
                 spheresActive[j] = false;
             }
         }
@@ -371,26 +422,28 @@ public class MimicShape : MonoBehaviour
         {
             if (oNumActivated < numShapesActivated)
             {
-                if (soundEventSender != null)
+                if (Controller.enableOldSoundSystem)
                 {
-                    if (Controller.enableNewSoundSystem)
-
-                    {
-                        string soundID = "MimicShapeLeave";
-                        soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
-                    }
+                    audio.Play(onLeaveClip);
+                }
+                if (Controller.enableNewSoundSystem)
+                {
+                    // string soundID = $"p{player.id}EffectsWithMePointCollision";
+                    // Vector3 pointPosition = player.transform.position;
+                    // soundEventSender.SendOneShotSound(soundID, pointPosition);
                 }
             }
             else
             {
-                if (soundEventSender != null)
+                if (Controller.enableOldSoundSystem)
                 {
-                    if (Controller.enableNewSoundSystem)
-
-                    {
-                        string soundID = "MimicShapeEnter";
-                        soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
-                    }
+                    audio.Play(onEnterClip);
+                }
+                if (Controller.enableNewSoundSystem)
+                {
+                    // string soundID = $"p{player.id}EffectsWithMePointCollision";
+                    // Vector3 pointPosition = player.transform.position;
+                    // soundEventSender.SendOneShotSound(soundID, pointPosition);
                 }
             }
         }
@@ -404,15 +457,20 @@ public class MimicShape : MonoBehaviour
     // Called when the shape is complete
     void OnShapeComplete()
     {
-        if (soundEventSender != null)
-        {
-            if (Controller.enableNewSoundSystem)
 
-            {
-                string soundID = "MimicShapeMatch";
-                soundEventSender.SendOneShotSound(soundID, new Vector3(0, 2, 0));
-            }
+        if (Controller.enableOldSoundSystem)
+        {
+            audio.Play(onShapeCompleteClip);
+
         }
+        if (Controller.enableNewSoundSystem)
+        {
+            // string soundID = $"p{player.id}EffectsWithMePointCollision";
+            // Vector3 pointPosition = player.transform.position;
+            // soundEventSender.SendOneShotSound(soundID, pointPosition);
+        }
+
+
 
         if (onShapeCompleteParticles != null)
         {
@@ -425,5 +483,7 @@ public class MimicShape : MonoBehaviour
         }
 
         NewShapeSet();
+
     }
 }
+

@@ -255,7 +255,10 @@ MonoBehaviour:
   regularRing: {fileID: 1266312760479527552}
   chargedRing: {fileID: 8844053746031233958}
   maxRing: {fileID: 2829592495992139646}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  regularRingMaterial: {fileID: 0}
+  chargedRingMaterial: {fileID: 0}
+  maxRingMaterial: {fileID: 0}
+  color: {r: 1, g: 1, b: 1, a: 0}
   showPlayerName: 0
   colorRotationSpeed: 1.83
   hueRangeStart: 0.25
@@ -266,6 +269,19 @@ MonoBehaviour:
   collisionThreshold: 2
   playerModel: {fileID: 810090202661826680, guid: f206968e1caac92429d382c102f4711a, type: 3}
   usePlayerModel: 1
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  useRainbowColorLogic: 0
+  audioSource: {fileID: 0}
+  withMeP0Clip: {fileID: 0}
+  withMeP1Clip: {fileID: 0}
+  withMeP2Clip: {fileID: 0}
+  withMeP3Clip: {fileID: 0}
+  withMeP4Clip: {fileID: 0}
+  withMeP5Clip: {fileID: 0}
+  withMeP6Clip: {fileID: 0}
+  withMeP7Clip: {fileID: 0}
+  withMeP8Clip: {fileID: 0}
+  withMeP9Clip: {fileID: 0}
 --- !u!135 &5086125316187236596
 SphereCollider:
   m_ObjectHideFlags: 0
