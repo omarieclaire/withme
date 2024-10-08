@@ -206,41 +206,35 @@ public GameItemPlacer gameItemPlacer; // Assign this in the inspector or Start()
 
 private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
 {
-    // Ensure that GameItemPlacer is being used for positioning both HugFaces
-    Vector3 position1 = gameItemPlacer.PlaceItem(transform);  // Use the GameItemPlacer to place the first face
+    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
-    Vector3 position2;
-    bool validPositionFound = false;
-    int attempts = 0;
-
-    // Attempt to find a valid position for the second face that meets the distance constraints
-    do
+    // Try to find valid positions for face1 and face2 with the given distance constraints
+    Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
+    if (!position1.HasValue)
     {
-        position2 = gameItemPlacer.PlaceItem(transform);  // Place the second face using GameItemPlacer
-        attempts++;
-        // Ensure face2 is at least `partnerMinDistance` away from face1
-        if (Vector3.Distance(position1, position2) >= partnerMinDistance)
-        {
-            validPositionFound = true;
-        }
+        Debug.LogError("Failed to position first face. Using fallback position.");
+        position1 = Vector3.up; // Fallback position if no valid position is found
+    }
 
-    } while (!validPositionFound && attempts < 1000);  // Repeat until a valid position is found or max attempts reached
+    // Temporarily add face1 to the list to check distance for face2
+    existingFaces.Add(face1);
 
-    // Log an error if no valid position is found
-    if (!validPositionFound)
+    // Ensure face2 is at least `partnerMinDistance` away from face1
+    Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
+    if (!position2.HasValue)
     {
-        Debug.LogError("Failed to position second HugFace in a valid position after multiple attempts.");
+        Debug.LogError("Failed to position second face. Using fallback position.");
+        position2 = -Vector3.up; // Fallback position if no valid position is found
     }
 
     // Set the positions of the faces
-    face1.transform.position = position1;
-    face2.transform.position = position2;
+    face1.transform.position = position1.Value;
+    face2.transform.position = position2.Value;
 
     // Add the faces to the list of active HugFaces
     listOfHugFaceObjects.Add(face1);
     listOfHugFaceObjects.Add(face2);
 }
-
 
     // Ensures the partner face is placed at least partnerMinDistance away from face1
     private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
