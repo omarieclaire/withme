@@ -202,39 +202,37 @@ public class Hug : MonoBehaviour
         face2.partners = new List<HugFace> { face1 };
     }
 
-
 private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
+{
+    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
+
+    // Try to find valid positions for face1 and face2 with the given distance constraints
+    Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
+    if (!position1.HasValue)
     {
-        List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
-
-        // Try to find valid positions for face1 and face2 with the given distance constraints
-        Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
-        if (!position1.HasValue)
-        {
-            Debug.LogError("Failed to position first face. Using fallback position.");
-            position1 = Vector3.up; // Fallback position
-        }
-
-        // Temporarily add face1 to the list to check distance for face2
-        existingFaces.Add(face1);
-
-        // Ensure face2 is at least `partnerMinDistance` away from face1
-        Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
-        if (!position2.HasValue)
-        {
-            Debug.LogError("Failed to position second face. Using fallback position.");
-            position2 = -Vector3.up; // Fallback position
-        }
-
-        // Set the positions of the faces
-        face1.transform.position = position1.Value;
-        face2.transform.position = position2.Value;
-
-        // Add the faces to the list of active HugFaces
-        listOfHugFaceObjects.Add(face1);
-        listOfHugFaceObjects.Add(face2);
+        Debug.LogError("Failed to position first face. Using fallback position.");
+        position1 = Vector3.up; // Fallback position
     }
 
+    // Temporarily add face1 to the list to check distance for face2
+    existingFaces.Add(face1);
+
+    // Ensure face2 is at least `partnerMinDistance` away from face1
+    Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
+    if (!position2.HasValue)
+    {
+        Debug.LogError("Failed to position second face. Using fallback position.");
+        position2 = -Vector3.up; // Fallback position
+    }
+
+    // Set the positions of the faces
+    face1.transform.position = position1.Value;
+    face2.transform.position = position2.Value;
+
+    // Add the faces to the list of active HugFaces
+    listOfHugFaceObjects.Add(face1);
+    listOfHugFaceObjects.Add(face2);
+}
 
     // Ensures the partner face is placed at least partnerMinDistance away from face1
     private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
