@@ -352,6 +352,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1091436162}
+    - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
+      propertyPath: domemasterResolution
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -453,11 +457,11 @@ MonoBehaviour:
   controller: {fileID: 1739179313}
   portal: {fileID: 1285510725}
   portalCollider: {fileID: 612210843}
-  portalColliderParticlesPrefab: {fileID: 1886149301}
+  portalColliderParticlesPrefab: {fileID: 1254689278}
   portalRadius: 0.5
   disappearTime: 1.8
   noGoZoneManager: {fileID: 309747180}
-  numFish: 10
+  numFish: 100
   fishSize: 0.09
   fishPrefab: {fileID: 1874753122}
   fishes: []
@@ -864,6 +868,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1874753128}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &607388898
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.2781229
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.7187753
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.1023846
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884509274979852991, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8896765563907508943, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_Name
+      value: PuffParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8896765563907508943, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
 --- !u!1 &612210843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,7 +1717,7 @@ PrefabInstance:
       objectReference: {fileID: 622670484}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 2
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted
@@ -2035,6 +2100,11 @@ LineRenderer:
 Camera:
   m_CorrespondingSourceObject: {fileID: 4108089521995277908, guid: 00c82ae08fb8642c59b8fa1c9a93fac1, type: 3}
   m_PrefabInstance: {fileID: 1724995164}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1254689278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8896765563907508943, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
+  m_PrefabInstance: {fileID: 607388898}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1285510725
 GameObject:
@@ -2822,11 +2892,6 @@ Transform:
   - {fileID: 11810219}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1886149301 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6249579898955318938, guid: 36ab32994b2a843c98eb97c7be0d59ce, type: 3}
-  m_PrefabInstance: {fileID: 2093178560}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1896436762 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
@@ -3009,3 +3074,4 @@ SceneRoots:
   - {fileID: 1285510729}
   - {fileID: 2093178560}
   - {fileID: 612210847}
+  - {fileID: 607388898}

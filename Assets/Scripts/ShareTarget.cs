@@ -1,4 +1,4 @@
-using System.Collections;
+// using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,6 +66,7 @@ public class BreathingEffect : MonoBehaviour
         transform.position = initialPosition + new Vector3(circleX, 0, circleZ);  // Move object in a circular path
 
         // If material is available, apply more vibrant material changes
+        /*
         if (objectMaterial != null)
         {
             // Boost reflection color vibrancy using a cycle between vibrant hues
@@ -88,5 +89,6 @@ public class BreathingEffect : MonoBehaviour
             float reflectionMultiplier = baseReflectionMultiplier + Mathf.PerlinNoise(Time.time * 0.4f, 0f) * 0.3f;
             objectMaterial.SetFloat("_ReflectionMultiplier", reflectionMultiplier);
         }
+        */
     }
 }

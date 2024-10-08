@@ -404,6 +404,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1999866268}
+    - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
+      propertyPath: domemasterResolution
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -473,6 +477,10 @@ PrefabInstance:
     - target: {fileID: 4840521509176900330, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
       propertyPath: m_Name
       value: BlockNoGoAreasMyLove
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840521509176900330, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6128586469788266263, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
       propertyPath: m_LocalPosition.x
@@ -753,7 +761,7 @@ GameObject:
   - component: {fileID: 1196994874}
   - component: {fileID: 1196994873}
   m_Layer: 0
-  m_Name: BuddyTarget
+  m_Name: FlorpTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,7 +1156,7 @@ PrefabInstance:
       objectReference: {fileID: 2119574657}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 200
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject

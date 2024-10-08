@@ -365,20 +365,21 @@ public class StickTogether : MonoBehaviour
 
     }
 
-    // Move code for updating timer text
-    void UpdateTimerDisplay()
+   // Move code for updating timer text
+void UpdateTimerDisplay()
+{
+    if (timerTextMesh != null)
     {
-        if (timerTextMesh != null)
-        {
-            timerTextMesh.transform.position = transform.position + timerTextOffset;
-            float scaleFactor = 7.1f;
-            timerTextMesh.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+        timerTextMesh.transform.position = transform.position + timerTextOffset;
+        float scaleFactor = 7.1f;
+        timerTextMesh.transform.localScale = new Vector3(-scaleFactor, scaleFactor, scaleFactor); // Flip on X-axis to mirror the text
 
-            // Use LookAt to face the center of the dome
-            timerTextMesh.transform.LookAt(Vector3.zero);
-            timerTextMesh.transform.Rotate(0, 180, 0); // Flip to correct orientation
-        }
+        // Use LookAt to face the center of the dome
+        timerTextMesh.transform.LookAt(Vector3.zero);
+        timerTextMesh.transform.Rotate(0, 180, 0); // Keep the correct orientation
     }
+}
+
 
     // Handle connection line updates
     void UpdateConnections()

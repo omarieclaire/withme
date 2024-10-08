@@ -186,16 +186,16 @@ public class Flock : MonoBehaviour
         }
     }
 
-//   private void OnTriggerEnter(Collider other)
-// {
-//     Fish fish = other.GetComponent<Fish>();
-//     if (fish != null && !fishCollisionStatus.ContainsKey(fish))
-//     {
-//         Debug.Log("Fish entered the portal: " + fish.name); // Debug message for collision detection
-//         fishCollisionStatus[fish] = true; // Mark the fish as collided
-//         TriggerportalColliderEffect(fish);
-//     }
-// }
+    //   private void OnTriggerEnter(Collider other)
+    // {
+    //     Fish fish = other.GetComponent<Fish>();
+    //     if (fish != null && !fishCollisionStatus.ContainsKey(fish))
+    //     {
+    //         Debug.Log("Fish entered the portal: " + fish.name); // Debug message for collision detection
+    //         fishCollisionStatus[fish] = true; // Mark the fish as collided
+    //         TriggerportalColliderEffect(fish);
+    //     }
+    // }
 
 
     // Method to trigger particle effects and handle fish disappearance
@@ -216,59 +216,59 @@ public class Flock : MonoBehaviour
         StartCoroutine(TransformAndDisappear(fish));
     }
 
-   private IEnumerator TransformAndDisappear(Fish fish)
-{
-    Renderer fishRenderer = fish.GetComponent<Renderer>();
-    TrailRenderer trailRenderer = fish.GetComponent<TrailRenderer>();
-
-    if (fishRenderer == null)
+    private IEnumerator TransformAndDisappear(Fish fish)
     {
-        yield break;  // If there's no renderer, exit the coroutine
-    }
+        Renderer fishRenderer = fish.GetComponent<Renderer>();
+        TrailRenderer trailRenderer = fish.GetComponent<TrailRenderer>();
 
-    // For testing: Scale the fish up by 5x for visibility
-    fish.transform.localScale *= 5f;
-
-    if (trailRenderer != null)
-    {
-        trailRenderer.enabled = false;  // Disable the TrailRenderer
-    }
-
-    fishRenderer.material.color = Color.cyan;  // Change color to cyan for visual feedback
-
-    Vector3 originalScale = fish.transform.localScale;
-    float timer = 0f;
-
-    while (timer < disappearTime)
-    {
-        if (fish == null || fish.gameObject == null)
+        if (fishRenderer == null)
         {
-            Debug.Log("Fish already destroyed during the coroutine.");
-            yield break;
+            yield break;  // If there's no renderer, exit the coroutine
         }
 
-        timer += Time.deltaTime;
-        float scale = Mathf.Lerp(1f, 0f, timer / disappearTime);
-        fish.transform.localScale = originalScale * scale;
+        // For testing: Scale the fish up by 5x for visibility
+        fish.transform.localScale *= 5f;
 
-        Color color = fishRenderer.material.color;
-        color.a = Mathf.Lerp(1f, 0f, timer / disappearTime);  // Fade out
-        fishRenderer.material.color = color;
+        if (trailRenderer != null)
+        {
+            trailRenderer.enabled = false;  // Disable the TrailRenderer
+        }
 
-        yield return null;
-    }
+        fishRenderer.material.color = Color.cyan;  // Change color to cyan for visual feedback
 
-    if (fish != null && fish.gameObject != null)
-    {
-        Debug.Log("Fish " + fish.name + " is being destroyed.");
-        fishes.Remove(fish);
-        Destroy(fish.gameObject);  // Destroy the fish after it disappears
+        Vector3 originalScale = fish.transform.localScale;
+        float timer = 0f;
+
+        while (timer < disappearTime)
+        {
+            if (fish == null || fish.gameObject == null)
+            {
+                Debug.Log("Fish already destroyed during the coroutine.");
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            float scale = Mathf.Lerp(1f, 0f, timer / disappearTime);
+            fish.transform.localScale = originalScale * scale;
+
+            Color color = fishRenderer.material.color;
+            color.a = Mathf.Lerp(1f, 0f, timer / disappearTime);  // Fade out
+            fishRenderer.material.color = color;
+
+            yield return null;
+        }
+
+        if (fish != null && fish.gameObject != null)
+        {
+            Debug.Log("Fish " + fish.name + " is being destroyed.");
+            fishes.Remove(fish);
+            Destroy(fish.gameObject);  // Destroy the fish after it disappears
+        }
+        else
+        {
+            Debug.LogWarning("Fish has already been destroyed before reaching this point.");
+        }
     }
-    else
-    {
-        Debug.LogWarning("Fish has already been destroyed before reaching this point.");
-    }
-}
 
 
 
@@ -413,6 +413,7 @@ public class Flock : MonoBehaviour
     }
 
     // Apply a force that keeps fish on the dome surface and above the horizon
+    // Apply a force that keeps fish on the dome surface and above the horizon
     Vector3 ApplyDomeSurfaceConstraint(Vector3 pos)
     {
         Vector3 toCenter = -pos.normalized; // Direction toward the center of the dome
@@ -421,12 +422,13 @@ public class Flock : MonoBehaviour
         // Base force to keep fish on the dome surface
         Vector3 force = toCenter * distanceFromSurface * maxForce;
 
-        // Check if the fish is below the horizon (y < 0) and apply an upward force
-        if (pos.y < 0)
+        // Check if the fish is below the y = -3 limit and apply an upward force
+        if (pos.y < -3)
         {
-            force += Vector3.up * forceToAboveHorizon; // Push fish upward if below the horizon
+            force += Vector3.up * forceToAboveHorizon * (Mathf.Abs(pos.y) - 3); // Stronger push upwards when below -3
         }
 
         return force;
     }
+
 }

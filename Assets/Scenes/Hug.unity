@@ -132,12 +132,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: d18eb174411a6d74baccb4e9efecc774, type: 3}
+      objectReference: {fileID: 8300000, guid: a3a38db67a57c4d07bf1883e1ea986cc, type: 3}
     - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1528,6 +1528,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d44e2d78cf144e7d876eef9e5647562, type: 3}
+--- !u!1001 &1306827432
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bc3d66278390c4e9ba957abff98ded36, type: 3}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973078041965423052, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_Name
+      value: AudioSourceForTestingBGMusic (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
 --- !u!1001 &1353191221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1610,6 +1675,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395838880}
   - component: {fileID: 1395838879}
+  - component: {fileID: 1395838881}
   m_Layer: 0
   m_Name: Hug
   m_TagString: Untagged
@@ -1638,12 +1704,12 @@ MonoBehaviour:
   connectionPrefab: {fileID: 931979819}
   hugFaceSize: 2.51
   activationRadius: 3.39
-  partnerMinDistance: 1.5
+  partnerMinDistance: 5.64
   otherFacesMinDistance: 2.64
   howFastWeHug: 0.01
-  firstPairDelay: 16.4
-  slowPairDelay: 10
-  minimumRoundDelay: 5.82
+  firstPairDelay: 14
+  slowPairDelay: 8
+  minimumRoundDelay: 4
   pensTrueFaces:
   - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
   - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
@@ -1693,6 +1759,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1395838881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395838878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ddef197509074967af2c943bb1d841b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 838548344}
+  controller: {fileID: 1055734400}
 --- !u!1001 &1427088142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2318,14 +2398,14 @@ PrefabInstance:
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: BGMusicClip
       value: 
-      objectReference: {fileID: 8300000, guid: d18eb174411a6d74baccb4e9efecc774, type: 3}
+      objectReference: {fileID: 8300000, guid: bc3d66278390c4e9ba957abff98ded36, type: 3}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: audioPlayer
       value: 
       objectReference: {fileID: 624508766}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 300
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
@@ -2370,3 +2450,4 @@ SceneRoots:
   - {fileID: 1353191221}
   - {fileID: 1427088142}
   - {fileID: 838548343}
+  - {fileID: 1306827432}

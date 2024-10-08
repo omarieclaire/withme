@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.14
+      value: 15.13
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -944,6 +944,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3702474113193872676, guid: b028bceecdc904a5cba003aa0b920cb4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3702474113193872676, guid: b028bceecdc904a5cba003aa0b920cb4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1069,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 806627049}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted

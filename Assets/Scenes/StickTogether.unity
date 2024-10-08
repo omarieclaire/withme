@@ -796,6 +796,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1354,7 +1358,7 @@ PrefabInstance:
       objectReference: {fileID: 581040364}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 400
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
@@ -1824,23 +1828,22 @@ MonoBehaviour:
   noGoZoneManager: {fileID: 1792845380}
   controller: {fileID: 2039369492}
   soundEventSender: {fileID: 467197940}
-  radiusForCollection: 1.79
+  radiusForCollection: 6.81
   collectionRepresentation: {fileID: 0}
   connections: []
   connectionPrefab: {fileID: 558958222}
   totalInsideCircle: 0
   movementSpeed: {x: 0.1, y: 0.1, z: 0.1}
   movementSize: {x: 0.5, y: 0, z: 0.5}
+  bottomOfDome: 50
   floor: {fileID: 1193689152}
   minDistanceFromFloor: 1
-  bottomOfDome: 50
   movementOffset: {x: 0, y: 5, z: 0}
   bezierControlPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  tempDomeVisual: {fileID: 0}
   happySound: {fileID: 8300000, guid: e09b4e14b1206412093224a1e475700e, type: 3}
   sadSound: {fileID: 8300000, guid: 3fec4c5e5f2014b3da1855a313071ebf, type: 3}
   audioPlayer: {fileID: 581040364}

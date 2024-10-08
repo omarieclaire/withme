@@ -287,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dfeee84de06d84399ab69d887c71baff, type: 2}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 200
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted

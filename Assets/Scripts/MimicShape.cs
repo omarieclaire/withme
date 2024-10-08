@@ -131,13 +131,13 @@ public class MimicShape : MonoBehaviour
     public void NewShapeSet()
     {
         if (noGoZoneManager == null)
-        {
-            Debug.LogError("[ERROR] NoGoZoneManager is not assigned.");
-            return;
-        }
+    {
+        Debug.LogError("[ERROR] NoGoZoneManager is not assigned.");
+        return;
+    }
 
-        numShapesActivated = 0;
-        lastTimeChange = Time.time;
+    numShapesActivated = 0;
+    lastTimeChange = Time.time;
 
         // Set each sphere to a new random position
         for (int i = 0; i < numSpheres; i++)

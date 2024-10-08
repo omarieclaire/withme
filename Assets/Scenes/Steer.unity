@@ -4959,7 +4959,7 @@ MonoBehaviour:
   spherePrefab: {fileID: 1823912555}
   num: 30
   size: 4
-  scale: 0.1
+  scale: 0.43
 --- !u!1001 &1149560864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9752,7 +9752,7 @@ PrefabInstance:
       objectReference: {fileID: 599863629}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted

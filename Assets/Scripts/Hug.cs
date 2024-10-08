@@ -13,8 +13,6 @@ public class Hug : MonoBehaviour
 
     public GameManager gameManager;
 
-public GameItemPlacer gameItemPlacer; // Assign this in the inspector or Start()
-
 
     // Prefabs for creating HugFaces, particles, and connections between objects
     [Header("Prefabs")]
@@ -213,7 +211,7 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
     if (!position1.HasValue)
     {
         Debug.LogError("Failed to position first face. Using fallback position.");
-        position1 = Vector3.up; // Fallback position if no valid position is found
+        position1 = Vector3.up; // Fallback position
     }
 
     // Temporarily add face1 to the list to check distance for face2
@@ -224,7 +222,7 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
     if (!position2.HasValue)
     {
         Debug.LogError("Failed to position second face. Using fallback position.");
-        position2 = -Vector3.up; // Fallback position if no valid position is found
+        position2 = -Vector3.up; // Fallback position
     }
 
     // Set the positions of the faces
@@ -285,16 +283,14 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
         return null;
     }
-    
-
     private Vector3 GetRandomPosition()
-{
-    // Use the GameItemPlacer to get a valid position, avoiding no-go zones
-    Vector3 randomPos = gameItemPlacer.PlaceItem(transform);
-
-    return randomPos;
-}
-
+    {
+        // Use a uniform distribution on a sphere surface
+        Vector3 randomDir = Random.onUnitSphere;
+        float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
+        Vector3 randomPos = randomDir * randomDistance;
+        return controller.getFinalPosition(randomPos);
+    }
 
     private bool CheckIfBlocked(Vector3 pos)
     {

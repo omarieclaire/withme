@@ -166,7 +166,7 @@ public class GenerateTargets : MonoBehaviour
         {
             if (Controller.enableOldSoundSystem && clip != null)
             {
-                // audioPlayer.Play(clip);  // Sound effect when all targets/spikes are collected
+                audioPlayer.Play(clip);  // Sound effect when all targets/spikes are collected
             }
 
             if (Controller.enableNewSoundSystem)

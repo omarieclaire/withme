@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 6e87664385c153f48a4d20476206763c, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2c32c3951c67940548958854b6ae83dd, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1109,7 +1109,7 @@ PrefabInstance:
     - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 2396260bd4826427f95cc9076ca351e4, type: 3}
+      objectReference: {fileID: 8300000, guid: bc3d66278390c4e9ba957abff98ded36, type: 3}
     - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1279,23 +1279,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalScale.x
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.8710382
+      value: 0.38710383
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalScale.z
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.37
+      value: 32.39
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1675,8 +1675,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09564b43b32442b1b778c1892a393c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseBreathingSpeed: 0.79
-  baseBreathingScale: 0.67
+  baseBreathingSpeed: 0.25
+  baseBreathingScale: 0.15
   baseRotationSpeed: 10
   randomRotationFactor: 0.5
   circleRadius: 0.97
@@ -1981,6 +1981,8 @@ MonoBehaviour:
   pullForce: 111
   rb: {fileID: 1628351444}
   distancePitchFalloff: 0.3
+  lineStartWidth: 0.1
+  lineEndWidth: 0.1
 --- !u!54 &1628351444
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2218,6 +2220,7 @@ GameObject:
   - component: {fileID: 1729653332}
   - component: {fileID: 1729653335}
   - component: {fileID: 1729653334}
+  - component: {fileID: 1729653336}
   m_Layer: 0
   m_Name: GenerateTargets
   m_TagString: Untagged
@@ -2304,6 +2307,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e58509eddda4034b00ec7334787ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1729653336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729653331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ddef197509074967af2c943bb1d841b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noGoZoneManager: {fileID: 73838839}
+  controller: {fileID: 1653783999}
 --- !u!1001 &1803258790
 PrefabInstance:
   m_ObjectHideFlags: 0
