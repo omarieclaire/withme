@@ -25,6 +25,11 @@ public class Hug : MonoBehaviour
     public float hugFaceSize = 1f; // Size of each HugFace
     public float activationRadius = 2f; // Radius within which a player can interact with a HugFace
 
+
+    // Minimum distances for placing HugFaces
+    public float partnerMinDistance = 1.5f; // Minimum distance between paired HugFaces
+    public float otherFacesMinDistance = 2f; // Minimum distance from other HugFaces
+
     // General game settings including maximum HugFaces and speed of animations
     [Header("Game Settings")]
     public const int MAX_HUG_FACES = 10; // Maximum number of HugFaces that can spawn
@@ -99,85 +104,85 @@ public class Hug : MonoBehaviour
     }
 
     // List to keep track of already used colors to ensure distinction
-private List<Color> usedColors = new List<Color>();
+    private List<Color> usedColors = new List<Color>();
 
-private void SpawnPairs(int numberOfPairs)
-{
-    if (gameIsOver || isSpawningPairs) return; // Stop if the game is over or already spawning pairs
-
-    int facesNeeded = MAX_HUG_FACES - totalHugFaces; // Calculate how many more HugFaces are needed
-    int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2); // Determine how many pairs to spawn
-
-    if (pairsToSpawn <= 0) return; // If no pairs need to spawn, return
-
-    for (int i = 0; i < pairsToSpawn; i++)
+    private void SpawnPairs(int numberOfPairs)
     {
-        // Ensure distinct colors for each pair
-        Color distinctColor = GenerateDistinctColor();
+        if (gameIsOver || isSpawningPairs) return; // Stop if the game is over or already spawning pairs
 
-        int smileID = totalHugFaces / 2;
-        int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
+        int facesNeeded = MAX_HUG_FACES - totalHugFaces; // Calculate how many more HugFaces are needed
+        int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2); // Determine how many pairs to spawn
 
-        // Create two HugFaces and assign partners
-        HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex);
-        HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex);
-        AssignPartners(face1, face2);
+        if (pairsToSpawn <= 0) return; // If no pairs need to spawn, return
 
-        // Position HugFaces and add them to the list
-        PositionFaces(face1, face2, 0.75f);
-        AddFacesToList(face1, face2);
-
-        totalHugFaces += 2; // Update the total number of HugFaces
-
-        // Play the spawn sound if applicable
-        if (Controller.enableOldSoundSystem && spawnFacesClip != null)
+        for (int i = 0; i < pairsToSpawn; i++)
         {
-            audioPlayer.Play(spawnFacesClip);
-        }
+            // Ensure distinct colors for each pair
+            Color distinctColor = GenerateDistinctColor();
 
-        // Additional sound handling for the new sound system (commented out)
-        if (Controller.enableNewSoundSystem)
-        {
-            // PlayHugSound(face1, "MimicShapeNewShapeGen");
-            // PlayHugSound(face2, "MimicShapeNewShapeGen");
-        }
-    }
+            int smileID = totalHugFaces / 2;
+            int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
 
-    ActivateAllFaces(); // Activate all HugFaces once they are spawned
-    isSpawningPairs = false; // Reset the spawning flag
-}
+            // Create two HugFaces and assign partners
+            HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex);
+            HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex);
+            AssignPartners(face1, face2);
 
-// Generates a distinct color that is very different from previously used colors
-private Color GenerateDistinctColor()
-{
-    const int maxAttempts = 100;
-    for (int attempt = 0; attempt < maxAttempts; attempt++)
-    {
-        Color newColor = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
+            // Position HugFaces and add them to the list
+            PositionFaces(face1, face2, partnerMinDistance, otherFacesMinDistance);
+            AddFacesToList(face1, face2);
 
-        // Check if the color is distinct enough
-        bool isDistinct = true;
-        foreach (Color usedColor in usedColors)
-        {
-            if (Vector3.Distance(new Vector3(newColor.r, newColor.g, newColor.b), 
-                                 new Vector3(usedColor.r, usedColor.g, usedColor.b)) < 0.5f)  // Change the threshold to adjust how distinct colors need to be
+            totalHugFaces += 2; // Update the total number of HugFaces
+
+            // Play the spawn sound if applicable
+            if (Controller.enableOldSoundSystem && spawnFacesClip != null)
             {
-                isDistinct = false;
-                break;
+                audioPlayer.Play(spawnFacesClip);
+            }
+
+            // Additional sound handling for the new sound system (commented out)
+            if (Controller.enableNewSoundSystem)
+            {
+                // PlayHugSound(face1, "MimicShapeNewShapeGen");
+                // PlayHugSound(face2, "MimicShapeNewShapeGen");
             }
         }
 
-        if (isDistinct)
-        {
-            usedColors.Add(newColor);
-            return newColor;
-        }
+        ActivateAllFaces(); // Activate all HugFaces once they are spawned
+        isSpawningPairs = false; // Reset the spawning flag
     }
 
-    // Fallback if distinct color cannot be generated (shouldn't normally happen)
-    Debug.LogWarning("Failed to generate distinct color. Reusing existing colors.");
-    return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1); 
-}
+    // Generates a distinct color that is very different from previously used colors
+    private Color GenerateDistinctColor()
+    {
+        const int maxAttempts = 100;
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            Color newColor = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
+
+            // Check if the color is distinct enough
+            bool isDistinct = true;
+            foreach (Color usedColor in usedColors)
+            {
+                if (Vector3.Distance(new Vector3(newColor.r, newColor.g, newColor.b),
+                                     new Vector3(usedColor.r, usedColor.g, usedColor.b)) < 0.5f)  // Change the threshold to adjust how distinct colors need to be
+                {
+                    isDistinct = false;
+                    break;
+                }
+            }
+
+            if (isDistinct)
+            {
+                usedColors.Add(newColor);
+                return newColor;
+            }
+        }
+
+        // Fallback if distinct color cannot be generated (shouldn't normally happen)
+        Debug.LogWarning("Failed to generate distinct color. Reusing existing colors.");
+        return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
+    }
 
 
     // Creates and returns a new HugFace
@@ -197,32 +202,60 @@ private Color GenerateDistinctColor()
         face2.partners = new List<HugFace> { face1 };
     }
 
-    private void PositionFaces(HugFace face1, HugFace face2, float minDistance)
+
+private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
     {
         List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
-        Vector3? position1 = GetValidPosition(existingFaces, minDistance);
+        // Try to find valid positions for face1 and face2 with the given distance constraints
+        Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
         if (!position1.HasValue)
         {
             Debug.LogError("Failed to position first face. Using fallback position.");
             position1 = Vector3.up; // Fallback position
         }
 
+        // Temporarily add face1 to the list to check distance for face2
         existingFaces.Add(face1);
 
-        Vector3? position2 = GetValidPosition(existingFaces, minDistance);
+        // Ensure face2 is at least `partnerMinDistance` away from face1
+        Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
         if (!position2.HasValue)
         {
             Debug.LogError("Failed to position second face. Using fallback position.");
             position2 = -Vector3.up; // Fallback position
         }
 
+        // Set the positions of the faces
         face1.transform.position = position1.Value;
         face2.transform.position = position2.Value;
 
+        // Add the faces to the list of active HugFaces
         listOfHugFaceObjects.Add(face1);
         listOfHugFaceObjects.Add(face2);
     }
+
+
+    // Ensures the partner face is placed at least partnerMinDistance away from face1
+    private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
+    {
+        const int maxAttempts = 1000;
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            Vector3 randomPos = GetRandomPosition();
+
+            // Check that the position is at least partnerMinDistance away from the partner HugFace
+            if (Vector3.Distance(randomPos, partner.transform.position) >= partnerMinDistance &&
+                !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
+            {
+                return randomPos;
+            }
+        }
+        Debug.LogWarning("Failed to find a valid position for partner after " + maxAttempts + " attempts.");
+        return null;
+    }
+
+    // Checks if the position is overlapping with existing faces based on otherFacesMinDistance
     private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
     {
         foreach (var face in existingFaces)
@@ -234,6 +267,10 @@ private Color GenerateDistinctColor()
         }
         return false;
     }
+
+
+
+
     private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
     {
         const int maxAttempts = 1000; // Increase max attempts
