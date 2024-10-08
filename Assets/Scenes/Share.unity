@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 8fa36c3f2c2855545a1713a77c482dca, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 6e87664385c153f48a4d20476206763c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -412,6 +412,7 @@ GameObject:
   - component: {fileID: 298231093}
   - component: {fileID: 298231092}
   - component: {fileID: 298231091}
+  - component: {fileID: 298231097}
   m_Layer: 0
   m_Name: FlorpSpike
   m_TagString: Untagged
@@ -663,6 +664,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &298231097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298231090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b09564b43b32442b1b778c1892a393c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseBreathingSpeed: 1
+  baseBreathingScale: 0.03
+  baseRotationSpeed: 12.24
+  randomRotationFactor: 0.89
+  vibrantReflectionColor: {r: 0, g: 1, b: 1, a: 1}
+  vibrantCenterOrbColor: {r: 1, g: 0, b: 1, a: 1}
+  baseReflectionSharpness: 0.8
+  baseReflectionMultiplier: 2
+  baseOpaqueness: 0.95
 --- !u!1001 &304445868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -736,6 +758,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 2085774386}
+    - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
+      propertyPath: domemasterResolution
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -798,6 +824,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2033076562337935756, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
+      propertyPath: _localPort
+      value: 12000
+      objectReference: {fileID: 0}
     - target: {fileID: 5275306340362764313, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1173,6 +1203,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 1653783999}
+    - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: BGMusicClip
       value: 
       objectReference: {fileID: 8300000, guid: 2396260bd4826427f95cc9076ca351e4, type: 3}
@@ -1180,6 +1214,10 @@ PrefabInstance:
       propertyPath: audioPlayer
       value: 
       objectReference: {fileID: 2021420187}
+    - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+      propertyPath: gameDuration
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
       value: 
@@ -1209,9 +1247,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 255459340799184536, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 2089905185038129228, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_Name
       value: AnOracleOfAll
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971905498499098329, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.8710382
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 14.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1254,6 +1320,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: tree
+      value: 
+      objectReference: {fileID: 1259167567}
+    - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: center
       value: 
       objectReference: {fileID: 0}
@@ -1274,6 +1344,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1840828996}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: treeController
+      value: 
+      objectReference: {fileID: 1259167568}
+    - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: soundEventSender
       value: 
       objectReference: {fileID: 1804265884}
@@ -1289,6 +1363,22 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1653784001}
   m_SourcePrefab: {fileID: 100100000, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+--- !u!4 &1259167567 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+  m_PrefabInstance: {fileID: 901368314}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1259167568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7555854919124370257, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+  m_PrefabInstance: {fileID: 901368314}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a6c5f792aed43e5aa0b7fd5924ca9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1267425107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1393,7 @@ GameObject:
   - component: {fileID: 1267425109}
   - component: {fileID: 1267425108}
   - component: {fileID: 1267425113}
+  - component: {fileID: 1267425114}
   m_Layer: 0
   m_Name: FlorpTarget
   m_TagString: Untagged
@@ -1554,6 +1645,27 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1267425114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267425107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b09564b43b32442b1b778c1892a393c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseBreathingSpeed: 0.79
+  baseBreathingScale: 0.67
+  baseRotationSpeed: 10
+  randomRotationFactor: 0.5
+  vibrantReflectionColor: {r: 0, g: 1, b: 1, a: 1}
+  vibrantCenterOrbColor: {r: 1, g: 0, b: 1, a: 1}
+  baseReflectionSharpness: 0.8
+  baseReflectionMultiplier: 2
+  baseOpaqueness: 0.95
 --- !u!198 &1373468238 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 259746076705479648, guid: 7b688123b47a9f64991bfeb0e38c8b74, type: 3}
@@ -2128,7 +2240,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 18b57cb404477614f9f0b9bbdf732dd8, type: 2}
   - {fileID: 2100000, guid: 23e997e652d8cba408e3b9cc986e21d8, type: 2}
   - {fileID: 2100000, guid: 000b1e2793462b24e841d5ab29d9a143, type: 2}
-  Florp: {fileID: 1729653331}
+  Florp: {fileID: 1267425107}
   ps: {fileID: 1663627443}
   clip: {fileID: 8300000, guid: a9957e297969f3946ac43a88a29d5621, type: 3}
   audioPlayer: {fileID: 2021420187}

@@ -1,4 +1,3 @@
-// florp
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -141,6 +140,7 @@ public class GenerateTargets : MonoBehaviour
         // If no valid position found within the max attempts, return Vector3.zero
         return Vector3.zero;
     }
+
     public GameObject Florp;
 
     public ParticleSystem ps;
@@ -165,19 +165,31 @@ public class GenerateTargets : MonoBehaviour
         if (done == true && !finished)
         {
             if (Controller.enableOldSoundSystem && clip != null)
-                {
-                    audioPlayer.Play(clip);
+            {
+                audioPlayer.Play(clip);  // Sound effect when all targets/spikes are collected
+            }
 
-                }
-                if (Controller.enableNewSoundSystem)
-                {
-                    // string soundID = $"p{player.id}EffectsWithMePointCollision";
-                    // Vector3 pointPosition = player.transform.position;
-                    // soundEventSender.SendOneShotSound(soundID, pointPosition);
-                }
+            if (Controller.enableNewSoundSystem)
+            {
+                // string soundID = $"p{player.id}EffectsWithMePointCollision";
+                // Vector3 pointPosition = player.transform.position;
+                // soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
 
             ps.transform.position = Florp.transform.position;
-            ps.Play();
+            ps.Play();  // Particle effect when collection is complete
+
+            // Make mini targets/spikes smaller after collection
+            foreach (var florp in miniFlorps)
+            {
+                if (florp != null)
+                {
+                    florp.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);  // Reduce size of collected objects
+                    // Optional sound effect when reducing size of collected objects
+                    // audioPlayer.Play(smallObjectSoundClip); 
+                }
+            }
+
             finished = true;
         }
     }
