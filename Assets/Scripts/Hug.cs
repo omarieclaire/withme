@@ -13,6 +13,8 @@ public class Hug : MonoBehaviour
 
     public GameManager gameManager;
 
+public GameItemPlacer gameItemPlacer; // Assign this in the inspector or Start()
+
 
     // Prefabs for creating HugFaces, particles, and connections between objects
     [Header("Prefabs")]
@@ -204,35 +206,41 @@ public class Hug : MonoBehaviour
 
 private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
 {
-    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
+    // Ensure that GameItemPlacer is being used for positioning both HugFaces
+    Vector3 position1 = gameItemPlacer.PlaceItem(transform);  // Use the GameItemPlacer to place the first face
 
-    // Try to find valid positions for face1 and face2 with the given distance constraints
-    Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
-    if (!position1.HasValue)
+    Vector3 position2;
+    bool validPositionFound = false;
+    int attempts = 0;
+
+    // Attempt to find a valid position for the second face that meets the distance constraints
+    do
     {
-        Debug.LogError("Failed to position first face. Using fallback position.");
-        position1 = Vector3.up; // Fallback position
-    }
+        position2 = gameItemPlacer.PlaceItem(transform);  // Place the second face using GameItemPlacer
+        attempts++;
+        // Ensure face2 is at least `partnerMinDistance` away from face1
+        if (Vector3.Distance(position1, position2) >= partnerMinDistance)
+        {
+            validPositionFound = true;
+        }
 
-    // Temporarily add face1 to the list to check distance for face2
-    existingFaces.Add(face1);
+    } while (!validPositionFound && attempts < 1000);  // Repeat until a valid position is found or max attempts reached
 
-    // Ensure face2 is at least `partnerMinDistance` away from face1
-    Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
-    if (!position2.HasValue)
+    // Log an error if no valid position is found
+    if (!validPositionFound)
     {
-        Debug.LogError("Failed to position second face. Using fallback position.");
-        position2 = -Vector3.up; // Fallback position
+        Debug.LogError("Failed to position second HugFace in a valid position after multiple attempts.");
     }
 
     // Set the positions of the faces
-    face1.transform.position = position1.Value;
-    face2.transform.position = position2.Value;
+    face1.transform.position = position1;
+    face2.transform.position = position2;
 
     // Add the faces to the list of active HugFaces
     listOfHugFaceObjects.Add(face1);
     listOfHugFaceObjects.Add(face2);
 }
+
 
     // Ensures the partner face is placed at least partnerMinDistance away from face1
     private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
@@ -283,14 +291,16 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
         return null;
     }
+    
+
     private Vector3 GetRandomPosition()
-    {
-        // Use a uniform distribution on a sphere surface
-        Vector3 randomDir = Random.onUnitSphere;
-        float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
-        Vector3 randomPos = randomDir * randomDistance;
-        return controller.getFinalPosition(randomPos);
-    }
+{
+    // Use the GameItemPlacer to get a valid position, avoiding no-go zones
+    Vector3 randomPos = gameItemPlacer.PlaceItem(transform);
+
+    return randomPos;
+}
+
 
     private bool CheckIfBlocked(Vector3 pos)
     {
