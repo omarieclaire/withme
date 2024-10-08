@@ -130,9 +130,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 255459340799184536, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a9f68c0a3301c8a40aa0b6d2cdbafd91, type: 2}
     - target: {fileID: 2089905185038129228, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_Name
       value: AnOracleOfAll
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971905498499098329, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1431,15 +1451,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1827427035541275360, guid: e297fbf703b6a43dea4d497e31b2b2b1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1827427035541275360, guid: e297fbf703b6a43dea4d497e31b2b2b1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1827427035541275360, guid: e297fbf703b6a43dea4d497e31b2b2b1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1827427035541275360, guid: e297fbf703b6a43dea4d497e31b2b2b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1808,15 +1828,16 @@ MonoBehaviour:
   timerPrefab: {fileID: 709800343}
   lineRendererHolder: {fileID: 139449677}
   lineRendererPrefab: {fileID: 2059163418}
-  timeBetweenChanges: 70
+  timeBetweenChanges: 20
   lastTimeChange: 0
   activationRadius: 5
-  onTickClip: {fileID: 8300000, guid: fa3f1629b88ae40c4a3878276eeca249, type: 3}
+  onTickClip: {fileID: 8300000, guid: b0c20a1e48e96d342af181b3d77dfdb9, type: 3}
   audio: {fileID: 806627049}
   onShapeCompleteClip: {fileID: 8300000, guid: 58843fe59fdf44e9ca55de4cc30599b6, type: 3}
-  newShapeSetClip: {fileID: 8300000, guid: f2066b4dad7c34023baff26d5adb130d, type: 3}
-  onEnterClip: {fileID: 8300000, guid: f29388a399586ae4380f3af59c8070db, type: 3}
-  onLeaveClip: {fileID: 8300000, guid: d36841f3b5ad85244a9e3e1be5460068, type: 3}
+  newShapeSetClip: {fileID: 8300000, guid: e7b044366daf447b39dcdd750567de95, type: 3}
+  onEnterClip: {fileID: 8300000, guid: 79c0af12725ff45e1a0b653350e88ec4, type: 3}
+  onLeaveClip: {fileID: 8300000, guid: f01f1ec6932c14fa3860d9cd54bbff0c, type: 3}
+  mimicShapeTimeoutClip: {fileID: 8300000, guid: 960ccb5c4e257419d90bd7cdf9b2f779, type: 3}
   tickRate: 0.1
   numShapesActivated: 0
   onShapeCompleteParticles: {fileID: 1811304936}

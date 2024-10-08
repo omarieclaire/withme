@@ -36,6 +36,8 @@ public class MimicShape : MonoBehaviour
     public AudioClip newShapeSetClip;
     public AudioClip onEnterClip;
     public AudioClip onLeaveClip;
+
+    public AudioClip mimicShapeTimeoutClip;
     private float oTime;
     private float nTime;
 
@@ -124,6 +126,8 @@ public class MimicShape : MonoBehaviour
         NewShapeSet();
     }
 
+    
+
     public void NewShapeSet()
     {
         if (noGoZoneManager == null)
@@ -201,12 +205,23 @@ public class MimicShape : MonoBehaviour
             else
             {
                 Debug.Log($"Sphere_{i} is generated at: {randomPos}");
+                spheres[i].transform.localScale = Vector3.one * sphereSize * 2; // Scale it up to highlight it
+
                 spheres[i].GetComponent<Renderer>().material.color = Color.white;
             }
 
             // Set the sphere's position
             spheres[i].transform.position = randomPos;
         }
+
+
+
+        // timout place?
+        if (Controller.enableOldSoundSystem)
+        {
+            audio.Play(mimicShapeTimeoutClip); // <-- old sound keep for debugging
+        }
+
 
         // Play New Constellation Sound via SoundEventSender
         if (soundEventSender != null)
@@ -215,9 +230,9 @@ public class MimicShape : MonoBehaviour
 
             {
 
-                string soundID = "MimicShapeNewShapeGen";
-                Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
-                soundEventSender.SendOneShotSound(soundID, pointPosition);
+                // string soundID = "MimicShapeNewShapeGen";
+                // Vector3 pointPosition = new Vector3(0, 2, 0);  // Example position, adjust as needed
+                // soundEventSender.SendOneShotSound(soundID, pointPosition);
             }
         }
         else
@@ -274,7 +289,7 @@ public class MimicShape : MonoBehaviour
         {
             if (Controller.enableOldSoundSystem)
             {
-                // audio.Play(onTickClip, .5f + nTime * .5f);
+                audio.Play(onTickClip, .5f + nTime * .5f);
 
             }
         }
