@@ -903,6 +903,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: minY
+      value: -3.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 1860413566}
@@ -1161,6 +1165,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0449166889e334c059404a48c798b0cc, type: 3}
+--- !u!1 &1193689152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8742321882166098868, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+  m_PrefabInstance: {fileID: 1089015133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1206115461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1345,7 +1354,7 @@ PrefabInstance:
       objectReference: {fileID: 581040364}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 3
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
@@ -1707,6 +1716,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 2111873849}
+    - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
+      propertyPath: domemasterResolution
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1811,13 +1824,15 @@ MonoBehaviour:
   noGoZoneManager: {fileID: 1792845380}
   controller: {fileID: 2039369492}
   soundEventSender: {fileID: 467197940}
-  radiusForCollection: 3.26
+  radiusForCollection: 1.79
   collectionRepresentation: {fileID: 0}
   connections: []
   connectionPrefab: {fileID: 558958222}
   totalInsideCircle: 0
   movementSpeed: {x: 0.1, y: 0.1, z: 0.1}
   movementSize: {x: 0.5, y: 0, z: 0.5}
+  floor: {fileID: 1193689152}
+  minDistanceFromFloor: 1
   bottomOfDome: 50
   movementOffset: {x: 0, y: 5, z: 0}
   bezierControlPoints:
@@ -1825,7 +1840,6 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  domeRadius: 10
   tempDomeVisual: {fileID: 0}
   happySound: {fileID: 8300000, guid: e09b4e14b1206412093224a1e475700e, type: 3}
   sadSound: {fileID: 8300000, guid: 3fec4c5e5f2014b3da1855a313071ebf, type: 3}
