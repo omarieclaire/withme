@@ -33,6 +33,12 @@ public class StickTogether : MonoBehaviour
     [Tooltip("Size of the movement area for the collection.")]
     public Vector3 movementSize;
 
+[Tooltip("Reference to the floor GameObject")]
+    public GameObject floor;
+
+    [Tooltip("Minimum distance to keep from the floor")] // remove me?
+    public float minDistanceFromFloor = 1f;
+
     [Tooltip("The minimum allowed Y position (bottom of the dome) to prevent the collection area from going underground.")]
     public float bottomOfDome = 0f;
 
@@ -43,7 +49,7 @@ public class StickTogether : MonoBehaviour
     public Vector3[] bezierControlPoints = new Vector3[4];
 
     [Tooltip("Radius of the dome.")]
-    public float domeRadius = 20;  // Adjust the dome radius as needed
+    private float domeRadius;
 
     [Tooltip("Temporary visual representation of the dome (for testing purposes).")]
     public GameObject tempDomeVisual;  // Assign a sphere or dome mesh for testing
@@ -73,6 +79,26 @@ public class StickTogether : MonoBehaviour
         InitializeConnections();      // Call this to initialize connections
         InitializeTimerDisplay();     // Call this to initialize timer display
         InitializeBezierControlPoints(); // Call this to initialize Bezier control points
+
+        Controller controller = FindObjectOfType<Controller>();
+        if (controller != null)
+        {
+            domeRadius = controller.sphereSize;
+        }
+        else
+        {
+            Debug.LogError("Controller not found in the scene!");
+        }
+
+        // Set bottomOfDome based on the floor's position
+        if (floor != null)
+        {
+            bottomOfDome = floor.transform.position.y + minDistanceFromFloor;
+        }
+        else
+        {
+            Debug.LogWarning("Floor object not assigned!");
+        }
     }
 
     // Initialize Bezier control points

@@ -1638,6 +1638,8 @@ MonoBehaviour:
   connectionPrefab: {fileID: 931979819}
   hugFaceSize: 2.51
   activationRadius: 3.39
+  partnerMinDistance: 1.5
+  otherFacesMinDistance: 2.64
   howFastWeHug: 0.01
   firstPairDelay: 16.4
   slowPairDelay: 10
