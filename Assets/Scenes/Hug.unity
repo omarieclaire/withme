@@ -187,6 +187,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+--- !u!114 &45987931 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+  m_PrefabInstance: {fileID: 2133388839}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ccb66a9dbf37487db981618293b6c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &108211853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1309,12 +1320,32 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 255459340799184536, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 12a4cba46312bd249b842b6ff85ecad4, type: 2}
     - target: {fileID: 2089905185038129228, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_Name
       value: AnOracleOfAll
       objectReference: {fileID: 0}
     - target: {fileID: 3971905498499098329, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
@@ -1600,15 +1631,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noGoZoneManager: {fileID: 838548344}
   controller: {fileID: 1055734400}
+  treeController: {fileID: 1992369326}
+  gameManager: {fileID: 45987931}
   hugFacePrefab: {fileID: 660355872}
   matchParticlesPrefab: {fileID: 617696429}
   connectionPrefab: {fileID: 931979819}
-  hugFaceSize: 1
-  activationRadius: 1.65
+  hugFaceSize: 2.51
+  activationRadius: 3.39
   howFastWeHug: 0.01
-  firstPairDelay: 15
+  firstPairDelay: 16.4
   slowPairDelay: 10
-  minimumRoundDelay: 3
+  minimumRoundDelay: 5.82
   pensTrueFaces:
   - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
   - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}

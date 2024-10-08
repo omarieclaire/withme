@@ -4,126 +4,190 @@ using UnityEngine;
 
 public class Hug : MonoBehaviour
 {
+    // References to various managers and controllers for gameplay logic
     [Header("References")]
-    public NoGoZoneManager noGoZoneManager;
-    public Controller controller;
+    public NoGoZoneManager noGoZoneManager; // Manages areas where HugFaces should not spawn
+    public Controller controller; // Handles player control and interactions
 
+    public TreeController treeController;
+
+    public GameManager gameManager;
+
+
+    // Prefabs for creating HugFaces, particles, and connections between objects
     [Header("Prefabs")]
-    public GameObject hugFacePrefab;
-    public ParticleSystem matchParticlesPrefab;
+    public GameObject hugFacePrefab; // Prefab for HugFaces
+    public ParticleSystem matchParticlesPrefab; // Particles for when HugFaces match
+    public GameObject connectionPrefab; // Prefab for connections between HugFaces (unused in this snippet)
 
-    public GameObject connectionPrefab;
-
+    // Settings related to HugFaces like size and interaction radius
     [Header("HugFace Settings")]
-    public float hugFaceSize = 1f;
-    public float activationRadius = 2f;
+    public float hugFaceSize = 1f; // Size of each HugFace
+    public float activationRadius = 2f; // Radius within which a player can interact with a HugFace
 
+    // General game settings including maximum HugFaces and speed of animations
     [Header("Game Settings")]
-    public const int MAX_HUG_FACES = 20;
-    public float howFastWeHug = 0.01f;
+    public const int MAX_HUG_FACES = 10; // Maximum number of HugFaces that can spawn
+    public float howFastWeHug = 0.01f; // Speed at which HugFaces move or change states
 
+    // Delays between spawning pairs of HugFaces
     [Header("Spawn Delays")]
-    public float firstPairDelay = 15f;
-    public float slowPairDelay = 10f;
-    public float minimumRoundDelay = 3f;
+    public float firstPairDelay = 35f; // Delay before spawning the first pair of HugFaces
+    public float slowPairDelay = 30f; // Delay for subsequent slower pair spawns
+    public float minimumRoundDelay = 10f; // Minimum delay between rounds of spawns
 
+    // Textures and sound clips used for HugFaces and game events
     [Header("Assets")]
-    public List<Texture> pensTrueFaces;
-    public Texture pensNeutralFace;
-    public Texture pensPostHugFace;
-    public List<AudioClip> HugFaceSongSoundClips;
+    public List<Texture> pensTrueFaces; // List of textures for HugFaces in their true state
+    public Texture pensNeutralFace; // Neutral face texture before interaction
+    public Texture pensPostHugFace; // Post-hug face texture
+    public List<AudioClip> HugFaceSongSoundClips; // Sound clips for each HugFace
 
-    public AudioClip onHugClip;
-    public AudioClip winSound;
-    public ParticleSystem winParticleSystem;
+    public AudioClip onHugClip; // Sound clip for when HugFaces match
+    public AudioClip winSound; // Sound clip for when the game ends
+    public ParticleSystem winParticleSystem; // Particles for when the game ends
 
+    // Lists to track HugFace objects and completed HugFaces
     [Header("Lists")]
-    public List<HugFace> listOfHugFaceObjects = new List<HugFace>();
-    public List<HugFace> listOfCompletedHugFaces = new List<HugFace>();
+    public List<HugFace> listOfHugFaceObjects = new List<HugFace>(); // All active HugFaces
+    public List<HugFace> listOfCompletedHugFaces = new List<HugFace>(); // Completed HugFaces
 
-    private int currentPairCount = 1;
-    private int completedPairs = 0;
-    private int totalHugFaces = 0;
-    private bool gameIsOver = false;
-    private float currentRoundDelay;
-    private bool isSpawningPairs = false;
-    private Dictionary<PlayerAvatar, HugFace> currentInteractingFaces = new Dictionary<PlayerAvatar, HugFace>();
-    public SoundEventSender soundEventSender;
+    private int currentPairCount = 1; // Number of pairs spawned so far
+    private int completedPairs = 0; // Number of completed HugFace pairs
+    private int totalHugFaces = 0; // Total number of HugFaces spawned
+    private bool gameIsOver = false; // Whether the game has ended
+    private float currentRoundDelay; // Delay between rounds of HugFace spawns
+    private bool isSpawningPairs = false; // Flag to check if pairs are currently being spawned
+    private Dictionary<PlayerAvatar, HugFace> currentInteractingFaces = new Dictionary<PlayerAvatar, HugFace>(); // Tracks player interactions with HugFaces
+    public SoundEventSender soundEventSender; // Sends sound events during the game
 
-    public AudioPlayer audioPlayer;
-    public AudioClip spawnFacesClip;
+    public AudioPlayer audioPlayer; // Manages audio playback
+    public AudioClip spawnFacesClip; // Audio clip for when HugFaces are spawned
 
-
+    // Start is called before the first frame update
     private void Start()
     {
+        Debug.Log($"Starting game. Total possible HugFaces to generate: {MAX_HUG_FACES}");
+
+        // Set the initial delay for the first round and start spawning HugFaces
         currentRoundDelay = firstPairDelay;
         StartCoroutine(SpawnInitialPairs());
+
+        if (treeController == null)
+        {
+            treeController = FindObjectOfType<TreeController>();  // Find TreeController if not set
+        }
+
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();  // Find GameManager if not set
+        }
+
     }
 
+    // Clears existing HugFaces from the scene
     private void ClearExistingFaces()
     {
         foreach (var face in listOfHugFaceObjects)
         {
             if (face != null && face.gameObject != null)
             {
-                Destroy(face.gameObject);
+                Destroy(face.gameObject); // Destroy each HugFace GameObject
             }
         }
-        listOfHugFaceObjects.Clear();
+        listOfHugFaceObjects.Clear(); // Clear the list of HugFaces
     }
 
-    private void SpawnPairs(int numberOfPairs)
+    // List to keep track of already used colors to ensure distinction
+private List<Color> usedColors = new List<Color>();
+
+private void SpawnPairs(int numberOfPairs)
+{
+    if (gameIsOver || isSpawningPairs) return; // Stop if the game is over or already spawning pairs
+
+    int facesNeeded = MAX_HUG_FACES - totalHugFaces; // Calculate how many more HugFaces are needed
+    int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2); // Determine how many pairs to spawn
+
+    if (pairsToSpawn <= 0) return; // If no pairs need to spawn, return
+
+    for (int i = 0; i < pairsToSpawn; i++)
     {
-        if (gameIsOver || isSpawningPairs) return;
+        // Ensure distinct colors for each pair
+        Color distinctColor = GenerateDistinctColor();
 
-        int facesNeeded = MAX_HUG_FACES - totalHugFaces;
-        int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2);
+        int smileID = totalHugFaces / 2;
+        int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
 
-        if (pairsToSpawn <= 0) return;
+        // Create two HugFaces and assign partners
+        HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex);
+        HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex);
+        AssignPartners(face1, face2);
 
-        for (int i = 0; i < pairsToSpawn; i++)
+        // Position HugFaces and add them to the list
+        PositionFaces(face1, face2, 0.75f);
+        AddFacesToList(face1, face2);
+
+        totalHugFaces += 2; // Update the total number of HugFaces
+
+        // Play the spawn sound if applicable
+        if (Controller.enableOldSoundSystem && spawnFacesClip != null)
         {
-            Color randomColor = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
-            int smileID = totalHugFaces / 2;
-            int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
-
-            HugFace face1 = CreateHugFace(smileID, randomColor, soundIndex);
-            HugFace face2 = CreateHugFace(smileID, randomColor, soundIndex);
-
-            AssignPartners(face1, face2);
-            PositionFaces(face1, face2, 0.75f);
-            AddFacesToList(face1, face2);
-
-            totalHugFaces += 2;
-
-            if (Controller.enableOldSoundSystem && spawnFacesClip != null)
-            {
-                audioPlayer.Play(spawnFacesClip);
-
-            }
-            if (Controller.enableNewSoundSystem)
-            {
-                // not using face1, just sending it to 0 0 0
-                // reusing a sound
-                // PlayHugSound(face1, "MimicShapeNewShapeGen");
-                // PlayHugSound(face2, "MimicShapeNewShapeGen");
-
-            }
-
-
+            audioPlayer.Play(spawnFacesClip);
         }
 
-        ActivateAllFaces();
-        isSpawningPairs = false;
+        // Additional sound handling for the new sound system (commented out)
+        if (Controller.enableNewSoundSystem)
+        {
+            // PlayHugSound(face1, "MimicShapeNewShapeGen");
+            // PlayHugSound(face2, "MimicShapeNewShapeGen");
+        }
     }
 
+    ActivateAllFaces(); // Activate all HugFaces once they are spawned
+    isSpawningPairs = false; // Reset the spawning flag
+}
+
+// Generates a distinct color that is very different from previously used colors
+private Color GenerateDistinctColor()
+{
+    const int maxAttempts = 100;
+    for (int attempt = 0; attempt < maxAttempts; attempt++)
+    {
+        Color newColor = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
+
+        // Check if the color is distinct enough
+        bool isDistinct = true;
+        foreach (Color usedColor in usedColors)
+        {
+            if (Vector3.Distance(new Vector3(newColor.r, newColor.g, newColor.b), 
+                                 new Vector3(usedColor.r, usedColor.g, usedColor.b)) < 0.5f)  // Change the threshold to adjust how distinct colors need to be
+            {
+                isDistinct = false;
+                break;
+            }
+        }
+
+        if (isDistinct)
+        {
+            usedColors.Add(newColor);
+            return newColor;
+        }
+    }
+
+    // Fallback if distinct color cannot be generated (shouldn't normally happen)
+    Debug.LogWarning("Failed to generate distinct color. Reusing existing colors.");
+    return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1); 
+}
+
+
+    // Creates and returns a new HugFace
     private HugFace CreateHugFace(int smileID, Color color, int soundIndex)
     {
-        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
-        face.color = color;
-        face.smileID = smileID;
-        face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex];
-        face.matchParticlesPrefab = matchParticlesPrefab; // Set the particle prefab
+        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>(); // Instantiate a new HugFace
+        face.color = color; // Set the color
+        face.smileID = smileID; // Set the smile ID
+        face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex]; // Assign the corresponding sound clip
+        face.matchParticlesPrefab = matchParticlesPrefab; // Set particle effects for matching
         return face;
     }
 
@@ -228,11 +292,15 @@ public class Hug : MonoBehaviour
     public void Update()
     {
         HandlePlayerInteractions();
-        HandleCompletedHugFaces();
+        // HandleCompletedHugFaces();
     }
 
     private void HandlePlayerInteractions()
     {
+        // Create a temporary list to store players to be removed from currentInteractingFaces
+        List<PlayerAvatar> playersToRemove = new List<PlayerAvatar>();
+
+        // Iterate over active players and process their interactions
         foreach (var player in controller.activePlayers)
         {
             player.GetComponent<LineRenderer>().enabled = false;
@@ -240,16 +308,26 @@ public class Hug : MonoBehaviour
 
             if (closestFace != null)
             {
+                // Player is interacting with a HugFace
                 closestFace.WhileInside(player, closestFace);
                 currentInteractingFaces[player] = closestFace;
             }
             else if (currentInteractingFaces.TryGetValue(player, out HugFace interactingFace))
             {
+                // Player is no longer interacting with the HugFace, mark them for removal
                 interactingFace.WhileOutside();
-                currentInteractingFaces.Remove(player);
+                playersToRemove.Add(player);
             }
         }
+
+        // Remove players from currentInteractingFaces after the iteration
+        foreach (var player in playersToRemove)
+        {
+            currentInteractingFaces.Remove(player);
+        }
     }
+
+
 
     private HugFace FindClosestHugFace(PlayerAvatar player)
     {
@@ -269,52 +347,113 @@ public class Hug : MonoBehaviour
         return closestFace;
     }
 
-    private void HandleCompletedHugFaces()
-    {
-        foreach (var completedFace in listOfCompletedHugFaces)
-        {
-            completedFace.WhileFinished();
-        }
-    }
+
+
+    //    public void HUG(HugFace hugFace, int smileID)
+    // {
+    //     foreach (HugFace partner in hugFace.partners)
+    //     {
+    //         partner.fullComplete = true;
+    //         partner.OnFullComplete();
+    //         partner.PlayMatchParticles();
+    //     }
+
+    //     hugFace.fullComplete = true;
+    //     hugFace.OnFullComplete();
+    //     hugFace.PlayMatchParticles();
+
+    //     if (Controller.enableOldSoundSystem && onHugClip != null)
+    //     {
+    //         Debug.Log($"{onHugClip} - plaing redundant clip.");
+    //         audioPlayer.Play(onHugClip);
+    //     }
+    //     if (Controller.enableNewSoundSystem)
+    //     {
+    //         // string soundID = $"p{player.id}EffectsWithMePointCollision";
+    //         // Vector3 pointPosition = player.transform.position;
+    //         // soundEventSender.SendOneShotSound(soundID, pointPosition);
+    //     }
+
+    //     completedPairs++;
+
+    //     // Log current number of completed HugFaces
+    //     Debug.Log($"HugFace matched! Total completed pairs: {completedPairs}");
+
+    //     // Log total HugFaces and MAX_HUG_FACES for debugging
+    //     Debug.Log($"Total HugFaces: {totalHugFaces}, MAX_HUG_FACES: {MAX_HUG_FACES}, Completed HugFaces: {completedPairs * 2}");
+
+    //     if (totalHugFaces >= MAX_HUG_FACES)
+    //     {
+    //         Debug.Log("All HugFaces have been spawned. Checking if the game should end.");
+    //         GameOver();
+    //     }
+    // }
+
 
     public void HUG(HugFace hugFace, int smileID)
     {
+        // Check if this smileID is already marked as completed in any HugFace
+        if (listOfCompletedHugFaces.Exists(hf => hf.smileID == smileID))
+        {
+            Debug.Log($"HugFace with smileID {smileID} is already completed. Skipping completion.");
+            return;
+        }
+
+        // Mark the main HugFace and its partner as full complete
         foreach (HugFace partner in hugFace.partners)
         {
-            partner.fullComplete = true;
-            partner.OnFullComplete();
-            partner.PlayMatchParticles();
-
+            // Ensure we're not double-counting the completion for partners
+            if (!partner.fullComplete)
+            {
+                partner.fullComplete = true;
+                partner.OnFullComplete();
+                partner.PlayMatchParticles();
+            }
         }
 
-        hugFace.fullComplete = true;
-        hugFace.OnFullComplete();
-        hugFace.PlayMatchParticles();
+        // Only proceed with logging and marking the main HugFace as complete if it wasn't already completed
+        if (!hugFace.fullComplete)
+        {
+            hugFace.fullComplete = true;
+            hugFace.OnFullComplete();
+            hugFace.PlayMatchParticles();
 
+            // Add the completed HugFace to the list
+            listOfCompletedHugFaces.Add(hugFace);
 
+            // Log completed pairs and current status
+            completedPairs++;
+            Debug.Log($"HugFace matched! Total completed pairs: {completedPairs}, Total completed HugFaces: {completedPairs * 2}.");
+        }
 
+        // Play sound if applicable
         if (Controller.enableOldSoundSystem && onHugClip != null)
         {
-            Debug.Log($"{onHugClip} - plaing redundant clip.");
-
+            Debug.Log($"{onHugClip} - playing hug sound.");
             audioPlayer.Play(onHugClip);
-
         }
+
         if (Controller.enableNewSoundSystem)
         {
+            // Send sound event for new sound system
             // string soundID = $"p{player.id}EffectsWithMePointCollision";
             // Vector3 pointPosition = player.transform.position;
             // soundEventSender.SendOneShotSound(soundID, pointPosition);
         }
 
+        // Log before game over check
+        Debug.Log($"Total HugFaces: {totalHugFaces}, MAX_HUG_FACES: {MAX_HUG_FACES}, Completed HugFaces: {completedPairs * 2}");
 
-        completedPairs++;
-
-        if (totalHugFaces >= MAX_HUG_FACES)
+        // Check if game is over
+        if (totalHugFaces >= MAX_HUG_FACES && completedPairs * 2 >= MAX_HUG_FACES)
         {
             GameOver();
         }
     }
+
+
+
+
 
     private IEnumerator SpawnInitialPairs()
     {
@@ -350,25 +489,48 @@ public class Hug : MonoBehaviour
     }
 
 
+    public void OnLevelComplete()
+    {
+
+        // Delegate win-related events to the GameManager
+        if (gameManager != null)
+        {
+            gameManager.HandleWinScenario();  // Let GameManager handle the end of the game
+        }
+        else
+        {
+            Debug.LogError("GameManager reference is missing.");
+        }
+    }
+
     private void GameOver()
     {
-        Debug.Log("Game Over! You win!");
+        if (gameIsOver) return;  // Prevent multiple triggers
+
         gameIsOver = true;
+        Debug.Log("Game Over! You win!");
 
+        // Tree growth
+        treeController.EnableTree();
+        treeController.StartGrowingTree(10f, 20f, 0.5f, 3f);
 
+        // Sound and particle effects
         if (Controller.enableOldSoundSystem && winSound != null)
         {
-            audioPlayer.Play(winSound);
-
+            audioPlayer.Play(winSound);  // Play win sound in old system
         }
         if (Controller.enableNewSoundSystem)
         {
-            // PlayHugSound(player, "Sigh");
+            // PlayHugSound(player, "Sigh");  // Trigger a sound in the new sound system if required
         }
 
+        // Play particle effects if available
         if (winParticleSystem != null)
         {
             winParticleSystem.Play();
         }
+
+        // Mark the game as complete
+        OnLevelComplete();  // Let GameManager or another system handle this
     }
 }
