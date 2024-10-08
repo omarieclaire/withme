@@ -680,6 +680,8 @@ MonoBehaviour:
   baseBreathingScale: 0.03
   baseRotationSpeed: 12.24
   randomRotationFactor: 0.89
+  circleRadius: 0.68
+  circleSpeed: 0.4
   vibrantReflectionColor: {r: 0, g: 1, b: 1, a: 1}
   vibrantCenterOrbColor: {r: 1, g: 0, b: 1, a: 1}
   baseReflectionSharpness: 0.8
@@ -1096,6 +1098,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_Volume
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131050375856255985, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2396260bd4826427f95cc9076ca351e4, type: 3}
     - target: {fileID: 4703395155190283869, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1217,6 +1231,10 @@ PrefabInstance:
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
+      propertyPath: isMusicMuted
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
@@ -1661,6 +1679,8 @@ MonoBehaviour:
   baseBreathingScale: 0.67
   baseRotationSpeed: 10
   randomRotationFactor: 0.5
+  circleRadius: 0.97
+  circleSpeed: 0.28
   vibrantReflectionColor: {r: 0, g: 1, b: 1, a: 1}
   vibrantCenterOrbColor: {r: 1, g: 0, b: 1, a: 1}
   baseReflectionSharpness: 0.8
