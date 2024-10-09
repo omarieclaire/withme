@@ -148,6 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71cf735ea3a6dbe49bf7eade92b1b399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &634557042 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2829592495992139646, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+  m_PrefabInstance: {fileID: 802401985}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &686277627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -693,18 +698,6 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: text
       value: 
-      objectReference: {fileID: 802401987}
-    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      propertyPath: color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      propertyPath: color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      propertyPath: color.r
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: maxRing
@@ -717,7 +710,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: controller
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 846870807}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: chargedRing
       value: 
@@ -730,10 +723,6 @@ PrefabInstance:
       propertyPath: regularRing
       value: 
       objectReference: {fileID: 182030373}
-    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      propertyPath: showPlayerName
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: usePlayerModel
       value: 0
@@ -775,17 +764,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
   m_PrefabInstance: {fileID: 802401985}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &802401987 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1206365506051034243, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-  m_PrefabInstance: {fileID: 802401985}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!96 &802401991
 TrailRenderer:
   serializedVersion: 3
@@ -1664,7 +1642,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: maxRing
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 634557042}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1676,7 +1654,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: chargedRing
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1346098514}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: playerModel
       value: 
@@ -1734,7 +1712,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e3dca80e0856245688ad827ef83f33ab, type: 2}
+  - {fileID: 2100000, guid: b510a7151947e884a9a0221cd86679c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
