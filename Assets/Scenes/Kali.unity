@@ -127,6 +127,11 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2829592495992139646, guid: 89f7209469b3841598ec0a530918250a, type: 3}
   m_PrefabInstance: {fileID: 1983012268}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &165038785 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2884566870493833324, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+  m_PrefabInstance: {fileID: 1094512248}
+  m_PrefabAsset: {fileID: 0}
 --- !u!23 &182030373 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1266312760479527552, guid: 89f7209469b3841598ec0a530918250a, type: 3}
@@ -719,6 +724,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 182030373}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: usePlayerModel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: collisionThreshold
       value: 0.1
       objectReference: {fileID: 0}
@@ -729,7 +738,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: regularRingMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 089d13ae8445741909bb1c1e3be9ad7a, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -737,9 +746,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 802401991}
-    - targetCorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 802401996}
   m_SourcePrefab: {fileID: 100100000, guid: 89f7209469b3841598ec0a530918250a, type: 3}
 --- !u!1 &802401986 stripped
 GameObject:
@@ -850,16 +856,15 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &802401996
+--- !u!114 &802402000 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+  m_PrefabInstance: {fileID: 802401985}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802401986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7aed700a309748af8a3ba8352580700, type: 3}
+  m_Script: {fileID: 11500000, guid: 67778436c83d1fa41934cc8d45c011b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &846870806 stripped
@@ -1018,7 +1023,7 @@ PrefabInstance:
       objectReference: {fileID: 846870808}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: startSize
-      value: 0.25
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: maxDegrees
@@ -1027,7 +1032,7 @@ PrefabInstance:
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerHolder
       value: 
-      objectReference: {fileID: 846870808}
+      objectReference: {fileID: 165038785}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: playerPrefab
       value: 
@@ -1364,7 +1369,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2033076562337935756, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: _localPort
-      value: 12000
+      value: 12001
       objectReference: {fileID: 0}
     - target: {fileID: 5275306340362764313, guid: 747d76fefce3343dd9ae74151eeefba9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1484,7 +1489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeMultiplier: 0.3
   numberOfIterations: 10
-  playerAvatar: {fileID: 1983012282}
+  playerAvatar: {fileID: 802402000}
   nodePrefab: {fileID: 1983012269}
   controller: {fileID: 846870807}
   nodes: []
@@ -1657,7 +1662,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: regularRingMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 67d0620e949dbdb4ab4693153096ed14, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1799,17 +1804,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7aed700a309748af8a3ba8352580700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1983012282 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-  m_PrefabInstance: {fileID: 1983012268}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983012269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67778436c83d1fa41934cc8d45c011b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  text: {fileID: 0}
+  id: 0
+  numDotsCollected: 0
+  regularRing: {fileID: 0}
+  chargedRing: {fileID: 0}
+  maxRing: {fileID: 0}
+  regularRingMaterial: {fileID: 0}
+  chargedRingMaterial: {fileID: 0}
+  maxRingMaterial: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  showPlayerName: 0
+  colorRotationSpeed: 0.1
+  hueRangeStart: 0.25
+  hueRangeEnd: 0.75
+  colorSaturation: 0.8
+  colorValue: 1
+  initialHueOffset: 0.5
+  collisionThreshold: 0.1
+  playerModel: {fileID: 0}
+  usePlayerModel: 1
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  useRainbowColorLogic: 0
+  audioSource: {fileID: 0}
+  withMeP0Clip: {fileID: 0}
+  withMeP1Clip: {fileID: 0}
+  withMeP2Clip: {fileID: 0}
+  withMeP3Clip: {fileID: 0}
+  withMeP4Clip: {fileID: 0}
+  withMeP5Clip: {fileID: 0}
+  withMeP6Clip: {fileID: 0}
+  withMeP7Clip: {fileID: 0}
+  withMeP8Clip: {fileID: 0}
+  withMeP9Clip: {fileID: 0}
 --- !u!20 &2052935195 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 4108089521995277908, guid: 00c82ae08fb8642c59b8fa1c9a93fac1, type: 3}

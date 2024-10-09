@@ -44,18 +44,16 @@ public class DotGameController : Controller
 
 
     [Header("~~~Collectable Info~~~")]
-    [Tooltip("Number of dots in the game.")]
+    [Tooltip("Number of dots")]
     public int numDots;  // Total number of collectible dots in the game
 
-    public int inty = 2;  // Not sure what this variable is used for – might need clarification
-
-    [Tooltip("Prefab used to instantiate dots.")]
+    [Tooltip("Dot prefab")]
     public GameObject dotPrefab;  // Prefab representing the dot object
 
-    [Tooltip("Actual size of the dot.")]
+    [Tooltip("Dot Size")]
     public float dotSize;  // Size of each dot
 
-    [Tooltip("Lower value spawns near the top of the dome, a higher value towards the ring of the dome.")]
+    [Tooltip("If Lower, spawns dots at top of dome, if higher, towards the ring of the dome.")]
     public float dotFlatnessPower;  // Used to control how dots are distributed in the dome (placement logic)
 
     [Tooltip("List of transforms for each dot in the game.")]
@@ -74,10 +72,10 @@ public class DotGameController : Controller
     public float dotDampening;  // Damping applied to the dot's movement to smooth the transitions
 
     [Header("~~~Game Info~~~")]
-    [Tooltip("Minimum number of dots required for the possibility of a player collision.")]
+    [Tooltip("Min # of dots before players collide")]
     public int minNumDotsForCollision;  // Threshold for dots collected before players can collide and release dots
 
-    [Tooltip("Maximum number of dots a player can collect.")]
+    [Tooltip("Max number of dots a player can collect.")]
     public int maxDotsPerPlayer;  // Maximum number of dots a player can hold at one time
 
     [Tooltip("Size increment of the player when a dot is collected.")]
@@ -85,7 +83,7 @@ public class DotGameController : Controller
 
     [Header("~~~Dot Regeneration Settings~~~")]
     [Tooltip("Time in seconds between each dot regeneration cycle.")]
-    public float dotRegenerationInterval = 30f;  // Time interval between regeneration of dots
+    public float dotRegenerationInterval = 15f;  // Time interval between regeneration of dots
 
     [Tooltip("Number of dots to regenerate in each cycle.")]
     public int dotsToRegenerate = 5;  // Number of new dots created each regeneration cycle
@@ -93,6 +91,9 @@ public class DotGameController : Controller
     private float dotRegenerationTimer;  // Tracks time for dot regeneration
 
     [Header("~~~Audio Info~~~~")]
+
+        public AudioPlayer audioPlayer;  // Handles audio playback
+
     [Tooltip("Sound played when a dot is collected.")]
     public AudioClip withMePointCollisionClip;
     public AudioClip withMePointCollisionClip1;
@@ -103,7 +104,6 @@ public class DotGameController : Controller
 
     // Array to hold all the collision audio clips
     private AudioClip[] pointCollisionClips;
-
 
     [Tooltip("Sound played when players collide.")]
     public AudioClip withMePlayerCollisionClip;
@@ -120,7 +120,6 @@ public class DotGameController : Controller
     // public AudioClip withMeP9Clip;  
     // public AudioClip withMeP10Clip;  
 
-    public AudioPlayer audioPlayer;  // Handles audio playback
 
     public ParticleSystem explosionParticles;  // Particle effect for player collision
     public ParticleSystem playerCollectDotParticleSystem;  // Particle effect for dot collection
@@ -139,12 +138,10 @@ public class DotGameController : Controller
 
     public ControlTreeMaterialValues controlTreeMaterialValues;  // Controls visuals related to the tree (e.g., bark, flowers)
 
-    [Tooltip("Image used to fade the screen to black.")]
-    public RawImage fadeImage;  // UI element used to fade the screen to black upon game completion
+    // [Tooltip("Image used to fade the screen to black.")]
+    // public RawImage fadeImage;  // UI element used to fade the screen to black upon game completion
 
     private bool isLevelComplete = false;  // Tracks whether the level has already been marked as complete
-
-
 
     private void CreateDot(int id)
     {
@@ -193,14 +190,8 @@ public class DotGameController : Controller
         dotAvatars.Add(dotAvatar);
     }
 
-
-
     public override void SetUp()
-
-
     {
-        // Debug.Log("[INFO] DotGameController SetUp called.");
-
         // First, run the common setup logic
         base.SetUp();
 
@@ -214,17 +205,14 @@ public class DotGameController : Controller
         {
             CreateDot(i);
         }
-
         dotRegenerationTimer = dotRegenerationInterval;
         StartCoroutine(BlueMoonDotRegenerationRoutine());
-
-        // Debug.Log("[INFO] DotGameController setup completed.");
     }
 
 
     void Start()
     {
-        SetUp();  // This ensures SetUp is called when the scene starts
+        SetUp();  
         pointCollisionClips = new AudioClip[] {
         withMePointCollisionClip,
         withMePointCollisionClip1,
@@ -235,8 +223,6 @@ public class DotGameController : Controller
     };
     }
 
-
-
     public override Vector3 GetGameSpecificScale(int playerIndex)
     {
         // Calculate scale based on the player's starting size and number of collected dots
@@ -245,8 +231,6 @@ public class DotGameController : Controller
         // Return the new scale factor (doesn't include player visibility, which GetScale will handle)
         return Vector3.one * scaleFactor;
     }
-
-
 
     public override void OnPlayersCollided(PlayerAvatar p1, PlayerAvatar p2)
     {
@@ -275,20 +259,16 @@ public class DotGameController : Controller
         PlayCollisionSound(p1);
         // PlayCollisionSound(p2);
 
-        // Set particle system to follow Player 1
         explosionParticles.transform.SetParent(p1.transform);  // Make particles follow Player 1
         explosionParticles.transform.localPosition = Vector3.zero;  // Optional: Center the particles on the player
         explosionParticles.Play();  // Play particles for Player 1
 
-        // Optionally create and play particle system for Player 2 if needed
         ParticleSystem explosionParticlesP2 = Instantiate(explosionParticles, p2.transform.position, Quaternion.identity);
+        
         explosionParticlesP2.transform.SetParent(p2.transform);  // Make particles follow Player 2
         explosionParticlesP2.transform.localPosition = Vector3.zero;  // Optional: Center the particles on Player 2
         explosionParticlesP2.Play();  // Play particles for Player 2
     }
-
-
-
 
     private void PlayCollisionSound(PlayerAvatar player)
     {
@@ -318,14 +298,11 @@ public class DotGameController : Controller
         }
     }
 
-    // this is where we actually deal with player/dot collisions
     public override void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider)
     {
-
         // Check if the collider is a dot
         if (collider.CompareTag("Dot"))
         {
-
             int index = dots.IndexOf(collider.transform);
             if (index != -1)
             {
@@ -398,14 +375,12 @@ public class DotGameController : Controller
 
     private void MakeNewDotsOnceInABlueMoon()
     {
-        // Debug.Log("Creating new dots...");
-
         int currentDotCount = dots.Count;
         for (int i = 0; i < dotsToRegenerate; i++)
         {
             CreateDot(currentDotCount + i);
         }
-        Debug.Log($"{dotsToRegenerate} new dots created.");
+        // Debug.Log($"{dotsToRegenerate} new dots created.");
     }
 
     public void OnTreeCollect()
@@ -420,26 +395,7 @@ public class DotGameController : Controller
         }
     }
 
-
-    public void OnLevelComplete()
-    {
-        if (isLevelComplete) return; // Ensure this runs only once
-        isLevelComplete = true;
-
-        print("LEVEL COMPLETE");
-
-        // Remove sound and scene handling; delegate to GameManager
-        if (gameManager != null)
-        {
-            gameManager.HandleWinScenario();  // Let GameManager handle win-related events
-        }
-        else
-        {
-            Debug.LogError("GameManager reference is missing.");
-        }
-    }
-
-    // Method to destroy all dots
+       // Method to destroy all dots
     private void DestroyAllDots()
     {
         foreach (Transform dot in dots)
@@ -464,18 +420,39 @@ public class DotGameController : Controller
         Debug.Log("All dots have been disabled.");
     }
 
-    public void OnGameEnd()
+    public void OnLevelComplete()
     {
-        if (isLevelComplete) return;  // Prevent multiple triggers of game end
+        if (isLevelComplete) return; // Ensure this runs only once
+        isLevelComplete = true;
 
-        // Tree visibility and growth
-        treeController.EnableTree();
-        treeController.StartGrowingTree(10f, 20f, 0.5f, 3f);
+        print("LEVEL COMPLETE");
+                DestroyAllDots();
 
-        // Destroy all dots
-        DestroyAllDots();
 
-        // Mark the level as complete and let GameManager handle it
-        OnLevelComplete();
+        if (gameManager != null)
+        {
+            gameManager.HandleWinScenario();  // Let GameManager handle win-related events
+        }
+        else
+        {
+            Debug.LogError("GameManager reference is missing.");
+        }
     }
+
+    //     public void OnGameEnd()
+    // {
+    //     if (isLevelComplete) return;  // Prevent multiple triggers of game end
+
+    //     // Tree visibility and growth
+    //     treeController.EnableTree();
+    //     treeController.StartGrowingTree(10f, 20f, 0.5f, 3f);
+
+    //     // Destroy all dots
+    //     DestroyAllDots();
+
+    //     // Mark the level as complete and let GameManager handle it
+    //     OnLevelComplete();
+    // }
+
+
 }
