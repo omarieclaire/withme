@@ -77,6 +77,8 @@ public class PlayerAvatar : MonoBehaviour
 
     public bool useRainbowColorLogic = false; // Set this to true for the game where you want the rainbow effect
 
+    private bool isKaliScene;  // Add a flag to track if we're in the "Kali" scene
+
 
     // Audio fields
     public AudioSource audioSource; // Reference to the AudioSource on the player
@@ -152,7 +154,7 @@ public class PlayerAvatar : MonoBehaviour
     }
 
 
- public virtual void SetData(string name)
+    public virtual void SetData(string name)
 {
     // Check if the player count is valid before calculating the hue
     int playerCount = Mathf.Max(controller.players.Count, 1); // Ensure at least 1 to avoid division by zero
@@ -187,12 +189,13 @@ public class PlayerAvatar : MonoBehaviour
 }
 
 
-    public void UpdateLineRendererColor(TrailRenderer trailRenderer)
-    {
-        // Set the trail renderer's start and end color to the player's original color
-        trailRenderer.startColor = originalColor;
-        trailRenderer.endColor = originalColor;
-    }
+public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
+{
+    // Set the trail renderer's start and end color to the player's original color
+    trailRenderer.startColor = originalColor;
+    trailRenderer.endColor = originalColor;
+}
+
 
 
 
@@ -300,7 +303,32 @@ public class PlayerAvatar : MonoBehaviour
     }
 
 
-   public virtual void UpdatePlayerColor()
+//    public virtual void UpdatePlayerColor()
+// {
+//     if (regularRing != null)
+//     {
+//         regularRing.material.color = color;
+//         Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
+//     }
+//     if (chargedRing != null)
+//     {
+//         chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f); // Give the charged ring a glow effect
+//         Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
+//     }
+//     if (maxRing != null)
+//     {
+//         float pulse = Mathf.PingPong(Time.time * 2f, 1f); // Pulsing effect for max ring
+//         maxRing.material.color = Color.Lerp(color, Color.yellow, pulse); // Make max ring flash yellow
+//         Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
+//     }
+//     if (text != null)
+//     {
+//         text.color = color;
+//         Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
+//     }
+// }
+
+    public virtual void UpdatePlayerColor()
 {
     if (regularRing != null)
     {
@@ -309,13 +337,13 @@ public class PlayerAvatar : MonoBehaviour
     }
     if (chargedRing != null)
     {
-        chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f); // Give the charged ring a glow effect
+        chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f);  // Glow effect
         Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
     }
     if (maxRing != null)
     {
-        float pulse = Mathf.PingPong(Time.time * 2f, 1f); // Pulsing effect for max ring
-        maxRing.material.color = Color.Lerp(color, Color.yellow, pulse); // Make max ring flash yellow
+        float pulse = Mathf.PingPong(Time.time * 2f, 1f);  // Pulsing effect for max ring
+        maxRing.material.color = Color.Lerp(color, Color.yellow, pulse);  // Make max ring flash yellow
         Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
     }
     if (text != null)
@@ -324,5 +352,6 @@ public class PlayerAvatar : MonoBehaviour
         Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
     }
 }
+
 
 }
