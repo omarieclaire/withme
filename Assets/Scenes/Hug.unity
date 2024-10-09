@@ -1711,8 +1711,8 @@ MonoBehaviour:
   slowPairDelay: 8
   minimumRoundDelay: 4
   pensTrueFaces:
-  - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
-  - {fileID: 2800000, guid: 965d119c0f028444ab411eed26851df2, type: 3}
+  - {fileID: 2800000, guid: 1155d064c4a58411f98f980aff2ce550, type: 3}
+  - {fileID: 2800000, guid: 1155d064c4a58411f98f980aff2ce550, type: 3}
   - {fileID: 2800000, guid: 055500f02589f43f8b203acbb3f9e2fb, type: 3}
   - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
   - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}

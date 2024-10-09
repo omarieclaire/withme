@@ -34,7 +34,7 @@ public class Kaliedescope : MonoBehaviour
     void Start()
     {
         // Use rainbow color logic for this specific game
-        playerAvatar.useRainbowColorLogic = true;
+        // playerAvatar.useRainbowColorLogic = true;
     }
 
     void Update()

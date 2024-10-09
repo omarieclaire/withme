@@ -11,7 +11,6 @@ public class Hug : MonoBehaviour
     public TreeController treeController;
     public GameManager gameManager;
 
-
     // Prefabs for creating HugFaces, particles, and connections between objects
     [Header("Prefabs")]
     public GameObject hugFacePrefab; // Prefab for HugFaces
@@ -22,7 +21,6 @@ public class Hug : MonoBehaviour
     [Header("HugFace Settings")]
     public float hugFaceSize = 1f; // Size of each HugFace
     public float activationRadius = 2f; // Radius within which a player can interact with a HugFace
-
 
     // Minimum distances for placing HugFaces
     public float partnerMinDistance = 1.5f; // Minimum distance between paired HugFaces
@@ -50,7 +48,6 @@ public class Hug : MonoBehaviour
     public AudioClip winSound; // Sound clip for when the game ends
     public ParticleSystem winParticleSystem; // Particles for when the game ends
 
-    // Lists to track HugFace objects and completed HugFaces
     [Header("Lists")]
     public List<HugFace> listOfHugFaceObjects = new List<HugFace>(); // All active HugFaces
     public List<HugFace> listOfCompletedHugFaces = new List<HugFace>(); // Completed HugFaces
@@ -67,12 +64,10 @@ public class Hug : MonoBehaviour
     public AudioPlayer audioPlayer; // Manages audio playback
     public AudioClip spawnFacesClip; // Audio clip for when HugFaces are spawned
 
-    // Start is called before the first frame update
     private void Start()
     {
         Debug.Log($"Starting game. Total possible HugFaces to generate: {MAX_HUG_FACES}");
 
-        // Set the initial delay for the first round and start spawning HugFaces
         currentRoundDelay = firstPairDelay;
         StartCoroutine(SpawnInitialPairs());
 
@@ -85,10 +80,8 @@ public class Hug : MonoBehaviour
         {
             gameManager = FindObjectOfType<GameManager>();  // Find GameManager if not set
         }
-
     }
 
-    // Clears existing HugFaces from the scene
     private void ClearExistingFaces()
     {
         foreach (var face in listOfHugFaceObjects)
@@ -101,44 +94,38 @@ public class Hug : MonoBehaviour
         listOfHugFaceObjects.Clear(); // Clear the list of HugFaces
     }
 
-    // List to keep track of already used colors to ensure distinction
     private List<Color> usedColors = new List<Color>();
 
     private void SpawnPairs(int numberOfPairs)
     {
-        if (gameIsOver || isSpawningPairs) return; // Stop if the game is over or already spawning pairs
+        if (gameIsOver || isSpawningPairs) return;
 
-        int facesNeeded = MAX_HUG_FACES - totalHugFaces; // Calculate how many more HugFaces are needed
-        int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2); // Determine how many pairs to spawn
+        int facesNeeded = MAX_HUG_FACES - totalHugFaces;
+        int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2);
 
-        if (pairsToSpawn <= 0) return; // If no pairs need to spawn, return
+        if (pairsToSpawn <= 0) return;
 
         for (int i = 0; i < pairsToSpawn; i++)
         {
-            // Ensure distinct colors for each pair
             Color distinctColor = GenerateDistinctColor();
 
             int smileID = totalHugFaces / 2;
             int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
 
-            // Create two HugFaces and assign partners
             HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex);
             HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex);
             AssignPartners(face1, face2);
 
-            // Position HugFaces and add them to the list
             PositionFaces(face1, face2, partnerMinDistance, otherFacesMinDistance);
             AddFacesToList(face1, face2);
 
-            totalHugFaces += 2; // Update the total number of HugFaces
+            totalHugFaces += 2;
 
-            // Play the spawn sound if applicable
             if (Controller.enableOldSoundSystem && spawnFacesClip != null)
             {
                 audioPlayer.Play(spawnFacesClip);
             }
 
-            // Additional sound handling for the new sound system (commented out)
             if (Controller.enableNewSoundSystem)
             {
                 // PlayHugSound(face1, "MimicShapeNewShapeGen");
@@ -146,11 +133,11 @@ public class Hug : MonoBehaviour
             }
         }
 
-        ActivateAllFaces(); // Activate all HugFaces once they are spawned
-        isSpawningPairs = false; // Reset the spawning flag
+    lastSpawnTime = Time.time;
+        ActivateAllFaces();
+        isSpawningPairs = false;
     }
 
-    // Generates a distinct color that is very different from previously used colors
     private Color GenerateDistinctColor()
     {
         const int maxAttempts = 100;
@@ -158,12 +145,11 @@ public class Hug : MonoBehaviour
         {
             Color newColor = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
 
-            // Check if the color is distinct enough
             bool isDistinct = true;
             foreach (Color usedColor in usedColors)
             {
                 if (Vector3.Distance(new Vector3(newColor.r, newColor.g, newColor.b),
-                                     new Vector3(usedColor.r, usedColor.g, usedColor.b)) < 0.5f)  // Change the threshold to adjust how distinct colors need to be
+                                     new Vector3(usedColor.r, usedColor.g, usedColor.b)) < 0.5f)
                 {
                     isDistinct = false;
                     break;
@@ -177,20 +163,17 @@ public class Hug : MonoBehaviour
             }
         }
 
-        // Fallback if distinct color cannot be generated (shouldn't normally happen)
         Debug.LogWarning("Failed to generate distinct color. Reusing existing colors.");
         return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
     }
 
-
-    // Creates and returns a new HugFace
     private HugFace CreateHugFace(int smileID, Color color, int soundIndex)
     {
-        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>(); // Instantiate a new HugFace
-        face.color = color; // Set the color
-        face.smileID = smileID; // Set the smile ID
-        face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex]; // Assign the corresponding sound clip
-        face.matchParticlesPrefab = matchParticlesPrefab; // Set particle effects for matching
+        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
+        face.color = color;
+        face.smileID = smileID;
+        face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex];
+        face.matchParticlesPrefab = matchParticlesPrefab;
         return face;
     }
 
@@ -200,74 +183,39 @@ public class Hug : MonoBehaviour
         face2.partners = new List<HugFace> { face1 };
     }
 
-private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
+   private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
 {
     List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
-    // Try to find valid positions for face1 and face2 with the given distance constraints
     Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
     if (!position1.HasValue)
     {
         Debug.LogError("Failed to position first face. Using fallback position.");
-        position1 = Vector3.up; // Fallback position
+        position1 = Vector3.up;
     }
+    Debug.Log($"[INFO] Placing HugFace 1 at {position1.Value}");
 
-    // Temporarily add face1 to the list to check distance for face2
     existingFaces.Add(face1);
 
-    // Ensure face2 is at least `partnerMinDistance` away from face1
     Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
     if (!position2.HasValue)
     {
         Debug.LogError("Failed to position second face. Using fallback position.");
-        position2 = -Vector3.up; // Fallback position
+        position2 = -Vector3.up;
     }
+    Debug.Log($"[INFO] Placing HugFace 2 at {position2.Value}");
 
-    // Set the positions of the faces
     face1.transform.position = position1.Value;
     face2.transform.position = position2.Value;
 
-    // Add the faces to the list of active HugFaces
     listOfHugFaceObjects.Add(face1);
     listOfHugFaceObjects.Add(face2);
 }
 
-    // Ensures the partner face is placed at least partnerMinDistance away from face1
-    private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
-    {
-        const int maxAttempts = 1000;
-        for (int attempt = 0; attempt < maxAttempts; attempt++)
-        {
-            Vector3 randomPos = GetRandomPosition();
-
-            // Check that the position is at least partnerMinDistance away from the partner HugFace
-            if (Vector3.Distance(randomPos, partner.transform.position) >= partnerMinDistance &&
-                !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
-            {
-                return randomPos;
-            }
-        }
-        Debug.LogWarning("Failed to find a valid position for partner after " + maxAttempts + " attempts.");
-        return null;
-    }
-
-    // Checks if the position is overlapping with existing faces based on otherFacesMinDistance
-    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
-    {
-        foreach (var face in existingFaces)
-        {
-            if (Vector3.Distance(pos, face.transform.position) < minDistance)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
     {
-        const int maxAttempts = 1000; // Increase max attempts
+        const int maxAttempts = 1000;
         for (int attempts = 0; attempts < maxAttempts; attempts++)
         {
             Vector3 randomPos = GetRandomPosition();
@@ -279,11 +227,11 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
         return null;
     }
+
     private Vector3 GetRandomPosition()
     {
-        // Use a uniform distribution on a sphere surface
         Vector3 randomDir = Random.onUnitSphere;
-        float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
+        float randomDistance = Random.Range(0.5f, 1f);
         Vector3 randomPos = randomDir * randomDistance;
         return controller.getFinalPosition(randomPos);
     }
@@ -299,6 +247,39 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         }
         return false;
     }
+
+    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
+{
+    foreach (var face in existingFaces)
+    {
+        float distance = Vector3.Distance(pos, face.transform.position);
+        if (distance < minDistance)
+        {
+            Debug.LogWarning($"[WARNING] HugFace at {face.transform.position} is too close to position {pos}. Distance: {distance}, Minimum allowed: {minDistance}");
+            return true;
+        }
+    }
+    return false;
+}
+
+
+    private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
+    {
+        const int maxAttempts = 1000;
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            Vector3 randomPos = GetRandomPosition();
+
+            if (Vector3.Distance(randomPos, partner.transform.position) >= partnerMinDistance &&
+                !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
+            {
+                return randomPos;
+            }
+        }
+        Debug.LogWarning("Failed to find a valid position for partner after " + maxAttempts + " attempts.");
+        return null;
+    }
+
     private void AddFacesToList(HugFace face1, HugFace face2)
     {
         AddFaceToList(face1);
@@ -323,15 +304,12 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
     public void Update()
     {
         HandlePlayerInteractions();
-        // HandleCompletedHugFaces();
     }
 
     private void HandlePlayerInteractions()
     {
-        // Create a temporary list to store players to be removed from currentInteractingFaces
         List<PlayerAvatar> playersToRemove = new List<PlayerAvatar>();
 
-        // Iterate over active players and process their interactions
         foreach (var player in controller.activePlayers)
         {
             player.GetComponent<LineRenderer>().enabled = false;
@@ -339,26 +317,21 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
 
             if (closestFace != null)
             {
-                // Player is interacting with a HugFace
                 closestFace.WhileInside(player, closestFace);
                 currentInteractingFaces[player] = closestFace;
             }
             else if (currentInteractingFaces.TryGetValue(player, out HugFace interactingFace))
             {
-                // Player is no longer interacting with the HugFace, mark them for removal
                 interactingFace.WhileOutside();
                 playersToRemove.Add(player);
             }
         }
 
-        // Remove players from currentInteractingFaces after the iteration
         foreach (var player in playersToRemove)
         {
             currentInteractingFaces.Remove(player);
         }
     }
-
-
 
     private HugFace FindClosestHugFace(PlayerAvatar player)
     {
@@ -378,49 +351,7 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         return closestFace;
     }
 
-
-
-    //    public void HUG(HugFace hugFace, int smileID)
-    // {
-    //     foreach (HugFace partner in hugFace.partners)
-    //     {
-    //         partner.fullComplete = true;
-    //         partner.OnFullComplete();
-    //         partner.PlayMatchParticles();
-    //     }
-
-    //     hugFace.fullComplete = true;
-    //     hugFace.OnFullComplete();
-    //     hugFace.PlayMatchParticles();
-
-    //     if (Controller.enableOldSoundSystem && onHugClip != null)
-    //     {
-    //         Debug.Log($"{onHugClip} - plaing redundant clip.");
-    //         audioPlayer.Play(onHugClip);
-    //     }
-    //     if (Controller.enableNewSoundSystem)
-    //     {
-    //         // string soundID = $"p{player.id}EffectsWithMePointCollision";
-    //         // Vector3 pointPosition = player.transform.position;
-    //         // soundEventSender.SendOneShotSound(soundID, pointPosition);
-    //     }
-
-    //     completedPairs++;
-
-    //     // Log current number of completed HugFaces
-    //     Debug.Log($"HugFace matched! Total completed pairs: {completedPairs}");
-
-    //     // Log total HugFaces and MAX_HUG_FACES for debugging
-    //     Debug.Log($"Total HugFaces: {totalHugFaces}, MAX_HUG_FACES: {MAX_HUG_FACES}, Completed HugFaces: {completedPairs * 2}");
-
-    //     if (totalHugFaces >= MAX_HUG_FACES)
-    //     {
-    //         Debug.Log("All HugFaces have been spawned. Checking if the game should end.");
-    //         GameOver();
-    //     }
-    // }
-
-
+    // HUG Function
     public void HUG(HugFace hugFace, int smileID)
     {
         // Check if this smileID is already marked as completed in any HugFace
@@ -482,9 +413,7 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         }
     }
 
-
-
-
+    float lastSpawnTime;
 
     private IEnumerator SpawnInitialPairs()
     {
@@ -519,49 +448,42 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         }
     }
 
-
-    public void OnLevelComplete()
-    {
-
-        // Delegate win-related events to the GameManager
-        if (gameManager != null)
-        {
-            gameManager.HandleWinScenario();  // Let GameManager handle the end of the game
-        }
-        else
-        {
-            Debug.LogError("GameManager reference is missing.");
-        }
-    }
-
     private void GameOver()
     {
-        if (gameIsOver) return;  // Prevent multiple triggers
+        if (gameIsOver) return;
 
         gameIsOver = true;
         Debug.Log("Game Over! You win!");
 
-        // Tree growth
         treeController.EnableTree();
         treeController.StartGrowingTree(10f, 20f, 0.5f, 3f);
 
-        // Sound and particle effects
         if (Controller.enableOldSoundSystem && winSound != null)
         {
-            audioPlayer.Play(winSound);  // Play win sound in old system
+            audioPlayer.Play(winSound); // Play win sound in old system
         }
         if (Controller.enableNewSoundSystem)
         {
             // PlayHugSound(player, "Sigh");  // Trigger a sound in the new sound system if required
         }
 
-        // Play particle effects if available
         if (winParticleSystem != null)
         {
             winParticleSystem.Play();
         }
 
-        // Mark the game as complete
-        OnLevelComplete();  // Let GameManager or another system handle this
+        OnLevelComplete();
+    }
+
+    public void OnLevelComplete()
+    {
+        if (gameManager != null)
+        {
+            gameManager.HandleWinScenario();
+        }
+        else
+        {
+            Debug.LogError("GameManager reference is missing.");
+        }
     }
 }
