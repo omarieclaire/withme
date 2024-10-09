@@ -8,9 +8,7 @@ public class Hug : MonoBehaviour
     [Header("References")]
     public NoGoZoneManager noGoZoneManager; // Manages areas where HugFaces should not spawn
     public Controller controller; // Handles player control and interactions
-
     public TreeController treeController;
-
     public GameManager gameManager;
 
 
@@ -265,8 +263,6 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
         }
         return false;
     }
-
-
 
 
     private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)

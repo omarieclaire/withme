@@ -308,9 +308,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1840828998}
-    - targetCorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1840828997}
   m_SourcePrefab: {fileID: 100100000, guid: 89f7209469b3841598ec0a530918250a, type: 3}
 --- !u!1001 &208158456
 PrefabInstance:
@@ -762,7 +759,7 @@ PrefabInstance:
       objectReference: {fileID: 2085774386}
     - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: domemasterResolution
-      value: 2048
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1675,12 +1672,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09564b43b32442b1b778c1892a393c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseBreathingSpeed: 0.25
-  baseBreathingScale: 0.15
-  baseRotationSpeed: 10
-  randomRotationFactor: 0.5
-  circleRadius: 0.97
-  circleSpeed: 0.28
+  baseBreathingSpeed: 0.01
+  baseBreathingScale: 0.01
+  baseRotationSpeed: 0.01
+  randomRotationFactor: 0.01
+  circleRadius: 0.01
+  circleSpeed: 0.01
   vibrantReflectionColor: {r: 0, g: 1, b: 1, a: 1}
   vibrantCenterOrbColor: {r: 1, g: 0, b: 1, a: 1}
   baseReflectionSharpness: 0.8
@@ -2500,76 +2497,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
   m_PrefabInstance: {fileID: 74402639}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1840828997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840828996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e9e4815eaec84abaafc10b09856784f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  widthCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  widthMultiplier: 0.16
-  colorGradient:
-    serializedVersion: 2
-    key0: {r: 0.31559125, g: 1, b: 0.23113209, a: 1}
-    key1: {r: 0.19200492, g: 0.76386166, b: 0.63478774, a: 1}
-    key2: {r: 0.08018869, g: 0.5502126, b: 1, a: 0}
-    key3: {r: 1, g: 0.2688679, b: 0.9876452, a: 0}
-    key4: {r: 1, g: 0.49994138, b: 0.21226418, a: 0}
-    key5: {r: 0.5192074, g: 0.3160377, b: 1, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 8096
-    ctime2: 15420
-    ctime3: 37972
-    ctime4: 52235
-    ctime5: 65535
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 6
-    m_NumAlphaKeys: 2
-  applyWaveEffect: 1
-  waveFrequency: 2.23
-  waveAmplitude: 0.07
 --- !u!82 &1840828998
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2687,8 +2614,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2cbfc70db04eea24e89d63710685e954, type: 2}
-  - {fileID: 2100000, guid: 67d0620e949dbdb4ab4693153096ed14, type: 2}
+  - {fileID: 2100000, guid: c6df7f6b7cf73a84b937d3e0555885c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

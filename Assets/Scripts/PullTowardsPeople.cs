@@ -10,8 +10,8 @@ public class PullTowardsPeople : MonoBehaviour
     public float distancePitchFalloff = .3f;
     
     // Public variables to control line width
-    public float lineStartWidth = 0.1f; // Adjust as needed
-    public float lineEndWidth = 0.1f;   // Adjust as needed
+    // public float lineStartWidth = 0.1f; // Adjust as needed
+    // public float lineEndWidth = 0.1f;   // Adjust as needed
 
     // Update is called once per frame
     void Update()
@@ -31,8 +31,8 @@ public class PullTowardsPeople : MonoBehaviour
                 lr.SetPosition(1, transform.position);
 
                 // Set line thickness
-                lr.startWidth = lineStartWidth;
-                lr.endWidth = lineEndWidth;
+                // lr.startWidth = lineStartWidth;
+                // lr.endWidth = lineEndWidth;
 
                 // Adjust audio pitch based on distance
                 audio.pitch = Mathf.Clamp(5f - distance * distancePitchFalloff, 0, 10);
