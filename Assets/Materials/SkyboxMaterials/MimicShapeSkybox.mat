@@ -73,13 +73,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AuroraHorizonImportance: -0.02
+    - _AuroraHorizonImportance: -2.37
     - _AuroraHueSize: 0.53
     - _AuroraHueStart: 1.27
-    - _AuroraIntensity: 0.57
-    - _AuroraNoiseSize: 0.29
-    - _AuroraSpeed: 1
-    - _AuroraVibrantness: 1.64
+    - _AuroraIntensity: 0.39
+    - _AuroraNoiseSize: 0.36
+    - _AuroraSpeed: 1.24
+    - _AuroraVibrantness: 0.94
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1

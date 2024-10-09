@@ -200,7 +200,7 @@ public class MimicShape : MonoBehaviour
             if (noGoZoneManager.IsInNoGoZone(randomPos))
             {
                 Debug.Log($"Sphere_{i} is still generated in a no-go zone at: {randomPos}, using last valid position.");
-                spheres[i].transform.localScale = Vector3.one * sphereSize * 20; // Scale it up to highlight it
+                spheres[i].transform.localScale = Vector3.one * sphereSize * 2; // Scale it up to highlight it
             }
             else
             {

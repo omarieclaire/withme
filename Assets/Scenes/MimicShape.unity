@@ -1073,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 806627049}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 30
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted
@@ -1847,7 +1847,7 @@ MonoBehaviour:
   spherePrefab: {fileID: 485896220}
   controller: {fileID: 112701}
   spheresActive: 
-  sphereSize: 0.07
+  sphereSize: 0.59
   timer: {fileID: 709800343}
   timerPrefab: {fileID: 709800343}
   lineRendererHolder: {fileID: 139449677}
