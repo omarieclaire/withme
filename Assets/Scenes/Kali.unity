@@ -1682,9 +1682,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1983012274}
-    - targetCorrespondingSourceObject: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1983012279}
   m_SourcePrefab: {fileID: 100100000, guid: 89f7209469b3841598ec0a530918250a, type: 3}
 --- !u!1 &1983012269 stripped
 GameObject:
@@ -1804,60 +1801,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &1983012279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983012269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7aed700a309748af8a3ba8352580700, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  text: {fileID: 0}
-  id: 0
-  numDotsCollected: 0
-  regularRing: {fileID: 0}
-  chargedRing: {fileID: 0}
-  maxRing: {fileID: 0}
-  regularRingMaterial: {fileID: 0}
-  chargedRingMaterial: {fileID: 0}
-  maxRingMaterial: {fileID: 0}
-  color:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  showPlayerName: 0
-  colorRotationSpeed: 0.1
-  hueRangeStart: 0.25
-  hueRangeEnd: 0.75
-  colorSaturation: 0.8
-  colorValue: 1
-  initialHueOffset: 0.5
-  collisionThreshold: 0.1
-  playerModel: {fileID: 0}
-  usePlayerModel: 1
-  originalColor:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  useRainbowColorLogic: 0
-  audioSource: {fileID: 0}
-  withMeP0Clip: {fileID: 0}
-  withMeP1Clip: {fileID: 0}
-  withMeP2Clip: {fileID: 0}
-  withMeP3Clip: {fileID: 0}
-  withMeP4Clip: {fileID: 0}
-  withMeP5Clip: {fileID: 0}
-  withMeP6Clip: {fileID: 0}
-  withMeP7Clip: {fileID: 0}
-  withMeP8Clip: {fileID: 0}
-  withMeP9Clip: {fileID: 0}
 --- !u!20 &2052935195 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 4108089521995277908, guid: 00c82ae08fb8642c59b8fa1c9a93fac1, type: 3}
