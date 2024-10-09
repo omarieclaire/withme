@@ -693,7 +693,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7395563128559328325, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: text
@@ -726,6 +726,18 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: usePlayerModel
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: originalColor.b
+      value: 0.95380974
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: originalColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: originalColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: collisionThreshold
@@ -1814,7 +1826,11 @@ MonoBehaviour:
   regularRingMaterial: {fileID: 0}
   chargedRingMaterial: {fileID: 0}
   maxRingMaterial: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
   showPlayerName: 0
   colorRotationSpeed: 0.1
   hueRangeStart: 0.25
@@ -1825,7 +1841,11 @@ MonoBehaviour:
   collisionThreshold: 0.1
   playerModel: {fileID: 0}
   usePlayerModel: 1
-  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  originalColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
   useRainbowColorLogic: 0
   audioSource: {fileID: 0}
   withMeP0Clip: {fileID: 0}
