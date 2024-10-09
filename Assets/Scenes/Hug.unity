@@ -581,6 +581,8 @@ MonoBehaviour:
   hug: {fileID: 1395838879}
   soundEventSender: {fileID: 1391619008}
   audioPlayer: {fileID: 624508766}
+  neutralFaceTexture: {fileID: 0}
+  postHugFaceTexture: {fileID: 0}
   preDiscovered: {fileID: 169225780}
   discovered: {fileID: 1815985053}
   finished: {fileID: 964920484}
@@ -1711,19 +1713,37 @@ MonoBehaviour:
   slowPairDelay: 8
   minimumRoundDelay: 4
   pensTrueFaces:
+  - {fileID: 2800000, guid: 6458de13f35b9435584faa1b0cbcab0e, type: 3}
+  - {fileID: 2800000, guid: a9b190224764343dea21989dcd030c6e, type: 3}
+  - {fileID: 2800000, guid: 5c52a1187dad24a39891f3642fd4dc5a, type: 3}
+  - {fileID: 2800000, guid: 9c3ae3ac25f2842a4b12dcd37dcbefde, type: 3}
+  - {fileID: 2800000, guid: 85b1ffeeb0bf044f8926d65da0cdbc67, type: 3}
+  - {fileID: 2800000, guid: a5e6c1bc223214dcba46de88e49d0832, type: 3}
+  - {fileID: 2800000, guid: b117a950cd64d46f7945b9f68c18341f, type: 3}
+  - {fileID: 2800000, guid: 535ea0fa432a7420585eeb4f9b6f9657, type: 3}
+  - {fileID: 2800000, guid: 8dfc884886258424f948e4d685ab68df, type: 3}
+  - {fileID: 2800000, guid: 6c75ad1c35d9c482b97835dcd301b9ee, type: 3}
+  - {fileID: 2800000, guid: 520978ba8ab9f4939b1a21340a7947c0, type: 3}
+  - {fileID: 2800000, guid: 97a805c824180494586d2303e29c6fd3, type: 3}
+  - {fileID: 2800000, guid: 8533a3b673c9f49e9b91eb2263dbeff3, type: 3}
+  - {fileID: 2800000, guid: 520978ba8ab9f4939b1a21340a7947c0, type: 3}
+  - {fileID: 2800000, guid: a509f0cf6d00f4397af3316b3891bbed, type: 3}
+  - {fileID: 2800000, guid: c6a25e24596324822aee217b14694888, type: 3}
+  pensNeutralFaces:
   - {fileID: 2800000, guid: 1155d064c4a58411f98f980aff2ce550, type: 3}
-  - {fileID: 2800000, guid: 1155d064c4a58411f98f980aff2ce550, type: 3}
-  - {fileID: 2800000, guid: 055500f02589f43f8b203acbb3f9e2fb, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  - {fileID: 2800000, guid: 0336c8ddf862e4c68a4901e57bf30325, type: 3}
-  pensNeutralFace: {fileID: 2800000, guid: aabd6953a184c4212b4e3fc0d5445d39, type: 3}
-  pensPostHugFace: {fileID: 2800000, guid: cdd65b57f8b984acaaeb6285f0416adb, type: 3}
+  - {fileID: 2800000, guid: 41ff337ffce984f1a8988b4974babebc, type: 3}
+  - {fileID: 2800000, guid: 21e18c31c40654ae6912325be5a948d5, type: 3}
+  - {fileID: 2800000, guid: 05c1fba583f214235b43aa023cf18baf, type: 3}
+  - {fileID: 2800000, guid: 9ec37b8cdb786462a9ce98f3841be2f0, type: 3}
+  pensPostHugFaces:
+  - {fileID: 2800000, guid: 30b982b88f78749ed88103e337f1eeaa, type: 3}
+  - {fileID: 2800000, guid: 65b88d5f330424a868d3f0b01d7838c3, type: 3}
+  - {fileID: 2800000, guid: 9c9bbb867a239440e8d353425d9b7e8a, type: 3}
+  - {fileID: 2800000, guid: afbaa5dc9f95443d3a1432a596ceb6f1, type: 3}
+  - {fileID: 2800000, guid: 8965193fa44bb45d1ab15802503956a5, type: 3}
+  - {fileID: 2800000, guid: c6cc82ce323d84289ae38734d1d3d52d, type: 3}
+  - {fileID: 2800000, guid: b2e85dc6e4cc34492b5a35c7d63a86b6, type: 3}
+  - {fileID: 2800000, guid: d8f0a148bac494e42bdd0a9c232998b1, type: 3}
   HugFaceSongSoundClips:
   - {fileID: 8300000, guid: 5b4c69aa592dd4262a7a53a505e68325, type: 3}
   - {fileID: 8300000, guid: f54f84b1cf7924ddeba0ebd5426323b3, type: 3}

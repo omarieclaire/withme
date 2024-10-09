@@ -11,6 +11,10 @@ public class HugFace : MonoBehaviour
     public SoundEventSender soundEventSender;
     public AudioPlayer audioPlayer;
 
+    [Header("Assigned Textures")]
+public Texture neutralFaceTexture;    // Assigned neutral face texture
+public Texture postHugFaceTexture;    // Assigned post-hug face texture
+
     [Header("Face States")]
     public GameObject preDiscovered; // Represents the default state of the HugFace before interaction
     public GameObject discovered;    // Represents the state when the HugFace is discovered/flipped
@@ -141,10 +145,10 @@ public class HugFace : MonoBehaviour
     private void ApplyTextures()
     {
         // Applies textures and colors to the HugFace based on its state
-        ApplyTextureToState(preDiscovered, hug.pensNeutralFace, Color.white);
-        ApplyTextureToState(discovered, GetDiscoveredTexture(), color);
-        ApplyTextureToState(finished, hug.pensPostHugFace, color);
-    }
+    ApplyTextureToState(preDiscovered, neutralFaceTexture, Color.white);
+    ApplyTextureToState(discovered, GetDiscoveredTexture(), color);
+    ApplyTextureToState(finished, postHugFaceTexture, color);
+}
 
     private void ApplyTextureToState(GameObject stateObject, Texture texture, Color stateColor)
     {
@@ -263,26 +267,49 @@ public class HugFace : MonoBehaviour
         finished.SetActive(true);
     }
 
-    private void MoveToTopOfDome()
+
+private IEnumerator MoveToTopOfDomeRoutine()
+{
+    // Wait for 1 second before floating up
+    yield return new WaitForSeconds(1f);
+
+    Vector3 startPosition = transform.position;
+    Vector3 topOfDomePosition = new Vector3(0, 3.3f, 0); // Position at the top of the dome
+    float offsetRange = 0.01f;
+    Vector3 randomOffset = new Vector3(Random.Range(-offsetRange, offsetRange), 0, Random.Range(-offsetRange, offsetRange));
+    Vector3 finalPosition = topOfDomePosition + randomOffset;
+
+    float journeyTime = 5f;  // Time taken to move to the top (adjust for desired smoothness)
+    float elapsedTime = 0f;
+
+    float threshold = 0.6f; // Define the threshold for stopping movement
+
+    // Gradually move the HugFace towards the top of the dome over `journeyTime` seconds
+    while (elapsedTime < journeyTime)
     {
-        // Moves the HugFace to the top of the dome after completion
-        float currentX = transform.position.x;
-        float currentZ = transform.position.z;
+        elapsedTime += Time.deltaTime;
+        float t = elapsedTime / journeyTime;
 
-        float threshold = 0.3f; // Define a threshold for movement
+        // Use Lerp to smoothly move between the start position and the final position
+        transform.position = Vector3.Lerp(startPosition, finalPosition, t);
+        transform.LookAt(Vector3.zero); // Keeps the HugFace facing the center of the dome
 
-        if (Mathf.Abs(currentX) < threshold && Mathf.Abs(currentZ) < threshold)
+        // Check if the HugFace is close enough to the center (x, z coordinates near zero)
+        if (Mathf.Abs(transform.position.x) < threshold && Mathf.Abs(transform.position.z) < threshold)
         {
-            return; // Stops moving if near the center
+            yield break; // Stop moving if within the threshold
         }
 
-        Vector3 topOfDomePosition = new Vector3(0, 3.3f, 0); // Position at the top of the dome
-        float offsetRange = 0.01f;
-        Vector3 randomOffset = new Vector3(Random.Range(-offsetRange, offsetRange), 0, Random.Range(-offsetRange, offsetRange));
-        Vector3 finalPosition = topOfDomePosition + randomOffset;
-
-        // Gradually moves the HugFace towards the top of the dome
-        transform.position = Vector3.Lerp(transform.position, finalPosition, hug.howFastWeHug);
-        transform.LookAt(Vector3.zero); // Keeps the HugFace facing the center of the dome
+        yield return null; // Wait for the next frame to continue moving
     }
+}
+
+
+
+
+    private void MoveToTopOfDome()
+{
+    StartCoroutine(MoveToTopOfDomeRoutine());
+}
+
 }

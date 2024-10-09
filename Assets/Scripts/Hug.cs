@@ -40,8 +40,8 @@ public class Hug : MonoBehaviour
     // Textures and sound clips used for HugFaces and game events
     [Header("Assets")]
     public List<Texture> pensTrueFaces; // List of textures for HugFaces in their true state
-    public Texture pensNeutralFace; // Neutral face texture before interaction
-    public Texture pensPostHugFace; // Post-hug face texture
+    public List<Texture> pensNeutralFaces; // List of neutral face textures
+public List<Texture> pensPostHugFaces; // List of post-hug face textures
     public List<AudioClip> HugFaceSongSoundClips; // Sound clips for each HugFace
 
     public AudioClip onHugClip; // Sound clip for when HugFaces match
@@ -97,41 +97,44 @@ public class Hug : MonoBehaviour
     private List<Color> usedColors = new List<Color>();
 
     private void SpawnPairs(int numberOfPairs)
+{
+    if (gameIsOver || isSpawningPairs) return;
+
+    int facesNeeded = MAX_HUG_FACES - totalHugFaces;
+    int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2);
+
+    if (pairsToSpawn <= 0) return;
+
+    for (int i = 0; i < pairsToSpawn; i++)
     {
-        if (gameIsOver || isSpawningPairs) return;
+        Color distinctColor = GenerateDistinctColor();
 
-        int facesNeeded = MAX_HUG_FACES - totalHugFaces;
-        int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2);
+        int smileID = totalHugFaces / 2;
+        int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
 
-        if (pairsToSpawn <= 0) return;
+        // Choose a random post-hug face for both HugFaces in the pair
+        Texture postHugFace = pensPostHugFaces[Random.Range(0, pensPostHugFaces.Count)];
 
-        for (int i = 0; i < pairsToSpawn; i++)
+        HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex, postHugFace);
+        HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex, postHugFace);
+
+        AssignPartners(face1, face2);
+        PositionFaces(face1, face2, partnerMinDistance, otherFacesMinDistance);
+        AddFacesToList(face1, face2);
+
+        totalHugFaces += 2;
+
+        if (Controller.enableOldSoundSystem && spawnFacesClip != null)
         {
-            Color distinctColor = GenerateDistinctColor();
-
-            int smileID = totalHugFaces / 2;
-            int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
-
-            HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex);
-            HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex);
-            AssignPartners(face1, face2);
-
-            PositionFaces(face1, face2, partnerMinDistance, otherFacesMinDistance);
-            AddFacesToList(face1, face2);
-
-            totalHugFaces += 2;
-
-            if (Controller.enableOldSoundSystem && spawnFacesClip != null)
-            {
-                audioPlayer.Play(spawnFacesClip);
-            }
-
-            if (Controller.enableNewSoundSystem)
-            {
-                // PlayHugSound(face1, "MimicShapeNewShapeGen");
-                // PlayHugSound(face2, "MimicShapeNewShapeGen");
-            }
+            audioPlayer.Play(spawnFacesClip);
         }
+
+        if (Controller.enableNewSoundSystem)
+        {
+            // PlayHugSound(face1, "MimicShapeNewShapeGen");
+            // PlayHugSound(face2, "MimicShapeNewShapeGen");
+        }
+    }
 
     lastSpawnTime = Time.time;
         ActivateAllFaces();
@@ -167,15 +170,21 @@ public class Hug : MonoBehaviour
         return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
     }
 
-    private HugFace CreateHugFace(int smileID, Color color, int soundIndex)
-    {
-        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
-        face.color = color;
-        face.smileID = smileID;
-        face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex];
-        face.matchParticlesPrefab = matchParticlesPrefab;
-        return face;
-    }
+private HugFace CreateHugFace(int smileID, Color color, int soundIndex, Texture postHugFace)
+{
+    HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
+    face.color = color;
+    face.smileID = smileID;
+    face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex];
+    face.matchParticlesPrefab = matchParticlesPrefab;
+
+    // Assign random neutral texture and the provided post-hug face
+    face.neutralFaceTexture = pensNeutralFaces[Random.Range(0, pensNeutralFaces.Count)];
+    face.postHugFaceTexture = postHugFace;
+
+    return face;
+}
+
 
     private void AssignPartners(HugFace face1, HugFace face2)
     {
