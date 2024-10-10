@@ -154,16 +154,37 @@ public class PlayerAvatar : MonoBehaviour
     }
 
 
-    public virtual void SetData(string name)
+   public virtual void SetData(string name)
 {
     // Check if the player count is valid before calculating the hue
     int playerCount = Mathf.Max(controller.players.Count, 1); // Ensure at least 1 to avoid division by zero
-    float initialHue = Mathf.Repeat((id + initialHueOffset) / playerCount, 1f);
 
-    Debug.Log($"[DEBUG] Player ID: {id} | Initial Hue: {initialHue}, Saturation: {colorSaturation}, Value: {colorValue}");
+    if (useRainbowColorLogic)
+    {
+        float initialHue;
 
-    // Set the player's color using HSV values
-    color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
+        if (id == 0)
+        {
+            // Assign a specific hue to player 0
+            initialHue = Mathf.Repeat(0.1f + initialHueOffset, 1f); // Start at a distinct color for player 0
+        }
+        else
+        {
+            // Regular case for other players with a more noticeable hue differentiation
+            initialHue = Mathf.Repeat((id + 0.5f + initialHueOffset) / playerCount, 1f);
+        }
+
+        Debug.Log($"[DEBUG] Player ID: {id} | Initial Hue: {initialHue}, Saturation: {colorSaturation}, Value: {colorValue}");
+
+        // Set the player's color using HSV values
+        color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
+    }
+    else
+    {
+        // If not using rainbow color logic, all players get player 0's color
+        color = Color.HSVToRGB(0.1f + initialHueOffset, colorSaturation, colorValue); // Fixed color for all players
+        Debug.Log($"[DEBUG] Player ID: {id} | Assigned Player 0 Color (R,G,B): {color.r}, {color.g}, {color.b}");
+    }
 
     // Ensure the color is not too dark
     if (color == Color.black || color.grayscale < 0.1f)
@@ -181,7 +202,7 @@ public class PlayerAvatar : MonoBehaviour
 
     ApplyMaterialsToRings();
     UpdatePlayerColor();
-    
+
     if (playerModel != null)
     {
         playerModel.SetActive(usePlayerModel);
@@ -189,11 +210,13 @@ public class PlayerAvatar : MonoBehaviour
 }
 
 
+
+
 public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
 {
     // Set the trail renderer's start and end color to the player's original color
-    trailRenderer.startColor = originalColor;
-    trailRenderer.endColor = originalColor;
+    // trailRenderer.startColor = originalColor;
+    // trailRenderer.endColor = originalColor;
 }
 
 
@@ -203,19 +226,19 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
 {
     if (regularRing != null && regularRingMaterial != null)
     {
-        regularRing.material = new Material(regularRingMaterial); // Clone the material
+        // regularRing.material = new Material(regularRingMaterial); // Clone the material
         Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Material Assigned: {regularRing.material.name}");
     }
 
     if (chargedRing != null && chargedRingMaterial != null)
     {
-        chargedRing.material = new Material(chargedRingMaterial); // Clone the material
+        // chargedRing.material = new Material(chargedRingMaterial); // Clone the material
         Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Material Assigned: {chargedRing.material.name}");
     }
 
     if (maxRing != null && maxRingMaterial != null)
     {
-        maxRing.material = new Material(maxRingMaterial); // Clone the material
+        // maxRing.material = new Material(maxRingMaterial); // Clone the material
         Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Material Assigned: {maxRing.material.name}");
     }
 }

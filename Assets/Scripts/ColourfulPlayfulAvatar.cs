@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ColourfulPlayerAvatar : MonoBehaviour
+public class ColourfulPlayerAvatar : PlayerAvatar
 {
     [Tooltip("Time it takes to transition to a new color (in seconds).")]
     public float transitionDuration = 3f;  // Time between color transitions
@@ -11,11 +11,11 @@ public class ColourfulPlayerAvatar : MonoBehaviour
     private float currentHue;  // Keep track of the current hue
     private TrailRenderer trailRenderer;  // This player's trail renderer
 
-    [Tooltip("Saturation of the color (0 = grayscale, 1 = full color).")]
-    public float colorSaturation = 0.8f;
+    // [Tooltip("Saturation of the color (0 = grayscale, 1 = full color).")]
+    // public float colorSaturation = 0.8f;
 
-    [Tooltip("Brightness/Value of the color (0 = black, 1 = full brightness).")]
-    public float colorValue = 1f;
+    // [Tooltip("Brightness/Value of the color (0 = black, 1 = full brightness).")]
+    // public float colorValue = 1f;
 
     // Called when the object is created
     private void Start()
