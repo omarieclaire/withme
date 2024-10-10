@@ -18,45 +18,42 @@ public class ColourfulPlayerAvatar : PlayerAvatar
     // public float colorValue = 1f;
 
     // Called when the object is created
-    private void Start()
+     private void Start()
     {
-        // // Find the TrailRenderer component
-        // trailRenderer = GetComponent<TrailRenderer>();
+        base.Start();  // Call PlayerAvatar's Start method
+        trailRenderer = GetComponent<TrailRenderer>();
 
-        // // Initialize a unique starting color for each player (based on the player's ID)
-        // currentHue = Random.value;  // Random hue for each player to ensure uniqueness
+        currentHue = Random.value;
+        currentColor = Color.HSVToRGB(currentHue, colorSaturation, colorValue);
+        targetColor = GetNextColor(currentHue);
 
-        // currentColor = Color.HSVToRGB(currentHue, colorSaturation, colorValue);
-        // targetColor = GetNextColor(currentHue);  // Set initial target color
-
-        // // Immediately set the trail color
-        // UpdateTrailRendererColor();
+        UpdateTrailRendererColor();
     }
-
     // Update is called once per frame
     private void Update()
     {
-        // // Increment the transition timer
-        // transitionTimer += Time.deltaTime;
+        // Increment the transition timer
+        transitionTimer += Time.deltaTime;
 
-        // // If the timer exceeds the transition duration, set a new target color
-        // if (transitionTimer > transitionDuration)
-        // {
-        //     transitionTimer = 0f;  // Reset the timer
-        //     currentHue = Mathf.Repeat(currentHue + 0.1f, 1f);  // Move hue forward for smooth progression
-        //     targetColor = GetNextColor(currentHue);  // Get the next color in the sequence
-        // }
+        // If the timer exceeds the transition duration, set a new target color
+        if (transitionTimer > transitionDuration)
+        {
+            transitionTimer = 0f;  // Reset the timer
+            currentHue = Mathf.Repeat(currentHue + 0.1f, 1f);  // Move hue forward for smooth progression
+            targetColor = GetNextColor(currentHue);  // Get the next color in the sequence
+        }
 
-        // // Smoothly interpolate between the current color and the target color
-        // currentColor = Color.Lerp(currentColor, targetColor, transitionTimer / transitionDuration);
+        // Smoothly interpolate between the current color and the target color
+        currentColor = Color.Lerp(currentColor, targetColor, transitionTimer / transitionDuration);
 
-        // // Apply the new color to the TrailRenderer
-        // UpdateTrailRendererColor();
+        // Apply the new color to the TrailRenderer
+        UpdateTrailRendererColor();
     }
 
     // Apply the color to the TrailRenderer
     private void UpdateTrailRendererColor()
     {
+        
         if (trailRenderer != null)
         {
             trailRenderer.startColor = currentColor;

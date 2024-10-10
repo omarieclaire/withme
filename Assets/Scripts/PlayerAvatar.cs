@@ -94,7 +94,10 @@ public class PlayerAvatar : MonoBehaviour
     public AudioClip withMeP8Clip;
     public AudioClip withMeP9Clip;
 
-    private void Start()
+
+   public virtual void Start()
+
+    // private void Start()
     {
         if (audioSource == null)
         {
