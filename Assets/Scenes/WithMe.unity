@@ -422,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: numDots
-      value: 3
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
       propertyPath: dotPrefab

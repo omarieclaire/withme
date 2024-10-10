@@ -226,19 +226,19 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
 {
     if (regularRing != null && regularRingMaterial != null)
     {
-        // regularRing.material = new Material(regularRingMaterial); // Clone the material
+        regularRing.material = new Material(regularRingMaterial); // Clone the material
         Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Material Assigned: {regularRing.material.name}");
     }
 
     if (chargedRing != null && chargedRingMaterial != null)
     {
-        // chargedRing.material = new Material(chargedRingMaterial); // Clone the material
+        chargedRing.material = new Material(chargedRingMaterial); // Clone the material
         Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Material Assigned: {chargedRing.material.name}");
     }
 
     if (maxRing != null && maxRingMaterial != null)
     {
-        // maxRing.material = new Material(maxRingMaterial); // Clone the material
+        maxRing.material = new Material(maxRingMaterial); // Clone the material
         Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Material Assigned: {maxRing.material.name}");
     }
 }
