@@ -586,7 +586,7 @@ MonoBehaviour:
   preDiscovered: {fileID: 169225780}
   discovered: {fileID: 1815985053}
   finished: {fileID: 964920484}
-  matchParticlesPrefab: {fileID: 0}
+  matchParticlesPrefab: {fileID: 617696429}
   HugFaceSongSoundClip: {fileID: 0}
   HugFaceFlipSoundClip: {fileID: 0}
   HugFaceSighClips:
@@ -1706,8 +1706,8 @@ MonoBehaviour:
   connectionPrefab: {fileID: 931979819}
   hugFaceSize: 2.51
   activationRadius: 3.39
-  partnerMinDistance: 5.64
-  otherFacesMinDistance: 2.64
+  partnerMinDistance: 3
+  otherFacesMinDistance: 3
   howFastWeHug: 0.01
   firstPairDelay: 14
   slowPairDelay: 8
@@ -2425,7 +2425,7 @@ PrefabInstance:
       objectReference: {fileID: 624508766}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 300
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject

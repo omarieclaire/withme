@@ -41,7 +41,7 @@ public class Hug : MonoBehaviour
     [Header("Assets")]
     public List<Texture> pensTrueFaces; // List of textures for HugFaces in their true state
     public List<Texture> pensNeutralFaces; // List of neutral face textures
-public List<Texture> pensPostHugFaces; // List of post-hug face textures
+    public List<Texture> pensPostHugFaces; // List of post-hug face textures
     public List<AudioClip> HugFaceSongSoundClips; // Sound clips for each HugFace
 
     public AudioClip onHugClip; // Sound clip for when HugFaces match
@@ -97,46 +97,46 @@ public List<Texture> pensPostHugFaces; // List of post-hug face textures
     private List<Color> usedColors = new List<Color>();
 
     private void SpawnPairs(int numberOfPairs)
-{
-    if (gameIsOver || isSpawningPairs) return;
-
-    int facesNeeded = MAX_HUG_FACES - totalHugFaces;
-    int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2);
-
-    if (pairsToSpawn <= 0) return;
-
-    for (int i = 0; i < pairsToSpawn; i++)
     {
-        Color distinctColor = GenerateDistinctColor();
+        if (gameIsOver || isSpawningPairs) return;
 
-        int smileID = totalHugFaces / 2;
-        int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
+        int facesNeeded = MAX_HUG_FACES - totalHugFaces;
+        int pairsToSpawn = Mathf.Min(numberOfPairs, facesNeeded / 2);
 
-        // Choose a random post-hug face for both HugFaces in the pair
-        Texture postHugFace = pensPostHugFaces[Random.Range(0, pensPostHugFaces.Count)];
+        if (pairsToSpawn <= 0) return;
 
-        HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex, postHugFace);
-        HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex, postHugFace);
-
-        AssignPartners(face1, face2);
-        PositionFaces(face1, face2, partnerMinDistance, otherFacesMinDistance);
-        AddFacesToList(face1, face2);
-
-        totalHugFaces += 2;
-
-        if (Controller.enableOldSoundSystem && spawnFacesClip != null)
+        for (int i = 0; i < pairsToSpawn; i++)
         {
-            audioPlayer.Play(spawnFacesClip);
+            Color distinctColor = GenerateDistinctColor();
+
+            int smileID = totalHugFaces / 2;
+            int soundIndex = (totalHugFaces / 2) % HugFaceSongSoundClips.Count;
+
+            // Choose a random post-hug face for both HugFaces in the pair
+            Texture postHugFace = pensPostHugFaces[Random.Range(0, pensPostHugFaces.Count)];
+
+            HugFace face1 = CreateHugFace(smileID, distinctColor, soundIndex, postHugFace);
+            HugFace face2 = CreateHugFace(smileID, distinctColor, soundIndex, postHugFace);
+
+            AssignPartners(face1, face2);
+            PositionFaces(face1, face2, partnerMinDistance, otherFacesMinDistance);
+            AddFacesToList(face1, face2);
+
+            totalHugFaces += 2;
+
+            if (Controller.enableOldSoundSystem && spawnFacesClip != null)
+            {
+                audioPlayer.Play(spawnFacesClip);
+            }
+
+            if (Controller.enableNewSoundSystem)
+            {
+                // PlayHugSound(face1, "MimicShapeNewShapeGen");
+                // PlayHugSound(face2, "MimicShapeNewShapeGen");
+            }
         }
 
-        if (Controller.enableNewSoundSystem)
-        {
-            // PlayHugSound(face1, "MimicShapeNewShapeGen");
-            // PlayHugSound(face2, "MimicShapeNewShapeGen");
-        }
-    }
-
-    lastSpawnTime = Time.time;
+        lastSpawnTime = Time.time;
         ActivateAllFaces();
         isSpawningPairs = false;
     }
@@ -170,20 +170,20 @@ public List<Texture> pensPostHugFaces; // List of post-hug face textures
         return Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
     }
 
-private HugFace CreateHugFace(int smileID, Color color, int soundIndex, Texture postHugFace)
-{
-    HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
-    face.color = color;
-    face.smileID = smileID;
-    face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex];
-    face.matchParticlesPrefab = matchParticlesPrefab;
+    private HugFace CreateHugFace(int smileID, Color color, int soundIndex, Texture postHugFace)
+    {
+        HugFace face = Instantiate(hugFacePrefab).GetComponent<HugFace>();
+        face.color = color;
+        face.smileID = smileID;
+        face.HugFaceSongSoundClip = HugFaceSongSoundClips[soundIndex];
+        face.matchParticlesPrefab = matchParticlesPrefab;
 
-    // Assign random neutral texture and the provided post-hug face
-    face.neutralFaceTexture = pensNeutralFaces[Random.Range(0, pensNeutralFaces.Count)];
-    face.postHugFaceTexture = postHugFace;
+        // Assign random neutral texture and the provided post-hug face
+        face.neutralFaceTexture = pensNeutralFaces[Random.Range(0, pensNeutralFaces.Count)];
+        face.postHugFaceTexture = postHugFace;
 
-    return face;
-}
+        return face;
+    }
 
 
     private void AssignPartners(HugFace face1, HugFace face2)
@@ -191,51 +191,59 @@ private HugFace CreateHugFace(int smileID, Color color, int soundIndex, Texture 
         face1.partners = new List<HugFace> { face2 };
         face2.partners = new List<HugFace> { face1 };
     }
-
-   private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
+private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
 {
+    Debug.Log("in position faces");
     List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
     Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
     if (!position1.HasValue)
     {
         Debug.LogError("Failed to position first face. Using fallback position.");
-        position1 = Vector3.up;
+        position1 = Vector3.up; // Fallback to a safe default position
     }
     Debug.Log($"[INFO] Placing HugFace 1 at {position1.Value}");
 
-    existingFaces.Add(face1);
+    existingFaces.Add(face1); // Add first face to the list for checking overlap
 
     Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
     if (!position2.HasValue)
     {
         Debug.LogError("Failed to position second face. Using fallback position.");
-        position2 = -Vector3.up;
+        position2 = -Vector3.up; // Fallback to a safe default position
     }
     Debug.Log($"[INFO] Placing HugFace 2 at {position2.Value}");
 
     face1.transform.position = position1.Value;
     face2.transform.position = position2.Value;
 
-    listOfHugFaceObjects.Add(face1);
+    listOfHugFaceObjects.Add(face1); // Add both faces to the main list
     listOfHugFaceObjects.Add(face2);
+
+    Debug.Log($"[INFO] Now there are {listOfHugFaceObjects.Count} existing HugFaces.");
 }
 
 
-    private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
+
+
+private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
+{
+    const int maxAttempts = 1000;
+    for (int attempts = 0; attempts < maxAttempts; attempts++)
     {
-        const int maxAttempts = 1000;
-        for (int attempts = 0; attempts < maxAttempts; attempts++)
+        Vector3 randomPos = GetRandomPosition();
+
+        if (!IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
         {
-            Vector3 randomPos = GetRandomPosition();
-            if (!CheckIfBlocked(randomPos) && !IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
-            {
-                return randomPos;
-            }
+            Debug.Log($"[INFO] Found valid position at {randomPos} after {attempts + 1} attempts.");
+            return randomPos; // Valid position found
         }
-        Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts.");
-        return null;
     }
+    Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts. Using fallback.");
+    return Vector3.zero; // Fallback position
+}
+
+
 
     private Vector3 GetRandomPosition()
     {
@@ -257,19 +265,29 @@ private HugFace CreateHugFace(int smileID, Color color, int soundIndex, Texture 
         return false;
     }
 
-    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
+ private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
 {
+    if (existingFaces == null || existingFaces.Count == 0)
+    {
+        Debug.LogWarning("[WARNING] The list of existing HugFaces is either null or empty.");
+        return false;
+    }
+
     foreach (var face in existingFaces)
     {
         float distance = Vector3.Distance(pos, face.transform.position);
+        Debug.Log($"[INFO] Distance between {pos} and HugFace at {face.transform.position}: {distance}");
+        
         if (distance < minDistance)
         {
-            Debug.LogWarning($"[WARNING] HugFace at {face.transform.position} is too close to position {pos}. Distance: {distance}, Minimum allowed: {minDistance}");
+            Debug.LogWarning($"[WARNING] Overlap detected. HugFace at {face.transform.position} is too close to position {pos}. Distance: {distance}, Minimum allowed: {minDistance}");
             return true;
         }
     }
     return false;
 }
+
+
 
 
     private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)

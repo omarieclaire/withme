@@ -292,7 +292,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dfeee84de06d84399ab69d887c71baff, type: 2}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 30
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted
@@ -1152,17 +1152,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &802402000 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
-  m_PrefabInstance: {fileID: 802401985}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802401986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67778436c83d1fa41934cc8d45c011b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &846870806 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2089905185038129228, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
@@ -1241,6 +1230,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47d0e5ecf607642d7af7ed2a45960d93, type: 3}
+--- !u!1001 &957381648
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3187407592633766688, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_Name
+      value: Swell Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677505499970030817, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d15cfd8fc335ad4fb3f9e871ce7b6f7, type: 3}
 --- !u!1001 &1094512248
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1785,15 +1831,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeMultiplier: 0.3
   numberOfIterations: 10
-  playerAvatar: {fileID: 802402000}
   nodePrefab: {fileID: 1983012269}
   controller: {fileID: 846870807}
   nodes: []
   sphereOsscilationSize: 7.04
   sphereOsscilationSpeed: 1
-  iterationChangeDuration: 120
-  minIterations: 9
-  maxIterations: 40
 --- !u!1001 &1837906887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1853,6 +1895,10 @@ PrefabInstance:
     - target: {fileID: 8973078041965423052, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
       propertyPath: m_Name
       value: AudioSourceForTestingBGMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973078041965423052, guid: 95a8a101c55ab43a1baf948a5a91e992, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1959,8 +2005,7 @@ PrefabInstance:
       propertyPath: regularRingMaterial
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2118,12 +2163,12 @@ MonoBehaviour:
   hueRangeEnd: 0.75
   colorSaturation: 6.55
   colorValue: 1
-  initialHueOffset: 0.5
+  initialHueOffset: 0.1
   collisionThreshold: 0.1
   playerModel: {fileID: 0}
-  usePlayerModel: 1
+  usePlayerModel: 0
   originalColor: {r: 0, g: 0, b: 0, a: 0}
-  useRainbowColorLogic: 0
+  useRainbowColorLogic: 1
   audioSource: {fileID: 0}
   withMeP0Clip: {fileID: 0}
   withMeP1Clip: {fileID: 0}
@@ -2161,3 +2206,4 @@ SceneRoots:
   - {fileID: 1125095921}
   - {fileID: 1730890115}
   - {fileID: 734066254}
+  - {fileID: 957381648}

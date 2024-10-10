@@ -11,40 +11,47 @@ public class ColourfulPlayerAvatar : PlayerAvatar
     private float currentHue;  // Keep track of the current hue
     private TrailRenderer trailRenderer;  // This player's trail renderer
 
-    // [Tooltip("Saturation of the color (0 = grayscale, 1 = full color).")]
-    // public float colorSaturation = 0.8f;
-
-    // [Tooltip("Brightness/Value of the color (0 = black, 1 = full brightness).")]
-    // public float colorValue = 1f;
-
-    // Called when the object is created
-     private void Start()
+    public override void Start()
     {
-        base.Start();  // Call PlayerAvatar's Start method
+        base.Start();  // Call the base Start method to set up common PlayerAvatar settings
         trailRenderer = GetComponent<TrailRenderer>();
 
+        // Start with a random hue and log it
         currentHue = Random.value;
+        Debug.Log($"[DEBUG] Starting Hue: {currentHue}");
+
         currentColor = Color.HSVToRGB(currentHue, colorSaturation, colorValue);
+        Debug.Log($"[DEBUG] Initial Color: {currentColor}");
+
         targetColor = GetNextColor(currentHue);
+        Debug.Log($"[DEBUG] Initial Target Color: {targetColor}");
 
         UpdateTrailRendererColor();
     }
-    // Update is called once per frame
+
+    // Full customization of the Update method
     private void Update()
     {
-        // Increment the transition timer
+        // Custom color transition logic
         transitionTimer += Time.deltaTime;
+        Debug.Log($"[DEBUG] Transition Timer: {transitionTimer}");
 
-        // If the timer exceeds the transition duration, set a new target color
         if (transitionTimer > transitionDuration)
         {
             transitionTimer = 0f;  // Reset the timer
-            currentHue = Mathf.Repeat(currentHue + 0.1f, 1f);  // Move hue forward for smooth progression
-            targetColor = GetNextColor(currentHue);  // Get the next color in the sequence
+
+            // Increment the hue and log the updated hue
+            currentHue = Mathf.Repeat(currentHue + 0.1f, 1f);
+            Debug.Log($"[DEBUG] Updated Hue: {currentHue}");
+
+            // Get the next color and log it
+            targetColor = GetNextColor(currentHue);
+            Debug.Log($"[DEBUG] New Target Color: {targetColor}");
         }
 
         // Smoothly interpolate between the current color and the target color
         currentColor = Color.Lerp(currentColor, targetColor, transitionTimer / transitionDuration);
+        Debug.Log($"[DEBUG] Interpolated Current Color: {currentColor}");
 
         // Apply the new color to the TrailRenderer
         UpdateTrailRendererColor();
@@ -53,18 +60,23 @@ public class ColourfulPlayerAvatar : PlayerAvatar
     // Apply the color to the TrailRenderer
     private void UpdateTrailRendererColor()
     {
-        
         if (trailRenderer != null)
         {
             trailRenderer.startColor = currentColor;
             trailRenderer.endColor = currentColor;
-            Debug.Log($"[DEBUG] TrailRenderer Color: {currentColor}");
+            Debug.Log($"[DEBUG] TrailRenderer Color Applied: {currentColor}");
+        }
+        else
+        {
+            Debug.LogWarning("[DEBUG] TrailRenderer is null!");
         }
     }
 
     // Get the next color in the sequence based on the current hue
     private Color GetNextColor(float hue)
     {
-        return Color.HSVToRGB(hue, colorSaturation, colorValue);
+        Color nextColor = Color.HSVToRGB(hue, colorSaturation, colorValue);
+        Debug.Log($"[DEBUG] Next Color for Hue {hue}: {nextColor}");
+        return nextColor;
     }
 }

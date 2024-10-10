@@ -174,10 +174,10 @@ public class PlayerAvatar : MonoBehaviour
         else
         {
             // Regular case for other players with a more noticeable hue differentiation
-            initialHue = Mathf.Repeat((id + 0.5f + initialHueOffset) / playerCount, 1f);
+        initialHue = Random.Range(0f, 1f);
         }
 
-        Debug.Log($"[DEBUG] Player ID: {id} | Initial Hue: {initialHue}, Saturation: {colorSaturation}, Value: {colorValue}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Initial Hue: {initialHue}, Saturation: {colorSaturation}, Value: {colorValue}");
 
         // Set the player's color using HSV values
         color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
@@ -185,23 +185,24 @@ public class PlayerAvatar : MonoBehaviour
     else
     {
         // If not using rainbow color logic, all players get player 0's color
-        color = Color.HSVToRGB(0.1f + initialHueOffset, colorSaturation, colorValue); // Fixed color for all players
-        Debug.Log($"[DEBUG] Player ID: {id} | Assigned Player 0 Color (R,G,B): {color.r}, {color.g}, {color.b}");
+        // note to self, this is doing the opposite! 
+        color = Color.HSVToRGB(5.1f + initialHueOffset, colorSaturation, colorValue); // Fixed color for all players
+        // Debug.Log($"[DEBUG] Player ID: {id} | Assigned Player 0 Color (R,G,B): {color.r}, {color.g}, {color.b}");
     }
 
     // Ensure the color is not too dark
     if (color == Color.black || color.grayscale < 0.1f)
     {
-        Debug.LogWarning($"[WARNING] Player ID: {id} received a very dark color. Adjusting...");
+        // Debug.LogWarning($"[WARNING] Player ID: {id} received a very dark color. Adjusting...");
         color = Color.HSVToRGB(0.1f, colorSaturation, colorValue); // Fallback to a bright color
     }
 
     // Log the final color assigned to the player
-    Debug.Log($"[DEBUG] Player ID: {id} | Final Color (R,G,B): {color.r}, {color.g}, {color.b}");
+    // Debug.Log($"[DEBUG] Player ID: {id} | Final Color (R,G,B): {color.r}, {color.g}, {color.b}");
 
     // Save the original color
     originalColor = color;
-    Debug.Log($"[DEBUG] Player ID: {id} | Original Color (R,G,B): {originalColor.r}, {originalColor.g}, {originalColor.b}");
+    // Debug.Log($"[DEBUG] Player ID: {id} | Original Color (R,G,B): {originalColor.r}, {originalColor.g}, {originalColor.b}");
 
     ApplyMaterialsToRings();
     UpdatePlayerColor();
@@ -230,19 +231,19 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
     if (regularRing != null && regularRingMaterial != null)
     {
         regularRing.material = new Material(regularRingMaterial); // Clone the material
-        Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Material Assigned: {regularRing.material.name}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Material Assigned: {regularRing.material.name}");
     }
 
     if (chargedRing != null && chargedRingMaterial != null)
     {
         chargedRing.material = new Material(chargedRingMaterial); // Clone the material
-        Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Material Assigned: {chargedRing.material.name}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Material Assigned: {chargedRing.material.name}");
     }
 
     if (maxRing != null && maxRingMaterial != null)
     {
         maxRing.material = new Material(maxRingMaterial); // Clone the material
-        Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Material Assigned: {maxRing.material.name}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Material Assigned: {maxRing.material.name}");
     }
 }
 
@@ -359,23 +360,23 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
     if (regularRing != null)
     {
         regularRing.material.color = color;
-        Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
     }
     if (chargedRing != null)
     {
         chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f);  // Glow effect
-        Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
     }
     if (maxRing != null)
     {
         float pulse = Mathf.PingPong(Time.time * 2f, 1f);  // Pulsing effect for max ring
         maxRing.material.color = Color.Lerp(color, Color.yellow, pulse);  // Make max ring flash yellow
-        Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
     }
     if (text != null)
     {
         text.color = color;
-        Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
+        // Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
     }
 }
 

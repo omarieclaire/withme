@@ -48,11 +48,11 @@ public class GameManager : MonoBehaviour
         if (sphereObject != null)
         {
             sphereMaterial = sphereObject.GetComponent<MeshRenderer>().material;
-            Debug.Log("[INFO] Sphere material assigned successfully.");
+            // Debug.Log("[INFO] Sphere material assigned successfully.");
         }
         else
         {
-            Debug.LogError("[ERROR] Sphere object is not assigned!");
+            // Debug.LogError("[ERROR] Sphere object is not assigned!");
         }
 
         if (TheOracleOfAll != null)
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("AudioSource or BGMusicClip is missing.");
+            // Debug.LogError("AudioSource or BGMusicClip is missing.");
         }
         StartCoroutine(TryStartBackgroundMusicWithRetries());
         gameTimer = gameDuration;
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
         string soundID = $"{sceneName}BGMusic";
-        Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
+        // Debug.Log($"[INFO] Generated soundID for current scene: {soundID}");
         return soundID;
     }
     void Update()
@@ -192,7 +192,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[INFO] Scene index {sceneIndex} is out of range.");
+            // Debug.LogWarning($"[INFO] Scene index {sceneIndex} is out of range.");
         }
     }
 
@@ -219,11 +219,11 @@ public class GameManager : MonoBehaviour
 
         if (attempts >= retryCount)
         {
-            Debug.Log("[INFO] Background music send attempts exhausted. Stopping further retries.");
+            // Debug.Log("[INFO] Background music send attempts exhausted. Stopping further retries.");
         }
         else
         {
-            Debug.Log("[INFO] Background music successfully sent within retry limit.");
+            // Debug.Log("[INFO] Background music successfully sent within retry limit.");
             musicPlayed = true;
         }
     }
@@ -269,7 +269,7 @@ public class GameManager : MonoBehaviour
     {
         if (isFading) yield break;  // Prevent multiple fades from starting at the same time
 
-        Debug.Log("[INFO] Starting FadeOut with duration: " + duration);
+        // Debug.Log("[INFO] Starting FadeOut with duration: " + duration);
         isFading = true;
         float currentTime = 0;
 
@@ -278,13 +278,13 @@ public class GameManager : MonoBehaviour
             currentTime += Time.deltaTime;
             float fadeValue = Mathf.Lerp(0, 1, currentTime / duration);  // Fade from open (0) to closed (1)
             sphereMaterial.SetFloat("_Fade", fadeValue);  // Update the fade value in the material
-            Debug.Log("[INFO] FadeOut in progress. Fade value: " + fadeValue);
+            // Debug.Log("[INFO] FadeOut in progress. Fade value: " + fadeValue);
             yield return null;
         }
 
         // Ensure it's fully faded out
         sphereMaterial.SetFloat("_Fade", 1);
-        Debug.Log("[INFO] FadeOut complete. Fully faded.");
+        // Debug.Log("[INFO] FadeOut complete. Fully faded.");
 
         isFading = false;  // Allow future fade actions
     }
@@ -294,7 +294,7 @@ public class GameManager : MonoBehaviour
     {
         if (isFading) yield break;  // Don't allow new fade while one is in progress
 
-        Debug.Log("[INFO] Starting FadeIn (FadeUV_Pulse) with duration: " + duration);
+        // Debug.Log("[INFO] Starting FadeIn (FadeUV_Pulse) with duration: " + duration);
         isFading = true;  // Set fade flag
         float currentTime = 0;
 

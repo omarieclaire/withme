@@ -16,11 +16,11 @@ public class DomeFade : MonoBehaviour
 
         if (fadeMaterial == null)
         {
-            Debug.LogError("[ERROR] Fade material is not assigned or found!");
+            // Debug.LogError("[ERROR] Fade material is not assigned or found!");
         }
         else
         {
-            Debug.Log("[INFO] Fade material assigned successfully. Using shader: " + fadeMaterial.shader.name);
+            // Debug.Log("[INFO] Fade material assigned successfully. Using shader: " + fadeMaterial.shader.name);
         }
     }
 
@@ -38,7 +38,7 @@ public class DomeFade : MonoBehaviour
     {
         float currentTime = 0;
         Color color = fadeMaterial.color;  // Get the current color of the material
-        Debug.Log($"[INFO] Starting fade with initial alpha: {color.a}");
+        // Debug.Log($"[INFO] Starting fade with initial alpha: {color.a}");
 
         while (currentTime < duration)
         {
@@ -47,13 +47,13 @@ public class DomeFade : MonoBehaviour
             color.a = alpha;
             fadeMaterial.color = color;  // Apply the new alpha value to the material
 
-            Debug.Log($"[INFO] Fade in progress. Alpha: {alpha}");
+            // Debug.Log($"[INFO] Fade in progress. Alpha: {alpha}");
             yield return null;
         }
 
         // Ensure the alpha is fully set at the end
         color.a = endAlpha;
         fadeMaterial.color = color;
-        Debug.Log($"[INFO] Fade complete. Alpha is now {endAlpha}");
+        // Debug.Log($"[INFO] Fade complete. Alpha is now {endAlpha}");
     }
 }

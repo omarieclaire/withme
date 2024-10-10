@@ -673,7 +673,7 @@ public class Controller : MonoBehaviour
 
 
         StartPlayerSound(players.Count - 1);  // Start sound for the new player
-        Debug.Log($"[CONFIRMED] Player {playerID} initialized and sound started.");
+        // Debug.Log($"[CONFIRMED] Player {playerID} initialized and sound started.");
     }
 
 
@@ -736,7 +736,54 @@ public class Controller : MonoBehaviour
         fPosition = transform.TransformPoint(fPosition);
 
         // Ensure the position doesn't go below the ground (minY) or above the dome height (maxY)
-        fPosition.y = Mathf.Clamp(fPosition.y, minY, sphereSize);
+        // fPosition.y = Mathf.Clamp(fPosition.y, minY, sphereSize);
+
+        return fPosition;
+    }
+
+
+    public Vector3 getFinalPositionPlayer(Vector3 position)
+    {
+        Vector3 finalPosition = position;
+
+        float nX = finalPosition.x / maxSize.x;
+        float nZ = finalPosition.z / maxSize.z;
+
+        Vector2 nXZ = new Vector2(nX, nZ);
+        float l = nXZ.magnitude;
+        l = Mathf.Pow(l, pushTowardsBottom);
+        float angleAround = Mathf.Atan2(nZ, nX);
+        float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
+
+        // Convert to spherical coordinates
+        Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
+        fPosition = transform.TransformPoint(fPosition);
+
+        // Ensure the position doesn't go below the ground (minY) or above the dome height (maxY)
+        // fPosition.y = Mathf.Clamp(fPosition.y, minY, sphereSize);
+
+        return fPosition;
+    }
+
+    public Vector3 getFinalPositionObjects(Vector3 position)
+    {
+        Vector3 finalPosition = position;
+
+        float nX = finalPosition.x / maxSize.x;
+        float nZ = finalPosition.z / maxSize.z;
+
+        Vector2 nXZ = new Vector2(nX, nZ);
+        float l = nXZ.magnitude;
+        l = Mathf.Pow(l, pushTowardsBottom);
+        float angleAround = Mathf.Atan2(nZ, nX);
+        float angleDown = l * (maxDegrees / 360) * 2 * Mathf.PI;
+
+        // Convert to spherical coordinates
+        Vector3 fPosition = SphericalToCartesian(sphereSize, angleAround, Mathf.PI - angleDown);
+        fPosition = transform.TransformPoint(fPosition);
+
+        // Ensure the position doesn't go below the ground (minY) or above the dome height (maxY)
+        // fPosition.y = Mathf.Clamp(fPosition.y, minY, sphereSize);
 
         return fPosition;
     }
