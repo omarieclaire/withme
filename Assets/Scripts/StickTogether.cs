@@ -120,10 +120,10 @@ public class StickTogether : MonoBehaviour
     // Initialize Bezier control points
     void InitializeBezierControlPoints()
     {
-        bezierControlPoints[0] = controller.getFinalPosition(new Vector3(0, bottomOfDome + 5f, 0));
-        bezierControlPoints[1] = controller.getFinalPosition(new Vector3(3f, bottomOfDome + 8f, 5f));
-        bezierControlPoints[2] = controller.getFinalPosition(new Vector3(-3f, bottomOfDome + 8f, -5f));
-        bezierControlPoints[3] = controller.getFinalPosition(new Vector3(0, bottomOfDome + 5f, -10f));
+        bezierControlPoints[0] = controller.getFinalPositionObjects(new Vector3(0, bottomOfDome + 5f, 0));
+        bezierControlPoints[1] = controller.getFinalPositionObjects(new Vector3(3f, bottomOfDome + 8f, 5f));
+        bezierControlPoints[2] = controller.getFinalPositionObjects(new Vector3(-3f, bottomOfDome + 8f, -5f));
+        bezierControlPoints[3] = controller.getFinalPositionObjects(new Vector3(0, bottomOfDome + 5f, -10f));
     }
 
     // Initialize connections
@@ -290,7 +290,7 @@ public class StickTogether : MonoBehaviour
     /// <param name="position">The position to set.</param>
     void SetFinalPosition(Vector3 position)
     {
-        Vector3 finalPosition = controller.getFinalPosition(position);
+        Vector3 finalPosition = controller.getFinalPositionObjects(position);
         transform.position = finalPosition;
         Debug.Log($"[DEBUG] Final position set for collection area: {finalPosition}");
     }

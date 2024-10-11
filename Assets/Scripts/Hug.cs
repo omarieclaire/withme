@@ -224,8 +224,6 @@ private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistanc
 }
 
 
-
-
 private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
 {
     const int maxAttempts = 1000;
@@ -233,39 +231,52 @@ private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance
     {
         Vector3 randomPos = GetRandomPosition();
 
+        // Log each attempt
+        Debug.Log($"[INFO] Attempt {attempts + 1}: Trying random position {randomPos}");
+
         if (!IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
         {
             Debug.Log($"[INFO] Found valid position at {randomPos} after {attempts + 1} attempts.");
             return randomPos; // Valid position found
         }
+
+        Debug.Log($"[INFO] Attempt {attempts + 1}: Position {randomPos} was invalid due to overlap.");
     }
-    Debug.LogWarning("Failed to find a valid position after " + maxAttempts + " attempts. Using fallback.");
+    Debug.LogWarning($"[WARNING] Failed to find a valid position after {maxAttempts} attempts. Using fallback.");
     return Vector3.zero; // Fallback position
 }
 
+private Vector3 GetRandomPosition()
+{
+    Vector3 randomDir = Random.onUnitSphere;
+    float randomDistance = Random.Range(0.5f, 1f);
+    Vector3 randomPos = randomDir * randomDistance;
+    
+    Vector3 finalPos = controller.getFinalPosition(randomPos);
+    Debug.Log($"[INFO] Generated random position {randomPos}, transformed to final position {finalPos}");
+    
+    return finalPos;
+}
 
-
-    private Vector3 GetRandomPosition()
+private bool CheckIfBlocked(Vector3 pos)
+{
+    Ray ray = new Ray(Vector3.zero, pos.normalized);
+    if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
     {
-        Vector3 randomDir = Random.onUnitSphere;
-        float randomDistance = Random.Range(0.5f, 1f);
-        Vector3 randomPos = randomDir * randomDistance;
-        return controller.getFinalPosition(randomPos);
-    }
+        bool blocked = hit.collider == noGoZoneManager.doorCollider ||
+                       hit.collider == noGoZoneManager.soundBoothCollider ||
+                       hit.collider == noGoZoneManager.stageCollider;
 
-    private bool CheckIfBlocked(Vector3 pos)
-    {
-        Ray ray = new Ray(Vector3.zero, pos.normalized);
-        if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
+        if (blocked)
         {
-            return hit.collider == noGoZoneManager.doorCollider ||
-                   hit.collider == noGoZoneManager.soundBoothCollider ||
-                   hit.collider == noGoZoneManager.stageCollider;
+            Debug.LogWarning($"[WARNING] Position {pos} is blocked by {hit.collider.name}");
         }
-        return false;
+        return blocked;
     }
+    return false;
+}
 
- private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
+private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
 {
     if (existingFaces == null || existingFaces.Count == 0)
     {
@@ -277,7 +288,7 @@ private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance
     {
         float distance = Vector3.Distance(pos, face.transform.position);
         Debug.Log($"[INFO] Distance between {pos} and HugFace at {face.transform.position}: {distance}");
-        
+
         if (distance < minDistance)
         {
             Debug.LogWarning($"[WARNING] Overlap detected. HugFace at {face.transform.position} is too close to position {pos}. Distance: {distance}, Minimum allowed: {minDistance}");
@@ -287,25 +298,29 @@ private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance
     return false;
 }
 
-
-
-
-    private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
+private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
+{
+    const int maxAttempts = 1000;
+    for (int attempt = 0; attempt < maxAttempts; attempt++)
     {
-        const int maxAttempts = 1000;
-        for (int attempt = 0; attempt < maxAttempts; attempt++)
-        {
-            Vector3 randomPos = GetRandomPosition();
+        Vector3 randomPos = GetRandomPosition();
 
-            if (Vector3.Distance(randomPos, partner.transform.position) >= partnerMinDistance &&
-                !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
-            {
-                return randomPos;
-            }
+        float partnerDistance = Vector3.Distance(randomPos, partner.transform.position);
+        Debug.Log($"[INFO] Attempt {attempt + 1}: Distance between {randomPos} and partner at {partner.transform.position}: {partnerDistance}");
+
+        if (partnerDistance >= partnerMinDistance &&
+            !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
+        {
+            Debug.Log($"[INFO] Found valid partner position at {randomPos} after {attempt + 1} attempts.");
+            return randomPos;
         }
-        Debug.LogWarning("Failed to find a valid position for partner after " + maxAttempts + " attempts.");
-        return null;
+
+        Debug.Log($"[INFO] Attempt {attempt + 1}: Position {randomPos} was invalid due to either overlap or insufficient partner distance.");
     }
+    Debug.LogWarning($"[WARNING] Failed to find a valid position for partner after {maxAttempts} attempts.");
+    return null;
+}
+
 
     private void AddFacesToList(HugFace face1, HugFace face2)
     {

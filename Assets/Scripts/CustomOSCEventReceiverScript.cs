@@ -44,7 +44,7 @@
 //             ReactivatePlayer(playerData, currentTime);
 
 //             playerData.LastOSCTimeStamp = currentTime;
-//             playerData.Sphere.transform.position = controller.getFinalPosition(position);
+//             playerData.Sphere.transform.position = controller.getFinalPositionObjects(position);
 
 //             Debug.Log($"OOO Updated position for player {playerId} to {position}");
 //         }

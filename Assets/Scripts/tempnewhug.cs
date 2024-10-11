@@ -189,7 +189,7 @@
 //         Vector3 randomDir = Random.onUnitSphere;
 //         float randomDistance = Random.Range(0.5f, 1f); // Adjust these values as needed
 //         Vector3 randomPos = randomDir * randomDistance;
-//         return controller.getFinalPosition(randomPos);
+//         return controller.getFinalPositionObjects(randomPos);
 //     }
 
 //     private bool CheckIfBlocked(Vector3 pos)

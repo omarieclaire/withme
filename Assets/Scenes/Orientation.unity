@@ -271,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4383712
+      value: -0.06975647
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.x
@@ -279,11 +279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.89879405
+      value: 0.9975641
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -291,7 +291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 128
+      value: 188
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1028,6 +1028,17 @@ MonoBehaviour:
   usePlayerModel: 1
   originalColor: {r: 0, g: 0, b: 0, a: 0}
   useRainbowColorLogic: 0
+  audioSource: {fileID: 0}
+  withMeP0Clip: {fileID: 0}
+  withMeP1Clip: {fileID: 0}
+  withMeP2Clip: {fileID: 0}
+  withMeP3Clip: {fileID: 0}
+  withMeP4Clip: {fileID: 0}
+  withMeP5Clip: {fileID: 0}
+  withMeP6Clip: {fileID: 0}
+  withMeP7Clip: {fileID: 0}
+  withMeP8Clip: {fileID: 0}
+  withMeP9Clip: {fileID: 0}
 --- !u!54 &755660622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1438,7 +1449,7 @@ PrefabInstance:
       objectReference: {fileID: 1010421782}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 5
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: sphereObject
@@ -1773,6 +1784,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 423649383}
+    - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
+      propertyPath: domemasterResolution
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

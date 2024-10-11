@@ -2,12 +2,12 @@
 // using System.Collections.Generic;
 // using UnityEngine;
 
-// public class GetFinalPosition : MonoBehaviour
+// public class getFinalPositionObjects : MonoBehaviour
 // {
 //     [Tooltip("The minimum allowed Y position (floor level) to prevent objects from going underground.")]
 //     public float floorY = 0f; // Set this in the inspector or initialize it here.
 
-//     public Vector3 getFinalPosition(Vector3 position)
+//     public Vector3 getFinalPositionObjects(Vector3 position)
 //     {
 //         Vector3 finalPosition = position;
 

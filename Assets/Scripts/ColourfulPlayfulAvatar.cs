@@ -32,6 +32,7 @@ public class ColourfulPlayerAvatar : PlayerAvatar
     // Full customization of the Update method
     private void Update()
     {
+        // Debug.Log("yo");
         // Custom color transition logic
         transitionTimer += Time.deltaTime;
         Debug.Log($"[DEBUG] Transition Timer: {transitionTimer}");
@@ -42,16 +43,16 @@ public class ColourfulPlayerAvatar : PlayerAvatar
 
             // Increment the hue and log the updated hue
             currentHue = Mathf.Repeat(currentHue + 0.1f, 1f);
-            Debug.Log($"[DEBUG] Updated Hue: {currentHue}");
+            Debug.Log($"[DEBUG] yo Updated Hue: {currentHue}");
 
             // Get the next color and log it
             targetColor = GetNextColor(currentHue);
-            Debug.Log($"[DEBUG] New Target Color: {targetColor}");
+            Debug.Log($"[DEBUG] yo New Target Color: {targetColor}");
         }
 
         // Smoothly interpolate between the current color and the target color
         currentColor = Color.Lerp(currentColor, targetColor, transitionTimer / transitionDuration);
-        Debug.Log($"[DEBUG] Interpolated Current Color: {currentColor}");
+        Debug.Log($"[DEBUG] yo Interpolated Current Color: {currentColor}");
 
         // Apply the new color to the TrailRenderer
         UpdateTrailRendererColor();

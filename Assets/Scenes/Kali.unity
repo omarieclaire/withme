@@ -127,6 +127,17 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2829592495992139646, guid: 89f7209469b3841598ec0a530918250a, type: 3}
   m_PrefabInstance: {fileID: 1983012268}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &121036594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1206365506051034243, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+  m_PrefabInstance: {fileID: 802401985}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &165038785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2884566870493833324, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
@@ -136,6 +147,11 @@ Transform:
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1266312760479527552, guid: 89f7209469b3841598ec0a530918250a, type: 3}
   m_PrefabInstance: {fileID: 802401985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &202669883 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8844053746031233958, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+  m_PrefabInstance: {fileID: 761981820}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &311645194 stripped
 MonoBehaviour:
@@ -1329,7 +1345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4383712
+      value: -0.06975647
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1337,11 +1353,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.89879405
+      value: 0.9975641
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1349,7 +1365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 128
+      value: 188
       objectReference: {fileID: 0}
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2146,13 +2162,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7aed700a309748af8a3ba8352580700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  text: {fileID: 0}
+  controller: {fileID: 846870807}
+  text: {fileID: 121036594}
   id: 0
   numDotsCollected: 0
-  regularRing: {fileID: 0}
-  chargedRing: {fileID: 0}
-  maxRing: {fileID: 0}
+  regularRing: {fileID: 182030373}
+  chargedRing: {fileID: 202669883}
+  maxRing: {fileID: 634557042}
   regularRingMaterial: {fileID: 0}
   chargedRingMaterial: {fileID: 0}
   maxRingMaterial: {fileID: 0}

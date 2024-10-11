@@ -156,8 +156,8 @@ public class MimicShape : MonoBehaviour
 
                 if (controller != null)
                 {
-                    randomPos = controller.getFinalPosition(randomPos);
-                    Debug.Log($"xxx Sphere_{i}: Position after getFinalPosition = {randomPos}");
+                    randomPos = controller.getFinalPositionObjects(randomPos);
+                    Debug.Log($"xxx Sphere_{i}: Position after getFinalPositionObjects = {randomPos}");
                 }
 
                 // Cast a ray from the center of the dome to the random sphere position

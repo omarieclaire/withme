@@ -77,7 +77,7 @@
 //             fish.transform.position = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
 //             fish.transform.localScale = Vector3.one * fishSize;
 
-//             fish.transform.position = controller.getFinalPosition(fish.transform.position);
+//             fish.transform.position = controller.getFinalPositionObjects(fish.transform.position);
 //             fish.transform.parent = this.transform;
 //             fish.flock = this;
 
@@ -177,7 +177,7 @@
 
 //             pos += vel * Time.deltaTime;
 
-//             fish.transform.position = pos; //controller.getFinalPosition(pos);
+//             fish.transform.position = pos; //controller.getFinalPositionObjects(pos);
 
 //             velocities[i] = vel;
 

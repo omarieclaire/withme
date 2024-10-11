@@ -68,7 +68,7 @@ public class GenerateTargets : MonoBehaviour
 
         obj.transform.parent = transform;
         obj.transform.localScale = new Vector3(objectSize, objectSize, objectSize);
-        obj.transform.position = controller.getFinalPosition(randomPosition);
+        obj.transform.position = controller.getFinalPositionObjects(randomPosition);
 
         // Randomly assign a material
         if (materials.Count > 0)

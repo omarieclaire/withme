@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089905185038129228}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.89879405, z: 0, w: 0.4383712}
+  m_LocalRotation: {x: 0, y: 0.9975641, z: -0, w: -0.06975647}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 2884566870493833324}
   - {fileID: 6131361569656809037}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 128, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 188, z: 0}
 --- !u!114 &8617815535709435029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +77,8 @@ MonoBehaviour:
   playerTargetPositions: []
   activePlayers: []
   soundEventSender: {fileID: 0}
+  tree: {fileID: 0}
+  treeController: {fileID: 0}
 --- !u!1 &3433958628646378405
 GameObject:
   m_ObjectHideFlags: 0
