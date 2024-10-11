@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 662326997945914439}
   - component: {fileID: 403137939939860162}
-  - component: {fileID: 639088052161660866}
   m_Layer: 0
   m_Name: FulldomeCamera
   m_TagString: Untagged
@@ -167,27 +166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   cubemapFaces: 55
-  domemasterResolution: 4096
+  domemasterResolution: 2048
   orientation: 1
   horizon: 210
   domeTilt: 0
   masked: 0
   cubemapFbo: {fileID: 0}
---- !u!114 &639088052161660866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7127895960063668363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2d98e5bfcdff4847ad69efa861a8e7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ndiName: NDI Sender
-  _keepAlpha: 0
-  _captureMethod: 0
-  _sourceCamera: {fileID: 0}
-  _sourceTexture: {fileID: 0}
-  _resources: {fileID: 11400000, guid: 69304b86950074db7ba8caba75214004, type: 2}

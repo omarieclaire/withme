@@ -212,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 1919561679}
     - target: {fileID: 403137939939860162, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: domemasterResolution
-      value: 1024
+      value: 2048
       objectReference: {fileID: 0}
     - target: {fileID: 662326997945914439, guid: 978af7ab263c64478943da7e9cda09aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -539,6 +539,7 @@ GameObject:
   - component: {fileID: 660355876}
   - component: {fileID: 660355877}
   - component: {fileID: 660355878}
+  - component: {fileID: 660355879}
   m_Layer: 0
   m_Name: HugFace
   m_TagString: Untagged
@@ -702,6 +703,27 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!65 &660355879
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660355872}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 2}
+  m_Center: {x: 16.2304, y: -17.656878, z: -14.673349}
 --- !u!1 &758316348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,15 +1358,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.81
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.81
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.81
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_ConstrainProportionsScale
