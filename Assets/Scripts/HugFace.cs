@@ -174,14 +174,54 @@ public class HugFace : MonoBehaviour
     // }
 
     private void ApplyTextureToState(GameObject stateObject, Texture texture, Color stateColor)
+{
+    MeshRenderer meshRenderer = stateObject.GetComponent<MeshRenderer>();
+    if (meshRenderer != null)
     {
-        MeshRenderer meshRenderer = stateObject.GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
-        {
-            meshRenderer.material.SetTexture("_MainTex", texture); // Sets the texture for the current state
-            meshRenderer.material.SetColor("_Color", stateColor);  // Sets the color for the current state
-        }
+        Material material = meshRenderer.material;
+        material.SetTexture("_MainTex", texture); // Sets the texture for the current state
+        material.SetColor("_Color", stateColor);  // Sets the color for the current state
+
+        // Adjust blend modes to prevent white pixelated outlines
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);  // Source blend factor
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);  // Destination blend factor
+        material.SetInt("_ZWrite", 0);  // Disable Z writing to prevent sorting issues
+
+        // Enable alpha testing to discard pixels below the cutoff threshold
+        material.EnableKeyword("_ALPHATEST_ON");
+        material.SetFloat("_Cutoff", 0.5f);  // Adjust alpha cutoff (tweak value as needed)
+
+        // Optionally log the current shader to verify changes
+        Debug.Log($"Shader applied to {stateObject.name}: {material.shader.name}, blend modes set.");
     }
+}
+
+
+
+// private void ApplyTextureToState(GameObject stateObject, Texture texture, Color stateColor)
+// {
+//     MeshRenderer meshRenderer = stateObject.GetComponent<MeshRenderer>();
+//     if (meshRenderer != null)
+//     {
+//         Material material = meshRenderer.material;
+//         material.SetTexture("_MainTex", texture); // Sets the texture for the current state
+//         material.SetColor("_Color", stateColor);  // Sets the color for the current state
+
+//         // Set premultiplied alpha blend mode
+//         material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);  // Source blend factor for premultiplied alpha
+//         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);  // Destination blend factor
+
+//         material.SetInt("_ZWrite", 0);  // Disable Z writing to prevent sorting issues
+
+//         // Enable alpha testing to discard pixels below the cutoff threshold
+//         material.EnableKeyword("_ALPHATEST_ON");
+//         material.SetFloat("_Cutoff", 0.5f);  // Adjust alpha cutoff if needed
+
+//         // Optionally log the current shader to verify changes
+//         Debug.Log($"Shader applied to {stateObject.name}: {material.shader.name}, premultiplied alpha blend mode set.");
+//     }
+// }
+
 
     private Texture GetDiscoveredTexture()
     {
@@ -296,7 +336,7 @@ private void MoveToTopOfDome()
         float currentX = transform.position.x;
         float currentZ = transform.position.z;
 
-        float threshold = 0.3f; // Define a threshold for movement
+        float threshold = 0.1f; // Define a threshold for movement
 
         if (Mathf.Abs(currentX) < threshold && Mathf.Abs(currentZ) < threshold)
         {
@@ -310,6 +350,6 @@ private void MoveToTopOfDome()
 
         // Gradually moves the HugFace towards the top of the dome
         transform.position = Vector3.Lerp(transform.position, finalPosition, hug.howFastWeHug);
-        transform.LookAt(Vector3.zero); // Keeps the HugFace facing the center of the dome
+        // transform.LookAt(Vector3.zero); // Keeps the HugFace facing the center of the dome
     }
 }
