@@ -471,15 +471,15 @@ MonoBehaviour:
   separationRadius: 1
   alignmentRadius: 1.5
   cohesionRadius: 2
-  maxSpeed: 5.38
+  maxSpeed: 10.17
   maxForce: 0.03
-  PlayerRepelRadius: 1
+  PlayerRepelRadius: 3
   PlayerRepelForce: 3.24
-  noiseForce: 0.5
+  noiseForce: 0.29
   fishSpeed: 1.73
   noiseSpeed: 0.2
   noiseSize: 1.5
-  forceToAboveHorizon: 0
+  forceToAboveHorizon: 4.24
 --- !u!114 &309747180 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
@@ -2709,7 +2709,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5.93
+  m_Time: 2
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3

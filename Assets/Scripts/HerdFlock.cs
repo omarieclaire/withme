@@ -136,56 +136,102 @@ public class Flock : MonoBehaviour
 
 
 
-
-
-    void Update()
+void Update()
+{
+    for (int i = 0; i < fishes.Count; i++)
     {
-        for (int i = 0; i < fishes.Count; i++)
+        Fish fish = fishes[i];
+        Vector3 pos = fish.transform.position;
+        Vector3 vel = velocities[i];
+        Vector3 force = Vector3.zero;
+
+        Vector3 separation = Separate(i);
+        Vector3 alignment = Align(i);
+        Vector3 cohesion = Cohere(i);
+
+        // Combine flocking forces
+        force += separation * 1.5f + alignment * 1.0f + cohesion * 1.0f;
+
+        // Apply player repel force
+        force += ApplyPlayerRepel(fish.transform.position);
+
+        // Apply noise for natural movement
+        force += ApplyNoise(pos, i);
+
+        // Apply dome surface constraint
+        force += ApplyDomeSurfaceConstraint(pos);
+
+        // Limit force to avoid too abrupt movements
+        force = Vector3.ClampMagnitude(force, maxForce);
+
+        vel += force;
+        vel = Vector3.ClampMagnitude(vel, maxSpeed);
+
+        // Prevent fish from going below y = 0
+        pos += vel * Time.deltaTime;
+        pos = pos.normalized * (domeRadius + (fishSize / 2)); // Keep fish on the dome surface
+
+        // Enforce y = 0 limit
+        pos.y = Mathf.Max(pos.y, 0);
+
+        // Prevent fish from entering no-go zones
+        if (noGoZoneManager.IsInNoGoZone(pos))
         {
-            Fish fish = fishes[i];
-            Vector3 pos = fish.transform.position;
-            Vector3 vel = velocities[i];
-            Vector3 force = Vector3.zero;
+            vel = -vel; // Reverse the direction if entering a no-go zone
+        }
 
-            Vector3 separation = Separate(i);
-            Vector3 alignment = Align(i);
-            Vector3 cohesion = Cohere(i);
+        fish.transform.position = pos;
+        fish.transform.forward = vel.normalized;
+        velocities[i] = vel;
+    }
+}
 
-            // Combine flocking forces
-            force += separation * 1.5f + alignment * 1.0f + cohesion * 1.0f;
 
-            // Apply player repel force
-            force += ApplyPlayerRepel(fish.transform.position);
+// Method to repel fish from players
+Vector3 ApplyPlayerRepel(Vector3 fishPos)
+{
+    Vector3 repelForce = Vector3.zero;
 
-            // Apply noise for natural movement
-            force += ApplyNoise(pos, i);
-
-            // Apply dome surface constraint
-            force += ApplyDomeSurfaceConstraint(pos);
-
-            // Limit force to avoid too abrupt movements
-            force = Vector3.ClampMagnitude(force, maxForce);
-
-            vel += force;
-            vel = Vector3.ClampMagnitude(vel, maxSpeed);
-
-            pos += vel * Time.deltaTime;
-            pos = pos.normalized * (domeRadius + (fishSize / 2)); // Keep fish on the dome surface
-
-            // Prevent fish from entering no-go zones
-            if (noGoZoneManager.IsInNoGoZone(pos))
-            {
-                vel = -vel; // Reverse the direction if entering a no-go zone
-            }
-
-            fish.transform.position = pos;
-            fish.transform.forward = vel.normalized;
-            velocities[i] = vel;
-
-            // You no longer need to check portalCollider direction here, as the collision will handle it
+    foreach (var player in controller.players) // Assuming you have access to the players
+    {
+        float distance = Vector3.Distance(fishPos, player.transform.position);
+        if (distance < PlayerRepelRadius)
+        {
+            Vector3 direction = (fishPos - player.transform.position).normalized;
+            repelForce += direction * PlayerRepelForce / distance; // Stronger repelling force
         }
     }
 
+    return repelForce;
+}
+
+// Apply noise for more natural movement (reduce noise for predictability)
+Vector3 ApplyNoise(Vector3 pos, int fishIndex)
+{
+    return new Vector3(
+        Mathf.Sin(Time.time * noiseSpeed * 4 + pos.x * noiseSize + fishIndex * 11),
+        Mathf.Sin(Time.time * noiseSpeed * 2.3f + pos.y * noiseSize + fishIndex * 30),
+        Mathf.Sin(Time.time * noiseSpeed * 3.7f + pos.z * noiseSize + fishIndex * 60)
+    ) * (noiseForce * 0.5f); // Reduce noise slightly for more predictable movement
+}
+
+// Apply a force that keeps fish on the dome surface and above y = 0
+Vector3 ApplyDomeSurfaceConstraint(Vector3 pos)
+{
+    Vector3 toCenter = -pos.normalized; // Direction toward the center of the dome
+    float distanceFromSurface = (domeRadius - fishSize / 2) - pos.magnitude; // How far the fish is from the dome surface
+
+    // Base force to keep fish on the dome surface
+    Vector3 force = toCenter * distanceFromSurface * maxForce;
+
+    // Enforce the y = 0 limit strictly by applying an upward force if needed
+    if (pos.y < 0)
+    {
+        force += Vector3.up * forceToAboveHorizon; // Push the fish up when they get too low
+    }
+
+    return force;
+}
     //   private void OnTriggerEnter(Collider other)
     // {
     //     Fish fish = other.GetComponent<Fish>();
@@ -269,29 +315,6 @@ public class Flock : MonoBehaviour
             Debug.LogWarning("Fish has already been destroyed before reaching this point.");
         }
     }
-
-
-
-
-    // Method to repel fish from players
-    Vector3 ApplyPlayerRepel(Vector3 fishPos)
-    {
-        Vector3 repelForce = Vector3.zero;
-
-        foreach (var player in controller.players) // Assuming you have access to the players
-        {
-            float distance = Vector3.Distance(fishPos, player.transform.position);
-            if (distance < PlayerRepelRadius)
-            {
-                Vector3 direction = (fishPos - player.transform.position).normalized;
-                repelForce += direction * PlayerRepelForce / distance;
-            }
-        }
-
-        return repelForce;
-    }
-
-
 
 
     // Separate: steer away from nearby flockmates to avoid crowding
@@ -400,35 +423,6 @@ public class Flock : MonoBehaviour
         Vector3 steer = desired - velocities[fishIndex];
         steer = Vector3.ClampMagnitude(steer, maxForce); // Limit force
         return steer;
-    }
-
-    // Apply noise for more natural movement
-    Vector3 ApplyNoise(Vector3 pos, int fishIndex)
-    {
-        return new Vector3(
-            Mathf.Sin(Time.time * noiseSpeed * 4 + pos.x * noiseSize + fishIndex * 11),
-            Mathf.Sin(Time.time * noiseSpeed * 2.3f + pos.y * noiseSize + fishIndex * 30),
-            Mathf.Sin(Time.time * noiseSpeed * 3.7f + pos.z * noiseSize + fishIndex * 60)
-        ) * noiseForce;
-    }
-
-    // Apply a force that keeps fish on the dome surface and above the horizon
-    // Apply a force that keeps fish on the dome surface and above the horizon
-    Vector3 ApplyDomeSurfaceConstraint(Vector3 pos)
-    {
-        Vector3 toCenter = -pos.normalized; // Direction toward the center of the dome
-        float distanceFromSurface = (domeRadius - fishSize / 2) - pos.magnitude; // How far the fish is from the dome surface
-
-        // Base force to keep fish on the dome surface
-        Vector3 force = toCenter * distanceFromSurface * maxForce;
-
-        // Check if the fish is below the y = -3 limit and apply an upward force
-        if (pos.y < -3)
-        {
-            force += Vector3.up * forceToAboveHorizon * (Mathf.Abs(pos.y) - 3); // Stronger push upwards when below -3
-        }
-
-        return force;
-    }
+    }   
 
 }

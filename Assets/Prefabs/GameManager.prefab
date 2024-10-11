@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3160918365536298541}
   - component: {fileID: 6220094444521858188}
   - component: {fileID: 1375164640719608508}
+  - component: {fileID: 1424022984528957354}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,7 +52,7 @@ MonoBehaviour:
   waitTime: 2
   retryCount: 1
   retryDelay: 0.5
-  dotGameController: {fileID: 3495580774462094992, guid: 6e0438ef768ff49ddaa3ec5e3d7c8cfd, type: 3}
+  controller: {fileID: 0}
   sphereObject: {fileID: 0}
   sphereMaterial: {fileID: 0}
   audioPlayer: {fileID: 0}
@@ -87,6 +88,22 @@ MonoBehaviour:
   auroraHorizonImportance: 0.1
   auroraNoiseSize: 1
   auroraVibrantness: 1
+--- !u!114 &1424022984528957354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4836883292527609003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f577883591c246e096baaa3ff062417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayIndex: 1
+  resolutionWidth: 1920
+  resolutionHeight: 1080
+  fullscreen: 0
 --- !u!1 &5917898217297356603
 GameObject:
   m_ObjectHideFlags: 0
