@@ -3,7 +3,7 @@ using UnityEngine;
 public class ColourfulPlayerAvatar : PlayerAvatar
 {
     [Tooltip("Time it takes to transition to a new color (in seconds).")]
-    public float transitionDuration = 3f;  // Time between color transitions
+    public float transitionDuration = 1f;  // Time between color transitions
 
     private Color targetColor;  // The color we're transitioning to
     private Color currentColor;  // The current color of the trail

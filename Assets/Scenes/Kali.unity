@@ -164,6 +164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71cf735ea3a6dbe49bf7eade92b1b399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &567792895 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1266312760479527552, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+  m_PrefabInstance: {fileID: 1983012268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!23 &634557042 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2829592495992139646, guid: 89f7209469b3841598ec0a530918250a, type: 3}
@@ -996,6 +1001,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: color.b
+      value: 0.5754717
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: color.r
+      value: 0.13519065
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: maxRing
       value: 
       objectReference: {fileID: 37908501}
@@ -1019,6 +1036,10 @@ PrefabInstance:
       propertyPath: regularRing
       value: 
       objectReference: {fileID: 182030373}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: showPlayerName
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: usePlayerModel
       value: 0
@@ -1986,6 +2007,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: color.b
+      value: 0.6886792
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: color.r
+      value: 0.3690777
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: maxRing
       value: 
       objectReference: {fileID: 634557042}
@@ -2000,7 +2033,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: chargedRing
       value: 
-      objectReference: {fileID: 1346098514}
+      objectReference: {fileID: 202669883}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: playerModel
       value: 
@@ -2008,7 +2041,7 @@ PrefabInstance:
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: regularRing
       value: 
-      objectReference: {fileID: 182030373}
+      objectReference: {fileID: 567792895}
     - target: {fileID: 8554423689049350882, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: collisionThreshold
       value: 0.1
