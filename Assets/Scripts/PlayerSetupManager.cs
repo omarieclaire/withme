@@ -117,6 +117,19 @@ public class PlayerSetupManager : MonoBehaviour
     return count;
 }
 
+public PlayerAvatar GetPlayerAvatar(GameObject playerObject)
+{
+    foreach (var kvp in playersDict)
+    {
+        if (kvp.Value.PlayerObject == playerObject)
+        {
+            return kvp.Value.Avatar;
+        }
+    }
+    return null; // Return null if the playerObject is not found
+}
+
+
 public Vector3 GetPlayerScale(int playerID)
 {
     if (playersDict.TryGetValue(playerID, out var info))

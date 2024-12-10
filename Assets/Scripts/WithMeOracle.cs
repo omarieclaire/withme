@@ -230,9 +230,13 @@ public class DotGameController : Controller
 
     public override void OnPlayersCollided(PlayerAvatar p1, PlayerAvatar p2)
     {
+            Debug.Log($"uuu Player collision detected between Player {p1.id} and Player {p2.id}");
+
         // Don't proceed if either player hasn't collected enough dots
         if (p1.numDotsCollected < minNumDotsForCollision || p2.numDotsCollected < minNumDotsForCollision)
         {
+                    Debug.Log($"uuu Collision ignored - not enough dots. P1: {p1.numDotsCollected}, P2: {p2.numDotsCollected}, Required: {minNumDotsForCollision}");
+
             return;
         }
 
@@ -299,74 +303,75 @@ public class DotGameController : Controller
     }
 
     // this is where we actually deal with player/dot collisions
-    public override void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider)
+   public override void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider)
+{
+    Debug.Log($"{player} collide with dot.");
+
+    // Check if the collider is a dot
+    if (collider.CompareTag("Dot"))
     {
-        Debug.Log($"{player} collide with dot.");
-
-        // Check if the collider is a dot
-        if (collider.CompareTag("Dot"))
+        int index = dots.IndexOf(collider.transform);
+        if (index != -1)
         {
-
-            int index = dots.IndexOf(collider.transform);
-            if (index != -1)
+            // Don't collect if we have reached the max
+            if (player.numDotsCollected >= maxDotsPerPlayer)
             {
-
-                // Dont collect if we have reached the max
-                if (player.numDotsCollected > maxDotsPerPlayer)
-                {
-                    return;
-                }
-
-                // Dont Recollect
-                if (dots[index].GetComponent<Dot>().collectedDot)
-                {
-                    return;
-                }
-
-                dotAvatars[index].collectedDot = true;
-                dotAvatars[index].dotCollector = player.transform;
-                player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
-
-                player.transform.localScale = GetScale(player.id);
-
-                if (Controller.enableOldSoundSystem)
-                {
-                    int randomIndex = Random.Range(0, pointCollisionClips.Length);
-                    audioPlayer.Play(pointCollisionClips[randomIndex]);
-                }
-                if (Controller.enableNewSoundSystem)
-                {
-                    string soundID = $"p{player.id}EffectsWithMePointCollision";
-                    Vector3 pointPosition = player.transform.position;
-                    soundEventSender.SendOneShotSound(soundID, pointPosition);
-                }
-
-                // Move the particle system to the dot's position and parent it to the dot so it moves with the player
-                playerCollectDotParticleSystem.transform.position = collider.transform.position;
-                playerCollectDotParticleSystem.transform.SetParent(collider.transform); // Attach the particle system to the dot
-
-                // Set particle system color to match the dot's color
-                Renderer dotRenderer = collider.GetComponent<Renderer>();
-                if (dotRenderer != null)
-                {
-                    Color dotColor = dotRenderer.material.color;
-                    var mainModule = playerCollectDotParticleSystem.main;  // Access the main module of the particle system
-                    mainModule.startColor = dotColor;  // Set the start color of the particles to match the dot's color
-                }
-
-                playerCollectDotParticleSystem.Play();
-
-                // dots[index].gameObject.SetActive(false);
-                // dots[index].position = dotOriginalPositions[index];
-                // dots[index].gameObject.SetActive(true);
+                return;
             }
-        }
-        else
-        {
-            // print("NOT A DOT");
-            // print("COLLIDER TAG: " + collider.tag);
+
+            // Don't recollect
+            if (dots[index].GetComponent<Dot>().collectedDot)
+            {
+                return;
+            }
+
+            // Mark the dot as collected
+            dotAvatars[index].collectedDot = true;
+            dotAvatars[index].dotCollector = player.transform;
+
+            // Call player's collection logic
+            player.OnDotCollect(player.numDotsCollected >= minNumDotsForCollision, player.numDotsCollected >= maxDotsPerPlayer);
+
+            // Update player scale using the playerSetupManager
+            Vector3 newScale = playerSetupManager.GetPlayerScale(player.id);
+            player.transform.localScale = newScale;
+            Debug.Log($"Updated player {player.id} scale to {newScale}");
+
+            // Handle sound effects
+            if (Controller.enableOldSoundSystem)
+            {
+                int randomIndex = Random.Range(0, pointCollisionClips.Length);
+                audioPlayer.Play(pointCollisionClips[randomIndex]);
+            }
+            if (Controller.enableNewSoundSystem)
+            {
+                string soundID = $"p{player.id}EffectsWithMePointCollision";
+                Vector3 pointPosition = player.transform.position;
+                soundEventSender.SendOneShotSound(soundID, pointPosition);
+            }
+
+            // Move the particle system to the dot's position and parent it to the dot
+            playerCollectDotParticleSystem.transform.position = collider.transform.position;
+            playerCollectDotParticleSystem.transform.SetParent(collider.transform); // Attach the particle system to the dot
+
+            // Set particle system color to match the dot's color
+            Renderer dotRenderer = collider.GetComponent<Renderer>();
+            if (dotRenderer != null)
+            {
+                Color dotColor = dotRenderer.material.color;
+                var mainModule = playerCollectDotParticleSystem.main;  // Access the main module of the particle system
+                mainModule.startColor = dotColor;  // Set the start color of the particles to match the dot's color
+            }
+
+            playerCollectDotParticleSystem.Play();
         }
     }
+    else
+    {
+        Debug.Log($"Collider is not a dot. Tag: {collider.tag}");
+    }
+}
+
 
     private IEnumerator BlueMoonDotRegenerationRoutine()
     {

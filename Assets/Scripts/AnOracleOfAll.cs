@@ -178,36 +178,36 @@ public class Controller : MonoBehaviour
     /// Returns a dynamic list of active players.  
     /// This was previously maintained as a list directly, now we rebuild it for compatibility.
     /// </summary>
-    public List<PlayerAvatar> activePlayers
-    {
-        get
-        {
-            List<PlayerAvatar> active = new List<PlayerAvatar>();
-            foreach (var kvp in playerSetupManager.playersDict)
-            {
-                if (kvp.Value.PlayerObject.activeSelf)
-                {
-                    active.Add(kvp.Value.Avatar);
-                }
-            }
-            return active;
-        }
-    }
+    // public List<PlayerAvatar> activePlayers
+    // {
+    //     get
+    //     {
+    //         List<PlayerAvatar> active = new List<PlayerAvatar>();
+    //         foreach (var kvp in playerSetupManager.playersDict)
+    //         {
+    //             if (kvp.Value.PlayerObject.activeSelf)
+    //             {
+    //                 active.Add(kvp.Value.Avatar);
+    //             }
+    //         }
+    //         return active;
+    //     }
+    // }
 
     /// <summary>
     /// Restores the old GetScale(int playerIndex) method that some scripts rely on.  
     /// This uses the playerSetupManager.players and playerSeenScalers properties for indexing.
     /// Be aware that player index ordering may differ from before.
     /// </summary>
-    public Vector3 GetScale(int playerIndex)
-    {
-        var players = playerSetupManager.players;
-        var scalers = playerSetupManager.playerSeenScalers;
+    // public Vector3 GetScale(int playerIndex)
+    // {
+    //     var players = playerSetupManager.players;
+    //     var scalers = playerSetupManager.playerSeenScalers;
 
-        if (playerIndex < 0 || playerIndex >= players.Count)
-            return Vector3.one * playerSetupManager.startSize;
+    //     if (playerIndex < 0 || playerIndex >= players.Count)
+    //         return Vector3.one * playerSetupManager.startSize;
 
-        float scaler = scalers[playerIndex];
-        return Vector3.one * playerSetupManager.startSize * scaler;
-    }
+    //     float scaler = scalers[playerIndex];
+    //     return Vector3.one * playerSetupManager.startSize * scaler;
+    // }
 }
