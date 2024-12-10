@@ -70,7 +70,7 @@
 //         float fRadius = controller.sphereSize + sphereOsscilationSize * Mathf.Sin(Time.time * sphereOsscilationSpeed);
 
 //         // Check if the number of nodes matches the required count
-//         if (nodes.Count != numberOfIterations * controller.activePlayers.Count)
+//         if (nodes.Count != numberOfIterations * playerSetupManager.GetActivePlayerCount())
 //         {
 //             // Destroy all existing nodes
 //             while (transform.childCount > 0)
@@ -81,7 +81,7 @@
 //             nodes.Clear();
 
 //             // Instantiate new nodes based on numberOfIterations and player count
-//             for (int i = 0; i < numberOfIterations * controller.activePlayers.Count; i++)
+//             for (int i = 0; i < numberOfIterations * playerSetupManager.GetActivePlayerCount(); i++)
 //             {
 //                 GameObject node = Instantiate(nodePrefab, transform);
 //                 node.SetActive(true);
@@ -103,7 +103,7 @@
 //         }
 
 //         // Update the position, scale, and rotation of each node
-//         for (int i = 0; i < controller.activePlayers.Count; i++)
+//         for (int i = 0; i < playerSetupManager.GetActivePlayerCount(); i++)
 //         {
 //             for (int j = 0; j < numberOfIterations; j++)
 //             {

@@ -212,14 +212,19 @@ public class DotGameController : Controller
 
 
 
-    public override Vector3 GetGameSpecificScale(int playerIndex)
-    {
-        // Calculate scale based on the player's starting size and number of collected dots
-        float scaleFactor = playerSetupManager.startSize + playerSetupManager.playerAvatars[playerIndex].numDotsCollected * sizeIncrementOnCollect;
+    // public override Vector3 GetGameSpecificScale(int playerIndex)
+    // {
+    //     // Calculate scale based on the player's starting size and number of collected dots
+    //     float scaleFactor = playerSetupManager.startSize + playerSetupManager.playerAvatars[playerIndex].numDotsCollected * sizeIncrementOnCollect;
 
-        // Return the new scale factor (doesn't include player visibility, which GetScale will handle)
-        return Vector3.one * scaleFactor;
-    }
+    //     // Return the new scale factor (doesn't include player visibility, which GetScale will handle)
+    //     return Vector3.one * scaleFactor;
+    // }
+
+    public virtual Vector3 GetGameSpecificScale(int playerIndex)
+{
+    return Vector3.one * playerSetupManager.startSize;
+}
 
 
 

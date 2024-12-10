@@ -6,9 +6,9 @@ using TMPro;
 
 public class KaliPlayerAvatar : MonoBehaviour
 {
-        public PlayerSetupManager playerSetupManager;
+    public PlayerSetupManager playerSetupManager;
 
-        public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
 
     public Controller controller; // Reference to the game controller
 
@@ -94,20 +94,24 @@ public class KaliPlayerAvatar : MonoBehaviour
         transform.LookAt(cameraAndPlayAreaSettings.center); // Make the player face the center
 
         // Check for collisions with other players
-        for (int i = 0; i < playerSetupManager.players.Count; i++)
+        var activePlayers = controller.playerSetupManager.GetActivePlayers();
+
+        foreach (var playerInfo in activePlayers)
         {
-            if (playerSetupManager.players[i] != this.gameObject)
+            GameObject playerObject = playerInfo.PlayerObject;
+
+            if (playerObject != this.gameObject)
             {
-                float distance = Vector3.Distance(playerSetupManager.players[i].transform.position, transform.position);
+                float distance = Vector3.Distance(playerObject.transform.position, transform.position);
 
                 // Adjust distance for player scales
                 distance -= transform.localScale.x / 2;
-                distance -= playerSetupManager.players[i].transform.localScale.x / 2;
+                distance -= playerObject.transform.localScale.x / 2;
 
                 if (distance < 0)
                 {
                     // Notify controller of player collision if close enough
-                    // controller.OnPlayersWithDotsCollided(this, controller.playerAvatars[i]);
+                    // controller.OnPlayersWithDotsCollided(this, playerObject.GetComponent<PlayerAvatar>());
                 }
             }
         }

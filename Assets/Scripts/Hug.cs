@@ -351,50 +351,70 @@ public class Hug : MonoBehaviour
         HandlePlayerInteractions();
     }
 
-    private void HandlePlayerInteractions()
+   private void HandlePlayerInteractions()
+{
+    List<PlayerAvatar> playersToRemove = new List<PlayerAvatar>();
+
+    // Get active players from playerSetupManager
+    var activePlayers = controller.playerSetupManager.GetActivePlayers();
+
+    foreach (var playerInfo in activePlayers)
     {
-        List<PlayerAvatar> playersToRemove = new List<PlayerAvatar>();
+        // Access the PlayerObject from PlayerInfo
+        var playerObject = playerInfo.PlayerObject;
 
-        foreach (var player in controller.activePlayers)
+        // Ensure the PlayerObject has the necessary components
+        var lineRenderer = playerObject.GetComponent<LineRenderer>();
+        if (lineRenderer != null)
         {
-            player.GetComponent<LineRenderer>().enabled = false;
-            HugFace closestFace = FindClosestHugFace(player);
-
-            if (closestFace != null)
-            {
-                closestFace.WhileInside(player, closestFace);
-                currentInteractingFaces[player] = closestFace;
-            }
-            else if (currentInteractingFaces.TryGetValue(player, out HugFace interactingFace))
-            {
-                interactingFace.WhileOutside();
-                playersToRemove.Add(player);
-            }
+            lineRenderer.enabled = false;
         }
 
-        foreach (var player in playersToRemove)
+        // Find the closest HugFace to the current player
+HugFace closestFace = FindClosestHugFace(playerInfo.Avatar);
+
+if (closestFace != null)
+{
+    closestFace.WhileInside(playerInfo.Avatar, closestFace);
+    currentInteractingFaces[playerInfo.Avatar] = closestFace;
+}
+else if (currentInteractingFaces.TryGetValue(playerInfo.Avatar, out HugFace interactingFace))
+{
+    interactingFace.WhileOutside();
+    playersToRemove.Add(playerInfo.Avatar);
+}
+
+    }
+
+    // Remove players that are no longer interacting
+    foreach (var playerAvatar in playersToRemove)
+    {
+        if (playerAvatar != null)
         {
-            currentInteractingFaces.Remove(player);
+            currentInteractingFaces.Remove(playerAvatar);
         }
     }
+}
+
 
     private HugFace FindClosestHugFace(PlayerAvatar player)
+{
+    HugFace closestFace = null;
+    float closestDistance = float.MaxValue;
+
+    foreach (var face in listOfHugFaceObjects)
     {
-        HugFace closestFace = null;
-        float closestDistance = float.MaxValue;
-
-        foreach (var face in listOfHugFaceObjects)
+        float distance = Vector3.Distance(player.transform.position, face.transform.position);
+        if (distance < closestDistance && distance < activationRadius)
         {
-            float distance = Vector3.Distance(player.transform.position, face.transform.position);
-            if (distance < closestDistance && distance < activationRadius)
-            {
-                closestDistance = distance;
-                closestFace = face;
-            }
+            closestDistance = distance;
+            closestFace = face;
         }
-
-        return closestFace;
     }
+
+    return closestFace;
+}
+
 
     // HUG Function
     public void HUG(HugFace hugFace, int smileID)

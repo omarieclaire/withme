@@ -194,18 +194,23 @@ Vector3 ApplyPlayerRepel(Vector3 fishPos)
 {
     Vector3 repelForce = Vector3.zero;
 
-    foreach (var player in playerSetupManager.players) // Assuming you have access to the players
+    var activePlayers = controller.playerSetupManager.GetActivePlayers(); // Get active players
+
+    foreach (var playerInfo in activePlayers)
     {
-        float distance = Vector3.Distance(fishPos, player.transform.position);
+        GameObject playerObject = playerInfo.PlayerObject; // Access the player's GameObject
+        float distance = Vector3.Distance(fishPos, playerObject.transform.position);
+
         if (distance < PlayerRepelRadius)
         {
-            Vector3 direction = (fishPos - player.transform.position).normalized;
+            Vector3 direction = (fishPos - playerObject.transform.position).normalized;
             repelForce += direction * PlayerRepelForce / distance; // Stronger repelling force
         }
     }
 
     return repelForce;
 }
+
 
 // Apply noise for more natural movement (reduce noise for predictability)
 Vector3 ApplyNoise(Vector3 pos, int fishIndex)

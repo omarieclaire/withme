@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MoveSceneBasedOnPlayers : MonoBehaviour
 {
-        public PlayerSetupManager playerSetupManager;
-
+    public PlayerSetupManager playerSetupManager;
 
     public Controller controller;
 
@@ -16,13 +15,13 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
     public float ySpeed;
 
     [Tooltip("Sets the line of when we start to move up or down, if the avg position is above the line we’ll move up")]
-
     public float verticalOffset;
+
     [Tooltip("How much the velocity slows down each frame. Lower=> more responsive, more vomit! Higher => more momentum, harder controls. Max 1. 0 is like high friction. Lower values need more force.")]
     public float dampening;
+
     [Tooltip("How fast it moves")]
     public float forceMultiplier;
-    [Tooltip("How quickly people's movements affect the steering")]
 
     public Vector3 force;
     public Vector3 velocity;
@@ -32,42 +31,31 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
     public LineRenderer steerRep;
     public float steerRepVert = 2;
 
-
     public void Reset()
     {
         velocity = Vector3.zero;
         transform.position = Vector3.zero;
     }
 
-
-
-
     // Start is called before the first frame update
     void OnEnable()
     {
-
         // Reset position
         transform.position = Vector3.zero;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Vector3 averagePosition = Vector3.zero;
-        int numPlayers = playerSetupManager.players.Count;
-
-        int numActive = 0;
+        var activePlayers = controller.playerSetupManager.GetActivePlayers(); // Get active players
+        int numActive = activePlayers.Count;
 
         // Sum the positions of all active players
-        for (int i = 0; i < numPlayers; i++)
+        foreach (var playerInfo in activePlayers)
         {
-            if (playerSetupManager.players[i].activeSelf)
-            {
-                numActive++;
-                averagePosition += playerSetupManager.players[i].transform.position;
-            }
+            GameObject playerObject = playerInfo.PlayerObject; // Access the player's GameObject
+            averagePosition += playerObject.transform.position;
         }
 
         // Calculate the average position if there are active players
@@ -79,7 +67,6 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
         {
             averagePosition = Vector3.zero;
         }
-
 
         // Find target position based on average position and offset
         Vector3 targetPosition = new Vector3(averagePosition.x, averagePosition.y + verticalOffset, averagePosition.z);
@@ -98,7 +85,6 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
 
         velocity += force * Time.deltaTime;
         velocity *= dampening;
-
 
         // Update position based on velocity
         transform.position += velocity * Time.deltaTime;
@@ -136,8 +122,6 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
             offset -= size.z * 2 * Vector3.forward;
         }
 
-
         transform.position += offset;
-
     }
 }

@@ -15,28 +15,42 @@ public class PullTowardsPeople : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+{
+    // Ensure there are active players before proceeding
+    var activePlayers = controller.playerSetupManager.GetActivePlayers();
+    if (activePlayers.Count > 0)
     {
-        if (controller.numActivePlayers > 0)
+        // Apply force based on average player position
+        rb.AddForce((controller.averagePosition - transform.position) * pullForce);
+
+        foreach (var playerInfo in activePlayers)
         {
-            rb.AddForce((controller.averagePosition - transform.position) * pullForce);
+            GameObject player = playerInfo.PlayerObject;
+            LineRenderer lr = player.GetComponent<LineRenderer>();
+            AudioSource audio = player.GetComponent<AudioSource>();
 
-            for (int i = 0; i < controller.activePlayers.Count; i++)
+            // Calculate the distance between the player and the object
+            float distance = Vector3.Distance(player.transform.position, transform.position);
+
+            // Update the line renderer positions
+            if (lr != null)
             {
-                GameObject player = controller.activePlayers[i].gameObject;
-                LineRenderer lr = player.GetComponent<LineRenderer>();
-                AudioSource audio = player.GetComponent<AudioSource>();
-
-                float distance = Vector3.Distance(player.transform.position, transform.position);
                 lr.SetPosition(0, player.transform.position);
                 lr.SetPosition(1, transform.position);
 
-                // Set line thickness
+                // Optionally set line thickness
                 // lr.startWidth = lineStartWidth;
                 // lr.endWidth = lineEndWidth;
+            }
 
-                // Adjust audio pitch based on distance <-- commented out for now
+            // Adjust audio pitch based on distance (if needed)
+            if (audio != null)
+            {
+                // Uncomment and adjust as needed
                 // audio.pitch = Mathf.Clamp(5f - distance * distancePitchFalloff, 0, 10);
             }
         }
     }
+}
+
 }

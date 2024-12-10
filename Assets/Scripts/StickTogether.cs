@@ -151,7 +151,7 @@ public class StickTogether : MonoBehaviour
         UpdateCollectionAreaPosition();
         UpdateTimerDisplay();
 
-        if (connections.Count != controller.activePlayers.Count)
+        if (connections.Count != controller.playerSetupManager.GetActivePlayerCount())
         {
             UpdateConnections();
         }
@@ -396,7 +396,7 @@ public class StickTogether : MonoBehaviour
         connections.Clear();
 
         // Create new connection lines for each player
-        for (int i = 0; i < controller.activePlayers.Count; i++)
+        for (int i = 0; i < controller.playerSetupManager.GetActivePlayerCount(); i++)
         {
             GameObject newConnection = Instantiate(connectionPrefab, transform.position, Quaternion.identity);
             newConnection.transform.parent = transform;
@@ -406,51 +406,55 @@ public class StickTogether : MonoBehaviour
 
     // Check player positions relative to the collection area
     void CheckPlayerPositions()
+{
+    totalInsideCircle = 0;
+
+    // Get active players
+    var activePlayers = controller.playerSetupManager.GetActivePlayers();
+
+    for (int i = 0; i < activePlayers.Count; i++)
     {
-        totalInsideCircle = 0;
+        GameObject playerObject = activePlayers[i].PlayerObject;
+        Vector3 dir = playerObject.transform.position - transform.position;
+        float dist = dir.magnitude;
 
-        for (int i = 0; i < controller.activePlayers.Count; i++)
+        if (dist < radiusForCollection)
         {
-            Vector3 dir = controller.activePlayers[i].transform.position - transform.position;
-            float dist = dir.magnitude;
-
-            if (dist < radiusForCollection)
+            if (!playersInside.Contains(playerObject))
             {
-                if (!playersInside.Contains(controller.activePlayers[i].gameObject))
+                playersInside.Add(playerObject);
+
+                if (Controller.enableOldSoundSystem && happySound != null)
                 {
-                    playersInside.Add(controller.activePlayers[i].gameObject);
-
-                    if (Controller.enableOldSoundSystem && happySound != null)
-                    {
-                        audioPlayer.Play(happySound); // <-- deep for debugging
-                    }
-
-                    if (Controller.enableNewSoundSystem)
-
-                    {
-                        string soundID = $"p{controller.activePlayers[i].GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
-                        Vector3 playerPosition = controller.activePlayers[i].transform.position;
-                        soundEventSender.SendOneShotSound(soundID, playerPosition);
-                    }
+                    audioPlayer.Play(happySound); // Debugging sound system
                 }
 
-                totalInsideCircle++;
-                connections[i].positionCount = 2;
-                connections[i].SetPosition(0, transform.position);
-                connections[i].SetPosition(1, controller.activePlayers[i].transform.position);
+                if (Controller.enableNewSoundSystem)
+                {
+                    string soundID = $"p{playerObject.GetComponent<PlayerAvatar>().id}EffectsStickTogetherEntry";
+                    Vector3 playerPosition = playerObject.transform.position;
+                    soundEventSender.SendOneShotSound(soundID, playerPosition);
+                }
             }
-            else
-            {
-                connections[i].positionCount = 0;
-                playersInside.Remove(controller.activePlayers[i].gameObject);
-            }
+
+            totalInsideCircle++;
+            connections[i].positionCount = 2;
+            connections[i].SetPosition(0, transform.position);
+            connections[i].SetPosition(1, playerObject.transform.position);
+        }
+        else
+        {
+            connections[i].positionCount = 0;
+            playersInside.Remove(playerObject);
         }
     }
+}
+
 
     // Update the timer based on the number of players inside the circle
     void UpdateTimerBasedOnPlayers()
     {
-        float requiredNumber = controller.activePlayers.Count * requiredPercentage;
+        float requiredNumber = controller.playerSetupManager.GetActivePlayerCount() * requiredPercentage;
 
         if (totalInsideCircle >= requiredNumber)
         {

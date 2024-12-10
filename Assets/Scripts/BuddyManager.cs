@@ -9,6 +9,8 @@ public class FlorpManager : MonoBehaviour
     public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
 
     public Controller controller;
+
+
     public List<GameObject> florps;
 
     public GameObject florpPrefab;
@@ -20,7 +22,7 @@ public class FlorpManager : MonoBehaviour
     void Update()
     {
 
-        if (transform.childCount != controller.activePlayers.Count)
+        if (transform.childCount != controller.playerSetupManager.GetActivePlayerCount())
         {
             Reset();
         }
@@ -35,7 +37,7 @@ public class FlorpManager : MonoBehaviour
 
         florps = new List<GameObject>();
 
-        for (int i = 0; i < controller.activePlayers.Count; i++)
+        for (int i = 0; i < controller.playerSetupManager.GetActivePlayerCount(); i++)
         {
             GameObject florp = Instantiate(florpPrefab, Vector3.zero, Quaternion.identity);
             florp.transform.position = Vector3.zero;
@@ -48,7 +50,11 @@ public class FlorpManager : MonoBehaviour
 
             florp.GetComponent<PullTowardsPerson>().playerID = i;
             florp.GetComponent<PullTowardsPerson>().controller = controller;
-            florp.transform.position = controller.activePlayers[i].transform.position;
+var activePlayers = controller.playerSetupManager.GetActivePlayers();
+if (activePlayers != null && activePlayers.Count > i) // Ensure index is valid
+{
+    florp.transform.position = activePlayers[i].PlayerObject.transform.position;
+}
 
             florp.SetActive(true);
 

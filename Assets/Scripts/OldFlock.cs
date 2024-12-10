@@ -107,7 +107,7 @@
 //             float closestPlayerDist = 10000;
 //             int closestPlayerID = -1;
 
-//             for (int j = 0; j < controller.activePlayers.Count; j++)
+//             for (int j = 0; j < playerSetupManager.GetActivePlayerCount(); j++)
 //             {
 
 //                 Vector3 dif = controller.activePlayers[j].transform.position - pos;

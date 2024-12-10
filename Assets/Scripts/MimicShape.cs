@@ -363,21 +363,26 @@ public class MimicShape : MonoBehaviour
         {
             bool sphereActive = false;
 
-            for (int i = 0; i < controller.activePlayers.Count; i++)
-            {
-                GameObject player = controller.activePlayers[i].gameObject;
-                float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
+            var activePlayers = controller.playerSetupManager.GetActivePlayers();
 
-                if (distance < activationRadius)
-                {
-                    sphereActive = true;
-                    LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
-                    lr.positionCount = 2;
-                    lr.SetPosition(0, spheres[j].transform.position);
-                    lr.SetPosition(1, player.transform.position);
+for (int i = 0; i < activePlayers.Count; i++)
+{
+    GameObject player = activePlayers[i].PlayerObject;
+    float distance = Vector3.Distance(player.transform.position, spheres[j].transform.position);
 
-                }
-            }
+    if (distance < activationRadius)
+    {
+        sphereActive = true;
+        LineRenderer lr = spheres[j].GetComponent<LineRenderer>();
+        if (lr != null)
+        {
+            lr.positionCount = 2;
+            lr.SetPosition(0, spheres[j].transform.position);
+            lr.SetPosition(1, player.transform.position);
+        }
+    }
+}
+
 
             // if (!spheresActive[j])
             // {

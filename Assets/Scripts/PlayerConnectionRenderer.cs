@@ -1,38 +1,31 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.Rendering;
 
 public class PlayerConnectionRenderer : MonoBehaviour
 {
-        public PlayerSetupManager playerSetupManager;
-
+    public PlayerSetupManager playerSetupManager;
     public Material drawMaterial;
-
     public float distanceForConnection;
-
-
     public DotGameController controller;
 
     public int oNumPlayers;
     public int numPlayers;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
 
     public MaterialPropertyBlock mpb;
+
+    public Vector3[] playerPositions;
+    public Vector4[] playerData;
+    public ComputeBuffer playerBuffer;
+
+    // Start is called before the first frame update
+    void Start() { }
+
     // Update is called once per frame
     void Update()
     {
-
-
-
-        numPlayers = playerSetupManager.players.Count;
-
+        // Use the helper function to get the count of active players
+        numPlayers = controller.playerSetupManager.GetActivePlayerCount();
 
         if (numPlayers != oNumPlayers)
         {
@@ -45,48 +38,55 @@ public class PlayerConnectionRenderer : MonoBehaviour
             return;
         }
 
-
+        // Use GetActivePlayers() to fetch active player data
+        var activePlayers = controller.playerSetupManager.GetActivePlayers();
         for (int i = 0; i < numPlayers; i++)
         {
+            var playerInfo = activePlayers[i];
+            GameObject playerObject = playerInfo.PlayerObject;
+
+            // Use GetPlayerScale(playerID) for the scaler
+            float playerScale = controller.playerSetupManager.GetPlayerScale(playerInfo.PlayerID).x;
+
+
             playerData[i] = new Vector4(
-                playerSetupManager.players[i].transform.position.x,
-                playerSetupManager.players[i].transform.position.y,
-                playerSetupManager.players[i].transform.position.z,
-                playerSetupManager.playerSeenScalers[i]
+                playerObject.transform.position.x,
+                playerObject.transform.position.y,
+                playerObject.transform.position.z,
+                playerScale
             );
         }
 
         playerBuffer.SetData(playerData);
 
-
-        if (playerSetupManager.players.Count > 1 && playerBuffer != null)
+        if (numPlayers > 1 && playerBuffer != null)
         {
-
             if (mpb == null)
             {
                 mpb = new MaterialPropertyBlock();
             }
 
-
             mpb.SetBuffer("_VertBuffer", playerBuffer);
             mpb.SetInt("_Count", numPlayers);
             mpb.SetFloat("_ConnectionDistance", distanceForConnection);
 
-            Graphics.DrawProcedural(drawMaterial, new Bounds(transform.position, Vector3.one * 5000), MeshTopology.Triangles, numPlayers * numPlayers * 3 * 2, 1, null, mpb, ShadowCastingMode.Off, true, LayerMask.NameToLayer("Default"));
-
-
+            Graphics.DrawProcedural(
+                drawMaterial,
+                new Bounds(transform.position, Vector3.one * 5000),
+                MeshTopology.Triangles,
+                numPlayers * numPlayers * 3 * 2,
+                1,
+                null,
+                mpb,
+                ShadowCastingMode.Off,
+                true,
+                LayerMask.NameToLayer("Default")
+            );
         }
-
-
     }
 
-    public Vector3[] playerPositions;
-    public Vector4[] playerData;
-    public ComputeBuffer playerBuffer;
     public void ResetPlayerBuffer()
     {
-
-
         if (playerBuffer != null)
         {
             playerBuffer.Release();
@@ -100,7 +100,6 @@ public class PlayerConnectionRenderer : MonoBehaviour
         playerBuffer = new ComputeBuffer(numPlayers, sizeof(float) * 4);
         playerPositions = new Vector3[numPlayers];
         playerData = new Vector4[numPlayers];
-
     }
 
     public void OnDestroy()

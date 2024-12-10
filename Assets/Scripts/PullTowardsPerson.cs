@@ -1,6 +1,3 @@
-// Buddy: We each have a little sphere that we can control. It follows us around. 
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,22 +24,22 @@ public class PullTowardsPerson : MonoBehaviour
     [Tooltip("The LineRenderer component to visualize the pull line.")]
     public LineRenderer lr;
 
-
     public float forceTowardsSphere = 1.0f;
 
     // Update is called once per frame
     void Update()
     {
-        if (controller.numActivePlayers > playerID)
+        var activePlayers = controller.playerSetupManager.GetActivePlayers();
+
+        if (activePlayers.Count > playerID)
         {
+            var playerTransform = activePlayers[playerID].PlayerObject.transform;
 
-            rb.AddForce((playerSetupManager.players[playerID].transform.position - transform.position) * pullForce);
-
+            rb.AddForce((playerTransform.position - transform.position) * pullForce);
             rb.position = Vector3.MoveTowards(rb.position, cameraAndPlayAreaSettings.getFinalPosition(rb.position), forceTowardsSphere * Time.deltaTime);
+
             lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, playerSetupManager.players[playerID].transform.position);
-
+            lr.SetPosition(1, playerTransform.position);
         }
-
     }
 }
