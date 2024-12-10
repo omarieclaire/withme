@@ -30,6 +30,8 @@ using UnityEngine;
 
 public class Flock : MonoBehaviour
 {
+        public PlayerSetupManager playerSetupManager;
+
     public Controller controller;
     public GameObject portal;
     public GameObject portalCollider;
@@ -192,7 +194,7 @@ Vector3 ApplyPlayerRepel(Vector3 fishPos)
 {
     Vector3 repelForce = Vector3.zero;
 
-    foreach (var player in controller.players) // Assuming you have access to the players
+    foreach (var player in playerSetupManager.players) // Assuming you have access to the players
     {
         float distance = Vector3.Distance(fishPos, player.transform.position);
         if (distance < PlayerRepelRadius)

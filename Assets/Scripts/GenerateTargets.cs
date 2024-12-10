@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GenerateTargets : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
 
     public GameObject targetPrefab;
@@ -68,7 +70,7 @@ public class GenerateTargets : MonoBehaviour
 
         obj.transform.parent = transform;
         obj.transform.localScale = new Vector3(objectSize, objectSize, objectSize);
-        obj.transform.position = controller.getFinalPositionObjects(randomPosition);
+        obj.transform.position = cameraAndPlayAreaSettings.getFinalPositionObjects(randomPosition);
 
         // Randomly assign a material
         if (materials.Count > 0)

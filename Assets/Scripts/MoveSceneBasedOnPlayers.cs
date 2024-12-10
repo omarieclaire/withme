@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveSceneBasedOnPlayers : MonoBehaviour
 {
+        public PlayerSetupManager playerSetupManager;
+
 
     public Controller controller;
 
@@ -54,17 +56,17 @@ public class MoveSceneBasedOnPlayers : MonoBehaviour
     {
 
         Vector3 averagePosition = Vector3.zero;
-        int numPlayers = controller.players.Count;
+        int numPlayers = playerSetupManager.players.Count;
 
         int numActive = 0;
 
         // Sum the positions of all active players
         for (int i = 0; i < numPlayers; i++)
         {
-            if (controller.players[i].activeSelf)
+            if (playerSetupManager.players[i].activeSelf)
             {
                 numActive++;
-                averagePosition += controller.players[i].transform.position;
+                averagePosition += playerSetupManager.players[i].transform.position;
             }
         }
 

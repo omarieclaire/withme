@@ -34,8 +34,8 @@ public class PullTowardsPeople : MonoBehaviour
                 // lr.startWidth = lineStartWidth;
                 // lr.endWidth = lineEndWidth;
 
-                // Adjust audio pitch based on distance
-                audio.pitch = Mathf.Clamp(5f - distance * distancePitchFalloff, 0, 10);
+                // Adjust audio pitch based on distance <-- commented out for now
+                // audio.pitch = Mathf.Clamp(5f - distance * distancePitchFalloff, 0, 10);
             }
         }
     }

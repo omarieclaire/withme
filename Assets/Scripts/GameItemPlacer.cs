@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class GameItemPlacer : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     // Reference to NoGoZoneManager to handle no-go zones
     public NoGoZoneManager noGoZoneManager;
 
-        public Controller controller;
+    public Controller controller;
 
 
     /// <summary>
-    /// Places a game item in a random position, avoiding no-go zones, and maps the position with getFinalPositionObjects.
+    /// Places a game item in a random position, avoiding no-go zones, and maps the position with cameraAndPlayAreaSettings.getFinalPositionObjects.
     /// </summary>
     public Vector3 PlaceItem(Transform itemHolder)
     {
@@ -29,7 +31,7 @@ public class GameItemPlacer : MonoBehaviour
         {
             // Generate random position
             randomPos = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 2f), Random.Range(-1f, 1f));
-            randomPos = controller.getFinalPositionObjects(randomPos);  // Map the random position
+            randomPos = cameraAndPlayAreaSettings.getFinalPositionObjects(randomPos);  // Map the random position
 
             // Cast a ray from the center of the dome to the random position
             Ray ray = new Ray(Vector3.zero, randomPos.normalized); // Ensure direction is normalized

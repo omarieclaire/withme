@@ -5,6 +5,8 @@ using TMPro;
 
 public class StickTogether : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
 
     public Controller controller;
@@ -98,7 +100,7 @@ public class StickTogether : MonoBehaviour
         Controller controller = FindObjectOfType<Controller>();
         if (controller != null)
         {
-            domeRadius = controller.sphereSize;
+            domeRadius = cameraAndPlayAreaSettings.playAreaSphereSize;
         }
         else
         {
@@ -120,10 +122,10 @@ public class StickTogether : MonoBehaviour
     // Initialize Bezier control points
     void InitializeBezierControlPoints()
     {
-        bezierControlPoints[0] = controller.getFinalPositionObjects(new Vector3(0, bottomOfDome + 5f, 0));
-        bezierControlPoints[1] = controller.getFinalPositionObjects(new Vector3(3f, bottomOfDome + 8f, 5f));
-        bezierControlPoints[2] = controller.getFinalPositionObjects(new Vector3(-3f, bottomOfDome + 8f, -5f));
-        bezierControlPoints[3] = controller.getFinalPositionObjects(new Vector3(0, bottomOfDome + 5f, -10f));
+        bezierControlPoints[0] = cameraAndPlayAreaSettings.getFinalPositionObjects(new Vector3(0, bottomOfDome + 5f, 0));
+        bezierControlPoints[1] = cameraAndPlayAreaSettings.getFinalPositionObjects(new Vector3(3f, bottomOfDome + 8f, 5f));
+        bezierControlPoints[2] = cameraAndPlayAreaSettings.getFinalPositionObjects(new Vector3(-3f, bottomOfDome + 8f, -5f));
+        bezierControlPoints[3] = cameraAndPlayAreaSettings.getFinalPositionObjects(new Vector3(0, bottomOfDome + 5f, -10f));
     }
 
     // Initialize connections
@@ -290,7 +292,7 @@ public class StickTogether : MonoBehaviour
     /// <param name="position">The position to set.</param>
     void SetFinalPosition(Vector3 position)
     {
-        Vector3 finalPosition = controller.getFinalPositionObjects(position);
+        Vector3 finalPosition = cameraAndPlayAreaSettings.getFinalPositionObjects(position);
         transform.position = finalPosition;
         Debug.Log($"[DEBUG] Final position set for collection area: {finalPosition}");
     }
@@ -365,20 +367,20 @@ public class StickTogether : MonoBehaviour
 
     }
 
-   // Move code for updating timer text
-void UpdateTimerDisplay()
-{
-    if (timerTextMesh != null)
+    // Move code for updating timer text
+    void UpdateTimerDisplay()
     {
-        timerTextMesh.transform.position = transform.position + timerTextOffset;
-        float scaleFactor = 7.1f;
-        timerTextMesh.transform.localScale = new Vector3(-scaleFactor, scaleFactor, scaleFactor); // Flip on X-axis to mirror the text
+        if (timerTextMesh != null)
+        {
+            timerTextMesh.transform.position = transform.position + timerTextOffset;
+            float scaleFactor = 7.1f;
+            timerTextMesh.transform.localScale = new Vector3(-scaleFactor, scaleFactor, scaleFactor); // Flip on X-axis to mirror the text
 
-        // Use LookAt to face the center of the dome
-        timerTextMesh.transform.LookAt(Vector3.zero);
-        timerTextMesh.transform.Rotate(0, 180, 0); // Keep the correct orientation
+            // Use LookAt to face the center of the dome
+            timerTextMesh.transform.LookAt(Vector3.zero);
+            timerTextMesh.transform.Rotate(0, 180, 0); // Keep the correct orientation
+        }
     }
-}
 
 
     // Handle connection line updates

@@ -6,6 +6,10 @@ using TMPro;
 
 public class KaliPlayerAvatar : MonoBehaviour
 {
+        public PlayerSetupManager playerSetupManager;
+
+        public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     public Controller controller; // Reference to the game controller
 
     [Tooltip("TextMeshPro component for displaying player name.")]
@@ -87,18 +91,18 @@ public class KaliPlayerAvatar : MonoBehaviour
     // Updates player state each frame
     public void Update()
     {
-        transform.LookAt(controller.center); // Make the player face the center
+        transform.LookAt(cameraAndPlayAreaSettings.center); // Make the player face the center
 
         // Check for collisions with other players
-        for (int i = 0; i < controller.players.Count; i++)
+        for (int i = 0; i < playerSetupManager.players.Count; i++)
         {
-            if (controller.players[i] != this.gameObject)
+            if (playerSetupManager.players[i] != this.gameObject)
             {
-                float distance = Vector3.Distance(controller.players[i].transform.position, transform.position);
+                float distance = Vector3.Distance(playerSetupManager.players[i].transform.position, transform.position);
 
                 // Adjust distance for player scales
                 distance -= transform.localScale.x / 2;
-                distance -= controller.players[i].transform.localScale.x / 2;
+                distance -= playerSetupManager.players[i].transform.localScale.x / 2;
 
                 if (distance < 0)
                 {

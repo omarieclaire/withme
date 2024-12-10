@@ -28,7 +28,7 @@ public class OSCHandler : MonoBehaviour
 
     // private HashSet<int> activePlayerIds = new HashSet<int>();  // Set of currently active player IDs
     private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();  // Queue to store incoming player position messages
-    private Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();  // Dictionary to store player data, keyed by player ID
+    public Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();  // Dictionary to store player data, keyed by player ID
 
     private Dictionary<int, Vector2> incompletePositions = new Dictionary<int, Vector2>();  // Dictionary to store incomplete position data (x or y not yet received)
 
@@ -57,6 +57,8 @@ public class OSCHandler : MonoBehaviour
         // Process all messages in the queue
         while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
         {
+            // Debug.Log($"[OSCHandler] Processing position message for Player ID: {msg.PlayerId}");
+
             if (debug)
             {
                 Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
@@ -131,6 +133,16 @@ public class OSCHandler : MonoBehaviour
 
     public void ReceiveBlob(OSCMessage message)
     {
+
+        string values = "";
+        for (int i = 0; i < message.Values.Count; i++)
+        {
+            values += message.Values[i].FloatValue.ToString();
+            if (i < message.Values.Count - 1) values += ", ";
+        }
+        Debug.Log($"RAW OSC: Address={message.Address}, Values=[{values}]");
+
+
         if (debug)
         {
             Debug.Log($"Received OSC message at address: {message.Address} with {message.Values.Count} values");
@@ -188,7 +200,7 @@ public class OSCHandler : MonoBehaviour
     }
 
     // Class to store data about individual players
-    private class PlayerData
+    public class PlayerData
     {
         public int PlayerId { get; }
         public bool IsActive { get; set; }

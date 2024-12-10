@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class PullTowardsPerson : MonoBehaviour
 {
+    public PlayerSetupManager playerSetupManager;
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     public Controller controller;
 
     [Tooltip("The force used to pull the buddy towards the player.")]
@@ -33,11 +36,11 @@ public class PullTowardsPerson : MonoBehaviour
         if (controller.numActivePlayers > playerID)
         {
 
-            rb.AddForce((controller.players[playerID].transform.position - transform.position) * pullForce);
+            rb.AddForce((playerSetupManager.players[playerID].transform.position - transform.position) * pullForce);
 
-            rb.position = Vector3.MoveTowards(rb.position, controller.getFinalPosition(rb.position), forceTowardsSphere * Time.deltaTime);
+            rb.position = Vector3.MoveTowards(rb.position, cameraAndPlayAreaSettings.getFinalPosition(rb.position), forceTowardsSphere * Time.deltaTime);
             lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, controller.players[playerID].transform.position);
+            lr.SetPosition(1, playerSetupManager.players[playerID].transform.position);
 
         }
 

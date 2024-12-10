@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MimicShape : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     public NoGoZoneManager noGoZoneManager;  // Reference to the NoGoZoneManager
 
     // Public variables to be set in the Unity Editor
@@ -126,18 +128,18 @@ public class MimicShape : MonoBehaviour
         NewShapeSet();
     }
 
-    
+
 
     public void NewShapeSet()
     {
         if (noGoZoneManager == null)
-    {
-        Debug.LogError("[ERROR] NoGoZoneManager is not assigned.");
-        return;
-    }
+        {
+            Debug.LogError("[ERROR] NoGoZoneManager is not assigned.");
+            return;
+        }
 
-    numShapesActivated = 0;
-    lastTimeChange = Time.time;
+        numShapesActivated = 0;
+        lastTimeChange = Time.time;
 
         // Set each sphere to a new random position
         for (int i = 0; i < numSpheres; i++)
@@ -156,7 +158,7 @@ public class MimicShape : MonoBehaviour
 
                 if (controller != null)
                 {
-                    randomPos = controller.getFinalPositionObjects(randomPos);
+                    randomPos = cameraAndPlayAreaSettings.getFinalPositionObjects(randomPos);
                     Debug.Log($"xxx Sphere_{i}: Position after getFinalPositionObjects = {randomPos}");
                 }
 

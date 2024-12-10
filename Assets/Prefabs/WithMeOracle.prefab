@@ -47,49 +47,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95eff87bfdd59c94a91fca152d701beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraResolution: 640
-  sphereSize: 10
-  maxDegrees: 195
-  pushTowardsBottom: 0.29
-  startSize: 7
-  verticalValue: 0.09
-  RemapValues: {x: 1, y: -1}
-  maxSize: {x: 1, y: 0, z: 1}
-  players: []
-  playerAvatars: []
-  playerIDS: 
-  playerLastSeenTimestamp: []
-  soundTimeout: 600
-  playerSeenScaler: []
-  playerTargetPositions: []
-  playerPrefab: {fileID: 0}
-  playerHolder: {fileID: 2548020614989887840}
+  cameraAndPlayAreaSettings: {fileID: 0}
+  playerSetupManager: {fileID: 0}
+  playerActivityManager: {fileID: 0}
+  displayPlayerIDText: 0
   playerLerpSpeed: 1
-  Time2Wait4PlayerFadeOut: 1.2
-  playerFadeInSpeed: 0.02
-  playerFadeOutSpeed: 0.03
   averagePosition: {x: 0, y: 0, z: 0}
   numActivePlayers: 0
   activePlayers: []
-  minPlayerScale: 0.01
-  removePlayerAfterStationaryTime: 100
-  enablePlayerReassignment: 1
-  playerDeactivationTime: 1
-  center: {fileID: 0}
-  skyboxMaterial: {fileID: 2100000, guid: df49a57f8850b4f4c8c11c9d46299bf2, type: 2}
-  SunPosition: {x: 0, y: -1, z: 0}
-  SunHue: 0
-  sunIntensity: 1
-  sunHueSize: 0.1
-  auroraIntensity: 1
-  auroraSpeed: 1
-  auroraHueStart: 0
-  auroraHueSize: 1
-  auroraHorizonImportance: 0.1
-  auroraNoiseSize: 1
-  auroraVibrantness: 1
   soundEventSender: {fileID: 0}
   tree: {fileID: 1196866117572372270}
+  treeController: {fileID: 0}
+  noGoZoneManager: {fileID: 0}
+  gameItemPlacer: {fileID: 0}
+  gameManager: {fileID: 0}
   numDots: 400
   inty: 2
   dotPrefab: {fileID: 0}
@@ -105,9 +76,13 @@ MonoBehaviour:
   sizeIncrementOnCollect: 0.01
   dotRegenerationInterval: 20
   dotsToRegenerate: 1
-  onDotCollectClip: {fileID: 8300000, guid: 7f08e91c45d14224eb032382060ea9f2, type: 3}
-  onExplodeClip: {fileID: 8300000, guid: c50faa9d45d83644f85a78af75cc4205, type: 3}
-  onLevelCompleteClip: {fileID: 8300000, guid: 81fa1cc8a62cc0941acc389875f05353, type: 3}
+  withMePointCollisionClip: {fileID: 0}
+  withMePointCollisionClip1: {fileID: 0}
+  withMePointCollisionClip2: {fileID: 0}
+  withMePointCollisionClip3: {fileID: 0}
+  withMePointCollisionClip4: {fileID: 0}
+  withMePointCollisionClip5: {fileID: 0}
+  withMePlayerCollisionClip: {fileID: 0}
   audioPlayer: {fileID: 0}
   explosionParticles: {fileID: 0}
   playerCollectDotParticleSystem: {fileID: 0}

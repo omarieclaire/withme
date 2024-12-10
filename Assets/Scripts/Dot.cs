@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Dot : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     public DotGameController controller;
     public int dotId;
     public bool collectedDot;
@@ -101,7 +103,7 @@ public class Dot : MonoBehaviour
         _transform.position += dotVelocity * Time.deltaTime; // Move the dot according to its velocity
         dotVelocity *= controller.dotDampening; // Apply dampening to slow down the dot's velocity
 
-        _transform.LookAt(controller.center); // Make the dot look toward the center of the dome
+        _transform.LookAt(cameraAndPlayAreaSettings.center); // Make the dot look toward the center of the dome
         _transform.Rotate(0, 180, 0); // Rotate the dot 180 degrees to face outward
     }
 

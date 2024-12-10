@@ -11,6 +11,9 @@ using UnityEngine;
 public class Kaliedescope : MonoBehaviour
 {
 
+        public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
+
     public float sizeMultiplier = .3f;
     [Tooltip("Number of iterations to create the kaleidoscope effect - how kalideocopey it is.")]
     public int numberOfIterations = 10;
@@ -37,7 +40,7 @@ public class Kaliedescope : MonoBehaviour
     void Update()
     {
 
-        float fRadius = controller.sphereSize + sphereOsscilationSize * Mathf.Sin(Time.time * sphereOsscilationSpeed);
+        float fRadius = cameraAndPlayAreaSettings.playAreaSphereSize + sphereOsscilationSize * Mathf.Sin(Time.time * sphereOsscilationSpeed);
         // Check if the number of nodes matches the required count
         if (nodes.Count != numberOfIterations * controller.activePlayers.Count)
         {

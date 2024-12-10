@@ -7,6 +7,10 @@ using TMPro;
 
 public class PlayerAvatar : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+    public PlayerSetupManager playerSetupManager;
+
+
     public Controller controller; // Reference to the game controller
 
     [Tooltip("TextMeshPro component for displaying player name.")]
@@ -95,7 +99,7 @@ public class PlayerAvatar : MonoBehaviour
     public AudioClip withMeP9Clip;
 
 
-   public virtual void Start()
+    public virtual void Start()
 
     // private void Start()
     {
@@ -157,95 +161,95 @@ public class PlayerAvatar : MonoBehaviour
     }
 
 
-   public virtual void SetData(string name)
-{
-    // Check if the player count is valid before calculating the hue
-    int playerCount = Mathf.Max(controller.players.Count, 1); // Ensure at least 1 to avoid division by zero
-
-    if (useRainbowColorLogic)
+    public virtual void SetData(string name)
     {
-        float initialHue;
+        // Check if the player count is valid before calculating the hue
+        int playerCount = Mathf.Max(playerSetupManager.players.Count, 1); // Ensure at least 1 to avoid division by zero
 
-        if (id == 0)
+        if (useRainbowColorLogic)
         {
-            // Assign a specific hue to player 0
-            initialHue = Mathf.Repeat(0.1f + initialHueOffset, 1f); // Start at a distinct color for player 0
+            float initialHue;
+
+            if (id == 0)
+            {
+                // Assign a specific hue to player 0
+                initialHue = Mathf.Repeat(0.1f + initialHueOffset, 1f); // Start at a distinct color for player 0
+            }
+            else
+            {
+                // Regular case for other players with a more noticeable hue differentiation
+                initialHue = Random.Range(0f, 1f);
+            }
+
+            // Debug.Log($"[DEBUG] Player ID: {id} | Initial Hue: {initialHue}, Saturation: {colorSaturation}, Value: {colorValue}");
+
+            // Set the player's color using HSV values
+            color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
         }
         else
         {
-            // Regular case for other players with a more noticeable hue differentiation
-        initialHue = Random.Range(0f, 1f);
+            // If not using rainbow color logic, all players get player 0's color
+            // note to self, this is doing the opposite! 
+            color = Color.HSVToRGB(5.1f + initialHueOffset, colorSaturation, colorValue); // Fixed color for all players
+                                                                                          // Debug.Log($"[DEBUG] Player ID: {id} | Assigned Player 0 Color (R,G,B): {color.r}, {color.g}, {color.b}");
         }
 
-        // Debug.Log($"[DEBUG] Player ID: {id} | Initial Hue: {initialHue}, Saturation: {colorSaturation}, Value: {colorValue}");
+        // Ensure the color is not too dark
+        if (color == Color.black || color.grayscale < 0.1f)
+        {
+            // Debug.LogWarning($"[WARNING] Player ID: {id} received a very dark color. Adjusting...");
+            color = Color.HSVToRGB(0.1f, colorSaturation, colorValue); // Fallback to a bright color
+        }
 
-        // Set the player's color using HSV values
-        color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
+        // Log the final color assigned to the player
+        // Debug.Log($"[DEBUG] Player ID: {id} | Final Color (R,G,B): {color.r}, {color.g}, {color.b}");
+
+        // Save the original color
+        originalColor = color;
+        // Debug.Log($"[DEBUG] Player ID: {id} | Original Color (R,G,B): {originalColor.r}, {originalColor.g}, {originalColor.b}");
+
+        ApplyMaterialsToRings();
+        UpdatePlayerColor();
+
+        if (playerModel != null)
+        {
+            playerModel.SetActive(usePlayerModel);
+        }
     }
-    else
+
+
+
+
+    public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
     {
-        // If not using rainbow color logic, all players get player 0's color
-        // note to self, this is doing the opposite! 
-        color = Color.HSVToRGB(5.1f + initialHueOffset, colorSaturation, colorValue); // Fixed color for all players
-        // Debug.Log($"[DEBUG] Player ID: {id} | Assigned Player 0 Color (R,G,B): {color.r}, {color.g}, {color.b}");
+        // Set the trail renderer's start and end color to the player's original color
+        // trailRenderer.startColor = originalColor;
+        // trailRenderer.endColor = originalColor;
     }
-
-    // Ensure the color is not too dark
-    if (color == Color.black || color.grayscale < 0.1f)
-    {
-        // Debug.LogWarning($"[WARNING] Player ID: {id} received a very dark color. Adjusting...");
-        color = Color.HSVToRGB(0.1f, colorSaturation, colorValue); // Fallback to a bright color
-    }
-
-    // Log the final color assigned to the player
-    // Debug.Log($"[DEBUG] Player ID: {id} | Final Color (R,G,B): {color.r}, {color.g}, {color.b}");
-
-    // Save the original color
-    originalColor = color;
-    // Debug.Log($"[DEBUG] Player ID: {id} | Original Color (R,G,B): {originalColor.r}, {originalColor.g}, {originalColor.b}");
-
-    ApplyMaterialsToRings();
-    UpdatePlayerColor();
-
-    if (playerModel != null)
-    {
-        playerModel.SetActive(usePlayerModel);
-    }
-}
-
-
-
-
-public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
-{
-    // Set the trail renderer's start and end color to the player's original color
-    // trailRenderer.startColor = originalColor;
-    // trailRenderer.endColor = originalColor;
-}
 
 
 
 
     public virtual void ApplyMaterialsToRings()
-{
-    if (regularRing != null && regularRingMaterial != null)
     {
-        regularRing.material = new Material(regularRingMaterial); // Clone the material
-        // Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Material Assigned: {regularRing.material.name}");
-    }
+        if (regularRing != null && regularRingMaterial != null)
+        {
+            regularRing.material = new Material(regularRingMaterial); // Clone the material
+                                                                      // Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Material Assigned: {regularRing.material.name}");
+        }
 
-    if (chargedRing != null && chargedRingMaterial != null)
-    {
-        chargedRing.material = new Material(chargedRingMaterial); // Clone the material
-        // Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Material Assigned: {chargedRing.material.name}");
-    }
+        if (chargedRing != null && chargedRingMaterial != null)
+        {
+            chargedRing.material = new Material(chargedRingMaterial); // Clone the material
+                                                                      // Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Material Assigned: {chargedRing.material.name}");
+        }
 
-    if (maxRing != null && maxRingMaterial != null)
-    {
-        maxRing.material = new Material(maxRingMaterial); // Clone the material
-        // Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Material Assigned: {maxRing.material.name}");
+        if (maxRing != null && maxRingMaterial != null)
+        {
+            maxRing.material = new Material(maxRingMaterial); // Clone the material
+                                                              // Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Material Assigned: {maxRing.material.name}");
+        }
     }
-}
 
 
     public virtual void OnDotCollect(bool chargeRingOn, bool maxRingOn)
@@ -270,7 +274,7 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
         chargedRing.enabled = false;
         regularRing.enabled = true;
 
-        transform.localScale = Vector3.one * controller.startSize;
+transform.localScale = Vector3.one * playerSetupManager.startSize;
 
         if (audioSource != null)
         {
@@ -299,7 +303,7 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
             audioSource.mute = false;
         }
         // Log the number of active players
-        // Debug.Log($"Number of active players: {controller.players.Count}");
+        // Debug.Log($"Number of active players: {playerSetupManager.players.Count}");
 
         // Rotate the hue through the full range (0 to 1) to create a rainbow effect
         // float hue = Mathf.Repeat(Time.time * colorRotationSpeed, 1f);
@@ -310,75 +314,75 @@ public virtual void UpdateLineRendererColor(TrailRenderer trailRenderer)
 
         UpdatePlayerColor();
 
-        transform.LookAt(controller.center);
+        transform.LookAt(cameraAndPlayAreaSettings.center);
 
         // Collision detection between players
-        for (int i = 0; i < controller.players.Count; i++)
+        for (int i = 0; i < playerSetupManager.players.Count; i++)
         {
-            if (controller.players[i] != this.gameObject)
+            if (playerSetupManager.players[i] != this.gameObject)
             {
-                float distance = Vector3.Distance(controller.players[i].transform.position, transform.position);
+                float distance = Vector3.Distance(playerSetupManager.players[i].transform.position, transform.position);
                 distance -= transform.localScale.x / 2;
-                distance -= controller.players[i].transform.localScale.x / 2;
+                distance -= playerSetupManager.players[i].transform.localScale.x / 2;
 
                 if (distance < collisionThreshold)
                 {
-                    controller.OnPlayersCollided(this, controller.playerAvatars[i]);
+                    controller.OnPlayersCollided(this, playerSetupManager.playerAvatars[i]);
                 }
             }
         }
     }
 
 
-//    public virtual void UpdatePlayerColor()
-// {
-//     if (regularRing != null)
-//     {
-//         regularRing.material.color = color;
-//         Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
-//     }
-//     if (chargedRing != null)
-//     {
-//         chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f); // Give the charged ring a glow effect
-//         Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
-//     }
-//     if (maxRing != null)
-//     {
-//         float pulse = Mathf.PingPong(Time.time * 2f, 1f); // Pulsing effect for max ring
-//         maxRing.material.color = Color.Lerp(color, Color.yellow, pulse); // Make max ring flash yellow
-//         Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
-//     }
-//     if (text != null)
-//     {
-//         text.color = color;
-//         Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
-//     }
-// }
+    //    public virtual void UpdatePlayerColor()
+    // {
+    //     if (regularRing != null)
+    //     {
+    //         regularRing.material.color = color;
+    //         Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
+    //     }
+    //     if (chargedRing != null)
+    //     {
+    //         chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f); // Give the charged ring a glow effect
+    //         Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
+    //     }
+    //     if (maxRing != null)
+    //     {
+    //         float pulse = Mathf.PingPong(Time.time * 2f, 1f); // Pulsing effect for max ring
+    //         maxRing.material.color = Color.Lerp(color, Color.yellow, pulse); // Make max ring flash yellow
+    //         Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
+    //     }
+    //     if (text != null)
+    //     {
+    //         text.color = color;
+    //         Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
+    //     }
+    // }
 
     public virtual void UpdatePlayerColor()
-{
-    if (regularRing != null)
     {
-        regularRing.material.color = color;
-        // Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
+        if (regularRing != null)
+        {
+            regularRing.material.color = color;
+            // Debug.Log($"[DEBUG] Player ID: {id} | Regular Ring Color: {regularRing.material.color}");
+        }
+        if (chargedRing != null)
+        {
+            chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f);  // Glow effect
+                                                                                // Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
+        }
+        if (maxRing != null)
+        {
+            float pulse = Mathf.PingPong(Time.time * 2f, 1f);  // Pulsing effect for max ring
+            maxRing.material.color = Color.Lerp(color, Color.yellow, pulse);  // Make max ring flash yellow
+                                                                              // Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
+        }
+        if (text != null)
+        {
+            text.color = color;
+            // Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
+        }
     }
-    if (chargedRing != null)
-    {
-        chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f);  // Glow effect
-        // Debug.Log($"[DEBUG] Player ID: {id} | Charged Ring Color: {chargedRing.material.color}");
-    }
-    if (maxRing != null)
-    {
-        float pulse = Mathf.PingPong(Time.time * 2f, 1f);  // Pulsing effect for max ring
-        maxRing.material.color = Color.Lerp(color, Color.yellow, pulse);  // Make max ring flash yellow
-        // Debug.Log($"[DEBUG] Player ID: {id} | Max Ring Color: {maxRing.material.color}");
-    }
-    if (text != null)
-    {
-        text.color = color;
-        // Debug.Log($"[DEBUG] Player ID: {id} | Text Color: {text.color}");
-    }
-}
 
 
 }

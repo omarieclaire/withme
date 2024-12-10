@@ -6,6 +6,8 @@ using UnityEngine.Rendering;
 
 public class PlayerConnectionRenderer : MonoBehaviour
 {
+        public PlayerSetupManager playerSetupManager;
+
     public Material drawMaterial;
 
     public float distanceForConnection;
@@ -29,7 +31,7 @@ public class PlayerConnectionRenderer : MonoBehaviour
 
 
 
-        numPlayers = controller.players.Count;
+        numPlayers = playerSetupManager.players.Count;
 
 
         if (numPlayers != oNumPlayers)
@@ -47,17 +49,17 @@ public class PlayerConnectionRenderer : MonoBehaviour
         for (int i = 0; i < numPlayers; i++)
         {
             playerData[i] = new Vector4(
-                controller.players[i].transform.position.x,
-                controller.players[i].transform.position.y,
-                controller.players[i].transform.position.z,
-                controller.playerSeenScaler[i]
+                playerSetupManager.players[i].transform.position.x,
+                playerSetupManager.players[i].transform.position.y,
+                playerSetupManager.players[i].transform.position.z,
+                playerSetupManager.playerSeenScalers[i]
             );
         }
 
         playerBuffer.SetData(playerData);
 
 
-        if (controller.players.Count > 1 && playerBuffer != null)
+        if (playerSetupManager.players.Count > 1 && playerBuffer != null)
         {
 
             if (mpb == null)

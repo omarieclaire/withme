@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NoGoZoneManager : MonoBehaviour
 {
+        public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     // List of no-go zone colliders
     public Collider doorCollider;
     public Collider soundBoothCollider;
@@ -54,7 +56,7 @@ public class NoGoZoneManager : MonoBehaviour
         }
 
         // Calculate scale factor based on the sphereSize (relative to the default sphereSize of 2)
-        float scaleFactor = controller.sphereSize / 2f;
+        float scaleFactor = cameraAndPlayAreaSettings.playAreaSphereSize / 2f;
 
         // Scale and move the door collider
         if (doorCollider != null)

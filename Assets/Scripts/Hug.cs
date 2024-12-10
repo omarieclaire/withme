@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Hug : MonoBehaviour
 {
+    public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     // References to various managers and controllers for gameplay logic
     [Header("References")]
     public NoGoZoneManager noGoZoneManager; // Manages areas where HugFaces should not spawn
@@ -80,6 +82,7 @@ public class Hug : MonoBehaviour
         {
             gameManager = FindObjectOfType<GameManager>();  // Find GameManager if not set
         }
+
     }
 
     private void ClearExistingFaces()
@@ -191,135 +194,135 @@ public class Hug : MonoBehaviour
         face1.partners = new List<HugFace> { face2 };
         face2.partners = new List<HugFace> { face1 };
     }
-private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
-{
-    Debug.Log("in position faces");
-    List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
-
-    Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
-    if (!position1.HasValue)
+    private void PositionFaces(HugFace face1, HugFace face2, float partnerMinDistance, float otherFacesMinDistance)
     {
-        Debug.LogError("Failed to position first face. Using fallback position.");
-        position1 = Vector3.up; // Fallback to a safe default position
-    }
-    Debug.Log($"[INFO] Placing HugFace 1 at {position1.Value}");
+        Debug.Log("in position faces");
+        List<HugFace> existingFaces = new List<HugFace>(listOfHugFaceObjects);
 
-    existingFaces.Add(face1); // Add first face to the list for checking overlap
-
-    Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
-    if (!position2.HasValue)
-    {
-        Debug.LogError("Failed to position second face. Using fallback position.");
-        position2 = -Vector3.up; // Fallback to a safe default position
-    }
-    Debug.Log($"[INFO] Placing HugFace 2 at {position2.Value}");
-
-    face1.transform.position = position1.Value;
-    face2.transform.position = position2.Value;
-
-    listOfHugFaceObjects.Add(face1); // Add both faces to the main list
-    listOfHugFaceObjects.Add(face2);
-
-    Debug.Log($"[INFO] Now there are {listOfHugFaceObjects.Count} existing HugFaces.");
-}
-
-
-private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
-{
-    const int maxAttempts = 1000;
-    for (int attempts = 0; attempts < maxAttempts; attempts++)
-    {
-        Vector3 randomPos = GetRandomPosition();
-
-        // Log each attempt
-        Debug.Log($"[INFO] Attempt {attempts + 1}: Trying random position {randomPos}");
-
-        if (!IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
+        Vector3? position1 = GetValidPosition(existingFaces, otherFacesMinDistance);
+        if (!position1.HasValue)
         {
-            Debug.Log($"[INFO] Found valid position at {randomPos} after {attempts + 1} attempts.");
-            return randomPos; // Valid position found
+            Debug.LogError("Failed to position first face. Using fallback position.");
+            position1 = Vector3.up; // Fallback to a safe default position
         }
+        Debug.Log($"[INFO] Placing HugFace 1 at {position1.Value}");
 
-        Debug.Log($"[INFO] Attempt {attempts + 1}: Position {randomPos} was invalid due to overlap.");
-    }
-    Debug.LogWarning($"[WARNING] Failed to find a valid position after {maxAttempts} attempts. Using fallback.");
-    return Vector3.zero; // Fallback position
-}
+        existingFaces.Add(face1); // Add first face to the list for checking overlap
 
-private Vector3 GetRandomPosition()
-{
-    Vector3 randomDir = Random.onUnitSphere;
-    float randomDistance = Random.Range(0.5f, 1f);
-    Vector3 randomPos = randomDir * randomDistance;
-    
-    Vector3 finalPos = controller.getFinalPosition(randomPos);
-    Debug.Log($"[INFO] Generated random position {randomPos}, transformed to final position {finalPos}");
-    
-    return finalPos;
-}
-
-private bool CheckIfBlocked(Vector3 pos)
-{
-    Ray ray = new Ray(Vector3.zero, pos.normalized);
-    if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
-    {
-        bool blocked = hit.collider == noGoZoneManager.doorCollider ||
-                       hit.collider == noGoZoneManager.soundBoothCollider ||
-                       hit.collider == noGoZoneManager.stageCollider;
-
-        if (blocked)
+        Vector3? position2 = GetValidPartnerPosition(face1, existingFaces, partnerMinDistance, otherFacesMinDistance);
+        if (!position2.HasValue)
         {
-            Debug.LogWarning($"[WARNING] Position {pos} is blocked by {hit.collider.name}");
+            Debug.LogError("Failed to position second face. Using fallback position.");
+            position2 = -Vector3.up; // Fallback to a safe default position
         }
-        return blocked;
-    }
-    return false;
-}
+        Debug.Log($"[INFO] Placing HugFace 2 at {position2.Value}");
 
-private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
-{
-    if (existingFaces == null || existingFaces.Count == 0)
+        face1.transform.position = position1.Value;
+        face2.transform.position = position2.Value;
+
+        listOfHugFaceObjects.Add(face1); // Add both faces to the main list
+        listOfHugFaceObjects.Add(face2);
+
+        Debug.Log($"[INFO] Now there are {listOfHugFaceObjects.Count} existing HugFaces.");
+    }
+
+
+    private Vector3? GetValidPosition(List<HugFace> existingFaces, float minDistance)
     {
-        Debug.LogWarning("[WARNING] The list of existing HugFaces is either null or empty.");
+        const int maxAttempts = 1000;
+        for (int attempts = 0; attempts < maxAttempts; attempts++)
+        {
+            Vector3 randomPos = GetRandomPosition();
+
+            // Log each attempt
+            Debug.Log($"[INFO] Attempt {attempts + 1}: Trying random position {randomPos}");
+
+            if (!IsOverlappingExistingFaces(randomPos, existingFaces, minDistance))
+            {
+                Debug.Log($"[INFO] Found valid position at {randomPos} after {attempts + 1} attempts.");
+                return randomPos; // Valid position found
+            }
+
+            Debug.Log($"[INFO] Attempt {attempts + 1}: Position {randomPos} was invalid due to overlap.");
+        }
+        Debug.LogWarning($"[WARNING] Failed to find a valid position after {maxAttempts} attempts. Using fallback.");
+        return Vector3.zero; // Fallback position
+    }
+
+    private Vector3 GetRandomPosition()
+    {
+        Vector3 randomDir = Random.onUnitSphere;
+        float randomDistance = Random.Range(0.5f, 1f);
+        Vector3 randomPos = randomDir * randomDistance;
+
+        Vector3 finalPos = cameraAndPlayAreaSettings.getFinalPosition(randomPos);
+        Debug.Log($"[INFO] Generated random position {randomPos}, transformed to final position {finalPos}");
+
+        return finalPos;
+    }
+
+    private bool CheckIfBlocked(Vector3 pos)
+    {
+        Ray ray = new Ray(Vector3.zero, pos.normalized);
+        if (Physics.Raycast(ray, out RaycastHit hit, pos.magnitude))
+        {
+            bool blocked = hit.collider == noGoZoneManager.doorCollider ||
+                           hit.collider == noGoZoneManager.soundBoothCollider ||
+                           hit.collider == noGoZoneManager.stageCollider;
+
+            if (blocked)
+            {
+                Debug.LogWarning($"[WARNING] Position {pos} is blocked by {hit.collider.name}");
+            }
+            return blocked;
+        }
         return false;
     }
 
-    foreach (var face in existingFaces)
+    private bool IsOverlappingExistingFaces(Vector3 pos, List<HugFace> existingFaces, float minDistance)
     {
-        float distance = Vector3.Distance(pos, face.transform.position);
-        Debug.Log($"[INFO] Distance between {pos} and HugFace at {face.transform.position}: {distance}");
-
-        if (distance < minDistance)
+        if (existingFaces == null || existingFaces.Count == 0)
         {
-            Debug.LogWarning($"[WARNING] Overlap detected. HugFace at {face.transform.position} is too close to position {pos}. Distance: {distance}, Minimum allowed: {minDistance}");
-            return true;
-        }
-    }
-    return false;
-}
-
-private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
-{
-    const int maxAttempts = 1000;
-    for (int attempt = 0; attempt < maxAttempts; attempt++)
-    {
-        Vector3 randomPos = GetRandomPosition();
-
-        float partnerDistance = Vector3.Distance(randomPos, partner.transform.position);
-        Debug.Log($"[INFO] Attempt {attempt + 1}: Distance between {randomPos} and partner at {partner.transform.position}: {partnerDistance}");
-
-        if (partnerDistance >= partnerMinDistance &&
-            !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
-        {
-            Debug.Log($"[INFO] Found valid partner position at {randomPos} after {attempt + 1} attempts.");
-            return randomPos;
+            Debug.LogWarning("[WARNING] The list of existing HugFaces is either null or empty.");
+            return false;
         }
 
-        Debug.Log($"[INFO] Attempt {attempt + 1}: Position {randomPos} was invalid due to either overlap or insufficient partner distance.");
+        foreach (var face in existingFaces)
+        {
+            float distance = Vector3.Distance(pos, face.transform.position);
+            Debug.Log($"[INFO] Distance between {pos} and HugFace at {face.transform.position}: {distance}");
+
+            if (distance < minDistance)
+            {
+                Debug.LogWarning($"[WARNING] Overlap detected. HugFace at {face.transform.position} is too close to position {pos}. Distance: {distance}, Minimum allowed: {minDistance}");
+                return true;
+            }
+        }
+        return false;
     }
-    Debug.LogWarning($"[WARNING] Failed to find a valid position for partner after {maxAttempts} attempts.");
-    return null;
-}
+
+    private Vector3? GetValidPartnerPosition(HugFace partner, List<HugFace> existingFaces, float partnerMinDistance, float otherFacesMinDistance)
+    {
+        const int maxAttempts = 1000;
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            Vector3 randomPos = GetRandomPosition();
+
+            float partnerDistance = Vector3.Distance(randomPos, partner.transform.position);
+            Debug.Log($"[INFO] Attempt {attempt + 1}: Distance between {randomPos} and partner at {partner.transform.position}: {partnerDistance}");
+
+            if (partnerDistance >= partnerMinDistance &&
+                !IsOverlappingExistingFaces(randomPos, existingFaces, otherFacesMinDistance))
+            {
+                Debug.Log($"[INFO] Found valid partner position at {randomPos} after {attempt + 1} attempts.");
+                return randomPos;
+            }
+
+            Debug.Log($"[INFO] Attempt {attempt + 1}: Position {randomPos} was invalid due to either overlap or insufficient partner distance.");
+        }
+        Debug.LogWarning($"[WARNING] Failed to find a valid position for partner after {maxAttempts} attempts.");
+        return null;
+    }
 
 
     private void AddFacesToList(HugFace face1, HugFace face2)

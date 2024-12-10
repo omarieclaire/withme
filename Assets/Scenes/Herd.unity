@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a4ad33781944e9d805c54b51e38e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSetupManager: {fileID: 0}
   controller: {fileID: 1739179313}
   portal: {fileID: 1285510725}
   portalCollider: {fileID: 612210843}
@@ -1477,6 +1478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67778436c83d1fa41934cc8d45c011b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraAndPlayAreaSettings: {fileID: 1739179316}
+  playerSetupManager: {fileID: 0}
   controller: {fileID: 1739179313}
   text: {fileID: 729450132}
   id: 0
@@ -1970,6 +1973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40123eb05e824e41a0a2311b8f15338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraAndPlayAreaSettings: {fileID: 0}
   controller: {fileID: 0}
   dotId: 0
   collectedDot: 0
@@ -2432,6 +2436,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 67d0620e949dbdb4ab4693153096ed14, type: 2}
+    - target: {fileID: 1826536441581562225, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 755660615}
     - target: {fileID: 2089905185038129228, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_Name
       value: AnOracleOfAll
@@ -2495,6 +2503,14 @@ PrefabInstance:
     - target: {fileID: 8231393464142421227, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358063605474160585, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: maxDegrees
+      value: 195
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358063605474160585, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+      propertyPath: pushTowardsBottom
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 8617815535709435029, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
       propertyPath: tree
@@ -2563,6 +2579,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6131361569656809037, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
   m_PrefabInstance: {fileID: 1739179311}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1739179316 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8358063605474160585, guid: 24fe944c8e7e64ec6a09c4105d962b45, type: 3}
+  m_PrefabInstance: {fileID: 1739179311}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687232773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e30d7e9d3dd4893805ea9288213dcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1873154113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2973,6 +3000,10 @@ PrefabInstance:
       propertyPath: floorCollider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7494519369937799041, guid: 62e683647f2c44a20beb01aa54585b77, type: 3}
+      propertyPath: cameraAndPlayAreaSettings
+      value: 
+      objectReference: {fileID: 1739179316}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

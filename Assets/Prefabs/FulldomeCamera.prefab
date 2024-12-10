@@ -166,9 +166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   cubemapFaces: 55
-  domemasterResolution: 2048
+  domemasterResolution: 1024
   orientation: 1
-  horizon: 210
+  horizon: 180
   domeTilt: 0
   masked: 0
   cubemapFbo: {fileID: 0}

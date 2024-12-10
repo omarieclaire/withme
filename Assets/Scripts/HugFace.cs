@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HugFace : MonoBehaviour
 {
+        public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
+
     [Header("References")]
     public NoGoZoneManager noGoZoneManager;
     public Controller controller;

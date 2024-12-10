@@ -156,7 +156,7 @@
 //     {
 //         // Set the initial color based on player's ID using a unique hue and the initial offset
 //         // Create a hue based on player ID, normalized to span the entire hue range (0 to 1)
-//         float initialHue = Mathf.Repeat((id + initialHueOffset) / controller.players.Count, 1f);
+//         float initialHue = Mathf.Repeat((id + initialHueOffset) / playerSetupManager.players.Count, 1f);
 //         color = Color.HSVToRGB(initialHue, colorSaturation, colorValue);
 
 //         // Save the original color
@@ -252,7 +252,7 @@
 //             audioSource.mute = false;
 //         }
 //         // Log the number of active players
-//         // Debug.Log($"Number of active players: {controller.players.Count}");
+//         // Debug.Log($"Number of active players: {playerSetupManager.players.Count}");
 
 //         // Rotate the hue through the full range (0 to 1) to create a rainbow effect
 //         // float hue = Mathf.Repeat(Time.time * colorRotationSpeed, 1f);
@@ -266,13 +266,13 @@
 //         transform.LookAt(controller.center);
 
 //         // Collision detection between players
-//         for (int i = 0; i < controller.players.Count; i++)
+//         for (int i = 0; i < playerSetupManager.players.Count; i++)
 //         {
-//             if (controller.players[i] != this.gameObject)
+//             if (playerSetupManager.players[i] != this.gameObject)
 //             {
-//                 float distance = Vector3.Distance(controller.players[i].transform.position, transform.position);
+//                 float distance = Vector3.Distance(playerSetupManager.players[i].transform.position, transform.position);
 //                 distance -= transform.localScale.x / 2;
-//                 distance -= controller.players[i].transform.localScale.x / 2;
+//                 distance -= playerSetupManager.players[i].transform.localScale.x / 2;
 
 //                 if (distance < collisionThreshold)
 //                 {
