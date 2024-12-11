@@ -30,7 +30,7 @@ public class Controller : MonoBehaviour
     private const double LOG_INTERVAL = 0.5f; // Log every 0.5 seconds per player
 
 
-     void Start()
+    void Start()
     {
         Debug.Log("[Controller] Start method called.");
         playerActivityManager.playerSetupManager = playerSetupManager;
@@ -42,64 +42,49 @@ public class Controller : MonoBehaviour
 
 
     public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
-{
-    Debug.LogFormat("[Timestamp-Start] Player {0}: Current system time={1:F3}", 
-        playerID, Time.unscaledTimeAsDouble);
-
-    var info = playerSetupManager.GetPlayerInfo(playerID);
-    Debug.LogFormat("[Timestamp-Check] Player {0}: Stored timestamp={1:F3}", 
-        playerID, info != null ? info.LastOSCTimeStamp : 0);
-
-    // If player doesn't exist, create them
-    if (info == null)
     {
-        OnPlayerCreate(playerID);
-        info = playerSetupManager.GetPlayerInfo(playerID);
+        var info = playerSetupManager.GetPlayerInfo(playerID);
+
+        // If player doesn't exist, create them
+        if (info == null)
+        {
+            OnPlayerCreate(playerID);
+            info = playerSetupManager.GetPlayerInfo(playerID);
+        }
+
+        // Check if position has actually changed
+        float v1 = blobPosition.x / cameraAndPlayAreaSettings.actualCameraResolution;
+        float v2 = blobPosition.y / cameraAndPlayAreaSettings.actualCameraResolution;
+
+        v1 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, v1);
+        v2 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, v2);
+
+        Vector3 remappedPosition = new Vector3(v1, 0, v2);
+        Vector3 finalPosition = cameraAndPlayAreaSettings.getFinalPosition(remappedPosition);
+
+        // Only update position and timestamp if position has changed
+        if (Vector3.Distance(info.TargetPosition, finalPosition) > 0.01f)
+        {
+            double currentTime = Time.unscaledTimeAsDouble;
+
+            // Update position
+            playerSetupManager.UpdatePlayerPosition(playerID, finalPosition);
+            info.PlayerObject.transform.position = Vector3.Lerp(
+                info.PlayerObject.transform.position,
+                finalPosition,
+                playerLerpSpeed
+            );
+
+            // Update timestamp and handle activity
+            playerSetupManager.UpdatePlayerTimestamp(playerID, currentTime);
+            playerActivityManager.OnNewPositionUpdate(playerID);
+            Debug.LogFormat("[Controller] Updated position and timestamp for player {0}", playerID);
+
+            // if (debug)
+            // {
+            // }
+        }
     }
-
-    double currentTime = Time.unscaledTimeAsDouble;
-    Debug.LogFormat("[Controller] Player {0} - Updating with time: {1:F3}", playerID, currentTime);
-
-    double previousTimestamp = info.LastOSCTimeStamp;
-
-    // Update the timestamp
-    playerSetupManager.UpdatePlayerTimestamp(playerID, currentTime);
-
-    // Rate-limited logging of timestamp updates
-    if (!_lastLoggedTimestamp.ContainsKey(playerID) || 
-        (currentTime - _lastLoggedTimestamp[playerID]) >= LOG_INTERVAL)
-    {
-        Debug.LogFormat(
-            "[Timestamp] Player {0} - Previous: {1:F2}, New: {2:F2}, Delta: {3:F3}s",
-            playerID, previousTimestamp, currentTime, currentTime - previousTimestamp
-        );
-        _lastLoggedTimestamp[playerID] = currentTime;
-    }
-
-    // Position update logic
-    float v1 = blobPosition.x / cameraAndPlayAreaSettings.actualCameraResolution;
-    float v2 = blobPosition.y / cameraAndPlayAreaSettings.actualCameraResolution;
-
-    v1 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, v1);
-    v2 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, v2);
-
-    Vector3 remappedPosition = new Vector3(v1, 0, v2);
-    Vector3 finalPosition = cameraAndPlayAreaSettings.getFinalPosition(remappedPosition);
-
-    if (Vector3.Distance(info.TargetPosition, finalPosition) > 0.01f)
-    {
-        playerSetupManager.UpdatePlayerPosition(playerID, finalPosition);
-        info.PlayerObject.transform.position = Vector3.Lerp(
-            info.PlayerObject.transform.position,
-            finalPosition,
-            playerLerpSpeed
-        );
-    }
-
-    info = playerSetupManager.GetPlayerInfo(playerID);
-    Debug.LogFormat("[Timestamp-End] Player {0}: Final stored timestamp={1:F3}", 
-        playerID, info.LastOSCTimeStamp);
-}
 
     public void OnPlayerCreate(int playerID)
     {
@@ -158,31 +143,31 @@ public class Controller : MonoBehaviour
     //     }
     // }
 
-void Update()
-{
-    numActivePlayers = 0;
-    averagePosition = Vector3.zero;
-
-    // Only calculate average position here
-    foreach (var kvp in playerSetupManager.playersDict)
+    void Update()
     {
-        var info = kvp.Value;
-        if (info.PlayerObject.activeSelf)
+        numActivePlayers = 0;
+        averagePosition = Vector3.zero;
+
+        // Only calculate average position here
+        foreach (var kvp in playerSetupManager.playersDict)
         {
-            numActivePlayers++;
-            averagePosition += info.PlayerObject.transform.position;
+            var info = kvp.Value;
+            if (info.PlayerObject.activeSelf)
+            {
+                numActivePlayers++;
+                averagePosition += info.PlayerObject.transform.position;
+            }
+        }
+
+        if (numActivePlayers > 0)
+        {
+            averagePosition /= numActivePlayers;
+        }
+        else
+        {
+            averagePosition = Vector3.zero;
         }
     }
-
-    if (numActivePlayers > 0)
-    {
-        averagePosition /= numActivePlayers;
-    }
-    else
-    {
-        averagePosition = Vector3.zero;
-    }
-}
 
     public virtual void OnPlayersCollided(PlayerAvatar p1, PlayerAvatar p2) { }
     public virtual void OnPlayerCollideWithDot(PlayerAvatar player, GameObject collider) { }

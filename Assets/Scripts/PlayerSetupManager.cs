@@ -13,14 +13,14 @@ public class PlayerSetupManager : MonoBehaviour
     public Dictionary<int, PlayerInfo> playersDict = new Dictionary<int, PlayerInfo>();
 
     public class PlayerInfo
-{
-    public int PlayerID; // Add this field
-    public GameObject PlayerObject;
-    public PlayerAvatar Avatar;
-    public double LastOSCTimeStamp;
-    public Vector3 TargetPosition;
-    public float SeenScaler;
-}
+    {
+        public int PlayerID; // Add this field
+        public GameObject PlayerObject;
+        public PlayerAvatar Avatar;
+        public double LastOSCTimeStamp;
+        public Vector3 TargetPosition;
+        public float SeenScaler;
+    }
 
     public GameObject CreatePlayer(int playerID, Vector3 startPosition)
     {
@@ -39,14 +39,14 @@ public class PlayerSetupManager : MonoBehaviour
         avatar.SetData($"P{playerID}");
 
         PlayerInfo info = new PlayerInfo
-{
-    PlayerID = playerID, // Set the PlayerID
-    PlayerObject = player,
-    Avatar = avatar,
-    LastOSCTimeStamp = Time.unscaledTimeAsDouble,
-    TargetPosition = startPosition,
-    SeenScaler = 0.01f
-};
+        {
+            PlayerID = playerID, // Set the PlayerID
+            PlayerObject = player,
+            Avatar = avatar,
+            LastOSCTimeStamp = Time.unscaledTimeAsDouble,
+            TargetPosition = startPosition,
+            SeenScaler = 0.01f
+        };
 
         playersDict[playerID] = info;
 
@@ -70,14 +70,14 @@ public class PlayerSetupManager : MonoBehaviour
     }
 
     public void UpdatePlayerTimestamp(int playerID, double time)
-{
-    if (playersDict.TryGetValue(playerID, out var info))
     {
-        Debug.LogFormat("[TimestampUpdate] Player {0} - Raw update requested from {1:F3} to {2:F3}", 
-            playerID, info.LastOSCTimeStamp, time);
-        info.LastOSCTimeStamp = time;
+        if (playersDict.TryGetValue(playerID, out var info))
+        {
+            Debug.LogFormat("[TimestampUpdate] Player {0} - Raw update requested from {1:F3} to {2:F3}",
+                playerID, info.LastOSCTimeStamp, time);
+            info.LastOSCTimeStamp = time;
+        }
     }
-}
 
     public void UpdatePlayerPosition(int playerID, Vector3 position)
     {
@@ -88,49 +88,49 @@ public class PlayerSetupManager : MonoBehaviour
     }
 
     public int GetActivePlayerCount()
-{
-    int count = 0;
-    foreach (var kvp in playersDict)
     {
-        if (kvp.Value.PlayerObject.activeSelf)
-            count++;
-    }
-    return count;
-}
-
-public PlayerAvatar GetPlayerAvatar(GameObject playerObject)
-{
-    foreach (var kvp in playersDict)
-    {
-        if (kvp.Value.PlayerObject == playerObject)
+        int count = 0;
+        foreach (var kvp in playersDict)
         {
-            return kvp.Value.Avatar;
+            if (kvp.Value.PlayerObject.activeSelf)
+                count++;
         }
+        return count;
     }
-    return null; // Return null if the playerObject is not found
-}
 
-
-public Vector3 GetPlayerScale(int playerID)
-{
-    if (playersDict.TryGetValue(playerID, out var info))
+    public PlayerAvatar GetPlayerAvatar(GameObject playerObject)
     {
-        return Vector3.one * startSize * info.SeenScaler;
-    }
-    return Vector3.one * startSize; // fallback if not found
-}
-
-
-public List<PlayerSetupManager.PlayerInfo> GetActivePlayers()
-{
-    List<PlayerSetupManager.PlayerInfo> activeList = new List<PlayerSetupManager.PlayerInfo>();
-    foreach (var kvp in playersDict)
-    {
-        if (kvp.Value.PlayerObject.activeSelf)
+        foreach (var kvp in playersDict)
         {
-            activeList.Add(kvp.Value);
+            if (kvp.Value.PlayerObject == playerObject)
+            {
+                return kvp.Value.Avatar;
+            }
         }
+        return null; // Return null if the playerObject is not found
     }
-    return activeList;
-}
+
+
+    public Vector3 GetPlayerScale(int playerID)
+    {
+        if (playersDict.TryGetValue(playerID, out var info))
+        {
+            return Vector3.one * startSize * info.SeenScaler;
+        }
+        return Vector3.one * startSize; // fallback if not found
+    }
+
+
+    public List<PlayerSetupManager.PlayerInfo> GetActivePlayers()
+    {
+        List<PlayerSetupManager.PlayerInfo> activeList = new List<PlayerSetupManager.PlayerInfo>();
+        foreach (var kvp in playersDict)
+        {
+            if (kvp.Value.PlayerObject.activeSelf)
+            {
+                activeList.Add(kvp.Value);
+            }
+        }
+        return activeList;
+    }
 }

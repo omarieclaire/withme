@@ -22,33 +22,90 @@ public class PlayerActivityManager : MonoBehaviour
         Debug.Log("[PlayerActivityManager] Initialized.");
     }
 
-   public void HandlePlayerActivity(int playerID)
+//    public void HandlePlayerActivity(int playerID)
+//     {
+//         var info = playerSetupManager.GetPlayerInfo(playerID);
+//         if (info == null) return;
+
+// double currentTime = Time.unscaledTimeAsDouble;
+//     Debug.LogFormat("[Activity-Check] Player {0}: Using timestamp {1:F3} at time {2:F3}", 
+//         playerID, info.LastOSCTimeStamp, currentTime);
+//         double timeSinceLastSeen = currentTime - info.LastOSCTimeStamp;
+
+//         Debug.LogFormat(
+//             "[PlayerActivity] Player {0} - Decision point: Current={1:F2}, Last={2:F2}, Delta={3:F2}, Threshold={4:F2}",
+//             playerID, currentTime, info.LastOSCTimeStamp, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
+
+//         if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
+//         {
+//             Debug.LogFormat("[PlayerActivity] Player {0} - SHOULD SHRINK - Time since last seen ({1:F2}) > threshold ({2:F2})",
+//                 playerID, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
+//             ShrinkSilenceAndDeactivatePlayer(playerID);
+//         }
+//         else
+//         {
+//             Debug.LogFormat("[PlayerActivity] Player {0} - SHOULD BE ACTIVE - Time since last seen ({1:F2}) < threshold ({2:F2})",
+//                 playerID, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
+//             ReactivatePlayer(playerID);
+//         }
+//     }
+
+    void Update()
+    {
+        // Check all players every frame
+        if (playerSetupManager != null && playerSetupManager.playersDict != null)
+        {
+            foreach (var kvp in playerSetupManager.playersDict)
+            {
+                int playerID = kvp.Key;
+                CheckPlayerActivity(playerID);
+            }
+        }
+    }
+//findme
+    // Renamed from HandlePlayerActivity to better reflect its purpose
+    public void CheckPlayerActivity(int playerID)
     {
         var info = playerSetupManager.GetPlayerInfo(playerID);
         if (info == null) return;
 
-double currentTime = Time.unscaledTimeAsDouble;
-    Debug.LogFormat("[Activity-Check] Player {0}: Using timestamp {1:F3} at time {2:F3}", 
-        playerID, info.LastOSCTimeStamp, currentTime);
+        double currentTime = Time.unscaledTimeAsDouble;
         double timeSinceLastSeen = currentTime - info.LastOSCTimeStamp;
 
-        Debug.LogFormat(
-            "[PlayerActivity] Player {0} - Decision point: Current={1:F2}, Last={2:F2}, Delta={3:F2}, Threshold={4:F2}",
-            playerID, currentTime, info.LastOSCTimeStamp, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
+        
+        
+            // Only log periodically to avoid spam
+            if (!_lastLogTime.ContainsKey(playerID) || 
+                (currentTime - _lastLogTime[playerID]) >= LOG_INTERVAL)
+            {
+                Debug.LogFormat(
+                    "[PlayerActivity] Player {0} - Last seen {1:F2}s ago (threshold: {2:F2}s)",
+                    playerID, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
+                _lastLogTime[playerID] = currentTime;
+            }
+        
 
         if (timeSinceLastSeen > Time2Wait4PlayerFadeOut)
         {
-            Debug.LogFormat("[PlayerActivity] Player {0} - SHOULD SHRINK - Time since last seen ({1:F2}) > threshold ({2:F2})",
-                playerID, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
             ShrinkSilenceAndDeactivatePlayer(playerID);
         }
         else
         {
-            Debug.LogFormat("[PlayerActivity] Player {0} - SHOULD BE ACTIVE - Time since last seen ({1:F2}) < threshold ({2:F2})",
-                playerID, timeSinceLastSeen, Time2Wait4PlayerFadeOut);
             ReactivatePlayer(playerID);
         }
     }
+
+    // Renamed old HandlePlayerActivity to OnNewPositionUpdate
+    public void OnNewPositionUpdate(int playerID)
+    {
+        // This gets called from Controller when we receive a new position
+        // We don't need to do much here since Update() is constantly checking anyway
+        // if (debug)
+        {
+            Debug.LogFormat("[PlayerActivity] Received new position for Player {0}", playerID);
+        }
+    }
+
 
     private void ReactivatePlayer(int playerID)
     {
