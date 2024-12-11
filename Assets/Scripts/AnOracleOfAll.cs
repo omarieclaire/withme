@@ -102,47 +102,6 @@ public class Controller : MonoBehaviour
         }
     }
 
-    // void Update()
-    // {
-    //     double currentTime = Time.unscaledTimeAsDouble;
-    //     numActivePlayers = 0;
-    //     averagePosition = Vector3.zero;
-
-    //     foreach (var kvp in playerSetupManager.playersDict)
-    //     {
-    //         int playerID = kvp.Key;
-    //         var info = kvp.Value;
-
-    //         // Log time since last OSC update for each player
-    //         if (!_lastLoggedTimestamp.ContainsKey(playerID) || 
-    //             (currentTime - _lastLoggedTimestamp[playerID]) >= LOG_INTERVAL)
-    //         {
-    //             Debug.LogFormat(
-    //                 "[TimeSinceOSC] Player {0} - LastOSCTimeStamp: {1:F2}, TimeSince: {2:F2}s",
-    //                 playerID, info.LastOSCTimeStamp, currentTime - info.LastOSCTimeStamp
-    //             );
-    //             _lastLoggedTimestamp[playerID] = currentTime;
-    //         }
-
-    //         playerActivityManager.HandlePlayerActivity(playerID);
-
-    //         if (info.PlayerObject.activeSelf)
-    //         {
-    //             numActivePlayers++;
-    //             averagePosition += info.PlayerObject.transform.position;
-    //         }
-    //     }
-
-    //     if (numActivePlayers > 0)
-    //     {
-    //         averagePosition /= numActivePlayers;
-    //     }
-    //     else
-    //     {
-    //         averagePosition = Vector3.zero;
-    //     }
-    // }
-
     void Update()
     {
         numActivePlayers = 0;
