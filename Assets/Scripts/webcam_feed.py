@@ -1,5 +1,3 @@
-# not working
-
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -13,7 +11,7 @@ class PersonTracker:
         self.tracked_people = {}
         self.available_ids = list(range(10))
         self.grace_period = grace_period
-        self.last_osc_send_time = 0  # Add this to track last send time
+        self.last_osc_send_time = 0  # last send time
         self.osc_send_interval = 0.1  # 100ms interval
 
     def should_send_osc(self, current_time):
@@ -22,7 +20,7 @@ class PersonTracker:
             return True
         return False
 
-    def remove_stale_tracks(self, current_time):  # Fixed method name
+    def remove_stale_tracks(self, current_time):  
         expired_ids = []
         for person_id, (_, last_time) in self.tracked_people.items():
             if current_time - last_time > self.grace_period:
@@ -35,7 +33,7 @@ class PersonTracker:
 
     def update_tracking(self, current_positions, frame_time):
         # Clean up old tracks
-        self.remove_stale_tracks(frame_time)  # Updated method call
+        self.remove_stale_tracks(frame_time) 
         
         matched_positions = []
         new_tracked_people = {}
@@ -159,7 +157,8 @@ def detection_context():
     options = {
         'show_debug': True,
         'invert_lr': True,
-        'fps_limit': False
+        'fps_limit': False 
+        # fps_limit just breaks it 
     }
 
     frame_start = 821.0
@@ -226,7 +225,7 @@ def detection_context():
                 # Only send position updates, remove all other messages
                 messages = [
 
-                # I do this to invert the values "1.0 -" 
+                # do this to invert the values "1.0 -" 
 
                     (f"/livepose/blobs/0/{person_id}/center1", 1.0 - position[0]),
                     (f"/livepose/blobs/0/{person_id}/center2", 1.0 - position[1])
