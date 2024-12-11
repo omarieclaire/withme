@@ -7,7 +7,7 @@ using System;
 
 public class OSCHandler : MonoBehaviour
 {
-    
+
     public bool debug;
     public OSCReceiver Receiver;
 
@@ -61,52 +61,46 @@ public class OSCHandler : MonoBehaviour
         }
     }
 
-    public void ReceiveBlob(OSCMessage message)
+ public void ReceiveBlob(OSCMessage message)
+{
+    double receiveTime = Time.unscaledTimeAsDouble;
+    Debug.LogFormat("[OSC-TIMING] Message received at {0:F3}", receiveTime);
+
+    var addressParts = message.Address.Split('/');
+    if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
     {
-        Debug.LogFormat("[OSCTrace] ReceiveBlob Start - Time: {0:F3}", Time.unscaledTimeAsDouble);
+        string part = addressParts[5];
+        float value = message.Values[0].FloatValue;
 
-        if (debug)
+        Debug.LogFormat("[OSC-DATA] Player {0}: {1}={2:F3}", playerId, part, value);
+
+        if (!incompletePositions.TryGetValue(playerId, out Vector2 position))
         {
-            Debug.Log($"[OSCHandler] Raw message: {message.Address}");
+            position = new Vector2(float.NaN, float.NaN);
+            Debug.LogFormat("[OSC-FLOW] Creating new position for Player {0}", playerId);
         }
 
-        var addressParts = message.Address.Split('/');
-        if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
+        int index = (part == "center1") ? 0 : 1;
+        position[index] = value;
+        incompletePositions[playerId] = position;
+
+        Debug.LogFormat("[OSC-STATE] Player {0} position state: x={1:F3}, y={2:F3}", 
+            playerId, position.x, float.IsNaN(position.y) ? -999 : position.y);
+
+        if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
         {
-            Debug.LogFormat("[OSC-Raw] Message for Player {0}: Address={1}, Time={2:F3}",
-    playerId, message.Address, Time.unscaledTimeAsDouble);
-
-            string part = addressParts[5];
-            float value = message.Values[0].FloatValue;
-
-            if (!incompletePositions.TryGetValue(playerId, out Vector2 position))
-            {
-                position = new Vector2(float.NaN, float.NaN);
-            }
-
-            int index = (part == "center1") ? 0 : 1;
-            position[index] = value;
-            incompletePositions[playerId] = position;
-
-            if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
-            {
-                if (debug)
-                {
-                    Debug.LogFormat("[OSC-Complete] Player {0} - Got complete position ({1:F3}, {2:F3}) at time {3:F3}",
-                        playerId, position.x, position.y, Time.unscaledTimeAsDouble);
-                }
-                playerPositionMessages.Enqueue(new PlayerPositionMessage(message.Address, playerId, position));
-                incompletePositions.Remove(playerId);
-            }
-
-        }
-        else
-        {
-            Debug.LogWarning($"Received message at {message.Address} does not match the expected address structure.");
+            Debug.LogFormat("[OSC-COMPLETE] Player {0}: Got complete position ({1:F3}, {2:F3}) at {3:F3}, queueing...", 
+                playerId, position.x, position.y, receiveTime);
+            
+            playerPositionMessages.Enqueue(new PlayerPositionMessage(message.Address, playerId, position));
+            incompletePositions.Remove(playerId);
         }
     }
-
-    private class PlayerPositionMessage
+    else
+    {
+        Debug.LogWarning($"[OSC-ERROR] Invalid message address: {message.Address}");
+    }
+}    private class PlayerPositionMessage
     {
         public string Address { get; }
         public int PlayerId { get; }

@@ -40,51 +40,110 @@ public class Controller : MonoBehaviour
         Debug.Log("[Controller] SetUp completed in Start.");
     }
 
+// findme
+public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
+{
+    var info = playerSetupManager.GetPlayerInfo(playerID);
 
-    public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
+    // If player doesn't exist, create them
+    if (info == null)
     {
-        var info = playerSetupManager.GetPlayerInfo(playerID);
-
-        // If player doesn't exist, create them
-        if (info == null)
-        {
-            OnPlayerCreate(playerID);
-            info = playerSetupManager.GetPlayerInfo(playerID);
-        }
-
-        // Check if position has actually changed
-        float v1 = blobPosition.x / cameraAndPlayAreaSettings.actualCameraResolution;
-        float v2 = blobPosition.y / cameraAndPlayAreaSettings.actualCameraResolution;
-
-        v1 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, v1);
-        v2 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, v2);
-
-        Vector3 remappedPosition = new Vector3(v1, 0, v2);
-        Vector3 finalPosition = cameraAndPlayAreaSettings.getFinalPosition(remappedPosition);
-
-        // Only update position and timestamp if position has changed
-        if (Vector3.Distance(info.TargetPosition, finalPosition) > 0.01f)
-        {
-            double currentTime = Time.unscaledTimeAsDouble;
-
-            // Update position
-            playerSetupManager.UpdatePlayerPosition(playerID, finalPosition);
-            info.PlayerObject.transform.position = Vector3.Lerp(
-                info.PlayerObject.transform.position,
-                finalPosition,
-                playerLerpSpeed
-            );
-
-            // Update timestamp and handle activity
-            playerSetupManager.UpdatePlayerTimestamp(playerID, currentTime);
-            playerActivityManager.OnNewPositionUpdate(playerID);
-            Debug.LogFormat("[Controller] Updated position and timestamp for player {0}", playerID);
-
-            // if (debug)
-            // {
-            // }
-        }
+        OnPlayerCreate(playerID);
+        info = playerSetupManager.GetPlayerInfo(playerID);
     }
+
+    // Check if position has actually changed
+    float v1, v2;
+
+    // Original code path for old format values (kept exactly as is)
+    if (blobPosition.x > 1.0f || blobPosition.y > 1.0f)
+    {
+        // Original code for values in range 0-640
+        v1 = blobPosition.x / cameraAndPlayAreaSettings.actualCameraResolution;
+        v2 = blobPosition.y / cameraAndPlayAreaSettings.actualCameraResolution;
+    }
+    else
+    {
+        // New code path for normalized values (0-1)
+        v1 = blobPosition.x;
+        v2 = blobPosition.y;
+    }
+
+    // Rest of the original code remains exactly the same
+    v1 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, 
+                    cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, v1);
+    v2 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, 
+                    cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, v2);
+
+    Vector3 remappedPosition = new Vector3(v1, 0, v2);
+    Vector3 finalPosition = cameraAndPlayAreaSettings.getFinalPosition(remappedPosition);
+
+    // Only update position and timestamp if position has changed
+    if (Vector3.Distance(info.TargetPosition, finalPosition) > 0.01f)
+    {
+        double currentTime = Time.unscaledTimeAsDouble;
+
+        // Update position
+        playerSetupManager.UpdatePlayerPosition(playerID, finalPosition);
+        info.PlayerObject.transform.position = Vector3.Lerp(
+            info.PlayerObject.transform.position,
+            finalPosition,
+            playerLerpSpeed
+        );
+
+        // Update timestamp and handle activity
+        playerSetupManager.UpdatePlayerTimestamp(playerID, currentTime);
+        playerActivityManager.OnNewPositionUpdate(playerID);
+        Debug.LogFormat("[Controller] Updated position and timestamp for player {0}", playerID);
+    }
+}
+   
+   
+   
+    // public void OnPlayerPositionUpdate(int playerID, Vector2 blobPosition)
+    // {
+    //     var info = playerSetupManager.GetPlayerInfo(playerID);
+
+    //     // If player doesn't exist, create them
+    //     if (info == null)
+    //     {
+    //         OnPlayerCreate(playerID);
+    //         info = playerSetupManager.GetPlayerInfo(playerID);
+    //     }
+
+    //     // Check if position has actually changed
+    //     float v1 = blobPosition.x / cameraAndPlayAreaSettings.actualCameraResolution;
+    //     float v2 = blobPosition.y / cameraAndPlayAreaSettings.actualCameraResolution;
+
+    //     v1 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.x, v1);
+    //     v2 = Mathf.Lerp(-cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, cameraAndPlayAreaSettings.RemapCamCoords2GameCoords.y, v2);
+
+    //     Vector3 remappedPosition = new Vector3(v1, 0, v2);
+    //     Vector3 finalPosition = cameraAndPlayAreaSettings.getFinalPosition(remappedPosition);
+
+    //     // Only update position and timestamp if position has changed
+    //     if (Vector3.Distance(info.TargetPosition, finalPosition) > 0.01f)
+    //     {
+    //         double currentTime = Time.unscaledTimeAsDouble;
+
+    //         // Update position
+    //         playerSetupManager.UpdatePlayerPosition(playerID, finalPosition);
+    //         info.PlayerObject.transform.position = Vector3.Lerp(
+    //             info.PlayerObject.transform.position,
+    //             finalPosition,
+    //             playerLerpSpeed
+    //         );
+
+    //         // Update timestamp and handle activity
+    //         playerSetupManager.UpdatePlayerTimestamp(playerID, currentTime);
+    //         playerActivityManager.OnNewPositionUpdate(playerID);
+    //         Debug.LogFormat("[Controller] Updated position and timestamp for player {0}", playerID);
+
+    //         // if (debug)
+    //         // {
+    //         // }
+    //     }
+    // }
 
     public void OnPlayerCreate(int playerID)
     {

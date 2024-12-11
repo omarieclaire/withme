@@ -9,7 +9,7 @@ public class PlayerAvatar : MonoBehaviour
     public CameraAndPlayAreaSettings cameraAndPlayAreaSettings;
     public PlayerSetupManager playerSetupManager;
 
-    public Controller controller; 
+    public Controller controller;
     public TextMeshPro text;
     public int id;
     public int numDotsCollected;
@@ -49,27 +49,9 @@ public class PlayerAvatar : MonoBehaviour
             audioSource.loop = true;
         }
         Collider playerCollider = GetComponent<Collider>();
-    Rigidbody playerRigidbody = GetComponent<Rigidbody>();
-    
-    // Debug.Log($"[PlayerAvatar] Player {id} setup:");
-    // Debug.Log($"- Tag: {gameObject.tag}");
-    // Debug.Log($"- Collider: {(playerCollider ? "Present" : "Missing")}");
-    // if (playerCollider)
-    // {
-    //     Debug.Log($"  - Is Trigger: {playerCollider.isTrigger}");
-    //     Debug.Log($"  - Layer: {LayerMask.LayerToName(gameObject.layer)}");
-    // }
-    // Debug.Log($"- Rigidbody: {(playerRigidbody ? "Present" : "Missing")}");
-    // if (playerRigidbody)
-    // {
-    //     Debug.Log($"  - Is Kinematic: {playerRigidbody.isKinematic}");
-    // }
-    // int playerLayer = gameObject.layer;
-    // bool canCollideWithSelf = Physics.GetIgnoreLayerCollision(playerLayer, playerLayer) == false;
-    // Debug.Log($"[PlayerAvatar] Player {id} Layer collision check:");
-    // Debug.Log($"- Layer number: {playerLayer}");
-    // Debug.Log($"- Can collide with self layer: {canCollideWithSelf}");
-}
+        Rigidbody playerRigidbody = GetComponent<Rigidbody>();
+
+    }
 
     private void AssignWithMeClip(int playerId)
     {
@@ -110,7 +92,7 @@ public class PlayerAvatar : MonoBehaviour
         }
         else
         {
-            color = Color.HSVToRGB(5.1f + initialHueOffset, colorSaturation, colorValue); 
+            color = Color.HSVToRGB(5.1f + initialHueOffset, colorSaturation, colorValue);
         }
 
         if (color == Color.black || color.grayscale < 0.1f)
@@ -187,89 +169,89 @@ public class PlayerAvatar : MonoBehaviour
     }
 
     public virtual void OnDrawGizmos()
-{
-    if (gameObject.activeSelf)
     {
-        // Draw wire sphere to show collision area
-        Collider col = GetComponent<Collider>();
-        if (col != null && col is SphereCollider)
+        if (gameObject.activeSelf)
         {
-            Gizmos.color = Color.yellow;
-            SphereCollider sphere = col as SphereCollider;
-            Gizmos.DrawWireSphere(transform.position, sphere.radius * transform.lossyScale.x);
-        }
-    }
-}
-
-
-public virtual void OnTriggerEnter(Collider other)
-{
-    Debug.Log($"[PlayerAvatar] OnTriggerEnter - Player {id} triggered by {other.gameObject.name}");
-    HandleCollision(other);
-}
-
-public virtual void OnCollisionEnter(Collision collision)
-{
-    Debug.Log($"[PlayerAvatar] OnCollisionEnter - Player {id} collided with {collision.gameObject.name}");
-    HandleCollision(collision.collider);
-}
-
-private void HandleCollision(Collider other)
-{
-    bool isDot = other.CompareTag("Dot");
-    PlayerAvatar otherPlayer = other.GetComponent<PlayerAvatar>();
-    
-    // Handle both types of collisions independently
-    if (isDot)
-    {
-        Debug.Log($"[PlayerAvatar] Player {id} collided with dot");
-        controller.OnPlayerCollideWithDot(this, other.gameObject);
-    }
-
-    if (otherPlayer != null)
-    {
-        Debug.Log($"[PlayerAvatar] Player {id} collided with Player {otherPlayer.id}");
-        Debug.Log($"[PlayerAvatar] Dots collected - Player {id}: {numDotsCollected}, Player {otherPlayer.id}: {otherPlayer.numDotsCollected}");
-        controller.OnPlayersCollided(this, otherPlayer);
-    }
-}
-
-   public virtual void Update()
-{
-    if (gameObject.activeSelf && audioSource != null && audioSource.mute)
-    {
-        audioSource.mute = false;
-    }
-
-    UpdatePlayerColor();
-
-    transform.LookAt(cameraAndPlayAreaSettings.center);
-
-    // Collision detection between players
-    var activePlayers = controller.playerSetupManager.GetActivePlayers();
-
-    foreach (var otherPlayerInfo in activePlayers)
-    {
-        var otherPlayerObject = otherPlayerInfo.PlayerObject;
-
-        // Ensure we're not comparing this object with itself
-        if (otherPlayerObject != this.gameObject)
-        {
-            float distance = Vector3.Distance(otherPlayerObject.transform.position, transform.position);
-
-            // Adjust for the radii of both players
-            float thisRadius = transform.localScale.x / 2;
-            float otherRadius = otherPlayerObject.transform.localScale.x / 2;
-            distance -= thisRadius + otherRadius;
-
-            if (distance < collisionThreshold)
+            // Draw wire sphere to show collision area
+            Collider col = GetComponent<Collider>();
+            if (col != null && col is SphereCollider)
             {
-                var otherPlayerAvatar = otherPlayerInfo.Avatar;
-                controller.OnPlayersCollided(this, otherPlayerAvatar);
+                Gizmos.color = Color.yellow;
+                SphereCollider sphere = col as SphereCollider;
+                Gizmos.DrawWireSphere(transform.position, sphere.radius * transform.lossyScale.x);
             }
         }
     }
-}
+
+
+    public virtual void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"[PlayerAvatar] OnTriggerEnter - Player {id} triggered by {other.gameObject.name}");
+        HandleCollision(other);
+    }
+
+    public virtual void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log($"[PlayerAvatar] OnCollisionEnter - Player {id} collided with {collision.gameObject.name}");
+        HandleCollision(collision.collider);
+    }
+
+    private void HandleCollision(Collider other)
+    {
+        bool isDot = other.CompareTag("Dot");
+        PlayerAvatar otherPlayer = other.GetComponent<PlayerAvatar>();
+
+        // Handle both types of collisions independently
+        if (isDot)
+        {
+            Debug.Log($"[PlayerAvatar] Player {id} collided with dot");
+            controller.OnPlayerCollideWithDot(this, other.gameObject);
+        }
+
+        if (otherPlayer != null)
+        {
+            Debug.Log($"[PlayerAvatar] Player {id} collided with Player {otherPlayer.id}");
+            Debug.Log($"[PlayerAvatar] Dots collected - Player {id}: {numDotsCollected}, Player {otherPlayer.id}: {otherPlayer.numDotsCollected}");
+            controller.OnPlayersCollided(this, otherPlayer);
+        }
+    }
+
+    public virtual void Update()
+    {
+        if (gameObject.activeSelf && audioSource != null && audioSource.mute)
+        {
+            audioSource.mute = false;
+        }
+
+        UpdatePlayerColor();
+
+        transform.LookAt(cameraAndPlayAreaSettings.center);
+
+        // Collision detection between players
+        var activePlayers = controller.playerSetupManager.GetActivePlayers();
+
+        foreach (var otherPlayerInfo in activePlayers)
+        {
+            var otherPlayerObject = otherPlayerInfo.PlayerObject;
+
+            // Ensure we're not comparing this object with itself
+            if (otherPlayerObject != this.gameObject)
+            {
+                float distance = Vector3.Distance(otherPlayerObject.transform.position, transform.position);
+
+                // Adjust for the radii of both players
+                float thisRadius = transform.localScale.x / 2;
+                float otherRadius = otherPlayerObject.transform.localScale.x / 2;
+                distance -= thisRadius + otherRadius;
+
+                if (distance < collisionThreshold)
+                {
+                    var otherPlayerAvatar = otherPlayerInfo.Avatar;
+                    controller.OnPlayersCollided(this, otherPlayerAvatar);
+                }
+            }
+        }
+    }
 
 
     public virtual void UpdatePlayerColor()
@@ -280,7 +262,7 @@ private void HandleCollision(Collider other)
         }
         if (chargedRing != null)
         {
-            chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f); 
+            chargedRing.material.color = Color.Lerp(color, Color.white, 0.5f);
         }
         if (maxRing != null)
         {
