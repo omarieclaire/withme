@@ -184,7 +184,7 @@ def detection_context():
         
         last_frame_time = current_time
         
-        osc_process()
+        # osc_process()
         ret, frame = cap.read()
         if not ret:
             print("Failed to grab frame")
@@ -241,6 +241,8 @@ def detection_context():
                         print(f"OSC send error: {e}")
                         latest_messages.append(f"Error sending: {path}")
             
+            osc_process()
+
             latest_messages = latest_messages[-10:]
 
         # Always show tracking window if debug enabled
