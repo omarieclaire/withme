@@ -1287,6 +1287,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5086125316187236596, guid: 89f7209469b3841598ec0a530918250a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6111732236701850538, guid: 89f7209469b3841598ec0a530918250a, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -1596,7 +1600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 732522170}
   playerHolder: {fileID: 447054917}
-  startSize: 4
+  startSize: 3
   displayPlayerIDText: 0
 --- !u!1 &1360758540
 GameObject:
@@ -2041,7 +2045,7 @@ PrefabInstance:
       objectReference: {fileID: 1797361055}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: gameDuration
-      value: 300
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6220094444521858188, guid: ceabea14944b1482a88c5403f56f0533, type: 3}
       propertyPath: isMusicMuted

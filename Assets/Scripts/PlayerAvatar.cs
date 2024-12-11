@@ -51,24 +51,24 @@ public class PlayerAvatar : MonoBehaviour
         Collider playerCollider = GetComponent<Collider>();
     Rigidbody playerRigidbody = GetComponent<Rigidbody>();
     
-    Debug.Log($"[PlayerAvatar] Player {id} setup:");
-    Debug.Log($"- Tag: {gameObject.tag}");
-    Debug.Log($"- Collider: {(playerCollider ? "Present" : "Missing")}");
-    if (playerCollider)
-    {
-        Debug.Log($"  - Is Trigger: {playerCollider.isTrigger}");
-        Debug.Log($"  - Layer: {LayerMask.LayerToName(gameObject.layer)}");
-    }
-    Debug.Log($"- Rigidbody: {(playerRigidbody ? "Present" : "Missing")}");
-    if (playerRigidbody)
-    {
-        Debug.Log($"  - Is Kinematic: {playerRigidbody.isKinematic}");
-    }
-    int playerLayer = gameObject.layer;
-    bool canCollideWithSelf = Physics.GetIgnoreLayerCollision(playerLayer, playerLayer) == false;
-    Debug.Log($"[PlayerAvatar] Player {id} Layer collision check:");
-    Debug.Log($"- Layer number: {playerLayer}");
-    Debug.Log($"- Can collide with self layer: {canCollideWithSelf}");
+    // Debug.Log($"[PlayerAvatar] Player {id} setup:");
+    // Debug.Log($"- Tag: {gameObject.tag}");
+    // Debug.Log($"- Collider: {(playerCollider ? "Present" : "Missing")}");
+    // if (playerCollider)
+    // {
+    //     Debug.Log($"  - Is Trigger: {playerCollider.isTrigger}");
+    //     Debug.Log($"  - Layer: {LayerMask.LayerToName(gameObject.layer)}");
+    // }
+    // Debug.Log($"- Rigidbody: {(playerRigidbody ? "Present" : "Missing")}");
+    // if (playerRigidbody)
+    // {
+    //     Debug.Log($"  - Is Kinematic: {playerRigidbody.isKinematic}");
+    // }
+    // int playerLayer = gameObject.layer;
+    // bool canCollideWithSelf = Physics.GetIgnoreLayerCollision(playerLayer, playerLayer) == false;
+    // Debug.Log($"[PlayerAvatar] Player {id} Layer collision check:");
+    // Debug.Log($"- Layer number: {playerLayer}");
+    // Debug.Log($"- Can collide with self layer: {canCollideWithSelf}");
 }
 
     private void AssignWithMeClip(int playerId)
@@ -201,28 +201,6 @@ public class PlayerAvatar : MonoBehaviour
     }
 }
 
-//    public virtual void OnTriggerEnter(Collider other)
-// {
-//     Debug.Log($"[PlayerAvatar] OnTriggerEnter - Player {id} triggered by object: {other.gameObject.name}");
-//     Debug.Log($"[PlayerAvatar] Collision details - Local Position: {transform.localPosition}, Other Position: {other.transform.localPosition}, Distance: {Vector3.Distance(transform.position, other.transform.position)}");
-
-//     // First check if it's a dot collision
-//     if (other.CompareTag("Dot"))
-//     {
-//         Debug.Log($"[PlayerAvatar] Player {id} collided with dot");
-//         controller.OnPlayerCollideWithDot(this, other.gameObject);
-//         return;
-//     }
-
-//     // Check for player collision
-//     PlayerAvatar otherPlayer = other.GetComponent<PlayerAvatar>();
-//     if (otherPlayer != null)
-//     {
-//         Debug.Log($"[PlayerAvatar] Player {id} collided with Player {otherPlayer.id}");
-//         Debug.Log($"[PlayerAvatar] Dots collected - Player {id}: {numDotsCollected}, Player {otherPlayer.id}: {otherPlayer.numDotsCollected}");
-//         controller.OnPlayersCollided(this, otherPlayer);
-//     }
-// }
 
 public virtual void OnTriggerEnter(Collider other)
 {

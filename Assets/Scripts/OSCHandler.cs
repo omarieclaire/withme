@@ -17,6 +17,7 @@ public class OSCHandler : MonoBehaviour
 
     private ConcurrentQueue<PlayerPositionMessage> playerPositionMessages = new ConcurrentQueue<PlayerPositionMessage>();
     private Dictionary<int, Vector2> incompletePositions = new Dictionary<int, Vector2>();
+    private Dictionary<int, double> lastMessageTime = new Dictionary<int, double>();
 
     private void Start()
     {
@@ -34,36 +35,46 @@ public class OSCHandler : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
-        {
-            if (debug)
-            {
-                Debug.Log($"[DEBUG] Processing message for player ID: {msg.PlayerId}, Blob Position: {msg.BlobPosition}");
-            }
-
-            if (controller == null)
-            {
-                Debug.LogError("[ERROR] Controller is null, cannot update player position.");
-            }
-            else
-            {
-                controller.OnPlayerPositionUpdate(msg.PlayerId, msg.BlobPosition);
-            }
-        }
-    }
-
-    public void ReceiveBlob(OSCMessage message)
+private void Update()
+{
+    while (playerPositionMessages.TryDequeue(out PlayerPositionMessage msg))
     {
         if (debug)
         {
-            Debug.Log($"Received OSC message at address: {message.Address} with {message.Values.Count} values");
+            Debug.LogFormat("[OSCHandler] Processing player {0} at time {1:F3}", 
+                msg.PlayerId, Time.unscaledTimeAsDouble);
         }
 
-        var addressParts = message.Address.Split('/');
-        if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
+        if (controller != null)
         {
+            // First update the position
+            controller.OnPlayerPositionUpdate(msg.PlayerId, msg.BlobPosition);
+
+            // Then handle activity only for this player
+            controller.playerActivityManager.HandlePlayerActivity(msg.PlayerId);
+        }
+        else
+        {
+            Debug.LogError("[ERROR] Controller is null, cannot update player position.");
+        }
+    }
+}
+
+    public void ReceiveBlob(OSCMessage message)
+    {
+            Debug.LogFormat("[OSCTrace] ReceiveBlob Start - Time: {0:F3}", Time.unscaledTimeAsDouble);
+
+        if (debug)
+        {
+            Debug.Log($"[OSCHandler] Raw message: {message.Address}");
+        }
+
+    var addressParts = message.Address.Split('/');
+    if (addressParts.Length >= 6 && int.TryParse(addressParts[4], out int playerId))
+        {
+                    Debug.LogFormat("[OSC-Raw] Message for Player {0}: Address={1}, Time={2:F3}", 
+            playerId, message.Address, Time.unscaledTimeAsDouble);
+
             string part = addressParts[5];
             float value = message.Values[0].FloatValue;
 
@@ -76,11 +87,17 @@ public class OSCHandler : MonoBehaviour
             position[index] = value;
             incompletePositions[playerId] = position;
 
-            if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
-            {
-                playerPositionMessages.Enqueue(new PlayerPositionMessage(message.Address, playerId, position));
-                incompletePositions.Remove(playerId);
-            }
+      if (!float.IsNaN(position.x) && !float.IsNaN(position.y))
+{
+    if (debug)
+    {
+        Debug.LogFormat("[OSC-Complete] Player {0} - Got complete position ({1:F3}, {2:F3}) at time {3:F3}", 
+            playerId, position.x, position.y, Time.unscaledTimeAsDouble);
+    }
+    playerPositionMessages.Enqueue(new PlayerPositionMessage(message.Address, playerId, position));
+    incompletePositions.Remove(playerId);
+}
+
         }
         else
         {

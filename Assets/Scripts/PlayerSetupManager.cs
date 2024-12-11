@@ -70,12 +70,14 @@ public class PlayerSetupManager : MonoBehaviour
     }
 
     public void UpdatePlayerTimestamp(int playerID, double time)
+{
+    if (playersDict.TryGetValue(playerID, out var info))
     {
-        if (playersDict.TryGetValue(playerID, out var info))
-        {
-            info.LastOSCTimeStamp = time;
-        }
+        Debug.LogFormat("[TimestampUpdate] Player {0} - Raw update requested from {1:F3} to {2:F3}", 
+            playerID, info.LastOSCTimeStamp, time);
+        info.LastOSCTimeStamp = time;
     }
+}
 
     public void UpdatePlayerPosition(int playerID, Vector3 position)
     {
@@ -131,66 +133,4 @@ public List<PlayerSetupManager.PlayerInfo> GetActivePlayers()
     }
     return activeList;
 }
-
-
-
-
-
-    // ===== Compatibility Layer =====
-    // These properties restore the old lists that other scripts expect,
-    // even though we've moved to a dictionary-based approach.
-
-    /// <summary>
-    /// Returns a dynamic list of player GameObjects.  
-    /// Provided for backwards compatibility with scripts that used playerSetupManager.players.
-    /// </summary>
-    // public List<GameObject> players
-    // {
-    //     get
-    //     {
-    //         List<GameObject> playerList = new List<GameObject>();
-    //         foreach (var kvp in playersDict)
-    //         {
-    //             playerList.Add(kvp.Value.PlayerObject);
-    //         }
-    //         return playerList;
-    //     }
-    // }
-
-    
-
-
-    /// <summary>
-    /// Returns a dynamic list of PlayerAvatar components for all players.  
-    /// Provided for backwards compatibility with scripts that used playerSetupManager.playerAvatars.
-    /// </summary>
-    // public List<PlayerAvatar> playerAvatars
-    // {
-    //     get
-    //     {
-    //         List<PlayerAvatar> avatarList = new List<PlayerAvatar>();
-    //         foreach (var kvp in playersDict)
-    //         {
-    //             avatarList.Add(kvp.Value.Avatar);
-    //         }
-    //         return avatarList;
-    //     }
-    // }
-
-    /// <summary>
-    /// Returns a dynamic list of SeenScaler values.  
-    /// Provided for backwards compatibility with scripts that used playerSetupManager.playerSeenScalers.
-    /// </summary>
-    // public List<float> playerSeenScalers
-    // {
-    //     get
-    //     {
-    //         List<float> scalerList = new List<float>();
-    //         foreach (var kvp in playersDict)
-    //         {
-    //             scalerList.Add(kvp.Value.SeenScaler);
-    //         }
-    //         return scalerList;
-    //     }
-    // }
 }
